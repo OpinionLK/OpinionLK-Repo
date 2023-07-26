@@ -20,7 +20,7 @@ const Topbar = () => {
             position={'fixed'}
             top={'0'}
             zIndex={'100'}
-            backgroundColor={'white'}
+            backgroundColor={'#F8FAFC'}
             alignItems={'center'}>
             {/* Topbar Left Side, Logo + Page Name */}
             <Flex display={'flex'}
