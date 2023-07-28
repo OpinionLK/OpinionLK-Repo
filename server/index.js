@@ -1,51 +1,57 @@
-import express from 'express'
-const app = express()
+import express from 'express';
 import authRoutes from './routes/auth.js';
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swagger from 'swagger-ui-express';
+import cors from 'cors';
 
-dotenv.config()
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3002;
 
 app.get('/', function (req, res) {
-    res.json({
-        message: 'Welcome to the OpinionLK API'
-    })
-})
-app.use('/auth', authRoutes)
+  res.json({
+    message: 'Welcome to the OpinionLK API',
+  });
+});
+// MIDDLEWARE
+app.use(express.json());
+app.use(cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
+
+// ROUTES
+app.use('/api/auth', authRoutes);
 
 // Swagger
-
 const options = {
-    definition: {
-        openapi: "3.0.0",
-        info:{
-            title: "OpinionLK API Documentation",
-            version: "0.0.1",
-            description: "This is a simple CRUD API application made with Express and documented with Swagger",
-        },
-        servers: [
-            {
-                url: "http://localhost:3002",
-            },
-        ],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'OpinionLK API Documentation',
+      version: '0.0.1',
+      description: 'This is a simple CRUD API application made with Express and documented with Swagger',
     },
-    apis: ["./routes/*.js"],
-}
+    servers: [
+      {
+        url: 'http://localhost:3002',
+      },
+    ],
+  },
+  apis: ['./routes/*.js'],
+};
 
-const spacs = swaggerJSDoc(options)
-app.use(
-    "/api-docs",
-    swagger.serve,
-    swagger.setup(spacs)
-)
+const specs = swaggerJSDoc(options);
+app.use('/api-docs', swagger.serve, swagger.setup(specs));
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        app.listen(process.env.PORT, () => console.log(`Server running on port: ${process.env.PORT}`))
-        // ADD DATA ONE TIME
-        // User.insertMany(users)
-        // Post.insertMany(posts)
-    })
-    .catch((error) => console.log(error.message));
+mongoose
+  .connect(process.env.MONGO_URL, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+   })
+
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+    console.log('MongoDB Connected');
+  })
+  .catch((error) => console.error('Error connecting to MongoDB: ', error.message));

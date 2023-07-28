@@ -129,14 +129,12 @@
  *         description: The book was not found
  */
  
-import express from 'express';
-import { register } from '../controllers/auth.js';
+import express, { application } from 'express';
+import { SignUp } from '../controllers/authC.js';
 
+console.log('auth.js');
 
 const router = express.Router();
-
-
-
-router.get('/register', register);
+router.post('/signup', SignUp);
 
 export default router;
