@@ -19,6 +19,7 @@ export const SignUp = async (req, res) => {
       email,
       password: hashedPassword
     });
+    
     const token = jwt.sign(
       { email: result.email, id: result._id },
       'test',
@@ -28,10 +29,12 @@ export const SignUp = async (req, res) => {
     );
     res.status(200).json({ result, token });
   }
+
   catch (error) {
     console.error('Error signing up:', error);
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 

@@ -131,10 +131,12 @@
  
 import express, { application } from 'express';
 import { SignUp } from '../controllers/authC.js';
+import { Login } from '../controllers/login.js';
 
 console.log('auth.js');
 
 const router = express.Router();
 router.post('/signup', SignUp);
+router.post('/login', Login);
 
 export default router;

@@ -27,9 +27,11 @@ const UserSchema = new mongoose.Schema(
             max: 20
         },
     }, {
-    timestamps: true
-}
+        timestamps: true,
+        collection: 'User' // Specify your collection name here
+    }
 );
 
 const User = mongoose.model("User", UserSchema);
+
 export default User;
