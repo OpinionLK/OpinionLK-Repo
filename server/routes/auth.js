@@ -128,10 +128,13 @@
  *       404:
  *         description: The book was not found
  */
- 
+
 import express, { application } from 'express';
-import { SignUp } from '../controllers/authC.js';
-import { Login } from '../controllers/login.js';
+import {
+    SignUp,
+    Login
+} from '../controllers/authC.js';
+
 
 console.log('auth.js');
 

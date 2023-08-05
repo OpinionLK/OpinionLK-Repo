@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema(
             min: 6,
             max: 20
         },
+        profilePicture: {
+            type: String,
+            default: ""
+        },
     }, {
         timestamps: true,
         collection: 'User' // Specify your collection name here

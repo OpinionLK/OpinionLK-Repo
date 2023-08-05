@@ -1,8 +1,20 @@
 import React from 'react'
 import {
-    Box, Image, Flex, Text, Heading, Avatar, Link, Menu, MenuButton, MenuList, MenuItem, Button, ButtonGroup, Divider, MenuGroup, MenuDivider
+    Box,
+    Image,
+    Flex,
+    Text,
+    Heading,
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    Button,
+    MenuGroup,
+    MenuDivider
 } from '@chakra-ui/react'
-import theme from '../../theme'
+
 import topbarLogo from '../../images/topbar/scaled-logo-icon.svg'
 import { Icon } from '@iconify/react';
 import userdp from '../../images/topbar/download.jpeg'
@@ -10,7 +22,13 @@ import {
     ChevronDownIcon,
 } from '@chakra-ui/icons'
 
+import { useLogout } from '../../hooks/useLogout';
+
+import { useAuthContext } from '../../hooks/useAuthContext';
+
 const Topbar = () => {
+    const { user } = useAuthContext()
+    const logout  = useLogout()
     return (
         <Box
             width={'100%'}
@@ -107,9 +125,15 @@ const Topbar = () => {
                                 src={userdp} />
 
                             <MenuList>
+                                <span style={{ textAlign: 'center' }}>
+                                    {/* print json as a string */}
+                                    { user && JSON.stringify(user.email)}
+                                </span>
                                 <MenuGroup title='Profile'>
                                     <MenuItem>My Account</MenuItem>
-                                    <MenuItem>Sign Out </MenuItem>
+                                    <MenuItem onClick={() => {
+                                        logout()
+                                    }}>Sign Out </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider />
                                 <MenuGroup title='Help'>

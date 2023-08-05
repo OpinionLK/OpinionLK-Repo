@@ -1,6 +1,8 @@
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
+import { AuthContextProvider } from './context/AuthContext';
+
 import theme from './theme';
 import router from './routes/mainroutes';
 import {
@@ -18,9 +20,11 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <ChakraProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <AuthContextProvider>
+      <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </AuthContextProvider>
   </StrictMode>
 );
 

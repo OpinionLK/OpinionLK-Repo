@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
+
+import { useAuthContext } from '../hooks/useAuthContext';
+
 import {
   Box,
   Flex,
   Heading,
-  Image,
   Alert,
   AlertIcon,
   Stack,
@@ -12,10 +14,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Button,
-  useColorModeValue,
-  IconButton,
   Text,
   HStack,
   InputGroup,
@@ -23,32 +22,43 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import LoginBG from '../images/loginbg.jpg';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
 const SignUp = () => {
-    const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
-    const [showPassword, setShowPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [userCreated, setUserCreated] = useState(false);
+  const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [userCreated, setUserCreated] = useState(false);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const firstName = event.target.elements.firstName.value;
-        const lastName = event.target.elements.lastName.value;
-        const email = event.target.elements.email.value;
-        const password = event.target.elements.password.value;
+  const { dispatch } = useAuthContext()
 
-        try {
-            await axios.post('http://localhost:3002/api/auth/signup', { 
-                firstName, 
-                lastName, 
-                email, 
-                password 
-            });
-            console.log('User created successfully');
-            setUserCreated(true);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const firstName = event.target.elements.firstName.value;
+    const lastName = event.target.elements.lastName.value;
+    const email = event.target.elements.email.value;
+    const password = event.target.elements.password.value;
+
+
+    try {
+      const json = await axios.post('http://localhost:3002/api/auth/signup', {
+        firstName,
+        lastName,
+        email,
+        password
+      });
+      console.log('User created successfully');
+      setUserCreated(true);
+
+
+      localStorage.setItem('user', JSON.stringify(json.data));
+
+      dispatch({
+        type: 'LOGIN',
+        payload: json
+      });
+
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage('User with this email already exists.');
@@ -179,7 +189,7 @@ const SignUp = () => {
             </form>
             <Stack pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'blue.400'} to= "/login">Login</Link>
+                Already a user? <Link color={'blue.400'} to="/login">Login</Link>
               </Text>
             </Stack>
           </Stack>
