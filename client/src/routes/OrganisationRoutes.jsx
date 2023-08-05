@@ -1,6 +1,9 @@
 
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
+import { PrivateRoute } from '../components/Auth/PrivateRoute';
+
+
 
 import {
     Navigate
@@ -8,6 +11,7 @@ import {
 
 import { BsHouseFill } from 'react-icons/bs';
 import { BiEditAlt } from 'react-icons/bi';
+
 
 const Links = [
 
@@ -20,7 +24,11 @@ const Links = [
 const OrganisationRoutes = [
     {
         path: '/organisation',
-        element: <OrganisationDashboard sidebarLinks={Links} />,
+        element: (
+            <PrivateRoute>
+                <OrganisationDashboard sidebarLinks={Links} />
+            </PrivateRoute>
+        ),
         children: [
             {
                 path: '',
