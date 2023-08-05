@@ -34,7 +34,20 @@ const colors = {
     },
   }
 
+  const components = {
+    Button: {
+      variants: {
+        'outline2': {
+          border: '12px solid',
+          borderColor: 'purple',
+          color: 'purple.500',
+        },
+      }
+    }
+  }
+
 // 3. extend the theme
-const theme = extendTheme({ config,fonts, colors })
+
+const theme = extendTheme({ config, fonts, colors, components })
 
 export default theme

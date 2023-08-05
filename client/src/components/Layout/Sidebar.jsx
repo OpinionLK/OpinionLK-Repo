@@ -6,20 +6,11 @@ import {
 
 } from '@chakra-ui/react'
 
-import { BsHouseFill } from 'react-icons/bs'
-
 
 import NavItem from './NavItem';
 
-const Sidebar = ({ navOpen, setNavOpen }) => {
-
-
-    const sidebarlinks = [
-        { route: '/portal/home', linkName: 'Home', icon: BsHouseFill },
-        { route: '/portal/surveys/12', linkName: 'Dashboard', icon: BsHouseFill },
-    ];
-
-
+const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
+console.log(sidebarLinks)
     return (
         <Box
             zIndex={'100'}
@@ -63,7 +54,7 @@ const Sidebar = ({ navOpen, setNavOpen }) => {
                 <NavItem linkName="Hoefwfweme" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem linkName="Hofwefme" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem linkName="efw" navOpen={navOpen} icon={BsHouseFill} /> */}
-                {sidebarlinks.map((item, index) => (
+                {sidebarLinks.map((item, index) => (
                     <NavItem
                         key={index}
                         route={item.route}

@@ -9,14 +9,10 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/dm-sans": "^5.0.5",
     "@fontsource/inter": "^5.0.5",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "axios": "^1.4.0",
-    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "framer-motion": "^6.5.1",
-    "i": "^0.3.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^3.11.0",
@@ -47,8 +43,9 @@
     ]
   },
   "devDependencies": {
-    "@iconify/react": "^4.1.1"
-  },
-  "proxy": "http://localhost:3002"
-
+    "@iconify/react": "^4.1.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "jest": "^27.5.1"
+  }
 }
