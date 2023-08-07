@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 import {
-    Box,
     Flex,
     Heading,
-    Image,
     Stack,
     useMediaQuery,
     FormControl,
@@ -15,18 +13,19 @@ import {
     Input,
     Checkbox,
     Button,
-    IconButton
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 
 
 
-import { useAuthContext } from '../hooks/useAuthContext'
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Login = () => {
 
-
+    const {
+        user
+    } = useAuthContext();
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const history = useNavigate();
 
@@ -39,7 +38,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:3002/api/auth/login", {
+            const response = await axios.post("http://localhost:3002/api/auth/client/login", {
                 email, password
             });
 
@@ -52,7 +51,8 @@ const Login = () => {
                     type: 'LOGIN',
                     payload: response.data
                 });
-                history("/portal", { state: { id: email } });
+
+                history("/organisation", { state: { id: email } });
 
 
             } else if (response.status === 401) {
@@ -73,7 +73,7 @@ const Login = () => {
             {isLargerThanLG ? (
 
                 <Flex width={'50%'} m={'20px'}
-                    backgroundColor={'brand.purple'}
+                    backgroundColor={'brand.blue'}
                     backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
                     borderRadius={'20px'} />
 

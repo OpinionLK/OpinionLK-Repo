@@ -113,7 +113,7 @@ const Topbar = () => {
                 <Menu>
                     {({ isOpen }) => (
                         <>
-                            <MenuButton as={Avatar} isActive={isOpen} rightIcon={<ChevronDownIcon />} size='md' padding={'5px'}
+                            <MenuButton as={Avatar}  size='md' padding={'5px'}
                                 transition={'0.3s'}
                                 _hover={{
                                     textDecoration: 'none',
