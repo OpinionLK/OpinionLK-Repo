@@ -29,21 +29,18 @@ const colors = {
       green: '#00BFA6',
       blue: '#132450',
       textBlack: '#1E1E1E',
-      darkPurple:'#4318FF'
+      darkPurple:'#4318FF',
+      50: '#E3F2F9',
+
+      500: '#00BFA6',
+
+      900: '#171923',
       
     },
   }
 
   const components = {
-    Button: {
-      variants: {
-        'outline2': {
-          border: '12px solid',
-          borderColor: 'purple',
-          color: 'purple.500',
-        },
-      }
-    }
+
   }
 
 // 3. extend the theme
