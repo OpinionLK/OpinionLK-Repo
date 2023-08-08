@@ -1,5 +1,6 @@
 import express from 'express';
 import authRoutes from './routes/auth.js';
+import clientRoutes from './routes/client.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -22,6 +23,7 @@ app.use(cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
 
 // ROUTES
 app.use('/api/auth', authRoutes);
+app.use('/api/client', clientRoutes);
 
 // Swagger
 const options = {
@@ -45,10 +47,10 @@ const specs = swaggerJSDoc(options);
 app.use('/api-docs', swagger.serve, swagger.setup(specs));
 
 mongoose
-  .connect(process.env.MONGO_URL, { 
-    useNewUrlParser: true, 
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
     useUnifiedTopology: true
-   })
+  })
 
   .then(() => {
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

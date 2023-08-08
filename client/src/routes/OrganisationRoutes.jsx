@@ -2,6 +2,7 @@
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
+import SurveyPage from '../pages/Organisations/SurveyPage';
 
 
 
@@ -17,6 +18,7 @@ const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
     { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
+    { route: '/organisation/surveys', linkName: 'Surveys', icon: BiEditAlt },
 
 ];
 
@@ -41,7 +43,11 @@ const OrganisationRoutes = [
             {
                 path: '/organisation/make-survey',
                 element: <MakeSurvey />,
-            }
+            },
+            {
+                path: '/organisation/surveys',
+                element: <SurveyPage />,
+            },
         ],
     }
 ]

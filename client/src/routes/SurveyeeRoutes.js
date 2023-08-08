@@ -25,7 +25,8 @@ const SurveyeeRoutes = [
         element: (
             <PrivateRoute>
                 <Dashboard sidebarLinks={Links} /> ,
-            </PrivateRoute>),
+            </PrivateRoute>
+            ),
         children: [
             {
                 path: '',

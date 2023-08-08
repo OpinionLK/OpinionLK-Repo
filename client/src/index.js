@@ -19,12 +19,13 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <StrictMode>
+  // <StrictMode>
+  
     <AuthContextProvider>
       <ChakraProvider theme={theme}>
         <RouterProvider router={router} />
       </ChakraProvider>
     </AuthContextProvider>
-  </StrictMode>
+  // {/* </StrictMode> */}
 );
 

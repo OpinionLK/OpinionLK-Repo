@@ -1,19 +1,19 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import Client from '../models/Client.js';
 
 // Sign up user
-export const SignUp = async (req, res) => {
+export const ClientSignUp = async (req, res) => {
   try {
     console.log('Received signup request:', req.body);
     // Check if the user already exists
     const { firstName, lastName, email, password } = req.body;
-    let user = await User.findOne({ email });
+    let user = await Clinet.findOne({ email });
     if (user) {
       return res.status(400).json({ error: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    const result = await User.create({
+    const result = await Client.create({
       firstName,
       lastName,
       email,
@@ -21,10 +21,11 @@ export const SignUp = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { email: result.email, id: result._id },
+      { email: result.email,
+         id: result._id },
       'test',
       {
-        expiresIn: '1h'
+        expiresIn: '3d'
       }
     );
     res.status(200).json({ email, token });
@@ -37,7 +38,7 @@ export const SignUp = async (req, res) => {
 };
 
 // Login user
-export const Login = async (req, res) => {
+export const ClientLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -46,15 +47,15 @@ export const Login = async (req, res) => {
     console.log('Received login request - Password:', password);
 
     // Find the user by email
-    const user = await User.findOne({ email });
+    const client = await Client.findOne({ email });
 
     // If user not found, return error
-    if (!user) {
+    if (!client) {
       return res.status(401).json({ message: 'User not found. Please check your email and password.' });
     }
 
     // Compare provided password with hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, client.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
@@ -64,17 +65,45 @@ export const Login = async (req, res) => {
     // res.status(200).json({ message: 'Login successful.' });
 
     const token = jwt.sign(
-      { email: user.email, id: user._id, firstName: user.firstName, lastName: user.lastName },
+      { email: client.email, _id: client._id, firstName: client.firstName, lastName: client.lastName },
       'test',
       {
-        expiresIn: '1h'
+        expiresIn: '3d'
       }
     );
-    res.status(200).json({ email , token , type: 'user'});
+    res.status(200).json({ email, id: client.id, token, type: 'client' });
 
-    
+
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 };
+
+// get user data
+
+export const ClientUserData = async (req, res) => {
+    try {
+      const {
+        _id,
+        firstName,
+        lastName,
+        email,
+        profilePicture,
+      } = await Client.findById(req.client.id);
+
+      res.status(200).json({
+        _id,
+        firstName,
+        lastName,
+        email,
+        profilePicture,
+      });
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+
+  // res.status(200).json({ message: 'User data received.' });
+
+}

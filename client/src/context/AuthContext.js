@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react'
+import Loading from '../pages/Loading'
 
 export const AuthContext = createContext()
 
@@ -8,6 +9,10 @@ export const authReducer = (state, action) => {
             return { user: action.payload }
         case 'LOGOUT':
             return { user: null }
+        case 'STOP_LOADING':
+            return { ...state, isLoading: false }
+        case 'SET_USER_DATA':
+            return { ...state, userData: action.payload }
         default:
             return state
     }
@@ -15,7 +20,9 @@ export const authReducer = (state, action) => {
 
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, {
-        user: null
+        user: null,
+        isLoading: true,
+        userData: null,
     })
 
     useEffect(() => {
@@ -24,13 +31,19 @@ export const AuthContextProvider = ({ children }) => {
         if (user) {
             dispatch({ type: 'LOGIN', payload: user })
         }
+
+        dispatch({ type: 'STOP_LOADING' })
+
     }, [])
+
 
     console.log('AuthContext state:', state)
 
     return (
-        <AuthContext.Provider value={{ ...state, dispatch }}>
-            {children}
+        <AuthContext.Provider value={{
+            ...state, dispatch
+        }}>
+            {state.isLoading ? <Loading /> : children}
         </AuthContext.Provider>
     )
 
