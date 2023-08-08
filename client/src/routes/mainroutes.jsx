@@ -2,9 +2,9 @@ import Landing from '../pages/Landing';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import ErrorPage from '../pages/ErrorPage';
-
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
+import adminRoutes from './adminRoutes';
 
 import {
     createBrowserRouter
@@ -26,8 +26,10 @@ const router = createBrowserRouter([
         element: <SignUp />,
     },
 
+
     ...SurveyeeRoutes,
     ...OrganisationRoutes,
+    ...adminRoutes,
 ]
 );
 
