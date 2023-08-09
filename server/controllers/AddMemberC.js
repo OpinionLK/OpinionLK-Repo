@@ -5,10 +5,16 @@ export const Getmembers = async (req, res) => {
   res.send(members);
 };
 
-export const Savemember = (req, res) => {
-  const { member } = req.body;
+export const Savemember = async (req, res) => {
 
-  ComManager.create({ member })
+  const member = {
+    ManagerName: req.body.ManagerName,
+    ManagerEmail: req.body.ManagerEmail,
+    ManagerPhone: req.body.ManagerPhone,
+    ManagerNic: req.body.ManagerNic,
+  }
+
+  await ComManager.create( member)
     .then((data) => {
       console.log("Saved Successfully...");
       res.status(201).send(data);
