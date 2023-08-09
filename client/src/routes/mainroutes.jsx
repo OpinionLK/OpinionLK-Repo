@@ -8,8 +8,10 @@ import ClientSignUp from '../pages/ClientSignUp';
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
+
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
+import adminRoutes from './adminRoutes';
 
 import {
     createBrowserRouter
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
         element: <SignUp />,
     },
 
+
     {
         path: '/loading',
         element: <Loading />,
@@ -44,8 +47,10 @@ const router = createBrowserRouter([
         path: '/client/signup',
         element: <ClientSignUp />,
     },
+
     ...SurveyeeRoutes,
     ...OrganisationRoutes,
+    ...adminRoutes,
 ]
 );
 
