@@ -191,6 +191,9 @@ const SignUp = () => {
               <Text align={'center'}>
                 Already a user? <Link color={'blue.400'} to="/login">Login</Link>
               </Text>
+              <Text align={'center'}>
+                <Link color={'blue.400'} to="/client/signup">Sign up as a Client</Link>
+              </Text>
             </Stack>
           </Stack>
         </Stack>

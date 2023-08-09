@@ -19,13 +19,40 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+  activeStep,
+  description,
+  title,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
+import { OrganizationSignUp, ClientData, ClientSignUp } from '../components/Auth/clientSignupCom.jsx';
+
+
 const SignUp = () => {
+  const steps = [
+    { title: 'First', description: 'Organization Details', content: <OrganizationSignUp /> },
+    { title: 'Second', description: 'Your Details', content: <ClientData /> },
+    { title: 'Third', description: 'Create a Password', content: <ClientSignUp /> },
+  ];
+
+  const { activeStep, count } = useSteps({
+    initialStep: 1,
+    count: steps.length,
+  })
+
   const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -33,49 +60,13 @@ const SignUp = () => {
 
   const { dispatch } = useAuthContext()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const firstName = event.target.elements.firstName.value;
-    const lastName = event.target.elements.lastName.value;
-    const email = event.target.elements.email.value;
-    const password = event.target.elements.password.value;
-
-
-    try {
-      const json = await axios.post('http://localhost:3002/api/auth/client/signup', {
-        firstName,
-        lastName,
-        email,
-        password
-      });
-      console.log('User created successfully');
-      setUserCreated(true);
-
-
-      localStorage.setItem('user', JSON.stringify(json.data));
-
-      dispatch({
-        type: 'LOGIN',
-        payload: json
-      });
-
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        setErrorMessage('User with this email already exists.');
-      } else {
-        setErrorMessage('Server error. Please try again later.');
-      }
-      console.error('Error creating user:', error);
-    }
-  };
-
   return (
     <Stack direction="row" spacing={4} height={'100vh'}>
       {isLargerThanLG ? (
         <Flex
           width={'50%'}
           m={'20px'}
-          backgroundColor={'brand.blue'}
+          backgroundColor={'brand.purple'}
           backgroundPosition={'center'}
           backgroundRepeat={'no-repeat'}
           backgroundSize={'cover'}
@@ -101,9 +92,6 @@ const SignUp = () => {
             <Heading fontSize={'4xl'} textAlign={'left'}>
               Sign up
             </Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
-              to access surveys and earn rewards!
-            </Text>
 
             {userCreated && (
               <Box color="green.500" mt={2} mb={2}>
@@ -121,77 +109,30 @@ const SignUp = () => {
           </Stack>
 
           <Stack spacing={4}>
-            <form onSubmit={handleSubmit} method="POST">
-              <HStack>
-                <Box>
-                  <FormControl id="firstName" isRequired>
-                    <FormLabel>First Name</FormLabel>
-                    <Input name="firstName" type="text" />
-                  </FormControl>
-                </Box>
-                <Box>
-                  <FormControl id="lastName">
-                    <FormLabel>Last Name</FormLabel>
-                    <Input name="lastName" type="text" />
-                  </FormControl>
-                </Box>
-              </HStack>
-              <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input name="email" type="email" />
-              </FormControl>
-              {errorMessage && (
-                <Box color="red.500" mt={2} mb={2}>
-                  <Alert
-                    status="error"
-                    variant="subtle"
-                    fontSize="md"
-                    borderRadius="5px"
-                  >
-                    <AlertIcon />
-                    {errorMessage}
-                  </Alert>
-                </Box>
-              )}
-              <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                  />
-                  <InputRightElement h={'full'}>
-                    <Button
-                      variant={'ghost'}
-                      onClick={() =>
-                        setShowPassword(showPassword => !showPassword)
-                      }
-                    >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  type="submit"
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={'blue.400'}
-                  color={'white'}
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                >
-                  Sign up
-                </Button>
-              </Stack>
+            <form method="POST">
+              <Stepper  activeStep={activeStep} orientation="vertical" height="400px" gap="0" count={count}>
+                {steps.map((step, index) => (
+                  <Step key={index}>
+                    <StepIndicator>
+                      <StepStatus
+                        complete={<StepIcon />}
+                        incomplete={<StepNumber />}
+                        active={<StepNumber />}
+                      />
+                    </StepIndicator>
+
+                    <Box flexShrink="0">
+                      <StepTitle>{step.title}</StepTitle>
+                      <StepDescription>{step.description}</StepDescription>
+                    </Box>
+                    <HStack mt={'70px'} ml={'-100px'} mb={'30px'}>
+                      {activeStep === index && step.content}
+                    </HStack>
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
             </form>
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Already a user? <Link color={'blue.400'} to="/login">Login</Link>
-              </Text>
-            </Stack>
           </Stack>
         </Stack>
       </Flex>
