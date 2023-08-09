@@ -4,21 +4,16 @@ import {
     Login
 } from '../controllers/authC.js';
 
-import {
-    ClientSignUp,
-    ClientLogin
-} from '../controllers/clientAuthC.js';
-
-
-
-console.log('auth.js');
+// import {
+//     ClientSignUp,
+//     ClientLogin,
+//     OrganizationSignUp,
+//     ClientData
+// } from '../controllers/clientAuthC.js';
 
 const router = express.Router();
 router.post('/signup', SignUp);
 router.post('/login', Login);
-
-router.post('/client/signup', ClientSignUp);
-router.post('/client/login', ClientLogin);
 
 
 export default router;
