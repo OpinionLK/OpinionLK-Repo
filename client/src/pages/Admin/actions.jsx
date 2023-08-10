@@ -33,7 +33,7 @@ const AdminActions = () => {
         setIsOpen(false);
       };
 
-      const FormField = ({ label, children, marginTop }) => {
+      const FormField = ({ label, children }) => {
         return (
           <FormControl display="flex" alignItems="center">
             <FormLabel marginRight="1rem" width="120px">
