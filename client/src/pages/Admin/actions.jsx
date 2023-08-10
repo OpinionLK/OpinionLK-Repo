@@ -9,8 +9,15 @@ import {
     Grid,
     HStack,
     Button,
- } from '@chakra-ui/react'
-import React, { useState } from 'react'
+    IconButton,
+    FormLabel,
+    FormControl,
+    Input,
+    VStack,
+    FormField,
+ } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import {PhoneIcon, CloseIcon, } from "@chakra-ui/icons";
 import Modal from 'react-modal';
 
 
@@ -24,6 +31,19 @@ const AdminActions = () => {
       };
       const closePopup = () => {
         setIsOpen(false);
+      };
+
+      const FormField = ({ label, children, marginTop }) => {
+        return (
+          <FormControl display="flex" alignItems="center">
+            <FormLabel marginRight="1rem" width="120px">
+              {label}
+            </FormLabel>
+            <Flex flexDirection="column" width="100%" gap="10px">
+              {children}
+            </Flex>
+          </FormControl>
+        );
       };
 
     return (
@@ -87,7 +107,7 @@ const AdminActions = () => {
                     },
                     content: {
                         width: '500px',
-                        height: '500px',
+                        height: 'max-content',
                         margin: 'auto',
                         borderRadius: '10px',
                         padding: '20px',
@@ -98,22 +118,47 @@ const AdminActions = () => {
             >
                 <Flex>
                     <Stack width={'100%'}>
-                        <Card borderRadius={'20px'} width={'100%'}>
-                            <CardHeader>
-                                <Heading size={'md'}>Add Community Manager</Heading>
-                            </CardHeader>
+                        <form>
+                            <HStack justifyContent={'space-between'} mb={'20px'}>
+                            <Heading size={'md'}>Add Community Manager</Heading>
+                            <IconButton
+                                colorScheme='teal'
+                                aria-label='Call Segun'
+                                size='md'
+                                icon={<CloseIcon />}
+                                onClick={closePopup}
+                                />
+                                </HStack>
                             <hr></hr>
-                            <CardBody>
-                                <Flex mb={'5px'}>
-                                    <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Community Managers</Heading>
-                                        <HStack gap={'12px'}>
-                                                
-                                        </HStack>
-                                    </Grid>
-                                </Flex>
-                                </CardBody>
-                        </Card>
+                            <Flex mb={'5px'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'flex-end'}>
+                            <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
+                                <FormField label="First Name">
+                                    <Input type="text" name='firstName'/>
+                                </FormField>
+                                <FormField label="Last Name">
+                                    <Input type="text" name='lastName'/>
+                                </FormField>
+                                <FormField label="Address" >
+                                    <Input type="text" placeholder='Line 1' name='addLine1'/>
+                                    <Input type="text" placeholder='Line 2' name='addLine2'/>
+                                </FormField>
+                                <FormField label="District">
+                                    <Input type="text" name='district'/>
+                                </FormField>
+                                <FormField label="Email">
+                                    <Input type="email" name='email'/>
+                                </FormField>
+                                <FormField label="Phone">
+                                    <Input type="tel" name='phone'/>
+                                </FormField>
+                                <FormField label="NIC">
+                                    <Input type="text" name='nic'/>
+                                </FormField>
+                            </VStack>
+                            {/*submit button*/}
+                            <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Add</Button> 
+                            </Flex>
+                        </form>
                     </Stack>
                 </Flex>
             </Modal>
