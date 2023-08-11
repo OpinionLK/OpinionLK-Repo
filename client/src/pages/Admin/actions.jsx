@@ -16,12 +16,48 @@ import {
     VStack,
     FormField,
  } from '@chakra-ui/react';
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from "react";
 import {PhoneIcon, CloseIcon, } from "@chakra-ui/icons";
 import Modal from 'react-modal';
+import axios from "axios";
 
+const AdminActions = () => {    
+    useEffect(() => {
+        axios.get("http://localhost:3002/api/auth/getmembers").then((response) => {
+            console.log(response.data);
+        });
+    }, []);
 
-const AdminActions = () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const ManagerFirstName = event.target.elements.ManagerFirstName.value;
+        const ManagerLastName = event.target.elements.ManagerLastName.value;
+        const ManagerDistrict = event.target.elements.ManagerDistrict.value;
+        const ManagerAddLine1 = event.target.elements.ManagerAddLine1.value;
+        const ManagerAddLine2 = event.target.elements.ManagerAddLine2.value;
+        const ManagerEmail = event.target.elements.ManagerEmail.value;
+        const ManagerPhone = event.target.elements.ManagerPhone.value;
+        const ManagerNic = event.target.elements.ManagerNic.value;
+        
+        try {
+            await axios.post("http://localhost:3002/api/auth/savemember", {
+                ManagerFirstName,
+                ManagerLastName,
+                ManagerDistrict,
+                ManagerAddLine1,
+                ManagerAddLine2,
+                ManagerEmail,
+                ManagerPhone,
+                ManagerNic
+            });
+             console.log('User created successfully');
+
+        } catch (error) {
+            console.error("Error adding manager:", error);
+            // Handle error here if necessary
+        }
+    };
 
     const [isOpen, setIsOpen] = useState(false);
     const openPopup = () => {
@@ -118,7 +154,7 @@ const AdminActions = () => {
             >
                 <Flex>
                     <Stack width={'100%'}>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <HStack justifyContent={'space-between'} mb={'20px'}>
                             <Heading size={'md'}>Add Community Manager</Heading>
                             <IconButton
@@ -133,26 +169,59 @@ const AdminActions = () => {
                             <Flex mb={'5px'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'flex-end'}>
                             <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
                                 <FormField label="First Name">
-                                    <Input type="text" name='firstName'/>
+
+                                <Input
+                                type="text"
+                                placeholder="ManagerFirstName"
+                                name="ManagerFirstName"
+                            />
                                 </FormField>
                                 <FormField label="Last Name">
-                                    <Input type="text" name='lastName'/>
+                                  <Input
+                                type="text"
+                                placeholder="ManagerLastName"
+                                name="ManagerLastName"
+                            />
                                 </FormField>
                                 <FormField label="Address" >
-                                    <Input type="text" placeholder='Line 1' name='addLine1'/>
-                                    <Input type="text" placeholder='Line 2' name='addLine2'/>
+                                     <Input 
+                                type="text"
+                                placeholder="ManagerAddLine1"
+                                name="ManagerAddLine1"
+                            />
+                             <Input
+                                type="text"
+                                placeholder="ManagerAddLine2"
+                                name="ManagerAddLine2"
+                            />
                                 </FormField>
                                 <FormField label="District">
-                                    <Input type="text" name='district'/>
+                                <Input
+                                type="text"
+                                placeholder="ManagerDistrict"
+                                name="ManagerDistrict"
+                            />
                                 </FormField>
                                 <FormField label="Email">
-                                    <Input type="email" name='email'/>
+                                <Input
+                                type="email"
+                                placeholder="Manager Email"
+                                name="ManagerEmail"
+                            />
                                 </FormField>
                                 <FormField label="Phone">
-                                    <Input type="tel" name='phone'/>
+                                <Input
+                                type="number"
+                                placeholder="Manager Phone"
+                                name="ManagerPhone"
+                            />
                                 </FormField>
                                 <FormField label="NIC">
-                                    <Input type="text" name='nic'/>
+                                <Input
+                                type="text"
+                                placeholder="Manager NIC"
+                                name="ManagerNic"
+                            />
                                 </FormField>
                             </VStack>
                             {/*submit button*/}

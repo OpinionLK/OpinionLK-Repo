@@ -13,7 +13,11 @@ import {
  } from '@chakra-ui/react';
 
 const Adminprofile = () => {
-    const [ManagerName, setManagerName] = useState('');
+    const [ManagerFirstName, setManagerFirstName] = useState('');
+    const[ManagerLastName, setManagerLastName] = useState('');
+    const [ManagerDistrict, setManagerDistrict] = useState('');
+    const [Manageraddline1, setManageraddline1] = useState('');
+    const [Manageraddline2, setManageraddline2] = useState('');
     const [ManagerEmail, setManagerEmail] = useState('');
     const [ManagerPhone, setManagerPhone] = useState('');
     const [ManagerNic, setManagerNic] = useState('');
@@ -31,12 +35,20 @@ const Adminprofile = () => {
 
     const addManager = () => {
         axios.post("http://localhost:3002/api/auth/savemember", {
-            ManagerName: ManagerName,
+            ManagerFirstName: ManagerFirstName,
+            ManagerLastName : ManagerLastName,
+            ManagerDistrict: ManagerDistrict,
+            Manageraddline1: Manageraddline1,
+            Manageraddline2: Manageraddline2,
             ManagerEmail: ManagerEmail,
             ManagerPhone: ManagerPhone,
             ManagerNic: ManagerNic
         }).then(() => {
-            setManagerName("");
+            setManagerFirstName("");
+            setManagerLastName("");
+            setManagerDistrict("");
+            setManageraddline1("");
+            setManageraddline2("");
             setManagerEmail("");
             setManagerPhone("");
             setManagerNic("");
@@ -46,14 +58,14 @@ const Adminprofile = () => {
 
     const updateManager = () => {
         axios.put(`http://localhost:3002/api/auth/updatemember/${updateId}`, {
-            ManagerName: ManagerName,
+            ManagerFirstName: ManagerFirstName,
             ManagerEmail: ManagerEmail,
             ManagerPhone: ManagerPhone,
             ManagerNic: ManagerNic
         }).then(() => {
             setUpdateUI(prevState => !prevState);
             setUpdateId(null);
-            setManagerName("");
+            setManagerFirstName("");
         });
     };
 
@@ -65,7 +77,6 @@ const Adminprofile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(ManagerName)
         if (updateId) {
             updateManager();
         } else {
@@ -76,7 +87,7 @@ const Adminprofile = () => {
 
     function updateMode(id, text) {
         console.log(id, text);
-        setManagerName(text);
+        setManagerFirstName(text);
         setUpdateId(id);
     }
 
@@ -91,10 +102,38 @@ const Adminprofile = () => {
                         <Stack spacing={4}>
                             <Input
                                 type="text"
-                                placeholder="ManagerName"
-                                name="ManagerName"
-                                value={ManagerName}
-                                onChange={(e) => setManagerName(e.target.value)}
+                                placeholder="ManagerFirstName"
+                                name="ManagerFirstName"
+                                value={ManagerFirstName}
+                                onChange={(e) => setManagerFirstName(e.target.value)}
+                            />
+                            <Input
+                                type="text"
+                                placeholder="ManagerLastName"
+                                name="ManagerLastName"
+                                value={ManagerLastName}
+                                onChange={(e) => setManagerLastName(e.target.value)}
+                            />
+                            <Input
+                                type="text"
+                                placeholder="ManagerDistrict"
+                                name="ManagerDistrict"
+                                value={ManagerDistrict}
+                                onChange={(e) => setManagerDistrict(e.target.value)}
+                            />
+                            <Input 
+                                type="text"
+                                placeholder="Manageraddline1"
+                                name="Manageraddline1"
+                                value={Manageraddline1}
+                                onChange={(e) => setManageraddline1(e.target.value)}
+                            />
+                            <Input
+                                type="text"
+                                placeholder="Manageraddline2"
+                                name="Manageraddline2"
+                                value={Manageraddline2}
+                                onChange={(e) => setManageraddline2(e.target.value)}
                             />
                             <Input
                                 type="email"
