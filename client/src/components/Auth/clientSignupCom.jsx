@@ -13,6 +13,8 @@ import axios from 'axios';
 export const OrganizationSignUp = () => {
   const { setActiveStep } = useSteps();
 
+  
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Organization Details");
