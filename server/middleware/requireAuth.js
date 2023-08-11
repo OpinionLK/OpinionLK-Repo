@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
-import Client from '../models/Client.js'
+import OrganizationDetails from '../models/Client.js'
 
 export const requireAuth = async (req, res, next) => {
   // verify user is authenticated
@@ -16,8 +16,8 @@ export const requireAuth = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.JWT_SECRET)
   //  let  _id = '64cf2f450a0eb1cb019c6e42'
-    req.client = await Client.findOne({ _id }).select('_id')
-    console.log('Client:', req.client)
+    req.OrganizationDetails = await OrganizationDetails.findOne({ _id }).select('_id')
+    console.log('Client:', req.ClientAuth)
     next()
   } catch (error) {
     console.log(error)

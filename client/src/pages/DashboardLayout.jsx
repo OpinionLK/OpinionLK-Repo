@@ -18,7 +18,6 @@ const Dashboard = ({ sidebarLinks }) => {
 
     useEffect(() => {
 
-
         const fetchUserData = async () => {
             let url
             if (user.type === 'user') {
