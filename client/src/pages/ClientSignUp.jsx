@@ -122,69 +122,71 @@ const SignUp = () => {
 
           <Stack spacing={4}>
             <form onSubmit={handleSubmit} method="POST">
-              <HStack>
-                <Box>
-                  <FormControl id="firstName" isRequired>
-                    <FormLabel>First Name</FormLabel>
-                    <Input name="firstName" type="text" />
-                  </FormControl>
-                </Box>
-                <Box>
-                  <FormControl id="lastName">
-                    <FormLabel>Last Name</FormLabel>
-                    <Input name="lastName" type="text" />
-                  </FormControl>
-                </Box>
-              </HStack>
-              <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input name="email" type="email" />
-              </FormControl>
-              {errorMessage && (
-                <Box color="red.500" mt={2} mb={2}>
-                  <Alert
-                    status="error"
-                    variant="subtle"
-                    fontSize="md"
-                    borderRadius="5px"
-                  >
-                    <AlertIcon />
-                    {errorMessage}
-                  </Alert>
-                </Box>
-              )}
-              <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
-                  <Input
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                  />
-                  <InputRightElement h={'full'}>
-                    <Button
-                      variant={'ghost'}
-                      onClick={() =>
-                        setShowPassword(showPassword => !showPassword)
-                      }
+              <Stack gap={5}>
+                <HStack>
+                  <Box  w={'100%'}>
+                    <FormControl id="firstName" isRequired>
+                      <FormLabel>First Name</FormLabel>
+                      <Input name="firstName" type="text" />
+                    </FormControl>
+                  </Box>
+                  <Box  w={'100%'}>
+                    <FormControl id="lastName">
+                      <FormLabel>Last Name</FormLabel>
+                      <Input name="lastName" type="text" />
+                    </FormControl>
+                  </Box>
+                </HStack>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Email address</FormLabel>
+                  <Input name="email" type="email" />
+                </FormControl>
+                {errorMessage && (
+                  <Box color="red.500" mt={2} mb={2}>
+                    <Alert
+                      status="error"
+                      variant="subtle"
+                      fontSize="md"
+                      borderRadius="5px"
                     >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  type="submit"
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={'blue.400'}
-                  color={'white'}
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                >
-                  Sign up
-                </Button>
+                      <AlertIcon />
+                      {errorMessage}
+                    </Alert>
+                  </Box>
+                )}
+                <FormControl id="password" isRequired>
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                    />
+                    <InputRightElement h={'full'}>
+                      <Button
+                        variant={'ghost'}
+                        onClick={() =>
+                          setShowPassword(showPassword => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    type="submit"
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                  >
+                    Sign up
+                  </Button>
+                </Stack>
               </Stack>
             </form>
             <Stack pt={6}>

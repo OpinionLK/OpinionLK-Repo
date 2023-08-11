@@ -38,7 +38,7 @@ const Topbar = () => {
             position={'fixed'}
             top={'0'}
             zIndex={'100'}
-            backgroundColor={'#F8FAFC'}
+            // backgroundColor={'#F8FAFC'}
             alignItems={'center'}>
             {/* Topbar Left Side, Logo + Page Name */}
             <Flex display={'flex'}
@@ -46,11 +46,11 @@ const Topbar = () => {
                 alignItems={'center'}
                 justifyContent={'space-around'}
                 pl={'20px'}>
-                <Image src={topbarLogo} alt="logo" width={'40px'} height={'40px'} margin={'5px'} pl={'5px'} />
+                {/* <Image src={topbarLogo} alt="logo" width={'40px'} height={'40px'} margin={'5px'} pl={'5px'} />
                 <Flex alignItems={'flex-end'}>
                     <Heading as="h2" size="md" fontWeight={'semibold'} pl={'5px'}>Home</Heading>
                     <Text size="s">&nbsp;/Dashboard</Text>
-                </Flex>
+                </Flex> */}
             </Flex>
 
             <Flex gap={'10px'} mr={'20px'} alignItems={'center'}>
