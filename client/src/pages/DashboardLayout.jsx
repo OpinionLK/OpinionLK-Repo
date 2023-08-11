@@ -22,32 +22,32 @@ const Dashboard = ({ sidebarLinks }) => {
         const fetchUserData = async () => {
             let url
             if (user.type === 'user') {
-                 url = 'http://localhost:3002/api/user/userdata'
+                url = 'http://localhost:3002/api/user/userdata'
             }
             else if (user.type === 'client') {
-                 url = 'http://localhost:3002/api/client/userdata'
+                url = 'http://localhost:3002/api/client/userdata'
             }
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                });
-                const json = await response.json();
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            });
+            const json = await response.json();
 
-                dispatch({ type: 'SET_USER_DATA', payload: json });
-                console.log('User data:', json);
-            }
+            dispatch({ type: 'SET_USER_DATA', payload: json });
+            console.log('User data:', json);
+        }
 
-            if (user) {
-                fetchUserData();
-            }
-        }, [dispatch, user]);
+        if (user) {
+            fetchUserData();
+        }
+    }, [dispatch, user]);
 
     const [navOpen, setNavOpen] = useState(false)
 
 
     return (
         <Box
-            backgroundColor={'#F8FAFC'}>
+            backgroundColor={'brand.dashboardBackground'}>
             <Topbar />
 
             <Sidebar navOpen={navOpen} setNavOpen={setNavOpen} sidebarLinks={sidebarLinks} />
@@ -59,7 +59,7 @@ const Dashboard = ({ sidebarLinks }) => {
                 p={'20px'}
                 pl={'50px'}
                 transition={'0.3s'}
-                backgroundColor={'#F8FAFC'}
+                backgroundColor={'brand.dashboardBackground'}
 
                 left={navOpen ? '100px' : '274px'}
                 top={'80px'}
@@ -72,6 +72,7 @@ const Dashboard = ({ sidebarLinks }) => {
                     JSON.stringify(user)
 
                 } */}
+               
                 <Outlet />
 
             </Box >

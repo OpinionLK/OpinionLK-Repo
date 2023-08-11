@@ -44,7 +44,7 @@ const MoodOption = ({ index }) => {
 
                         </MenuList>
                     </Menu>
-                    <Input variant={'outline'} placeholder={`Option ${index}`} />
+                    <Input placeholder={`Option ${index}`} />
                 </Flex>
             </Flex>
         </FormControl>
@@ -64,12 +64,12 @@ const Layout = () => {
                 <VStack alignItems={'flex-start'} gap={'20px'}>
                     <FormControl id="question" isRequired>
                         <FormLabel>Question</FormLabel>
-                        <Input variant={'outline'} />
+                        <Input />
                     </FormControl>
 
                     <FormControl width={'50%'} id="type" isRequired>
                         <FormLabel>Type</FormLabel>
-                        <Select placeholder="Select type" variant='outline' onChange={(e) => setType(e.target.value)}>
+                        <Select placeholder="Select type"  onChange={(e) => setType(e.target.value)}>
                             <option value="text" selected='selected'>Text</option>
                             <option value="multiplechoice">Multiple Choice</option>
                             <option value="mood">Mood</option>
@@ -83,12 +83,12 @@ const Layout = () => {
                         <Flex gap={'20px'} w={'100%'}>
                             <FormControl id="text" isRequired w={'60%'}>
                                 <FormLabel>Input Placeholder</FormLabel>
-                                <Input variant={'outline'} />
+                                <Input />
                             </FormControl>
 
                             <FormControl id="text" isRequired w={'40%'}>
                                 <FormLabel>Response Type</FormLabel>
-                                <Select placeholder="Select type" variant='outline' onChange={(e) => setType(e.target.value)}>
+                                <Select placeholder="Select type" onChange={(e) => setType(e.target.value)}>
                                     <option value="text" selected='selected'>Text</option>
                                     <option value="email">E-mail</option>
                                 </Select>
@@ -102,10 +102,10 @@ const Layout = () => {
                             </Text>
                             <FormControl id="text" isRequired w={'60%'} gap>
                                 <Flex flexDirection={'column'} gap={'20px'}>
-                                    <Input variant={'outline'} placeholder='Option 1' />
-                                    <Input variant={'outline'} placeholder='Option 2' />
-                                    <Input variant={'outline'} placeholder='Option 3' />
-                                    <Input variant={'outline'} placeholder='Option 4' />
+                                    <Input placeholder='Option 1' />
+                                    <Input placeholder='Option 2' />
+                                    <Input placeholder='Option 3' />
+                                    <Input placeholder='Option 4' />
                                 </Flex>
 
                             </FormControl>

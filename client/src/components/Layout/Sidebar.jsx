@@ -6,35 +6,53 @@ import {
 
 } from '@chakra-ui/react'
 
+import { Image } from '@chakra-ui/react'
+import topbarLogo from '../../images/logonav.png'
 
 import NavItem from './NavItem';
 
 const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
-console.log(sidebarLinks)
+    console.log(sidebarLinks)
     return (
-        <Box
-            zIndex={'100'}
-
-            display={'flex'}
+        <Box display={'flex'}
+            flexDir={'column'}
             position={'fixed'}
-            // width={'274px'}
-            width={navOpen ? '100px' : '274px'}
-            p={'20px 10px'}
-            bottom={'0'}
-            left={'0'}
-            transition={'0.3s'}
-            borderTopRightRadius={'20px'}
-            height={'90vh'}
-            backgroundColor={'#2F2E41'}
+            height={'100vh'}
         >
-
-            <Flex
-                width={'100%'}
-                flexDir={'column'}
+            <Box
+                height={'10%'}
+                display={'flex'}
+                justifyContent={'center'}
                 alignItems={'center'}
-
             >
-                {/* <Flex
+                <Image src={topbarLogo} alt="logo" boxSize={'200px'} objectFit={'contain'} margin={'5px'} pr={'20px'} />
+            </Box>
+
+            <Box
+                zIndex={'100'}
+
+                display={'flex'}
+
+                // width={'274px'}
+                width={navOpen ? '100px' : '274px'}
+                p={'20px 10px'}
+                bottom={'0'}
+                left={'0'}
+                transition={'0.3s'}
+                borderTopRightRadius={'20px'}
+                border={'1px solid #E2E8F0'}
+                height={'90%'}
+                backgroundColor={'#FFF'}
+            >
+
+                <Flex
+                    gap={'10px'}
+                    width={'100%'}
+                    flexDir={'column'}
+                    alignItems={'center'}
+
+                >
+                    {/* <Flex
                 width={'100%'}
                 alignContent={'center'}
                 justifyContent={'center'}
@@ -48,25 +66,27 @@ console.log(sidebarLinks)
                     </Button>
                 </Flex> */}
 
-                {/*               
+                    {/*               
                 <NavItem route="/portal/home" linkName="Home" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem route="/portal/dashboard" linkName="Home" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem linkName="Hoefwfweme" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem linkName="Hofwefme" navOpen={navOpen} icon={BsHouseFill} />
                 <NavItem linkName="efw" navOpen={navOpen} icon={BsHouseFill} /> */}
-                {sidebarLinks.map((item, index) => (
-                    <NavItem
-                        key={index}
-                        route={item.route}
-                        linkName={item.linkName}
-                        navOpen={navOpen}
-                        icon={item.icon}
-                    />
-                ))}
+                    {sidebarLinks.map((item, index) => (
+                        <NavItem
+                            key={index}
+                            route={item.route}
+                            linkName={item.linkName}
+                            navOpen={navOpen}
+                            icon={item.icon}
+                        />
+                    ))}
 
 
-        </Flex>
-        </Box >
+                </Flex>
+            </Box >
+        </Box>
+
     )
 }
 
