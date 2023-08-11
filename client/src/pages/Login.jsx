@@ -93,7 +93,8 @@ const Login = () => {
                             <FormControl id="email">
                                 <FormLabel>Email address</FormLabel>
                                 <Input type="email"
-                                    value={email}
+                                    value={email} 
+                                    // variant='pill'
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </FormControl>

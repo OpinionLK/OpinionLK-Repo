@@ -109,7 +109,7 @@ const SignUp = () => {
           </Stack>
 
           <Stack spacing={4}>
-            <form method="POST">
+
               <Stepper  activeStep={activeStep} orientation="vertical" height="400px" gap="0" count={count}>
                 {steps.map((step, index) => (
                   <Step key={index}>
@@ -132,7 +132,7 @@ const SignUp = () => {
                   </Step>
                 ))}
               </Stepper>
-            </form>
+
           </Stack>
         </Stack>
       </Flex>
