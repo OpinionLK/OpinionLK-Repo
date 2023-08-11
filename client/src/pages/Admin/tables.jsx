@@ -42,6 +42,10 @@ const AdminTables = () => {
     }
   };
 
+  const getTotalCommunityManagers = () => {
+    return communityManagers.length;
+  };
+
 const comEditPopup = (manager) => {
     setSelectedManager(manager); // Set the selected manager when edit button is clicked
     setIsOpen(true);
@@ -180,7 +184,7 @@ const comEditPopup = (manager) => {
               <CardBody>
                 <TableContainer>
                   <Table variant="simple">
-                    <TableCaption>Total Community Managers</TableCaption>
+                  <TableCaption>Total Community Managers: {getTotalCommunityManagers()}</TableCaption>
                     <Thead>
                       <Tr>
                         <Th>Name</Th>
