@@ -57,15 +57,17 @@ const AdminTables = () => {
         );
       };
 
+      const IconColor = '#4318FF';
+
     const md = 'md';
     return (
         <>
-            <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={'-10px'}>
+            <Grid templateColumns="repeat(1, 1fr)" gap={6}>
                 <Flex>
                     <Stack width={'100%'}>
                         <Card borderRadius={'20px'} width={'100%'}>
                             <CardHeader>
-                                <Heading size={md}>User Management</Heading>
+                                <Heading size={md}>Survey Management</Heading>
                             </CardHeader>
                             <hr></hr>   
                             <CardBody>
@@ -188,17 +190,17 @@ const AdminTables = () => {
                                         <Td>
                                             <HStack gap={'12px'}>
                                             <IconButton
-                                                colorScheme='teal'
+                                                colorScheme='gray'
                                                 aria-label='Call Segun'
-                                                size='md'
-                                                icon={<EditIcon />}
+                                                size='sm'
+                                                icon={<EditIcon color={IconColor}/>}
                                                 onClick={comEditPopup}
                                                 />
                                             <IconButton
-                                                colorScheme='teal'
+                                                colorScheme='gray'
                                                 aria-label='Call Segun'
-                                                size='md'
-                                                icon={<DeleteIcon />}
+                                                size='sm'
+                                                icon={<DeleteIcon color={IconColor}/>}
                                                 // onClick={}
                                                 />
                                             </HStack>
@@ -242,10 +244,10 @@ const AdminTables = () => {
                             <HStack justifyContent={'space-between'} mb={'20px'}>
                             <Heading size={'md'}>Add Community Manager</Heading>
                             <IconButton
-                                colorScheme='teal'
+                                colorScheme='gray'
                                 aria-label='Call Segun'
                                 size='md'
-                                icon={<CloseIcon />}
+                                icon={<CloseIcon color={'#4318FF'}/>}
                                 onClick={closePopup}
                                 />
                                 </HStack>
@@ -276,7 +278,10 @@ const AdminTables = () => {
                                 </FormField>
                             </VStack>
                             {/*submit button*/}
-                            <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Update</Button> 
+                            <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
+                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='submit' onClick={closePopup}>Cancel</Button>
+                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Update</Button> 
+                            </Flex>
                             </Flex>
                         </form>
                     </Stack>

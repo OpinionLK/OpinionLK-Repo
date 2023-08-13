@@ -7,7 +7,12 @@ export const OrganizationDetailsSchema = new mongoose.Schema(
         required: true,
         trim: true,
     },
-    orgAddress: {
+    orgAddressLine1: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    orgAddressLine2: {
         type: String,
         required: true,
         trim: true,
@@ -45,7 +50,7 @@ export const OrganizationDetailsSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: 'Organization' // Specify your collection name here
+    collection: 'OrganizationDetails' // Specify your collection name here
   }
 );
 
@@ -109,7 +114,7 @@ const ClientAuthSchema = new mongoose.Schema(
 
 export default mongoose.models.ClientAuth || mongoose.model("ClientAuth", ClientAuthSchema);
 
-const OrganizationDetails = mongoose.model("Organization", OrganizationDetailsSchema);
+const OrganizationDetails = mongoose.model("OrganizationDetails", OrganizationDetailsSchema);
 const ClientDetails = mongoose.model("ClientDetails", ClientDetailsSchema);
 const ClientAuth = mongoose.model("ClientAuth", ClientAuthSchema);
 

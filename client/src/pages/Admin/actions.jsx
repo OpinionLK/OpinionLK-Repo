@@ -61,10 +61,10 @@ const AdminActions = () => {
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
                                         <Heading size={'sm'} alignSelf={'center'}>Community Managers</Heading>
                                         <HStack gap={'12px'}>
-                                            <Button onClick={openPopup} colorScheme="green" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'green.500'}>Add</Button>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button onClick={openPopup} colorScheme="green" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'green.500'}>Add</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
@@ -73,9 +73,9 @@ const AdminActions = () => {
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
                                         <Heading size={'sm'} alignSelf={'center'}>Clients</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
@@ -84,9 +84,9 @@ const AdminActions = () => {
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
                                         <Heading size={'sm'} alignSelf={'center'}>Customers</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
@@ -122,10 +122,10 @@ const AdminActions = () => {
                             <HStack justifyContent={'space-between'} mb={'20px'}>
                             <Heading size={'md'}>Add Community Manager</Heading>
                             <IconButton
-                                colorScheme='teal'
+                                colorScheme='gray'
                                 aria-label='Call Segun'
                                 size='md'
-                                icon={<CloseIcon />}
+                                icon={<CloseIcon color={'#4318FF'}/>}
                                 onClick={closePopup}
                                 />
                                 </HStack>
@@ -156,7 +156,10 @@ const AdminActions = () => {
                                 </FormField>
                             </VStack>
                             {/*submit button*/}
-                            <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Add</Button> 
+                            <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
+                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='submit' onClick={closePopup}>Cancel</Button>
+                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Add</Button> 
+                            </Flex>
                             </Flex>
                         </form>
                     </Stack>
