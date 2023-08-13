@@ -1,47 +1,56 @@
 // theme.js
 
+import { extendTheme } from '@chakra-ui/react'
+import { inputTheme } from './theme/Input'
+import { selectTheme } from './theme/Select';
 // 1. import `extendTheme` function
 import "@fontsource/inter"; // Defaults to weight 400
 import "@fontsource/inter/900.css"; // Specify weight
 import "@fontsource/inter/700.css"; // Specify weight
 // import "@fontsource/inter/400-italic.css"; // Specify weight and style
 
-import { extendTheme } from '@chakra-ui/react'
 
 // 2. Add your color mode config
 const config = {
-    initialColorMode: "light",
-    useSystemColorMode: false,
+  initialColorMode: "light",
+  useSystemColorMode: false,
 
 }
 
 // }
 const fonts = {
-    body: "Inter",
-    heading: "Inter",
-    mono: "Inter",
+  body: "Inter",
+  heading: "Inter",
+  mono: "Inter",
 }
 
 
 const colors = {
-    brand: {
-      purple: '#6C63FF',
-      green: '#00BFA6',
-      blue: '#132450',
-      textBlack: '#1E1E1E',
-      darkPurple:'#4318FF',
-      50: '#E3F2F9',
+  brand: {
+    purple: '#6C63FF',
+    green: '#00BFA6',
+    dashboardBackground: '#F5F7FE',
+    blue: '#132450',
+    textDarkPurple: '#2B3674',
+    textBlack: '#1E1E1E',
+    darkPurple: '#4318FF',
+    50: '#E3F2F9',
+    500: '#00BFA6',
+    900: '#171923',
 
-      500: '#00BFA6',
+  },
+}
 
-      900: '#171923',
-      
+const components = {
+  Button: {
+    baseStyle: {
+      fontWeight: "bold",
+      borderRadius: "15px",
     },
-  }
-
-  const components = {
-
-  }
+  },
+  Input: inputTheme,
+  Select: selectTheme,
+}
 
 // 3. extend the theme
 

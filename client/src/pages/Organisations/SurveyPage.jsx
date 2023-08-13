@@ -1,3 +1,5 @@
+ import { useState, useEffect } from 'react'
+
 import {
     Flex,
     Heading,
@@ -10,99 +12,59 @@ import {
     IconButton,
     Tag,
     Icon,
-    Box
+    Box,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
 } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 import React from 'react'
+import Table2 from '../../components/organisation/tantable'
+
 import createsurveybg from '../../assets/images/createsurveybg.png'
 
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 const SurveyPage = () => {
+    const [dat1, setData] = useState(null)
+    useEffect(() => {
+        fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(data => {
+                setData(data);
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+
     return (
         <>
             <Flex width={'100%'} gap={'10px'} flexDirection={'column'}>
                 <Heading as={'h2'} size={'xl'} fontWeight={'semibold'}>Surveys</Heading>
-                <Flex w={'100%'} gap={'30px'} mt={'30px'}>
-                    <Flex flexDirection={'row'} width={'50%'} gap={'40px'}>
-                        <Flex width={'100%'} height={'100%'}>
-                            <Stack spacing='4' w={'100%'}>
-                                {/* map 5 times */}
+                <Grid templateColumns='repeat(4, 1fr)' gap={6}>
+                    <GridItem colSpan={3} height={'100%'}>
+                        <Card w={'100%'}>
+                            <CardHeader>
+                                <Heading size={'md'}>
+                                    Your Surveys
+                                </Heading>
+                            </CardHeader>
+                            <CardBody>
+                                  <Table2/>
+                            </CardBody>
+                        </Card>
+                    </GridItem>
+                    <GridItem colSpan={1}>
 
-                                <Card size={'md'} boxShadow={'md'} >
-                                    <Flex>
-                                        <Flex direction={'column'} width={'80%'}>
-                                            <CardHeader>
-                                                <Heading size='md'>Chocolate Biscuits</Heading> <Tag mt={'10px'} fontWeight={'bold'} colorScheme='whatsapp'>Active</Tag>
-                                            </CardHeader>
-                                            <CardBody pt={'0'}>
-
-                                                <Text>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.
-                                                </Text>
-
-
-                                            </CardBody>
-                                        </Flex>
-                                        <Flex width={'20%'} justifyContent='center' alignItems={'center'}>
-                                            <Button>
-                                                <Icon as={BiDotsHorizontalRounded} />
-                                            </Button>
-
-                                        </Flex>
-                                    </Flex>
-                                </Card>
-                                <Card size={'md'} boxShadow={'md'}>
-                                    <Flex>
-                                        <Flex direction={'column'} width={'80%'}>
-                                            <CardHeader>
-                                                <Heading size='md'>Chocolate Biscuits</Heading> <Tag mt={'10px'} fontWeight={'bold'} colorScheme='whatsapp'>Active</Tag>
-                                            </CardHeader>
-                                            <CardBody pt={'0'}>
-
-                                                <Text>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.
-                                                </Text>
-
-
-                                            </CardBody>
-                                        </Flex>
-                                        <Flex width={'20%'} justifyContent='center' alignItems={'center'}>
-                                            <Button>
-                                                <Icon as={BiDotsHorizontalRounded} />
-                                            </Button>
-
-                                        </Flex>
-                                    </Flex>
-                                </Card>
-                                <Card size={'md'} boxShadow={'md'} >
-                                    <Flex>
-                                        <Flex direction={'column'} width={'80%'}>
-                                            <CardHeader>
-                                                <Heading size='md'>Chocolate Biscuits</Heading> <Tag mt={'10px'} fontWeight={'bold'} colorScheme='blue'>Complete</Tag>
-                                            </CardHeader>
-                                            <CardBody pt={'0'}>
-
-                                                <Text>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.
-                                                </Text>
-
-
-                                            </CardBody>
-                                        </Flex>
-                                        <Flex width={'20%'} justifyContent='center' alignItems={'center'}>
-                                            <Button>
-                                                <Icon as={BiDotsHorizontalRounded} />
-                                            </Button>
-
-                                        </Flex>
-                                    </Flex>
-                                </Card>
-
-
-                            </Stack>
-                        </Flex>
-                    </Flex>
-                    <Flex flexDirection={'column'} width={'50%'} justifyContent={'flex-start'} alignItems={'flex-start'} >
-                        <Flex backgroundImage={createsurveybg} boxShadow='2xl' backgroundSize={'cover'} width={'60%'} padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'}>
+                        <Card backgroundImage={createsurveybg} boxShadow='2xl' backgroundSize={'cover'} width={'100%'} padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'}>
 
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Create a new survey!
@@ -112,13 +74,13 @@ const SurveyPage = () => {
                                 Get Started
                             </Button>
 
-                        </Flex>
+                        </Card>
 
+                    </GridItem>
+                </Grid>
+             
+            </Flex >
 
-                    </Flex>
-                </Flex>
-
-            </Flex>
         </>
     )
 }
