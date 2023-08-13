@@ -6,7 +6,7 @@ import {
     ClientSignUp,
     ClientLogin
 } from '../controllers/clientAuthC.js';
-// import {requireAuth} from '../middleware/requireAuth.js'
+import {requireAuth} from '../middleware/requireAuth.js'
 
 const router = express.Router();
 

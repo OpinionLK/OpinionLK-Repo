@@ -6,9 +6,13 @@ export const Getmembers = async (req, res) => {
 };
 
 export const Savemember = async (req, res) => {
-
+  console.log(req.body);
   const member = {
-    ManagerName: req.body.ManagerName,
+    ManagerFirstName: req.body.ManagerFirstName,
+    ManagerLastName: req.body.ManagerLastName,
+    ManagerAddLine1: req.body.ManagerAddLine1,
+    ManagerAddLine2: req.body.ManagerAddLine2,
+    ManagerDistrict: req.body.ManagerDistrict,
     ManagerEmail: req.body.ManagerEmail,
     ManagerPhone: req.body.ManagerPhone,
     ManagerNic: req.body.ManagerNic,

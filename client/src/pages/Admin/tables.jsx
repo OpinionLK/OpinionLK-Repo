@@ -1,36 +1,13 @@
-import { 
-    Flex, 
-    Heading, 
-    Stack,
-    Text,
-    Card,
-    CardHeader,
-    CardBody,
-    Grid,
-    Progress,
-    HStack,
- } from '@chakra-ui/react'
- import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    VStack,
-    TableCaption,
-    TableContainer,
-    IconButton,
-  } from '@chakra-ui/react'
-import React, { useState } from 'react';
-import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons'
+import {
+  Flex,Heading,Stack,Text,Card,CardHeader,CardBody,Grid,Progress,HStack,
+} from '@chakra-ui/react';
+import {
+  Table,Thead,Tbody, Tfoot,Tr,Th,Td,FormControl,FormLabel,Input,Button,VStack,TableCaption,TableContainer,IconButton,
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
-
+import axios from 'axios';
 
 const AdminTables = () => {
 
@@ -44,30 +21,28 @@ const AdminTables = () => {
         setIsOpen(false);
       };
 
-      const FormField = ({ label, children }) => {
-        return (
-          <FormControl display="flex" alignItems="center">
-            <FormLabel marginRight="1rem" width="120px">
-              {label}
-            </FormLabel>
-            <Flex flexDirection="column" width="100%" gap="10px">
-              {children}
-            </Flex>
-          </FormControl>
-        );
-      };
-
-      const IconColor = '#4318FF';
+  const FormField = ({ label, children }) => {
+    return (
+      <FormControl display="flex" alignItems="center">
+        <FormLabel marginRight="1rem" width="120px">
+          {label}
+        </FormLabel>
+        <Flex flexDirection="column" width="100%" gap="10px">
+          {children}
+        </Flex>
+      </FormControl>
+    );
+  };
 
     const md = 'md';
     return (
         <>
-            <Grid templateColumns="repeat(1, 1fr)" gap={6}>
+            <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={'-10px'}>
                 <Flex>
                     <Stack width={'100%'}>
                         <Card borderRadius={'20px'} width={'100%'}>
                             <CardHeader>
-                                <Heading size={md}>Survey Management</Heading>
+                                <Heading size={md}>User Management</Heading>
                             </CardHeader>
                             <hr></hr>   
                             <CardBody>
@@ -190,17 +165,17 @@ const AdminTables = () => {
                                         <Td>
                                             <HStack gap={'12px'}>
                                             <IconButton
-                                                colorScheme='gray'
+                                                colorScheme='teal'
                                                 aria-label='Call Segun'
-                                                size='sm'
-                                                icon={<EditIcon color={IconColor}/>}
+                                                size='md'
+                                                icon={<EditIcon />}
                                                 onClick={comEditPopup}
                                                 />
                                             <IconButton
-                                                colorScheme='gray'
+                                                colorScheme='teal'
                                                 aria-label='Call Segun'
-                                                size='sm'
-                                                icon={<DeleteIcon color={IconColor}/>}
+                                                size='md'
+                                                icon={<DeleteIcon />}
                                                 // onClick={}
                                                 />
                                             </HStack>
@@ -216,9 +191,9 @@ const AdminTables = () => {
                 </Flex>
             </Grid>
 
-            {/* Com Manager Edit Popup */}
+      {/* Com Manager Edit Popup */}
 
-            <Modal
+          <Modal
                 isOpen={isOpen}
                 onRequestClose={closePopup}
                 contentLabel="My dialog"
@@ -244,10 +219,10 @@ const AdminTables = () => {
                             <HStack justifyContent={'space-between'} mb={'20px'}>
                             <Heading size={'md'}>Add Community Manager</Heading>
                             <IconButton
-                                colorScheme='gray'
+                                colorScheme='teal'
                                 aria-label='Call Segun'
                                 size='md'
-                                icon={<CloseIcon color={'#4318FF'}/>}
+                                icon={<CloseIcon />}
                                 onClick={closePopup}
                                 />
                                 </HStack>
@@ -278,10 +253,7 @@ const AdminTables = () => {
                                 </FormField>
                             </VStack>
                             {/*submit button*/}
-                            <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
-                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='submit' onClick={closePopup}>Cancel</Button>
-                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Update</Button> 
-                            </Flex>
+                            <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Update</Button> 
                             </Flex>
                         </form>
                     </Stack>
@@ -290,5 +262,3 @@ const AdminTables = () => {
         </>
     )
 }
-
-export default AdminTables
