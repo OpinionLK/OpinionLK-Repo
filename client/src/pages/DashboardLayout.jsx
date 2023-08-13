@@ -56,6 +56,7 @@ const Dashboard = ({ sidebarLinks }) => {
                 minHeight={'calc(100vh - 80px)'}
                 position={'absolute'}
                 p={'20px'}
+                pl={'50px'}
                 transition={'0.3s'}
                 backgroundColor={'#F8FAFC'}
 
