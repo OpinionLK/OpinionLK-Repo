@@ -1,6 +1,6 @@
 import Admindashboard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-import Adminprofile from '../pages/Admin/profile';
+// import Adminprofile from '../pages/Admin/profile';
 import AdminDashboard from '../pages/Admin/dashboard';
 import AdminTables from '../pages/Admin/tables';
 import AdminActions from '../pages/Admin/actions';
@@ -30,8 +30,8 @@ const adminRoutes = [
         ),
         children: [
             {
-                path: '/admin/profile',
-                element: <Adminprofile/>,
+                // path: '/admin/profile',
+                // element: <Adminprofile/>,
             },
             {
                 path: '/admin',
