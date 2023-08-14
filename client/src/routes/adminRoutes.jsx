@@ -3,6 +3,7 @@ import { PrivateRoute } from '../components/Auth/PrivateRoute';
 // import Adminprofile from '../pages/Admin/profile';
 import AdminDashboard from '../pages/Admin/dashboard';
 import AdminTables from '../pages/Admin/tables';
+import TestAdminTables from '../pages/Admin/tables';
 import AdminActions from '../pages/Admin/actions';
 
 import {
