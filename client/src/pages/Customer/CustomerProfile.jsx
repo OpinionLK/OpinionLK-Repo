@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
-import './customerProfile.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import Dashboard from './DashBoard';
 
@@ -19,13 +18,16 @@ const CustomerProfile = ({ sidebarLinks }) => {
   const [navOpen, setNavOpen] = useState(true);
 
   return (
-    <div className="profile">
+    <div>
       <Topbar />
       <Sidebar
         navOpen={navOpen}
         setNavOpen={setNavOpen}
         sidebarLinks={sidebarLinks}
       />
+      <div>
+        <Dashboard />
+      </div>
     </div>
   );
 };
