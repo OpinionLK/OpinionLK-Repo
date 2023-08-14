@@ -1,6 +1,7 @@
 
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
+import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
@@ -39,6 +40,7 @@ const OrganisationRoutes = [
             },
             {
                 path: 'home',
+                element: <Dashboard />,
 
             },
             {
