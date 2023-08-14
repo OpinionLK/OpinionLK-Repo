@@ -10,6 +10,8 @@ import {
     Grid,
  } from '@chakra-ui/react'
 import React from 'react'
+import DocumentScanner from './DocumentScanner';
+
 
 const Admindashboard = () => {
     const md = 'md';
@@ -25,6 +27,7 @@ const Admindashboard = () => {
                             </CardHeader>
                             <CardBody>
                                 <Text>Organizations</Text>
+                                <DocumentScanner />
                             </CardBody>
                         </Card>
                     </Stack>
