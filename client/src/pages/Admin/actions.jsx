@@ -95,7 +95,7 @@ const AdminActions = () => {
                             <CardBody>
                                     <Flex mb={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Community Managers</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Community Managers</Heading>
                                         <HStack gap={'12px'}>
                                             <Button onClick={openPopup} colorScheme="green" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'green.500'}>Add</Button>
                                             <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
@@ -107,7 +107,7 @@ const AdminActions = () => {
                                     <hr></hr>
                                     <Flex my={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Clients</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Clients</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
                                             <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
                                             <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
@@ -118,7 +118,7 @@ const AdminActions = () => {
                                     <hr></hr>
                                     <Flex my={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Customers</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Customers</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
                                             <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
                                             <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>

@@ -69,7 +69,6 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
 
     }
     
-
   return (
     <Stack spacing={4}>
       <form onSubmit={handleSubmit} method="POST">

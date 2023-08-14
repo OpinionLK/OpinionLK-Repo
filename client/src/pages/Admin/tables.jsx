@@ -31,8 +31,10 @@ import React, { useEffect, useState } from 'react';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
 import axios from 'axios';
+import './admin.css';
 
 const AdminTables = () => {
+
   const [editedValues, setEditedValues] = useState('');
   const [communityManagers, setCommunityManagers] = useState([]);
   const [selectedManager, setSelectedManager] = useState(null); // State for the selected manager
@@ -181,173 +183,180 @@ const AdminTables = () => {
   const md = 'md';
   return (
     <>
-      <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={'-10px'}>
-        <Flex>
-          <Stack width={'100%'}>
-            <Card borderRadius={'20px'} width={'100%'}>
-              <CardHeader>
-                <Heading size={md}>User Management</Heading>
-              </CardHeader>
-              <hr></hr>
-              <CardBody>
-                <TableContainer>
-                  <Table variant="simple">
-                    <TableCaption>
-                      Imperial to metric conversion factors
-                    </TableCaption>
-                    <Thead>
-                      <Tr>
-                        <Th>Survey</Th>
-                        <Th>Per Survey</Th>
-                        <Th>Demography</Th>
-                        <Th>Organization</Th>
-                        <Th>Package</Th>
-                        <Th>Type</Th>
-                        <Th>Start Date</Th>
-                        <Th>End Date</Th>
-                        <Th>Progress</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      <Tr>
-                        <Td>inches</Td>
-                        <Th>Per Survey</Th>
-                        <Th>Demography</Th>
-                        <Th>Organization</Th>
-                        <Th>Package</Th>
-                        <Th>Type</Th>
-                        <Th>Start Date</Th>
-                        <Th>End Date</Th>
-                        <Th>Progress</Th>
-                      </Tr>
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Flex>
-      </Grid>
-
-      <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={'20px'}>
-        <Flex>
-          <Stack width={'100%'}>
-            <Card borderRadius={'20px'} width={'100%'}>
-              <CardHeader>
-                <Heading size={md}>User Management</Heading>
-              </CardHeader>
-              <hr></hr>
-              <CardBody>
-                <TableContainer>
-                  <Table variant="simple">
-                    <TableCaption>
-                      Imperial to metric conversion factors
-                    </TableCaption>
-                    <Thead>
-                      <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      <Tr>
-                        <Td>inches</Td>
-                        <Td>millimetres (mm)</Td>
-                        <Td isNumeric>25.4</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>feet</Td>
-                        <Td>centimetres (cm)</Td>
-                        <Td isNumeric>30.48</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>yards</Td>
-                        <Td>metres (m)</Td>
-                        <Td isNumeric>0.91444</Td>
-                      </Tr>
-                    </Tbody>
-                    <Tfoot>
-                      <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                      </Tr>
-                    </Tfoot>
-                  </Table>
-                </TableContainer>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Flex>
-
-        {/* community managers table */}
-
-        <Flex>
-          <Stack width={'100%'}>
-            <Card borderRadius={'20px'} width={'100%'}>
-              <CardHeader>
-                <Heading size={'md'}>Community Managers</Heading>
-              </CardHeader>
-              <hr />
-              <CardBody>
-                <TableContainer>
-                  <Table variant="simple">
-                    <TableCaption>
-                      Total Community Managers: {getTotalCommunityManagers()}
-                    </TableCaption>
-                    <Thead>
-                      <Tr>
-                        <Th>Name</Th>
-                        <Th>Address</Th>
-                        <Th>District</Th>
-                        <Th>Email</Th>
-                        <Th>Phone</Th>
-                        <Th>NIC</Th>
-                        <Td>Actions</Td>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {communityManagers.map(manager => (
-                        <Tr key={manager._id}>
-                          <Td>
-                            {manager.ManagerFirstName} {manager.ManagerLastName}
-                          </Td>
-                          <Td>
-                            {manager.ManagerAddLine1},{manager.ManagerAddLine2}
-                          </Td>
-                          <Td>{manager.ManagerDistrict}</Td>
-                          <Td>{manager.ManagerEmail}</Td>
-                          <Td>{manager.ManagerPhone}</Td>
-                          <Td>{manager.ManagerNic}</Td>
-                          <Td>
-                            <HStack gap={'12px'}>
-                              <IconButton
-                                colorScheme="teal"
-                                aria-label="Edit"
-                                size="md"
-                                icon={<EditIcon />}
-                                onClick={() => comEditPopup(manager._id)}
-                              />
-                              <IconButton
-                                colorScheme="teal"
-                                aria-label="Delete"
-                                size="md"
-                                icon={<DeleteIcon />}
-                                onClick={() => deleteManager(manager._id)}
-                              />
-                            </HStack>
-                          </Td>
+        <Grid className='tablesMainGrid' templateRows='repeat(1, 1fr)' templateColumns="repeat(1, 1fr)" gap={6}>
+        <Grid templateColumns="repeat(1, 1fr)">
+            <Flex>
+            <Stack width={'100%'}>
+                <Card borderRadius={'20px'} width={'100%'}>
+                <CardHeader>
+                    <Heading color={'purple.900'}  size={md}>User Management</Heading>
+                </CardHeader>
+                <hr></hr>
+                <CardBody>
+                    <TableContainer>
+                    <Table variant="simple">
+                        <TableCaption>
+                        Imperial to metric conversion factors
+                        </TableCaption>
+                        <Thead>
+                        <Tr>
+                            <Th>Survey</Th>
+                            <Th>Per Survey</Th>
+                            <Th>Demography</Th>
+                            <Th>Organization</Th>
+                            <Th>Package</Th>
+                            <Th>Type</Th>
+                            <Th>Start Date</Th>
+                            <Th>End Date</Th>
+                            <Th>Progress</Th>
                         </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              </CardBody>
-            </Card>
-          </Stack>
-        </Flex>
-      </Grid>
+                        </Thead>
+                        <Tbody>
+                        <Tr>
+                            <Td>inches</Td>
+                            <Th>Per Survey</Th>
+                            <Th>Demography</Th>
+                            <Th>Organization</Th>
+                            <Th>Package</Th>
+                            <Th>Type</Th>
+                            <Th>Start Date</Th>
+                            <Th>End Date</Th>
+                            <Th>Progress</Th>
+                        </Tr>
+                        </Tbody>
+                    </Table>
+                    </TableContainer>
+                </CardBody>
+                </Card>
+            </Stack>
+            </Flex>
+        </Grid>
+        <Grid templateColumns="repeat(1, 1fr)">
+        <Flex>
+            <Stack width={'100%'}>
+                <Card borderRadius={'20px'} width={'100%'}>
+                <CardHeader>
+                    <Heading color={'purple.900'} size={'md'}>Community Managers</Heading>
+                </CardHeader>
+                <hr />
+                <CardBody>
+                    <TableContainer>
+                    <Table variant="simple">
+                        <TableCaption>
+                        Total Community Managers: {getTotalCommunityManagers()}
+                        </TableCaption>
+                        <Thead>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Th>Address</Th>
+                            <Th>District</Th>
+                            <Th>Email</Th>
+                            <Th>Phone</Th>
+                            <Th>NIC</Th>
+                            <Th>Actions</Th>
+                        </Tr>
+                        </Thead>
+                        <Tbody fontSize={'sm'}>
+                        {communityManagers.map(manager => (
+                            <Tr key={manager._id}>
+                            <Td>
+                                {manager.ManagerFirstName} {manager.ManagerLastName}
+                            </Td>
+                            <Td>
+                                {manager.ManagerAddLine1},{manager.ManagerAddLine2}
+                            </Td>
+                            <Td>{manager.ManagerDistrict}</Td>
+                            <Td>{manager.ManagerEmail}</Td>
+                            <Td>{manager.ManagerPhone}</Td>
+                            <Td>{manager.ManagerNic}</Td>
+                            <Td>
+                                <HStack gap={'12px'}>
+                                <IconButton
+                                    // colorScheme="teal"
+                                    bg={'purple.500'}
+                                    color={'#fff'}
+                                    _hover={{ bg: 'purple.400' }}
+                                    aria-label="Edit"
+                                    size="sm"
+                                    icon={<EditIcon />}
+                                    onClick={() => comEditPopup(manager._id)}
+                                />
+                                <IconButton
+                                    // colorScheme="teal"
+                                    bg={'purple.500'}
+                                    color={'#fff'}
+                                    _hover={{ bg: 'purple.400' }}
+                                    aria-label="Delete"
+                                    size="sm"
+                                    icon={<DeleteIcon />}
+                                    onClick={() => deleteManager(manager._id)}
+                                />
+                                </HStack>
+                            </Td>
+                            </Tr>
+                        ))}
+                        </Tbody>
+                    </Table>
+                    </TableContainer>
+                </CardBody>
+                </Card>
+            </Stack>
+            </Flex>
+        </Grid>
+
+        <Grid templateColumns="repeat(2, 1fr)" gap={6} >
+            <Flex>
+            <Stack width={'100%'}>
+                <Card borderRadius={'20px'} width={'100%'}>
+                <CardHeader>
+                    <Heading color={'purple.900'}  size={md}>User Management</Heading>
+                </CardHeader>
+                <hr></hr>
+                <CardBody>
+                    <TableContainer>
+                    <Table variant="simple">
+                        <TableCaption>
+                        Imperial to metric conversion factors
+                        </TableCaption>
+                        <Thead>
+                        <Tr>
+                            <Th>To convert</Th>
+                            <Th>into</Th>
+                            <Th isNumeric>multiply by</Th>
+                        </Tr>
+                        </Thead>
+                        <Tbody>
+                        <Tr>
+                            <Td>inches</Td>
+                            <Td>millimetres (mm)</Td>
+                            <Td isNumeric>25.4</Td>
+                        </Tr>
+                        <Tr>
+                            <Td>feet</Td>
+                            <Td>centimetres (cm)</Td>
+                            <Td isNumeric>30.48</Td>
+                        </Tr>
+                        <Tr>
+                            <Td>yards</Td>
+                            <Td>metres (m)</Td>
+                            <Td isNumeric>0.91444</Td>
+                        </Tr>
+                        </Tbody>
+                        <Tfoot>
+                        <Tr>
+                            <Th>To convert</Th>
+                            <Th>into</Th>
+                            <Th isNumeric>multiply by</Th>
+                        </Tr>
+                        </Tfoot>
+                    </Table>
+                    </TableContainer>
+                </CardBody>
+                </Card>
+            </Stack>
+            </Flex>
+        </Grid>
+        </Grid>
 
       {/* Com Manager Edit Popup */}
 
@@ -377,9 +386,12 @@ const AdminTables = () => {
               <HStack justifyContent={'space-between'} mb={'20px'}>
                 <Heading size={'md'}>Update Details</Heading>
                 <IconButton
-                  colorScheme="teal"
+                  colorScheme="purple"
+                  borderRadius={'10px'}
+                  // bg={'gray.200'}
+                  color={'#fff'}
                   aria-label="Call Segun"
-                  size="md"
+                  size="sm"
                   icon={<CloseIcon />}
                   onClick={closePopup}
                 />

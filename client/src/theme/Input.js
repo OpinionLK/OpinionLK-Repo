@@ -8,7 +8,7 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const pill = definePartsStyle({
     field: {
         border: '1px solid',
-        borderColor: '#a7a0ff',
+        borderColor: 'purple.100',
         background: '#FFF',
         _focus: {
             borderColor: 'brand.purple',

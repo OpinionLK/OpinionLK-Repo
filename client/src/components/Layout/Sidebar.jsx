@@ -29,7 +29,7 @@ const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
             </Box>
 
             <Box
-                zIndex={'100'}
+                zIndex={'1000'}
 
                 display={'flex'}
 
