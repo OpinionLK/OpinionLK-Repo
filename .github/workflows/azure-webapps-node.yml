@@ -29,13 +29,11 @@ jobs:
         npm install
         npm install typescript ajv
         npm run build 
-
     - name: npm install and start (Server)
       run: |
         cd server                  # Assuming your server code is in a "server" directory
         npm install
         node index.js             # Assuming your server entry file is named "index.js"
-
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
