@@ -27,7 +27,7 @@ jobs:
       run: npm install eslint eslint-plugin-react --save-dev
 
     - name: Run ESLint
-      run: npx eslint . --fix
+      run: npx eslint client --fix
 
   build:
     runs-on: ubuntu-latest
