@@ -15,13 +15,9 @@ import {
     PopoverTrigger,
     PopoverContent,
     useColorModeValue,
-    useBreakpointValue,
-    colorMode,
     useColorMode,
     useDisclosure,
 
-    Center,
-    DarkMode,
 } from '@chakra-ui/react';
 import {
     Link as ReachLink
@@ -31,8 +27,6 @@ import { motion } from 'framer-motion'
 import {
     HamburgerIcon,
     CloseIcon,
-    MoonIcon
-    , SunIcon,
     ChevronRightIcon,
     ChevronDownIcon
 } from '@chakra-ui/icons';
