@@ -21,6 +21,7 @@ const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
             position={'fixed'}
             height={'100vh'}
             zIndex={'999'}
+            backgroundColor={'brand.dashboardBackground'}
         >
             <Box
                 height={'10%'}

@@ -13,7 +13,7 @@ import {
     MenuDivider
 } from '@chakra-ui/react'
 
-import CreateSurveyModal from '../organisation/CreateSurveyModal'
+// import CreateSurveyModal from '../organisation/CreateSurveyModal'
 
 import { Icon } from '@iconify/react';
 import userdp from '../../images/topbar/download.jpeg'
@@ -53,7 +53,7 @@ const Topbar = () => {
             <Flex gap={'10px'} mr={'20px'} alignItems={'center'}>
                 
                     {/* <Button colorScheme='facebook'>Create a Survey</Button> : */}
-                {user.role !== 'client' ?
+                {/* {user.role !== 'client' ?
                     <CreateSurveyModal /> :
 
 
@@ -84,7 +84,7 @@ const Topbar = () => {
                                 </Flex>
                             </MenuList>
                         </Menu>
-                }
+                } */}
                         <Menu>
 
                             {({ isOpen }) => (

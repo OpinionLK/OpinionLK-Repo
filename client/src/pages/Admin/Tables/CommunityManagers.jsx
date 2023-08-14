@@ -31,6 +31,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const CommunityManagers = () => {
+  const [communityManagers, setCommunityManagers] = useState([]);
 
   //Fetch Community Managers Data
     useEffect(() => {
@@ -117,8 +118,6 @@ const CommunityManagers = () => {
         );
       };
 
-  const [communityManagers, setCommunityManagers] = useState([]);
-
     return (
         <>
         <Box>
@@ -134,7 +133,7 @@ const CommunityManagers = () => {
                     <TableContainer>
                     <Table variant="simple">
                         <TableCaption>
-                        Total Community Managers: {getTotalCommunityManagers()}
+                          Total Community Managers: {getTotalCommunityManagers()}
                         </TableCaption>
                         <Thead>
                         <Tr>
@@ -147,8 +146,7 @@ const CommunityManagers = () => {
                             <Th>Actions</Th>
                         </Tr>
                         </Thead>
-                        <Tbody fontSize={'sm'}>
-                        {communityManagers.map(manager => (
+                        <Tbody fontSize={'sm'}>{communityManagers.map(manager => (
                             <Tr key={manager._id}>
                             <Td>
                                 {manager.ManagerFirstName} {manager.ManagerLastName}

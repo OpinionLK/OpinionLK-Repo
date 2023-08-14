@@ -59,7 +59,6 @@ const Dashboard = ({ sidebarLinks }) => {
                 p={'20px'}
                 transition={'0.3s'}
                 backgroundColor={'brand.dashboardBackground'}
-                // bg={'black'}
                 zIndex={'0'}
                 left={navOpen ? '100px' : '274px'}
                 top={'80px'}
