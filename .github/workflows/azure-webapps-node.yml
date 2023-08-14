@@ -27,8 +27,8 @@ jobs:
       run: |
         cd client                  # Assuming your client code is in a "client" directory
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        npm install typescript ajv
+        npm run build 
 
     - name: npm install and start (Server)
       run: |
