@@ -1,4 +1,3 @@
-
 on:
   push:
     branches: [ "main" ]
@@ -24,11 +23,18 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: npm install, build, and test
+    - name: npm install, build, and test (Client)
       run: |
+        cd client                  # Assuming your client code is in a "client" directory
         npm install
         npm run build --if-present
         npm run test --if-present
+
+    - name: npm install and start (Server)
+      run: |
+        cd server                  # Assuming your server code is in a "server" directory
+        npm install
+        node index.js             # Assuming your server entry file is named "index.js"
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
