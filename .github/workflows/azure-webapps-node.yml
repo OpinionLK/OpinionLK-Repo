@@ -27,8 +27,8 @@ jobs:
       run: |
         cd client                  # Assuming your client code is in a "client" directory
         npm install
-        npm install typescript ajv
-        npm run build 
+        npm start
+        
     - name: npm install and start (Server)
       run: |
         cd server                  # Assuming your server code is in a "server" directory
