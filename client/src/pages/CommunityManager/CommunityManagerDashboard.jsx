@@ -20,10 +20,12 @@ import Dashboard from '../DashboardLayout';
 import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
 
-import StatViewCard from '../../components/CommunityManagerComponents/StatViewCard';
+import StatViewCard from '../../components/CommunityManager/StatViewCard';
 
 import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
 import TaskSummaryTable from '../../components/CommunityManager/TaskSummaryTable';
+import SurveyManagementGrph from '../../components/CommunityManager/SurveyManagementGraph';
+
 function CommunityManagerDashBoard() {
   const style = {
     width: '100%',
@@ -72,10 +74,12 @@ function CommunityManagerDashBoard() {
                 </Text>
                 <TaskSummaryTable />
               </Box>
-              <Box w={'550px'} bg={'yellow'}>
+              <Box w={'550px'} >
                 <Text pt={15} pb={15} color={'black'} fontSize="2xl">
                   Survey Management
                 </Text>
+                <SurveyManagementGrph/>
+                
               </Box>
             </Flex>
           </Box>

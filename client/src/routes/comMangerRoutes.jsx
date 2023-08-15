@@ -29,7 +29,7 @@ const ComManagerRoutes = [
             {
                 path:'',
                 element: <Navigate to="Commanager/dashboard" replace/>
-            }
+            },
             {
                 path: '/ComManager',
                 element: <Navigate to="/ComManager" />,
