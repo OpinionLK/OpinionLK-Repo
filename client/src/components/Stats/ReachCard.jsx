@@ -16,12 +16,15 @@ import {
     ButtonGroup,
     Button,
     Image,
-    Flex
+    Flex,
+    Spacer,
+    IconButton
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
 import {Line, Pie, Doughnut, Bar} from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
+import { FaChartBar } from 'react-icons/fa'
 
 // sample data
 const state = {
@@ -31,17 +34,17 @@ const state = {
         label: 'Filled',
         backgroundColor: '#775FFC',
         barThickness: 12,
-        borderRadius: '15px',
-        // borderSkipped: true,
-        data: [65, 59, 80, 41, 56, 40, 80, 30]
+        borderRadius: 100,
+        borderSkipped: 'middle',
+        data: [15, 15, 22, 10, 16, 13, 10, 30]
       },
       {
         label: 'Viewed',
         backgroundColor: '#84D9FD',
         barThickness: 12,
-        borderRadius: '15px',
-        // borderSkipped: true,
-        data: [65, 59, 80, 61, 56, 50, 40, 70]
+        borderRadius: 100,
+        borderSkipped: 'middle',
+        data: [30, 37, 40, 35, 26, 30, 22, 36]
       },
       {
         label: 'Aim',
@@ -49,9 +52,9 @@ const state = {
         backgroundColor: '#E6EDF9',
         barThickness: 12,
         borderwidth: 2,
-        borderRadius: 1000,
+        borderRadius: 100,
         borderSkipped: 'middle',
-        data: [65, 59, 80, 21, 56, 100, 40, 60]
+        data: [65, 59, 80, 70, 56, 100, 40, 60]
       }
     ]
   }
@@ -61,7 +64,7 @@ const StatCard = () => {
 
         <Card
             size='md'
-            direction={{ base: 'column', sm: 'row' }}
+            // direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='elevated'
             // p={[2, 3]}
@@ -72,44 +75,61 @@ const StatCard = () => {
             <Box
                 position="relative"
                 width="520px"
-                height="300px" // Set your desired height here
+                height="3057x" // Set your desired height here
                 overflow="hidden"
-                p={[2, 3]}
-                top='3%'
+                p= '3'
             >
+                <Flex pl='3' pr='3'>
+                    <Box pb='3'>
+                        
+                        <Text fontSize={20} fontWeight={'semibold'} color={'#2B3674'}>
+                            Your Reach
+                        </Text>
+                        <Text fontSize={12} fontWeight={'regular'} color={'#A3AED0'}>
+                            Data and Analytics
+                        </Text>
+                    </Box>
+                    <Spacer/>
+
+                    <IconButton aria-label='Add to friends' icon={<FaChartBar/>} borderRadius={50} color='#4318FF' backgroundColor={'#F4F7FE'}/>
+                </Flex>
+
                 <Bar
                     data={state}
                     options={{
-                        title:{
-                            display:true,
-                            text:'Average Rainfall per month',
-                            fontSize:20
-                        },
-                        legend:{
-                            display:true,
-                            position:'right'
+                        plugins: {
+                            legend:{
+                                display:true,
+                                position:'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                }
+                            },
                         },
                         scales: {
                             x: {
-                                stacked: true
+                                stacked: true,
+                                grid: {
+                                    display: false
+                                },
+                                border: {
+                                    display: false
+                                }
                             },
                             y: {
-                                stacked: true
+                                // stacked: true,
+                                grid: {
+                                    display: false
+                                },
+                                border: {
+                                    display: false
+                                }
                             }
                         }
                     }}
                 />
             </Box>
-            
-
-            
-            {/* <CardBody>
-                <Text size='0.2'>
-                    Total Surveys
-                </Text>
-                <Heading size='sm'>123</Heading>
-            </CardBody> */}
-    
         </Card>
 
     )
