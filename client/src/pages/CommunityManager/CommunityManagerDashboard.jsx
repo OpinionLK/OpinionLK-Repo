@@ -15,6 +15,7 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react';
+import Dashboard from '../DashboardLayout';
 
 import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
@@ -25,8 +26,8 @@ import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestT
 import TaskSummaryTable from '../../components/CommunityManager/TaskSummaryTable';
 function CommunityManagerDashBoard() {
   return (
-    <>
-      <Grid
+<>
+            <Grid
         templateAreas={`"header header"
                   "nav main"
                   "nav footer"`}
@@ -47,20 +48,23 @@ function CommunityManagerDashBoard() {
         <GridItem pl="2" area={'main'}>
           <Box d="flex" flexDir={'r'}>
             <Flex direction={'row'}>
-              <Box pl={2}>
-                <StatViewCard />
+              <Box pl={1}>
+                <StatViewCard str={"Total Survey"} num={"335"} />
               </Box>
-              <Box pl={2}>
-                <StatViewCard />
+              <Box pl={1}>
+                <StatViewCard str={"Survey Revision Requests"} num={"55"} />
               </Box>
-              <Box pl={2}>
-                <StatViewCard />
+              <Box pl={1}>
+                <StatViewCard str={"New Survey"} num={"78"}/>
               </Box>
-              <Box pl={2}>
-                <StatViewCard />
+              <Box pl={1}>
+                <StatViewCard str={"Research Request"} num={"113"} />
               </Box>
-              <Box pl={2}>
-                <StatViewCard />
+              <Box pl={1}>
+                <StatViewCard  str={"Reported Survey" }num={"15"} />
+              </Box>
+              <Box pl={1}>
+                <StatViewCard  str={"Customer Help"} num={"38"} />
               </Box>
             </Flex>
             <Box>
@@ -90,7 +94,8 @@ function CommunityManagerDashBoard() {
           Footer
         </GridItem>
       </Grid>
-    </>
+   </>
+
   );
 }
 

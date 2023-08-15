@@ -16,7 +16,7 @@ import {
 
 import surveyIcon from '../../images/ic-1.png';
 
-function StatViewCard() {
+const StatViewCard=(props) => {
   return (
     <>
 
@@ -45,9 +45,9 @@ function StatViewCard() {
             
             <CardBody>
                 <Text fontSize={'xs'} color={'#A3AED0'}>
-                    Total Surveys
+                    {props.str}
                 </Text>
-                <Heading size='md' color={'#2B3674'}>224</Heading>
+                <Heading size='md' color={'#2B3674'}>{props.num}</Heading>
             </CardBody>
         </Card>
 
