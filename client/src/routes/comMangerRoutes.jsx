@@ -1,6 +1,6 @@
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-// import Adminprofile from '../pages/Admin/profile';
+
 
 
 import {
@@ -19,7 +19,7 @@ const Links = [
 
 const ComManagerRoutes = [
     {
-        path: '/ComManger',
+        path: '/ComManager',
         element: (
             <PrivateRoute>
                 <CommunityManagerDashBoard idebarLinks={Links} />
@@ -27,11 +27,7 @@ const ComManagerRoutes = [
         ),
         children: [
             {
-                // path: '/admin/profile',
-                // element: <Adminprofile/>,
-            },
-            {
-                path: '/ComManger',
+                path: '/ComManager',
                 element: <Navigate to="/ComManager" />,
             },
             {
