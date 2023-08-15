@@ -2,25 +2,15 @@
 
 import {
     Flex,
-    Heading,
-    Stack,
-    useMediaQuery,
-    FormControl,
-    FormLabel,
-    Text,
-    Input,
-    Checkbox,
-    Button,
     Box,
     Grid,
     GridItem,
   } from '@chakra-ui/react';
   
-  import Sidebar from '../../components/Layout/Sidebar';
   import Topbar from '../../components/Layout/Topbar';
   
   import StatViewCard from '../../components/CommunityManager/StatViewCard';
-  import Table_1 from '../../components/CommunityManager/table_1';
+ // import Table_1 from '../../components/CommunityManager/table_1';
   function CommunityManagerDashboard() {
     return (
       <>
@@ -64,7 +54,7 @@ import {
                 </Box>
               </Flex>
               <Box>
-                <Table_1/>
+           
               </Box>
             </Box>
           </GridItem>

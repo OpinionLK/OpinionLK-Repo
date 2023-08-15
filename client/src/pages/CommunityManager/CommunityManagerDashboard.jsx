@@ -19,9 +19,8 @@ import {
 import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
 
-import StatViewCard from '../../components/CommunityManager/StatViewCard';
-//import Table_1 from '../../components/CommunityManager/table_1';
-function CommunityManagerDashboard() {
+import StatViewCard from '../../components/CommunityManagerComponents/StatViewCard';
+function CommunityManagerDashBoard() {
   return (
     <>
       <Grid
@@ -38,11 +37,9 @@ function CommunityManagerDashboard() {
         <GridItem pl="2" area={'header'}>
           <Topbar />
         </GridItem>
-
         <GridItem pl="2" bg="pink.300" area={'nav'}>
           Nav
         </GridItem>
-
 
         <GridItem pl="2" area={'main'}>
           <Box d="flex" flexDir={'r'}>
@@ -64,18 +61,22 @@ function CommunityManagerDashboard() {
               </Box>
             </Flex>
             <Box>
-             
+              
+              <Text>
+                Supervisor Revision Requests
+              </Text>
             </Box>
           </Box>
         </GridItem>
 
 
+
         <GridItem pl="2" bg="blue.300" area={'footer'}>
-          Footer section in here
+          Footer
         </GridItem>
       </Grid>
     </>
   );
 }
 
-export default CommunityManagerDashboard;
+export default CommunityManagerDashBoard;
