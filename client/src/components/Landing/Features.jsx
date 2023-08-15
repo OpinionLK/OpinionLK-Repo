@@ -4,18 +4,12 @@ import {
     Text,
     useMediaQuery,
     Stack,
-    Box,
-    useColorModeValue,
-    Button,
     Grid,
     GridItem,
     Image,
     Heading
 } from '@chakra-ui/react'
 
-import Clip from '../../images/clip.png'
-import Check from '../../images/checkbox.png'
-import Clip2 from '../../images/clipp2.png'
 import coin from '../../images/coin.png'
 
 const Features = () => {

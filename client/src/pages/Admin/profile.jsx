@@ -1,11 +1,7 @@
 import { 
-    Flex, 
+
     Heading, 
-    Stack,
-    Text,
-    Card,
-    CardHeader,
-    CardBody,
+
  } from '@chakra-ui/react'
 import React from 'react'
 

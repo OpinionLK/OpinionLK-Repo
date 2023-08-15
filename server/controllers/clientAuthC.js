@@ -98,6 +98,7 @@ export const ClientUserData = async (req, res) => {
         lastName,
         email,
         profilePicture,
+        role : 'client'
       });
     } catch (error) {
       console.error('Error fetching user data:', error);

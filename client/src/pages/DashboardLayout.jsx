@@ -45,6 +45,7 @@ const Dashboard = ({ sidebarLinks }) => {
     const [navOpen, setNavOpen] = useState(false)
 
 
+
     return (
         <Box
             backgroundColor={'brand.dashboardBackground'}>
@@ -57,8 +58,11 @@ const Dashboard = ({ sidebarLinks }) => {
                 minHeight={'calc(100vh - 80px)'}
                 position={'absolute'}
                 p={'20px'}
-                pl={'50px'}
+                pl={'20px'}
                 transition={'0.3s'}
+                // display={'flex'}
+                // flexDir={'column'}
+                // gap={'20px'}
                 backgroundColor={'brand.dashboardBackground'}
 
                 left={navOpen ? '100px' : '274px'}
