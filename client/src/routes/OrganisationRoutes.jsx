@@ -5,6 +5,7 @@ import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
+import EditSurvey from '../pages/Organisations/EditSurvey';
 
 
 import {
@@ -19,8 +20,8 @@ import { RiSurveyLine } from 'react-icons/ri';
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/surveys', linkName: 'Surveys', icon: RiSurveyLine },
-    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
+    { route: '/organisation/mysurveys', linkName: 'Surveys', icon: RiSurveyLine },
+    // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
 
 ];
 
@@ -36,7 +37,7 @@ const OrganisationRoutes = [
         children: [
             {
                 path: '',
-                element: <Navigate to="/organisation/home" replace />,
+                element: <Navigate to="/organisation/mysurveys" replace />,
             },
             {
                 path: 'home',
@@ -48,8 +49,12 @@ const OrganisationRoutes = [
                 element: <MakeSurvey />,
             },
             {
-                path: '/organisation/surveys',
+                path: '/organisation/mysurveys',
                 element: <SurveyPage />,
+            },
+            {
+                path: '/organisation/survey/:surveyid/edit',
+                element: <EditSurvey />,
             },
         ],
     }
