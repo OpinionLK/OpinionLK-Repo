@@ -79,5 +79,4 @@ const DocumentScanner = () => {
   );
 };
 
-
 export default DocumentScanner;

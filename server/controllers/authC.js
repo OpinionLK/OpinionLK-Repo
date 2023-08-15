@@ -17,7 +17,7 @@ export const SignUp = async (req, res) => {
       firstName,
       lastName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     const token = jwt.sign(

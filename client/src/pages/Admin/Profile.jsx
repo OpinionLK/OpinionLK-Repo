@@ -4,8 +4,9 @@ import profileImage from '../../images/profile/Profile Image.png';
 import profileBackgroundImage from '../../images/profile/Background Image.png';
 import profileComplete from '../../images/profile/profile-complete.png';
 import './customerProfile2.css';
+import DocumentScanner from './DocumentScanner';
 
-const Profile2 = () => {
+const Admindashboard = () => {
   return (
     <Box>
         <Box >
@@ -42,69 +43,14 @@ const Profile2 = () => {
               </Box>
               </Card>
 
-
-              <Card className="card_tm" borderRadius={'20PX'}>
-              <Box className="medium-storage">
-              <Box className="text1">
-                <Text className="title">Your information</Text>
-                <Text className="bodytext">
-                  Complete your profile get more rewards and unlock premium
-                  features
-                </Text>
-              </Box>
-              <Image className="icon" alt="" src={profileComplete} />
-              <Flex className="barcontent">
-                <Box className="bar" />
-                <Box className="bar-filled" />
-                <Text className="min">min</Text>
-                <Text className="max">max</Text>
-              </Flex>
-            </Box>
-              </Card>
-
-
               <Card className="card_tr" borderRadius={'20PX'} width={'100%'}>
               <Box className="large-dropzone2" width={'520px'}>
-              <Box className="body" width={'100%'}>
-                <Text className="request-a-password">
-                  Request a password change if you can’t remember you current
-                  password.
-                </Text>
-              </Box>
-              <Box className="body1">
-                <Text className="you-can-edit">
-                  You can edit and update profile information if you want to
-                </Text>
-              </Box>
-              <Box className="title1">
-                <Text className="change-your-password">
-                  Change your password
-                </Text>
-              </Box>
-              <Box className="title2">
-                <Text className="change-your-password">Edit your profile</Text>
-              </Box>
-              <Box className="button">
-                <Box className="large-button1">
-                  <Text className="text2">
-                    <Button className="large-button2">Change Password</Button>
-                  </Text>
-                </Box>
-              </Box>
-              <Box className="button1">
-                <Box className="large-button1">
-                  <Text className="text3">
-                    <Button className="large-button4">Edit now</Button>
-                  </Text>
-                </Box>
-              </Box>
+              
+              <DocumentScanner />
             </Box>
               </Card>  
             </Grid>
           </Flex>
-
-
-
 
           <Flex className="large-check-table-parent">
           <Grid className="grid_bl" templateColumns="repeat(2, 1fr)" gap={'20px'} width={'100%'}>
@@ -215,4 +161,4 @@ const Profile2 = () => {
   );
 };
 
-export default Profile2;
+export default Admindashboard;

@@ -22,19 +22,14 @@ import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 const Login = () => {
-
-
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const history = useNavigate();
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const { dispatch } = useAuthContext()
 
     async function submit(e) {
         e.preventDefault();
-
         try {
             const response = await axios.post("http://localhost:3002/api/auth/login", {
                 email, password
