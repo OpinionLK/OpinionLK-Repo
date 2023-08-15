@@ -36,7 +36,7 @@ function CommunityManagerDashBoard() {
     <>
       <Box style={style}>
         <Box d="flex" flexDir={'r'}>
-          <Flex direction={'row'}>
+          <Flex direction={'row'} justifyContent={"space-around"}>
             <Box pl={1}>
               <StatViewCard str={'Total Survey'} num={'335'} />
             </Box>
@@ -57,10 +57,10 @@ function CommunityManagerDashBoard() {
             </Box>
           </Flex>
           <Box>
-            <Text pt={15} pb={15} color={'black'} fontSize="2xl">
+            <Text pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
               Supervisor Revision Requests
             </Text>
-            <Box>
+            <Box p={5}>
               <AcceptRequestTable />
             </Box>
           </Box>

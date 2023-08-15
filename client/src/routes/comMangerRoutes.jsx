@@ -1,7 +1,7 @@
-import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
-
+import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
 
 import {
     Navigate
@@ -22,10 +22,14 @@ const ComManagerRoutes = [
         path: '/ComManager',
         element: (
             <PrivateRoute>
-                <CommunityManagerDashBoard idebarLinks={Links} />
+                <DashBoard idebarLinks={Links} />
             </PrivateRoute>
         ),
         children: [
+            {
+                path:'',
+                element: <Navigate to="Commanager/dashboard" replace/>
+            }
             {
                 path: '/ComManager',
                 element: <Navigate to="/ComManager" />,
