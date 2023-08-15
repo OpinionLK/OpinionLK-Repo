@@ -27,7 +27,6 @@ const Admindashboard = () => {
                             </CardHeader>
                             <CardBody>
                                 <Text>Organizations</Text>
-                                <DocumentScanner />
                             </CardBody>
                         </Card>
                     </Stack>
@@ -124,10 +123,10 @@ const Admindashboard = () => {
                     <Stack width={'100%'}>
                         <Card borderRadius={'20px'} width={'100%'}>
                             <CardHeader>
-                                <Heading size={md}>User Management</Heading>
+                                <Heading size={md}></Heading>
                             </CardHeader>
                             <CardBody>
-                                <Text>User Management</Text>
+                                <DocumentScanner />
                             </CardBody>
                         </Card>
                     </Stack>

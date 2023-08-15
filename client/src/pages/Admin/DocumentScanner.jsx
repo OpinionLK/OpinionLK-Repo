@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Box, Button, Container, Heading, Input, Text, Textarea } from '@chakra-ui/react';
+
 
 const DocumentScanner = () => {
   const [result, setResult] = useState('');
@@ -44,7 +46,12 @@ const DocumentScanner = () => {
         "nic": contentResults[9]
       };
 
-      return JSON.stringify(formattedResults, null, 2);
+     let displayResult = '';
+    for (const key in formattedResults) {
+      displayResult += `${key} = ${formattedResults[key]}\n`;
+    }
+
+    return displayResult;
     }
     return 'No content results available.';
   };
@@ -55,17 +62,22 @@ const DocumentScanner = () => {
   };
 
   return (
-    <div>
-      <h1>Document Scanner</h1>
+    <Container maxW="xl" centerContent>
+      <Heading as="h1" size="xl" my={4}>
+        Document Scanner
+      </Heading>
       <form onSubmit={handleUpload}>
-        <input type="file" id="my-file-input" name="file" />
-        <input type="submit" />
+        <Input type="file" id="my-file-input" name="file" mb={4} />
+        <Button colorScheme="teal" type="submit">
+          Scan Document
+        </Button>
       </form>
-      <div>
-        <pre>{result}</pre>
-      </div>
-    </div>
+      <Box mt={8} w="100%">
+      <Textarea value={result} readOnly rows={15} />
+    </Box>
+    </Container>
   );
 };
+
 
 export default DocumentScanner;
