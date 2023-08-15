@@ -62,7 +62,7 @@ function CommunityManagerDashBoard() {
           </Box>
         </GridItem>
         <GridItem pl="2" bg="blue.300" area={'footer'}>
-          Footer
+          Footer section in here
         </GridItem>
       </Grid>
     </>
