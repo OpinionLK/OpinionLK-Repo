@@ -84,7 +84,7 @@ const EditSurvey = () => {
 
         <Flex flexDirection={'column'} gap={'20px'}>
             <Card height={'s'} p={'25px 20px'}
-                backgroundImage={surveybg} backgroundSize={'cover'} backgroundPosition={'center'}
+                backgroundColor={'gray'} backgroundPosition={'center'}
                 color={'white'}
             >
                 <CardHeader >
