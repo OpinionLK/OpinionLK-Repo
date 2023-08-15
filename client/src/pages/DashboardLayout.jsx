@@ -43,7 +43,6 @@ const Dashboard = ({ sidebarLinks }) => {
 
     const [navOpen, setNavOpen] = useState(false)
 
-
     return (
         <Box
             backgroundColor={'brand.dashboardBackground'}>

@@ -24,6 +24,7 @@ import {
     IconButton,
     HStack,
     Heading,
+    Text,
 } from '@chakra-ui/react';
 import Modal from 'react-modal';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
@@ -57,19 +58,69 @@ const CommunityManagers = () => {
 
     //Edit Community Managers
     const [isOpen, setIsOpen] = useState(false);
+    const openPopup = () => {
+      setIsOpen(true);
+    };
+    const comEditPopup = id => {
+      const manager = communityManagers.find(manager => manager._id === id);
+      setSelectedManager(manager);
+      openPopup();
+    };
     const [selectedManager, setSelectedManager] = useState(null);
     const [editedValues, setEditedValues] = useState({});
-    const openPopup = () => {
-        setIsOpen(true);
-    };
-    const closePopup = () => {
-        setIsOpen(false);
-    };
+
     const handleEditInputChange = (key, value) => {
-        setEditedValues({ ...editedValues, [key]: value });
+        setEditedValues({ ...editedValues, [key]: value });                   //editedValues is the new state
+    };
+
+    const closePopup = () => {
+      setIsOpen(false);
     };
     const handleSubmit = async e => {
         e.preventDefault();
+
+        // const ManagerFirstName = editedValues.ManagerFirstName;
+        //   if (ManagerFirstName.length < 3) {
+        //     alert('First Name must be at least 3 characters long');
+        //     return;
+        //   }
+        // const ManagerLastName = editedValues.ManagerLastName;
+        //   if (ManagerLastName.length < 3) {
+        //     alert('Last Name must be at least 3 characters long');
+        //     return;
+        //   }
+        // const ManagerAddLine1 = editedValues.ManagerAddLine1;
+        //   if (ManagerAddLine1.length < 3) {
+        //     alert('Address Line 1 must be at least 3 characters long');
+        //     return;
+        //   }
+        // const ManagerAddLine2 = editedValues.ManagerAddLine2;
+        //   if (ManagerAddLine2.length < 3) {
+        //     alert('Address Line 2 must be at least 3 characters long');
+        //     return;
+        //   }
+        // const ManagerDistrict = editedValues.ManagerDistrict;
+        //   if (ManagerDistrict.length < 3) {
+        //     alert('District must be at least 3 characters long');
+        //     return;
+        //   }
+        // const ManagerEmail = editedValues.ManagerEmail;
+        //   if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
+        //     alert('Email should be at least 3 characters long and should contain @');
+        //     return;
+        // }
+        // const ManagerPhone = editedValues.ManagerPhone;
+        //   if (ManagerPhone.length === 10) {
+        //     alert('Phone number should contain 10 numbers');
+        //     return;
+        // }
+        // const ManagerNic = editedValues.ManagerNic;
+        // const numericNicRegex = /^[0-9]{9}(v|V)?$/;
+        // if (!numericNicRegex.test(ManagerNic) || (ManagerNic.length !== 10 && ManagerNic.length !== 12)) {
+        //   alert('NIC should be 9 characters long with all numeric characters, and it can optionally contain the letter "v"');
+        //   return;
+        // }
+
         try {
             const response = await axios.put(
                 `http://localhost:3002/api/auth/updatemember/${selectedManager._id}`,
@@ -84,11 +135,7 @@ const CommunityManagers = () => {
         }
     };
 
-    const comEditPopup = id => {
-        const manager = communityManagers.find(manager => manager._id === id);
-        setSelectedManager(manager);
-        openPopup();
-    };
+
 
     //Delete Community Managers
     const deleteManager = async id => {
@@ -203,6 +250,7 @@ const CommunityManagers = () => {
         ariaHideApp={false}
         style={{
           overlay: {
+            zIndex: 1000,
             backgroundColor: 'rgba(0,0,0,0.5)',
           },
           content: {
@@ -250,34 +298,16 @@ const CommunityManagers = () => {
                       <Input
                         type="text"
                         name="ManagerFirstName"
-                        value={
-                          editedValues.ManagerFirstName !== undefined
-                            ? editedValues.ManagerFirstName
-                            : selectedManager.ManagerFirstName
-                        }
-                        onChange={e =>
-                          handleEditInputChange(
-                            'ManagerFirstName',
-                            e.target.value
-                          )
-                        }
+                        value={editedValues.ManagerFirstName || selectedManager.ManagerFirstName}
+                        onChange={e => handleEditInputChange('ManagerFirstName', e.target.value)}
                       />
                     </FormField>
                     <FormField label="Last Name">
                       <Input
                         type="text"
                         name="ManagerLastName"
-                        value={
-                          editedValues.ManagerLastName !== undefined
-                            ? editedValues.ManagerLastName
-                            : selectedManager.ManagerLastName
-                        }
-                        onChange={e =>
-                          handleEditInputChange(
-                            'ManagerLastName',
-                            e.target.value
-                          )
-                        }
+                        value={editedValues.ManagerLastName || selectedManager.ManagerLastName}
+                        onChange={e => handleEditInputChange('ManagerLastName', e.target.value)}
                       />
                     </FormField>
                     <FormField label="Address">
@@ -285,98 +315,52 @@ const CommunityManagers = () => {
                         type="text"
                         placeholder="Line 1"
                         name="ManagerAddLine1"
-                        value={
-                          editedValues.ManagerAddLine1 !== undefined
-                            ? editedValues.ManagerAddLine1
-                            : selectedManager.ManagerAddLine1
-                        }
-                        onChange={e =>
-                          handleEditInputChange(
-                            'ManagerAddLine1',
-                            e.target.value
-                          )
-                        }
+                        value={editedValues.ManagerAddLine1 || selectedManager.ManagerAddLine1}
+                        onChange={e => handleEditInputChange('ManagerAddLine1', e.target.value)}
                       />
                       <Input
                         type="text"
                         placeholder="Line 2"
                         name="ManagerAddLine2"
-                        value={
-                          editedValues.ManagerAddLine2 !== undefined
-                            ? editedValues.ManagerAddLine2
-                            : selectedManager.ManagerAddLine2
-                        }
-                        onChange={e =>
-                          handleEditInputChange(
-                            'ManagerAddLine2',
-                            e.target.value
-                          )
-                        }
+                        value={editedValues.ManagerAddLine2 || selectedManager.ManagerAddLine2}
+                        onChange={e => handleEditInputChange('ManagerAddLine2', e.target.value)}
                       />
                     </FormField>
                     <FormField label="District">
                       <Input
                         type="text"
                         name="ManagerDistrict"
-                        value={
-                          editedValues.ManagerDistrict !== undefined
-                            ? editedValues.ManagerDistrict
-                            : selectedManager.ManagerDistrict
-                        }
-                        onChange={e =>
-                          handleEditInputChange(
-                            'ManagerDistrict',
-                            e.target.value
-                          )
-                        }
+                        value={editedValues.ManagerDistrict || selectedManager.ManagerDistrict}
+                        onChange={e => handleEditInputChange('ManagerDistrict', e.target.value)}
                       />
                     </FormField>
                     <FormField label="Email">
                       <Input
                         type="email"
                         name="ManagerEmail"
-                        value={
-                          editedValues.ManagerEmail !== undefined
-                            ? editedValues.ManagerEmail
-                            : selectedManager.ManagerEmail
-                        }
-                        onChange={e =>
-                          handleEditInputChange('ManagerEmail', e.target.value)
-                        }
+                        value={editedValues.ManagerEmail || selectedManager.ManagerEmail}
+                        onChange={e => handleEditInputChange('ManagerEmail', e.target.value)}
                       />
                     </FormField>
                     <FormField label="Phone">
                       <Input
                         type="tel"
                         name="ManagerPhone"
-                        value={
-                          editedValues.ManagerPhone !== undefined
-                            ? editedValues.ManagerPhone
-                            : selectedManager.ManagerPhone
-                        }
-                        onChange={e =>
-                          handleEditInputChange('ManagerPhone', e.target.value)
-                        }
+                        value={editedValues.ManagerPhone || selectedManager.ManagerPhone}
+                        onChange={e => handleEditInputChange('ManagerPhone', e.target.value)}
                       />
                     </FormField>
                     <FormField label="NIC">
                       <Input
                         type="text"
                         name="ManagerNic"
-                        value={
-                          editedValues.ManagerNic !== undefined
-                            ? editedValues.ManagerNic
-                            : selectedManager.ManagerNic
-                        }
-                        onChange={e =>
-                          handleEditInputChange('ManagerNic', e.target.value)
-                        }
+                        value={editedValues.ManagerNic || selectedManager.ManagerNic}
+                        onChange={e => handleEditInputChange('ManagerNic', e.target.value)}
                       />
                     </FormField>
                   </VStack>
                 )}
 
-                {/*submit button*/}
                 <Button
                   name="submit"
                   align={'right'}
@@ -391,6 +375,59 @@ const CommunityManagers = () => {
           </Stack>
         </Flex>
       </Modal>
+
+      {/* <Modal
+        isOpen={isOpen}
+        onRequestClose={closePopup}
+        contentLabel="My dialog"
+        ariaHideApp={false}
+        style={{
+          overlay: {
+            zIndex: 1000,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          },
+          content: {
+            width: '500px',
+            height: 'max-content',
+            margin: 'auto',
+            borderRadius: '10px',
+            padding: '20px',
+            backgroundColor: '#F8FAFC',
+            boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
+          },
+        }}
+      >
+            <Heading size={'md'}>Delete Community Manager</Heading>
+          <hr />
+            <VStack>
+              <Flex width={'100%'} h={'300px'} justifyContent={'center'}>
+                <Text size={'md'}>Are you sure you want to delete this Community Manager?</Text>
+              </Flex>
+              <Flex>
+                <Button
+                  name="submit"
+                  align={'right'}
+                  width={'100px'}
+                  colorScheme="red"
+                  type="submit"
+                  onClick={closePopup}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  name="submit"
+                  align={'right'}
+                  width={'100px'}
+                  colorScheme="green"
+                  type="submit"
+                  onClick={closePopup}
+                >
+                  Delete
+                </Button>
+              </Flex>
+            </VStack>
+      </Modal> */}
+
     </>
     )
 }

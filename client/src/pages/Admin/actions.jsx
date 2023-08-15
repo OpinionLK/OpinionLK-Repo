@@ -31,14 +31,56 @@ const AdminActions = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         const ManagerFirstName = event.target.elements.ManagerFirstName.value;
+        if (ManagerFirstName.length < 3) {
+            alert('First name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerLastName = event.target.elements.ManagerLastName.value;
+        if (ManagerLastName.length < 3) {
+            alert('Last name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerDistrict = event.target.elements.ManagerDistrict.value;
+        if (ManagerDistrict.length < 3) {
+            alert('District name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerAddLine1 = event.target.elements.ManagerAddLine1.value;
+        if (ManagerAddLine1.length < 3) {
+            alert('Address line 1 should be at least 3 characters long');
+            return;
+        }
+
         const ManagerAddLine2 = event.target.elements.ManagerAddLine2.value;
+        if (ManagerAddLine2.length < 3) {
+            alert('Address line 2 should be at least 3 characters long');
+            return;
+        }
+
         const ManagerEmail = event.target.elements.ManagerEmail.value;
+        if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
+            alert('Email should be at least 3 characters long and should contain @');
+            return;
+        }
+
         const ManagerPhone = event.target.elements.ManagerPhone.value;
+        if (ManagerPhone.length === 10) {
+            alert('Phone number should contain 10 numbers');
+            return;
+        }
+
         const ManagerNic = event.target.elements.ManagerNic.value;
+        const numericNicRegex = /^[0-9]{9}(v|V)?$/;
+        if (!numericNicRegex.test(ManagerNic) || (ManagerNic.length !== 10 && ManagerNic.length !== 12)) {
+            alert('NIC should be 9 characters long with all numeric characters, and it can optionally contain the letter "v"');
+            return;
+          }
+        
         
         try {
             await axios.post("http://localhost:3002/api/auth/savemember", {
@@ -134,11 +176,12 @@ const AdminActions = () => {
 
             <Modal
                 isOpen={isOpen}
-                onRequestClose={closePopup}
-                contentLabel="My dialog"
+                // onRequestClose={closePopup}
+                contentLabel="Com Manager add Modal"
                 ariaHideApp={false}
                 style={{
                     overlay: {
+                        zIndex: '1000',
                         backgroundColor: 'rgba(0,0,0,0.5)',
                     },
                     content: {
@@ -168,12 +211,13 @@ const AdminActions = () => {
                             <hr></hr>
                             <Flex mb={'5px'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'flex-end'}>
                             <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
-                                <FormField label="First Name">
+                                <FormField label="First Name" >
 
                                 <Input
                                 type="text"
                                 placeholder="ManagerFirstName"
                                 name="ManagerFirstName"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Last Name">
@@ -181,6 +225,7 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerLastName"
                                 name="ManagerLastName"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Address" >
@@ -188,11 +233,13 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerAddLine1"
                                 name="ManagerAddLine1"
+                                required
                             />
                              <Input
                                 type="text"
                                 placeholder="ManagerAddLine2"
                                 name="ManagerAddLine2"
+                                required
                             />
                                 </FormField>
                                 <FormField label="District">
@@ -200,6 +247,7 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerDistrict"
                                 name="ManagerDistrict"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Email">
@@ -207,6 +255,7 @@ const AdminActions = () => {
                                 type="email"
                                 placeholder="Manager Email"
                                 name="ManagerEmail"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Phone">
@@ -214,6 +263,7 @@ const AdminActions = () => {
                                 type="number"
                                 placeholder="Manager Phone"
                                 name="ManagerPhone"
+                                required
                             />
                                 </FormField>
                                 <FormField label="NIC">
@@ -221,13 +271,15 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="Manager NIC"
                                 name="ManagerNic"
+                                required
                             />
                                 </FormField>
                             </VStack>
                             {/*submit button*/}
                             <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
-                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='submit' onClick={closePopup}>Cancel</Button>
-                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Add</Button> 
+                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='Submit'>Add</Button> 
+                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='cancel' onClick={closePopup}>Cancel</Button>
+
                             </Flex>
                             </Flex>
                         </form>

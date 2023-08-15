@@ -1,7 +1,5 @@
 import React from 'react'
-
 import './style.css'
-
 import {
     Flex,
     Icon,
@@ -29,7 +27,6 @@ const NavItem = ({ linkName, navOpen, icon, route = '404' }) => {
                         {linkName}
                     </Flex>
                 </Flex>
-
             </Flex>
         </Flex>
 

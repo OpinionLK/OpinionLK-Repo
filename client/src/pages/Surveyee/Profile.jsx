@@ -5,7 +5,7 @@ import profileBackgroundImage from '../../images/profile/Background Image.png';
 import profileComplete from '../../images/profile/profile-complete.png';
 import './customerProfile.css';
 
-const Dashboard = () => {
+const Profile = () => {
   return (
     <Box className="profile">
       <Box className="main-dashboard">
@@ -206,4 +206,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;
