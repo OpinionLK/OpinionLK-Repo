@@ -19,9 +19,6 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-
-
-
 import { useAuthContext } from '../hooks/useAuthContext'
 
 const Login = () => {
