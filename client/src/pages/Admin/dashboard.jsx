@@ -10,6 +10,8 @@ import {
     Grid,
  } from '@chakra-ui/react'
 import React from 'react'
+import DocumentScanner from './DocumentScanner';
+
 
 const Admindashboard = () => {
     const md = 'md';
@@ -121,10 +123,10 @@ const Admindashboard = () => {
                     <Stack width={'100%'}>
                         <Card borderRadius={'20px'} width={'100%'}>
                             <CardHeader>
-                                <Heading size={md}>User Management</Heading>
+                                <Heading size={md}></Heading>
                             </CardHeader>
                             <CardBody>
-                                <Text>User Management</Text>
+                                <DocumentScanner />
                             </CardBody>
                         </Card>
                     </Stack>

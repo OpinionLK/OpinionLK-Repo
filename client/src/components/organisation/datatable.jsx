@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, IconButton, Flex, Box } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Flex, } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   useReactTable,
   flexRender,
   getCoreRowModel,
-  ColumnDef,
-  SortingState,
+
   getSortedRowModel,
   getPaginationRowModel
 } from "@tanstack/react-table";
 
-import {
-  ChevronRightIcon,
-  ChevronLeftIcon,
-} from '@chakra-ui/icons'
 
-import { RiArrowRightSLine } from "react-icons/ri";
+
 
 export const DataTable = function (props) {
   const { data, columns } = props;
@@ -28,9 +23,13 @@ export const DataTable = function (props) {
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-
-    state: {
-      sorting
+    initialState: {
+      sortBy: [
+        {
+          id: 'created_date',
+          desc: true
+        }
+      ]
     }
   });
 
