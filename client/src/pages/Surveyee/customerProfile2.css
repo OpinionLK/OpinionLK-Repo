@@ -1,0 +1,165 @@
+/* General styles */
+
+/* Profile container */
+.profile {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  text-align: center;
+}
+
+
+/* Header styles */
+.header {
+  justify-content: space-between;
+  text-align: left;
+}
+
+.icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.icon2 {
+  width: 28px;
+  height: 28px;
+}
+
+/* Sidebar styles */
+.sidebarcollapsed {
+
+  top: 108px;
+  left: 0;
+  width: 84px;
+  height: 955px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Footer styles */
+
+.marketplace {
+  top: calc(50% - 24.17px);
+  letter-spacing: -0.02em;
+  line-height: 24px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.marketplace {
+  left: 907.17px;
+  height: 48.33px;
+}
+
+.license {
+  left: 1002.49px;
+}
+
+.terms-of-use {
+  top: calc(50% - 24.17px);
+  left: 1074.38px;
+  width: 84.85px;
+}
+
+/* Profile details */
+.background-item {
+
+}
+
+.avatar-style-6 {
+  position: relative;
+  width: 41px;
+  height: 40.47px;
+  object-fit: cover;
+}
+
+.product-designer {
+  position: absolute;
+  top: calc(50% - 28px);
+  left: calc(50% - 55.5px);
+}
+
+.product-designer {
+  top: calc(50% + 4px);
+  font-weight: 500;
+  text-align: left;
+}
+
+.user {
+  position: absolute;
+  top: calc(50% + 22.5px);
+  left: calc(50% - 52.5px);
+  width: 111px;
+  height: 56px;
+}
+
+.followers3 {
+  position: absolute;
+  top: calc(50% - 24px);
+  left: calc(50% - 129.5px);
+  width: 49px;
+  height: 48px;
+}
+
+.features {
+  top: calc(50% + 99.5px);
+  left: calc(50% - 142.5px);
+  width: 259px;
+}
+
+/* Button styles */
+.text3 {
+  position: absolute;
+  top: calc(50% - 12px);
+  left: calc(50% - 56px);
+  letter-spacing: -0.02em;
+  line-height: 24px;
+  font-weight: 500;
+}
+.profileMain {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+}
+
+.large-button1 {
+  position: absolute;
+  bottom: 0;
+  width: 140px;
+  height: 46px;
+  text-align: center;
+}
+
+/* Table styles */
+.large-check-table1 {
+  position: relative;
+  width: 598px;
+  height: 554px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Additional Information */
+.description {
+  position: absolute;
+  height: 111px;
+}
+
+/* General styles */
+.fill-here {
+  overflow: auto;
+  height: 100%;
+  margin-left: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

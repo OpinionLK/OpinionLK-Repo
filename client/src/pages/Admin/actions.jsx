@@ -31,14 +31,56 @@ const AdminActions = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         const ManagerFirstName = event.target.elements.ManagerFirstName.value;
+        if (ManagerFirstName.length < 3) {
+            alert('First name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerLastName = event.target.elements.ManagerLastName.value;
+        if (ManagerLastName.length < 3) {
+            alert('Last name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerDistrict = event.target.elements.ManagerDistrict.value;
+        if (ManagerDistrict.length < 3) {
+            alert('District name should be at least 3 characters long');
+            return;
+        }
+
         const ManagerAddLine1 = event.target.elements.ManagerAddLine1.value;
+        if (ManagerAddLine1.length < 3) {
+            alert('Address line 1 should be at least 3 characters long');
+            return;
+        }
+
         const ManagerAddLine2 = event.target.elements.ManagerAddLine2.value;
+        if (ManagerAddLine2.length < 3) {
+            alert('Address line 2 should be at least 3 characters long');
+            return;
+        }
+
         const ManagerEmail = event.target.elements.ManagerEmail.value;
+        if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
+            alert('Email should be at least 3 characters long and should contain @');
+            return;
+        }
+
         const ManagerPhone = event.target.elements.ManagerPhone.value;
+        if (ManagerPhone.length === 10) {
+            alert('Phone number should contain 10 numbers');
+            return;
+        }
+
         const ManagerNic = event.target.elements.ManagerNic.value;
+        const numericNicRegex = /^[0-9]{9}(v|V)?$/;
+        if (!numericNicRegex.test(ManagerNic) || (ManagerNic.length !== 10 && ManagerNic.length !== 12)) {
+            alert('NIC should be 9 characters long with all numeric characters, and it can optionally contain the letter "v"');
+            return;
+          }
+        
         
         try {
             await axios.post("http://localhost:3002/api/auth/savemember", {
@@ -95,34 +137,34 @@ const AdminActions = () => {
                             <CardBody>
                                     <Flex mb={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Community Managers</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Community Managers</Heading>
                                         <HStack gap={'12px'}>
-                                            <Button onClick={openPopup} colorScheme="green" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'green.500'}>Add</Button>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button onClick={openPopup} colorScheme="green" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'green.500'}>Add</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
                                     <hr></hr>
                                     <Flex my={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Clients</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Clients</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
                                     <hr></hr>
                                     <Flex my={'5px'}>
                                     <Grid templateColumns="repeat(2, 1fr)" gap={6} width={'100%'}>
-                                        <Heading size={'sm'} alignSelf={'center'}>Customers</Heading>
+                                        <Heading size={'sm'} fontWeight={'medium'} alignSelf={'center'}>Customers</Heading>
                                         <HStack gap={'12px'} justifyContent ={'end'}>
-                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'purple.500'}>Search</Button>
-                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'blue.700'}>Lock</Button>
-                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'10px'} bg={'red.500'}>Delete</Button>
+                                            <Button colorScheme="purple" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'purple.500'}>Search</Button>
+                                            <Button colorScheme="blue" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'blue.700'}>Lock</Button>
+                                            <Button colorScheme="red" height={'30px'} width={'90px'} borderRadius={'5px'} bg={'red.500'}>Delete</Button>
                                         </HStack>
                                         </Grid>
                                     </Flex>
@@ -134,11 +176,12 @@ const AdminActions = () => {
 
             <Modal
                 isOpen={isOpen}
-                onRequestClose={closePopup}
-                contentLabel="My dialog"
+                // onRequestClose={closePopup}
+                contentLabel="Com Manager add Modal"
                 ariaHideApp={false}
                 style={{
                     overlay: {
+                        zIndex: '1000',
                         backgroundColor: 'rgba(0,0,0,0.5)',
                     },
                     content: {
@@ -158,22 +201,23 @@ const AdminActions = () => {
                             <HStack justifyContent={'space-between'} mb={'20px'}>
                             <Heading size={'md'}>Add Community Manager</Heading>
                             <IconButton
-                                colorScheme='teal'
+                                colorScheme='gray'
                                 aria-label='Call Segun'
                                 size='md'
-                                icon={<CloseIcon />}
+                                icon={<CloseIcon color={'#4318FF'}/>}
                                 onClick={closePopup}
                                 />
                                 </HStack>
                             <hr></hr>
                             <Flex mb={'5px'} flexDirection={'column'} justifyContent={'flex-start'} alignItems={'flex-end'}>
                             <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
-                                <FormField label="First Name">
+                                <FormField label="First Name" >
 
                                 <Input
                                 type="text"
                                 placeholder="ManagerFirstName"
                                 name="ManagerFirstName"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Last Name">
@@ -181,6 +225,7 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerLastName"
                                 name="ManagerLastName"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Address" >
@@ -188,11 +233,13 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerAddLine1"
                                 name="ManagerAddLine1"
+                                required
                             />
                              <Input
                                 type="text"
                                 placeholder="ManagerAddLine2"
                                 name="ManagerAddLine2"
+                                required
                             />
                                 </FormField>
                                 <FormField label="District">
@@ -200,6 +247,7 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="ManagerDistrict"
                                 name="ManagerDistrict"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Email">
@@ -207,6 +255,7 @@ const AdminActions = () => {
                                 type="email"
                                 placeholder="Manager Email"
                                 name="ManagerEmail"
+                                required
                             />
                                 </FormField>
                                 <FormField label="Phone">
@@ -214,6 +263,7 @@ const AdminActions = () => {
                                 type="number"
                                 placeholder="Manager Phone"
                                 name="ManagerPhone"
+                                required
                             />
                                 </FormField>
                                 <FormField label="NIC">
@@ -221,11 +271,16 @@ const AdminActions = () => {
                                 type="text"
                                 placeholder="Manager NIC"
                                 name="ManagerNic"
+                                required
                             />
                                 </FormField>
                             </VStack>
                             {/*submit button*/}
-                            <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='submit'>Add</Button> 
+                            <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
+                                <Button name='submit' align={'right'} width={'100px'} colorScheme="green" type='Submit'>Add</Button> 
+                                <Button name='cancel' align={'right'} width={'100px'} colorScheme="red" type='cancel' onClick={closePopup}>Cancel</Button>
+
+                            </Flex>
                             </Flex>
                         </form>
                     </Stack>
