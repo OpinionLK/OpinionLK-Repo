@@ -24,7 +24,6 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
   const handleSubmit = async (e) => {
 
       e.preventDefault();
-      console.log("Organization Details");
       const data = new FormData(e.target);
       const orgName = data.get('orgName');
       const orgAddressLine1 = data.get('orgAddressLine1');
@@ -35,6 +34,26 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
       const orgPhone = data.get('orgPhone');
       const orgEmail = data.get('orgEmail');
       const orgWebsite = data.get('orgWebsite');
+
+      if (!orgName || !orgAddressLine1 || !orgCity || !orgState || !orgZip || !orgPhone || !orgEmail) {
+        alert('Please fill all the required fields');
+        return;
+      }
+
+      if (orgPhone.length !== 10) {
+        alert('Please enter a valid phone number');
+        return;
+      }
+
+      if (orgZip.length !== 5) {
+        alert('Please enter a valid zip code');
+        return;
+      }
+
+      if (orgEmail.indexOf('@') === -1) {
+        alert('Please enter a valid email');
+        return;
+      }
 
       setOrgFormData({
         orgName,
@@ -64,6 +83,7 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
       
       const responseData = response.data; // Access parsed data directly
       console.log('User created successfully');
+      console.log("Organization Details");
       console.log(responseData);
       setActiveStep(activeStep + 1);
 
@@ -150,6 +170,30 @@ export const ClientData = ({activeStep, setActiveStep, clientFormData, setClient
         const department = data.get('department');
         const phone = data.get('phone');
         const nic = data.get('nic');
+
+        if (!firstName || !lastName || !position || !department || !phone || !nic) {
+          alert('Please fill all the required fields');
+          return;
+        }
+
+        if (phone.length !== 10) {
+          alert('Please enter a valid phone number');
+          return;
+        }
+
+        const nicValidation = /^[0-9]{9}(v|V)?$/; 
+        const nicValidation12 = /^[0-9]{12}$/; 
+
+        if (!nicValidation.test(nic) && !nicValidation12.test(nic)) {
+          alert('Please enter a valid NIC');
+          return;
+        }
+
+        if (nic.length !== 10 && nic.length !== 12) {
+          alert('Please enter a valid NIC');
+          return;
+        }
+
 
         setClientFormData({
           firstName,
@@ -249,15 +293,33 @@ export const ClientSignUp = ({setActiveStep, activeStep, clientSignUpData, setCl
       const data = new FormData(e.target);
       const email = data.get('email');
       const password = data.get('password');
+      const confirmPassword = data.get('confirmPassword');
+
+      if (!email || !password || !confirmPassword) {
+        alert('Please fill all the required fields');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+
+      if (password.length < 8) {
+        alert('Password must be at least 8 characters long');
+        return;
+      }
 
       setClientSignUpData({
         email,
         password,
+        confirmPassword,
       });
 
       const response = await axios.post('http://localhost:3002/api/client/signup/ClientSignUp', {
           email,
           password,
+          confirmPassword,
         }, {
           headers: { 'Content-Type': 'application/json' },
         });
@@ -279,6 +341,10 @@ export const ClientSignUp = ({setActiveStep, activeStep, clientSignUpData, setCl
       <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
         <Input name="password" type="password" value={clientSignUpData.password || ''} onChange={handleInputChange}/>
+      </FormControl>
+      <FormControl id="confirmPassword" isRequired>
+        <FormLabel>Confirm Password</FormLabel>
+        <Input name="confirmPassword" type="password" value={clientSignUpData.confirmPassword || ''} onChange={handleInputChange}/>
       </FormControl>
 
       <HStack mt={5} spacing={4} justifyContent={'flex-end'}>
