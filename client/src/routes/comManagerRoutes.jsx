@@ -22,7 +22,7 @@ const ComManagerRoutes = [
         path: '/ComManager',
         element: (
             <PrivateRoute>
-                <DashBoard idebarLinks={Links} />
+                <DashBoard sidebarLinks={Links} />
             </PrivateRoute>
         ),
         children: [

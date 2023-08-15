@@ -14,6 +14,7 @@ import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManage
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
 import adminRoutes from './adminRoutes';
+import comManagerRoutes from './comManagerRoutes';
 
 import {
     createBrowserRouter
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
     ...SurveyeeRoutes,
     ...OrganisationRoutes,
     ...adminRoutes,
+    ...comManagerRoutes,
 ]
 );
 
