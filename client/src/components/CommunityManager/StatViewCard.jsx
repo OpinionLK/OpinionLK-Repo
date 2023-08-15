@@ -28,12 +28,13 @@ const StatViewCard=(props) => {
             variant='elevated'
             p={[2, 2]}
             borderRadius='20'
-            width='200px'
+            //width='200px'
+            height={"120px"}
             align='center'
         >
             <Image
                 top='50%'
-                boxSize='60px'
+                boxSize='50px'
                 borderRadius='full'
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
@@ -44,7 +45,7 @@ const StatViewCard=(props) => {
 
             
             <CardBody>
-                <Text fontSize={'xs'} color={'#A3AED0'}>
+                <Text  fontSize={'xs'} color={'#0488d4'}>
                     {props.str}
                 </Text>
                 <Heading size='md' color={'#2B3674'}>{props.num}</Heading>
