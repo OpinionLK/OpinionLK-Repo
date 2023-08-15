@@ -1,39 +1,35 @@
 import React from 'react'
 
 import {
-    Box,
-    Flex,
-    Spacer,
-    SimpleGrid,
-    Stat
+    Grid
 } from '@chakra-ui/react'
 
 
 import StatCard from './StatCard';
 
 const StatRow = () => {
+
+    const TopStatCardGrid = {
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        '&::-webkit-scrollbar': {
+            width: '0px',
+            background: 'transparent',
+            display: 'none',
+        },
+        padding: '3px 2px',
+    }
+
     return (
-        // <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
-        //     <StatCard/>
-        //     <StatCard/>
-        //     <StatCard/>
-        //     <StatCard/>
-        //     <StatCard/>
-        //     <StatCard/>
-        // </SimpleGrid>
-        <Flex>
+        <Grid style={TopStatCardGrid} overflow={'auto'} templateColumns="repeat(7, 1fr)" gap={4}>
             <StatCard/>
-            <Spacer/>
             <StatCard/>
-            <Spacer/>
             <StatCard/>
-            <Spacer/>
             <StatCard/>
-            <Spacer/>
             <StatCard/>
-            <Spacer/>
             <StatCard/>
-        </Flex>
+            <StatCard/>
+        </Grid>
     )
 }
 

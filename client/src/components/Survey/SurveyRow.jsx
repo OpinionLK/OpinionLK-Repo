@@ -2,14 +2,9 @@ import React from 'react'
 
 import {
     Box,
-    Flex,
-    Spacer,
     SimpleGrid,
     Card,
     CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
 } from '@chakra-ui/react'
 
 
@@ -20,9 +15,8 @@ const SurveyRow = () => {
         <Card
             overflow='hidden'
             variant='elevated'
-            // p={[2, 3]}
+            width={'auto'}
             borderRadius='20'
-            mt={5}
             mr={5}
             
         >   
@@ -31,13 +25,12 @@ const SurveyRow = () => {
             </CardHeader>
 
             <Box
-                width="800px"
-                pl='5'
-                pr='5'
+                width="auto"
+                px={5}
                 pb='4'
                 minW='1000px'
             >
-                <SimpleGrid minChildWidth='120px' spacing='40px'>
+                <SimpleGrid minChildWidth='120px' spacing='20px'>
                     <SurveyCard/>
                     <SurveyCard/>
                     <SurveyCard/>

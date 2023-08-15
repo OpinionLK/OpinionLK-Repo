@@ -1,11 +1,11 @@
 import React from 'react'
-import Makerlayout from '../../components/survey-maker/Layout'
+// import Makerlayout from '../../components/survey-maker/Layout'
 import StatRow from '../../components/Stats/StatRow'
-import DiscoverCard from '../../components/Stats/DiscoverCard'
-import SurveyGraphCard from '../../components/Stats/SurveyGraphCard'
-import ReachCard from '../../components/Stats/ReachCard'
+import DiscoverCard from '../../components/Stats/Organization/DiscoverCard'
+import SurveyGraphCard from '../../components/Stats/Organization/SurveyGraphCard'
+import ReachCard from '../../components/Stats/Organization/ReachCard'
 import SurveyRow from '../../components/Survey/SurveyRow'
-import { Heading, Flex, Spacer } from '@chakra-ui/react'
+import { Heading, Flex, Spacer, Grid, GridItem } from '@chakra-ui/react'
 
 
 const Dashboard = () => {
@@ -14,18 +14,23 @@ const Dashboard = () => {
         {/* <Heading>MakeSurvey</Heading> */}
         {/* <Makerlayout /> */}
         <StatRow />
-        <Flex>
-          <DiscoverCard />
-          <Spacer />
-          <SurveyGraphCard/>
-        </Flex>
-
-        <Flex>
-          <SurveyRow />
-          <Spacer />
-          <Spacer />
-          <ReachCard/>
-        </Flex>
+        <Grid templateColumns="repeat(3, 1fr)" gap={0}>
+          <GridItem colSpan={2}>
+            <DiscoverCard />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <SurveyGraphCard/>
+          </GridItem>
+        </Grid>
+        
+        <Grid templateColumns="repeat(3, 1fr)" gap={0} mt={5}>
+          <GridItem colSpan={2}>
+            <SurveyRow />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <ReachCard/>
+          </GridItem>
+        </Grid>
 
     </>
   )

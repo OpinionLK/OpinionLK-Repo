@@ -1,22 +1,7 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
-    Flex
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
@@ -75,16 +60,6 @@ const StatCard = () => {
                     }}
                 />
             </Box>
-            
-
-            
-            {/* <CardBody>
-                <Text size='0.2'>
-                    Total Surveys
-                </Text>
-                <Heading size='sm'>123</Heading>
-            </CardBody> */}
-    
         </Card>
 
     )

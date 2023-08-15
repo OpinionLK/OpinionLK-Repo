@@ -4,19 +4,9 @@ import React from 'react'
 
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
-    Flex
+    Text,
+    CardFooter
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
@@ -60,21 +50,20 @@ const StatCard = () => {
     return (
 
         <Card
-            size='md'
-            direction={{ base: 'column', sm: 'row' }}
-            overflow='hidden'
+            // size='md'
+            // direction={{ base: 'column', sm: 'row' }}
             variant='elevated'
-            // p={[2, 3]}
-            mt={5}
+            width={'auto'}
             borderRadius='20'
             align='center'
         >
             <Box
                 position="relative"
-                width="520px"
-                height="300px" // Set your desired height here
+                width="100%"
+                height="auto" // Set your desired height here
                 overflow="hidden"
-                p={[2, 3]}
+                px={'10px'}
+                pt={'30px'}
                 top='3%'
             >
                 <Bar
@@ -100,6 +89,12 @@ const StatCard = () => {
                     }}
                 />
             </Box>
+
+            <CardFooter>
+                <Text fontWeight={600}>
+                    Total Surveys
+                </Text>
+            </CardFooter>
             
 
             

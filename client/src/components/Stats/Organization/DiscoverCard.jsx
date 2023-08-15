@@ -4,24 +4,14 @@ import React from 'react'
 
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
     Button,
     Image,
-    Flex
 } from '@chakra-ui/react'
 
-// import { NavLink } from "react-router-dom";
-import discover from '../../images/dash-image.png'
-import gradient from '../../images/gradient.png'
+import discover from '../../../images/dash-image.png'
+import gradient from '../../../images/gradient.png'
 
 const StatCard = () => {
     return (
@@ -31,14 +21,12 @@ const StatCard = () => {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
-            // p={[2, 3]}
             borderRadius='20'
             mt={5}
             mr={5}
         >
             <Box
                 position="relative"
-                // width="800px"
                 height="300px"
                 overflow="hidden"
             >

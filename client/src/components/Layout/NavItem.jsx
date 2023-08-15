@@ -28,8 +28,6 @@ const NavItem = ({ linkName, navOpen, icon, route = '404' }) => {
                     >
                         {linkName}
                     </Flex>
-
-
                 </Flex>
 
             </Flex>

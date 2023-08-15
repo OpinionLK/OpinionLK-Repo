@@ -1,222 +1,37 @@
-import { SearchIcon } from '@chakra-ui/icons';
 import { 
-    Flex, 
-    Heading, 
-    Stack,
-    Text,
-    Card,
-    CardHeader,
-    CardBody,
     Grid,
-    Image,
+    Box,
  } from '@chakra-ui/react'
 import React from 'react'
-import logo from '../../images/topbar/scaled-logo-icon.svg'
-import './admin.css'
+import StatRow from '../../components/Stats/StatRow'
+import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
+import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
+import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
+// import logo from '../../images/topbar/scaled-logo-icon.svg'
 
 const Admindashboard = () => {
-    const md = 'md';
-    const mb = '-15px'
+
+    const style = {
+        width: '100%',
+        overflow: 'auto',
+        height: '100%',
+        paddingBottom: '20px',
+    }
+
     return (
         <>
-            <Grid className='AdminTopGrid' templateColumns="repeat(6, 1fr)" gap={6} overflow="auto" p={'3px'}> 
-            <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'}>
-                            <Flex flexDirection={'row'} justifyContent={'center'}>
-                                <Flex 
-                                    boxSize={'70px'} 
-                                    alignSelf={'center'} 
-                                    justifySelf={'center'} 
-                                    ml={5} 
-                                    p={2} 
-                                    justifyContent={'space-around'} 
-                                    bg={'gray.100'}
-                                    borderRadius={'full'}
-                                >
-                                    <Image alignSelf={'center'} boxSize={'50px'} src={logo} alt="Logo" />
-                                </Flex>
-                                <Flex justifyContent={'flex-end'} flexDirection={'column'}>
-                                    <CardHeader>
-                                        <Heading size={md} mb={mb}>Organizations</Heading>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Text>Organizations</Text>
-                                    </CardBody>
-                                </Flex>
-                            </Flex>
-                        </Card>
-                    </Stack>
-                </Flex>
-                </Grid>
- {/* ..................................................................... */}
+            <Box style={style}>
+            <StatRow /> {/* This is the row of cards at the top of the page */}
 
-                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-                <Flex mt={'20px'}>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'} width={'100%'}>
-                            <CardHeader>
-                                <Heading size={md}>User Management</Heading>
-                            </CardHeader>
-                            <CardBody>
-                                <Text>User Management</Text>
-                            </CardBody>
-                        </Card>
-                    </Stack>
-                </Flex>
-                <Flex mt={'20px'}>
-                    <Stack width={'100%'}>
-                        <Card borderRadius={'20px'} width={'100%'}>
-                            <CardHeader>
-                                <Heading size={md}>Survey Management</Heading>
-                            </CardHeader>
-                            <CardBody>
-                                <Text>User Management</Text>
-                            </CardBody>
-                        </Card>
-                    </Stack>
-                </Flex>
+            <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
+                <UserManagementGraph />
+                <SurveyFillingGraph />
             </Grid>
+
+            <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
+                <SurveyManagementGraph />
+            </Grid>
+            </Box>
         </>
     )
 }

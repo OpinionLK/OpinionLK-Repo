@@ -12,15 +12,16 @@ import {
 } from 'react-router-dom';
 
 import { BsHouseFill } from 'react-icons/bs';
-import { BiEditAlt } from 'react-icons/bi';
-import { RiSurveyLine } from 'react-icons/ri';
+// import { BiEditAlt } from 'react-icons/bi';
+import { AiFillEdit } from 'react-icons/ai';
+import { RiSurveyFill } from 'react-icons/ri';
 
 
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/surveys', linkName: 'Surveys', icon: RiSurveyLine },
-    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
+    { route: '/organisation/surveys', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
 

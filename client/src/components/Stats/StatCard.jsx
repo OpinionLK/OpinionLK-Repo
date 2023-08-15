@@ -22,6 +22,7 @@ import {
 import totalSurveysIcon from '../../images/totalSurveys-icon.png'
 
 const StatCard = () => {
+
     return (
 
         <Card
@@ -31,7 +32,7 @@ const StatCard = () => {
             variant='elevated'
             p={[2, 3]}
             borderRadius='20'
-            width='230px'
+            width='253px'
             align='center'
         >
             <Image
@@ -44,8 +45,7 @@ const StatCard = () => {
                 alt='totalSurveys'
                 ml='3'
             />
-
-            
+ 
             <CardBody>
                 <Text fontSize={'xs'} color={'#A3AED0'}>
                     Total Surveys
