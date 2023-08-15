@@ -19,7 +19,7 @@ function Table_1(){
 return(
     <>
     <Text>
-        <H1>This is Table</H1>
+        this is table
     </Text>
     
     </>

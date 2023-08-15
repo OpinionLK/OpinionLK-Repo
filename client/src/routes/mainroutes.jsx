@@ -13,7 +13,7 @@ import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
 import adminRoutes from './adminRoutes';
 
-import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+import CommunityManagerDashboard from '../pages/CommunityManager/CommunityManagerDashboard';
 
 import {
     createBrowserRouter
@@ -23,7 +23,7 @@ import {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <CommunityManagerDashBoard/>,
+        element: <CommunityManagerDashboard/>,
         errorElement: <ErrorPage />,
     },
     {

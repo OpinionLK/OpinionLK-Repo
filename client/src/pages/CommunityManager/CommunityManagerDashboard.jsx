@@ -20,8 +20,8 @@ import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
 
 import StatViewCard from '../../components/CommunityManager/StatViewCard';
-import Table_1 from '../../components/CommunityManager/table_1';
-function CommunityManagerDashBoard() {
+//import Table_1 from '../../components/CommunityManager/table_1';
+function CommunityManagerDashboard() {
   return (
     <>
       <Grid
@@ -64,7 +64,7 @@ function CommunityManagerDashBoard() {
               </Box>
             </Flex>
             <Box>
-              <Table_1/>
+             
             </Box>
           </Box>
         </GridItem>
@@ -78,4 +78,4 @@ function CommunityManagerDashBoard() {
   );
 }
 
-export default CommunityManagerDashBoard;
+export default CommunityManagerDashboard;
