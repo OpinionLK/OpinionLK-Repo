@@ -7,187 +7,63 @@ import {
 } from "@tanstack/react-table";
 import { DataTable } from "./datatable";
 
+import {
+    Tag
+} from "@chakra-ui/react";
 
-
-// const data = [
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-//     {
-//         fromUnit: "inches",
-//         toUnit: "millimetres (mm)",
-//         factor: 25.4
-//     },
-//     {
-//         fromUnit: "feet",
-//         toUnit: "centimetres (cm)",
-//         factor: 30.48
-//     },
-// ];
 
 const columnHelper = createColumnHelper();
 
 const columns = [
-    columnHelper.accessor("survey-id", {
-        cell: (info) => info.getValue(),
-        header: "ID"
-    }),
+  
     columnHelper.accessor("surveyName", {
         cell: (info) => info.getValue(),
         header: "Name"
     }),
     columnHelper.accessor("created_date", {
-        cell: (info) => info.getValue(),
+        cell: (info) => info.getValue().slice(0, 10),
+        defaultSort: "desc",
+
         header: "Date Created"
+    }),
+    columnHelper.accessor("questions", {
+        cell: (info) => info.getValue().length,
+        header: "# of Questions",
+        meta:{
+            isNumeric: true 
+        }
     }),
     columnHelper.accessor("responses", {
         cell: (info) => info.getValue().length,
         header: "# of Responses",
         meta:{
             isNumeric: true 
-        }
+        },
+        
     }),
-    columnHelper.accessor("created_date", {
-        cell: (info) => info.getValue(),
-        header: "Responses"
-    })
+    columnHelper.accessor("approvalStatus", {
+        cell: (info) => {
+            const approvalStatus = info.getValue();
+    
+            // Check the approval status and render the button accordingly
+            if (approvalStatus === "approved") {
+                return <Tag colorScheme="green">Approved</Tag>;
+            } else if (approvalStatus === "pending") {
+                return <Tag colorScheme="orange">Pending</Tag>;
+            } else  if (approvalStatus === "draft") {
+                return <Tag colorScheme="gray">Draft</Tag>;
+            }
+        },
+        header: "Status"
+    }),
+    columnHelper.accessor("responses", {
+        cell: (info) => info.getValue().length,
+        header: "Actions",
+        meta:{
+            isNumeric: true 
+        }
+
+    }),
 ];
 
 const Table2 = () => {

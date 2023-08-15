@@ -5,6 +5,7 @@ import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
+import EditSurvey from '../pages/Organisations/EditSurvey';
 
 
 import {
@@ -37,7 +38,7 @@ const OrganisationRoutes = [
         children: [
             {
                 path: '',
-                element: <Navigate to="/organisation/home" replace />,
+                element: <Navigate to="/organisation/mysurveys" replace />,
             },
             {
                 path: 'home',
@@ -49,8 +50,12 @@ const OrganisationRoutes = [
                 element: <MakeSurvey />,
             },
             {
-                path: '/organisation/surveys',
+                path: '/organisation/mysurveys',
                 element: <SurveyPage />,
+            },
+            {
+                path: '/organisation/survey/:surveyid/edit',
+                element: <EditSurvey />,
             },
         ],
     }

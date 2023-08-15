@@ -177,5 +177,28 @@ export const OrganizationUserData = async (req, res) => {
 };
 
 export const ClientUserData = async (req, res) => {
-  // Fetch client data based on req.client.id
-};
+    try {
+      const {
+        _id,
+        firstName,
+        lastName,
+        email,
+        profilePicture,
+      } = await Client.findById(req.client.id);
+
+      res.status(200).json({
+        _id,
+        firstName,
+        lastName,
+        email,
+        profilePicture,
+        role : 'client'
+      });
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+
+  // res.status(200).json({ message: 'User data received.' });
+
+}
