@@ -69,7 +69,7 @@ const AdminActions = () => {
         }
 
         const ManagerPhone = event.target.elements.ManagerPhone.value;
-        if (ManagerPhone.length === 10) {
+        if (ManagerPhone.length !== 10) {
             alert('Phone number should contain 10 numbers');
             return;
         }

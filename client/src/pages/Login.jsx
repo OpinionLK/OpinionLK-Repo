@@ -44,7 +44,19 @@ const Login = () => {
                     type: 'LOGIN',
                     payload: response.data
                 });
-                history("/portal", { state: { id: email } });
+                console.log(response.data);
+                if (response.data.type === 'client') {
+                    history("/organisation", { state: { id: email } });
+                } else if (response.data.type === 'admin') {
+                    history("/admin", { state: { id: email } });
+
+                } else if (response.data.type === 'manager') {
+                    history("/commanager", { state: { id: email } });
+                }
+                else {
+                    history("/portal", { state: { id: email } });
+                }
+
 
 
             } else if (response.status === 401) {
@@ -85,7 +97,7 @@ const Login = () => {
                             <FormControl id="email">
                                 <FormLabel>Email address</FormLabel>
                                 <Input type="email"
-                                    value={email} 
+                                    value={email}
                                     // variant='pill'
                                     onChange={(e) => setEmail(e.target.value)}
                                 />

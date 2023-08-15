@@ -2,6 +2,18 @@ import mongoose from "mongoose";
 
 const ComManagerSchema = new mongoose.Schema(
     {
+        email: {
+            type: String,
+            required: false,
+            max: 50,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: false,
+            min: 6,
+            max: 20
+        },
         ManagerFirstName: {
             type: String,
             required: true,
