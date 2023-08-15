@@ -70,6 +70,7 @@ const AdminActions = () => {
       return;
     }
 
+
     const ManagerEmail = event.target.elements.ManagerEmail.value;
     if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
       alert('Email should be at least 3 characters long and should contain @');

@@ -28,7 +28,7 @@ const SurveyeeRoutes = [
     {
         path: '/portal',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['user']}>
                 <Dashboard sidebarLinks={Links} /> ,
             </PrivateRoute>
             ),

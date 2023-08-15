@@ -33,7 +33,7 @@ export const getAllSurveys = async (req, res) => {
 export const createSurvey = async (req, res) => {
     console.log(req.body);
     const survey = req.body;
-
+    survey.creatorID = '64dba9a7bbbf7248137d5673'
     survey['surveyID'] = generateCustomId();
 
 

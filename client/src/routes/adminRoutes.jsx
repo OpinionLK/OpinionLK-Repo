@@ -27,7 +27,7 @@ const adminRoutes = [
     {
         path: '/admin',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['admin']}>
                 <Admindashboard sidebarLinks={Links} />
             </PrivateRoute>
         ),
@@ -38,7 +38,7 @@ const adminRoutes = [
             },
             {
                 path: '',
-                element: <Navigate to="/admin" />,
+                element: <Navigate to="/admin/dashboard" />,
             },
             {
                 path: '/admin/dashboard',
