@@ -20,6 +20,9 @@ import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
 
 import StatViewCard from '../../components/CommunityManagerComponents/StatViewCard';
+
+import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
+import TaskSummaryTable from '../../components/CommunityManager/TaskSummaryTable';
 function CommunityManagerDashBoard() {
   return (
     <>
@@ -61,15 +64,27 @@ function CommunityManagerDashBoard() {
               </Box>
             </Flex>
             <Box>
-              
-              <Text>
+              <Text pt={15} pb={15} color={'black'} fontSize="2xl">
                 Supervisor Revision Requests
               </Text>
+              <Box>
+                <AcceptRequestTable />
+              </Box>
+            </Box>
+            <Box d="flex" alignContent={"center"} flexDir={"r"}>
+              <Flex direction={"row"} justifyContent={"space-around"}>
+              <Box w={'600px'}>
+                <Text pt={15} pb={15} color={'black'} fontSize="2xl">Task Summary</Text>
+                <TaskSummaryTable/>
+                
+              </Box>
+              <Box w={'550px'} bg={'yellow'}>
+                <Text pt={15} pb={15} color={'black'} fontSize="2xl">Survey Management</Text>
+              </Box>
+              </Flex>
             </Box>
           </Box>
         </GridItem>
-
-
 
         <GridItem pl="2" bg="blue.300" area={'footer'}>
           Footer
