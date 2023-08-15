@@ -19,7 +19,8 @@ import {
 import Sidebar from '../../components/Layout/Sidebar';
 import Topbar from '../../components/Layout/Topbar';
 
-import StatViewCard from '../../components/CommunityManagerComponents/StatViewCard';
+import StatViewCard from '../../components/CommunityManager/StatViewCard';
+import Table_1 from '../../components/CommunityManager/table_1';
 function CommunityManagerDashBoard() {
   return (
     <>
@@ -37,9 +38,12 @@ function CommunityManagerDashBoard() {
         <GridItem pl="2" area={'header'}>
           <Topbar />
         </GridItem>
+
         <GridItem pl="2" bg="pink.300" area={'nav'}>
           Nav
         </GridItem>
+
+
         <GridItem pl="2" area={'main'}>
           <Box d="flex" flexDir={'r'}>
             <Flex direction={'row'}>
@@ -59,8 +63,13 @@ function CommunityManagerDashBoard() {
                 <StatViewCard />
               </Box>
             </Flex>
+            <Box>
+              <Table_1/>
+            </Box>
           </Box>
         </GridItem>
+
+
         <GridItem pl="2" bg="blue.300" area={'footer'}>
           Footer section in here
         </GridItem>
