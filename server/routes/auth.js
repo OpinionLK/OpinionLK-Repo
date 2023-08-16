@@ -11,8 +11,6 @@ import{
     Deletemember
 }from '../controllers/AddMemberC.js';
 
-console.log('auth.js');
-
 const router = express.Router();
 
 router.post('/signup', SignUp);

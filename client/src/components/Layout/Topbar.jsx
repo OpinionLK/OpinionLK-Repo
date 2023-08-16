@@ -51,18 +51,45 @@ const Topbar = () => {
             </Flex>
 
             <Flex gap={'10px'} mr={'20px'} alignItems={'center'}>
-                
-                    {/* <Button colorScheme='facebook'>Create a Survey</Button> : */}
-                {user.role !== 'client' ?
-                    <CreateSurveyModal /> :
 
 
-                        <Menu>
-                            <MenuButton as={Button}
-                                // alignItems={'center'}
-                                width={'100px'}
-                                height={'80%'}
-                                padding={'10px 5px'}
+                {user.type === 'client' ?
+                    <CreateSurveyModal /> : null}
+
+                {user.type === 'user' ?
+                    <Menu>
+                        <MenuButton as={Button}
+                            // alignItems={'center'}
+                            width={'100px'}
+                            height={'80%'}
+                            padding={'10px 5px'}
+                            transition={'0.3s'}
+                            _hover={{
+                                textDecoration: 'none',
+                                bgColor: '#eae9ff',
+                            }}
+                            _active={{
+                                bgColor: '#c0bdef',
+                            }}>
+                            <Flex justifyContent={'center'} alignItems={'center'}>
+                                <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
+                                <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
+                            </Flex>
+                        </MenuButton>
+                        <MenuList>
+                            <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'}>
+                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgGradient='linear(to-r, green.200, pink.500)' borderRadius={'15px'}>
+
+                                </Box>
+                            </Flex>
+                        </MenuList>
+                    </Menu>
+                    : null}
+                <Menu>
+
+                    {({ isOpen }) => (
+                        <>
+                            <MenuButton as={Avatar} size='md' padding={'5px'}
                                 transition={'0.3s'}
                                 _hover={{
                                     textDecoration: 'none',
@@ -70,62 +97,36 @@ const Topbar = () => {
                                 }}
                                 _active={{
                                     bgColor: '#c0bdef',
-                                }}>
-                                <Flex justifyContent={'center'} alignItems={'center'}>
-                                    <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
-                                    <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
-                                </Flex>
-                            </MenuButton>
+                                }}
+                                src={userdp} />
+
                             <MenuList>
-                                <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'}>
-                                    <Box height={'90%'} w={'90%'} boxShadow='2xl' bgGradient='linear(to-r, green.200, pink.500)' borderRadius={'15px'}>
+                                <span style={{ textAlign: 'center' }}>
+                                    {/* print json as a string */}
+                                    {user && JSON.stringify(user.email)}
+                                </span>
+                                <MenuGroup title='Profile'>
+                                    <MenuItem>My Account</MenuItem>
+                                    <MenuItem onClick={() => {
+                                        logout()
+                                    }}>Sign Out </MenuItem>
+                                </MenuGroup>
+                                <MenuDivider />
+                                <MenuGroup title='Help'>
 
-                                    </Box>
-                                </Flex>
+                                    <MenuItem>FAQ</MenuItem>
+                                </MenuGroup>
                             </MenuList>
-                        </Menu>
-                }
-                        <Menu>
+                        </>
+                    )}
+                </Menu>
 
-                            {({ isOpen }) => (
-                                <>
-                                    <MenuButton as={Avatar} size='md' padding={'5px'}
-                                        transition={'0.3s'}
-                                        _hover={{
-                                            textDecoration: 'none',
-                                            bgColor: '#eae9ff',
-                                        }}
-                                        _active={{
-                                            bgColor: '#c0bdef',
-                                        }}
-                                        src={userdp} />
 
-                                    <MenuList>
-                                        <span style={{ textAlign: 'center' }}>
-                                            {/* print json as a string */}
-                                            {user && JSON.stringify(user.email)}
-                                        </span>
-                                        <MenuGroup title='Profile'>
-                                            <MenuItem>My Account</MenuItem>
-                                            <MenuItem onClick={() => {
-                                                logout()
-                                            }}>Sign Out </MenuItem>
-                                        </MenuGroup>
-                                        <MenuDivider />
-                                        <MenuGroup title='Help'>
 
-                                            <MenuItem>FAQ</MenuItem>
-                                        </MenuGroup>
-                                    </MenuList>
-                                </>
-                            )}
-                        </Menu>
-                        
-            
-
-                        </Flex>
-                    </Box>
-                )
+            </Flex>
+        </Box>
+    )
 }
 
-                export default Topbar
+
+export default Topbar

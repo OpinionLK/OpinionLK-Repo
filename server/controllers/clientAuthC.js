@@ -7,18 +7,18 @@ import { OrganizationDetails, ClientDetails, ClientAuth } from '../models/Client
 export const OrganizationSignUp = async (req, res) => {
   try {
     console.log('Received organization signup request:', req.body);
-
-    const { orgName, orgAddress, orgCity, orgState, orgZip, orgPhone, orgEmail, orgWebsite } = req.body;
+    const { orgName, orgAddressLine1, orgAddressLine2, orgCity, orgState, orgZip, orgPhone, orgEmail, orgWebsite } = req.body;
     let organization = await OrganizationDetails.findOne({ orgEmail });
 
-    if (organization) {
-      return res.status(400).json({ error: 'Organization already exists' });
-    }
+    // if (organization) {
+    //   return res.status(400).json({ error: 'Organization already exists' });
+    // }
 
     // Create an organization record
     const result = await OrganizationDetails.create({
       orgName,
-      orgAddress,
+      orgAddressLine1,
+      orgAddressLine2,
       orgCity,
       orgState,
       orgZip,
@@ -27,16 +27,18 @@ export const OrganizationSignUp = async (req, res) => {
       orgWebsite
     });
 
-    // Create and send JWT token
-    const token = jwt.sign(
-      { orgEmail: result.orgEmail, id: result._id },
-      'test', // Replace this with a secure secret key
-      {
-        expiresIn: '3d'
-      }
-    );
+    return res.status(200).json({ result });
 
-    res.status(200).json({ orgEmail, token });
+    // Create and send JWT token
+    // const token = jwt.sign(
+    //   { orgEmail: result.orgEmail, id: result._id },
+    //   'test', // Replace this with a secure secret key
+    //   {
+    //     expiresIn: '3d'
+    //   }
+    // );
+
+    // res.status(200).json({ orgEmail, token });
 
   } catch (error) {
     console.error('Error signing up organization:', error);
@@ -50,12 +52,12 @@ export const ClientData = async (req, res) => {
   try {
     console.log('Received client signup request:', req.body);
 
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, position, department, phone, nic} = req.body;
     let user = await ClientDetails.findOne({ nic });
 
-    if (user) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
+    // if (user) {
+    //   return res.status(400).json({ error: 'User already exists' });
+    // }
 
     const result = await ClientDetails.create({
       firstName,
@@ -66,15 +68,17 @@ export const ClientData = async (req, res) => {
       nic,
     });
 
-    const token = jwt.sign(
-      { email: result.email, id: result._id },
-      'test', // Replace this with a secure secret key
-      {
-        expiresIn: '3d'
-      }
-    );
+    return res.status(200).json({ result });
 
-    res.status(200).json({ email, token });
+    // const token = jwt.sign(
+    //   { nic: result.nic, id: result._id },
+    //   'test', // Replace this with a secure secret key
+    //   {
+    //     expiresIn: '3d'
+    //   }
+    // );
+
+    // res.status(200).json({ nic, token });
 
   } catch (error) {
     console.error('Error signing up client:', error);
@@ -88,7 +92,7 @@ export const ClientSignUp = async (req, res) => {
   try {
     console.log('Received client signup request:', req.body);
 
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
     let user = await ClientAuth.findOne({ email });
 
     if (user) {
@@ -96,9 +100,11 @@ export const ClientSignUp = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 12);
     const result = await ClientAuth.create({
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      confirmPassword: hashedConfirmPassword
     });
 
     const token = jwt.sign(
@@ -116,6 +122,11 @@ export const ClientSignUp = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+
+
+
 
 //.............................................................
 
@@ -134,9 +145,9 @@ export const ClientLogin = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'User not found. Please check your email and password.' });
     }
-
+    console.log('User found:', user);
     // Compare provided password with hashed password
-    const isPasswordValid = await bcrypt.compare(password, ClientAuth.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
@@ -152,9 +163,7 @@ export const ClientLogin = async (req, res) => {
         expiresIn: '1h'
       }
     );
-    res.status(200).json({ email , token , type: 'user'});
-
-    
+    res.status(200).json({ email , token , type: 'client'});
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error. Please try again later.' });

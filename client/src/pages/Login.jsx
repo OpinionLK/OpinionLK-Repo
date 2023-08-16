@@ -20,21 +20,17 @@ import {
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useAuthContext } from '../hooks/useAuthContext'
+import LoginImage from '../assets/images/q.png'
 
 const Login = () => {
-
-
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const history = useNavigate();
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const { dispatch } = useAuthContext()
 
     async function submit(e) {
         e.preventDefault();
-
         try {
             const response = await axios.post("http://localhost:3002/api/auth/login", {
                 email, password
@@ -49,7 +45,19 @@ const Login = () => {
                     type: 'LOGIN',
                     payload: response.data
                 });
-                history("/portal", { state: { id: email } });
+                console.log(response.data);
+                if (response.data.type === 'client') {
+                    history("/organisation", { state: { id: email } });
+                } else if (response.data.type === 'admin') {
+                    history("/admin", { state: { id: email } });
+
+                } else if (response.data.type === 'manager') {
+                    history("/commanager", { state: { id: email } });
+                }
+                else {
+                    history("/portal", { state: { id: email } });
+                }
+
 
 
             } else if (response.status === 401) {
@@ -69,7 +77,9 @@ const Login = () => {
         <Stack direction="row" spacing={4} height={'100vh'}>
             {isLargerThanLG ? (
 
-                <Flex width={'50%'} m={'20px'}
+                <Image 
+                    src={LoginImage}
+                    width={'50%'} m={'20px'}
                     backgroundColor={'brand.purple'}
                     backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
                     borderRadius={'20px'} />
@@ -90,7 +100,8 @@ const Login = () => {
                             <FormControl id="email">
                                 <FormLabel>Email address</FormLabel>
                                 <Input type="email"
-                                    value={email} 
+                                    mb={3}
+                                    value={email}
                                     // variant='pill'
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -102,7 +113,7 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </FormControl>
-                            <Stack spacing={10}>
+                            <Stack spacing={10} mt={5}>
                                 <Stack
                                     direction={{ base: 'column', sm: 'row' }}
                                     align={'start'}
@@ -111,9 +122,11 @@ const Login = () => {
                                     <Link color={'blue.400'}>Forgot password?</Link>
                                 </Stack>
                                 <Button
+                                    alignSelf={'flex-end'}
                                     type="submit"
                                     bg={'blue.400'}
                                     color={'white'}
+                                    width={'100px'}
                                     _hover={{
                                         bg: 'blue.500',
                                     }}

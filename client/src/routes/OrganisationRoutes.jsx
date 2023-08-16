@@ -1,6 +1,7 @@
 
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
+import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
@@ -12,15 +13,16 @@ import {
 } from 'react-router-dom';
 
 import { BsHouseFill } from 'react-icons/bs';
-import { BiEditAlt } from 'react-icons/bi';
-import { RiSurveyLine } from 'react-icons/ri';
+// import { BiEditAlt } from 'react-icons/bi';
+import { AiFillEdit } from 'react-icons/ai';
+import { RiSurveyFill } from 'react-icons/ri';
 
 
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/mysurveys', linkName: 'Surveys', icon: RiSurveyLine },
-    // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
+    { route: '/organisation/mysurveys', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
 
@@ -29,7 +31,7 @@ const OrganisationRoutes = [
     {
         path: '/organisation',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['client']}>
                 <OrganisationDashboard sidebarLinks={Links} />
             </PrivateRoute>
         ),
@@ -40,6 +42,7 @@ const OrganisationRoutes = [
             },
             {
                 path: 'home',
+                element: <Dashboard />,
 
             },
             {
