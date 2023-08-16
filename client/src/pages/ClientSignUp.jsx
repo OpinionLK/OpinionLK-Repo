@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import signupImage from '../assets/images/client_signup.jpg';
 
 // import { useAuthContext } from '../hooks/useAuthContext';
 // const { dispatch } = useAuthContext()
@@ -25,6 +26,7 @@ import {
   StepTitle,
   Stepper,
   useSteps,
+  Image,
   Card,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
@@ -103,7 +105,8 @@ const SignUp = () => {
   return (
     <Stack direction="row" spacing={4} height={'100vh'}>
       {isLargerThanLG ? (
-        <Flex
+        <Image
+          src={signupImage}
           width={'50%'}
           m={'20px'}
           backgroundColor={'brand.purple'}
@@ -131,6 +134,9 @@ const SignUp = () => {
             justifyContent={'space-between'}
             alignItems={'flex-end'}
           >
+            {/* <Image
+              src={signupImage}
+            ></Image> */}
             <Heading fontSize={'4xl'} textAlign={'left'}>
               Sign up
             </Heading>

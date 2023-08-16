@@ -69,17 +69,24 @@ const AdminActions = () => {
         }
 
         const ManagerPhone = event.target.elements.ManagerPhone.value;
-        if (ManagerPhone.length === 10) {
+        if (!ManagerPhone.length === 10) {
             alert('Phone number should contain 10 numbers');
             return;
         }
 
         const ManagerNic = event.target.elements.ManagerNic.value;
-        const numericNicRegex = /^[0-9]{9}(v|V)?$/;
-        if (!numericNicRegex.test(ManagerNic) || (ManagerNic.length !== 10 && ManagerNic.length !== 12)) {
-            alert('NIC should be 9 characters long with all numeric characters, and it can optionally contain the letter "v"');
-            return;
-          }
+        const nicValidation = /^[0-9]{9}(v|V)?$/; 
+        const nicValidation12 = /^[0-9]{12}$/; 
+
+        if (!nicValidation.test(ManagerNic) && !nicValidation12.test(ManagerNic)) {
+          alert('Please enter a valid NIC');
+          return;
+        }
+
+        if (ManagerNic.length !== 10 && ManagerNic.length !== 12) {
+          alert('Please enter a valid NIC');
+          return;
+        }
         
         
         try {

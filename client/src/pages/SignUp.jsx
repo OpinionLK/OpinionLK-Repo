@@ -19,11 +19,14 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Image,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import signupImage from '../assets/images/client_signup.jpg';
+
 
 const SignUp = () => {
   const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
@@ -72,7 +75,8 @@ const SignUp = () => {
   return (
     <Stack direction="row" spacing={4} height={'100vh'}>
       {isLargerThanLG ? (
-        <Flex
+        <Image
+          src={signupImage}
           width={'50%'}
           m={'20px'}
           backgroundColor={'brand.purple'}
@@ -173,13 +177,14 @@ const SignUp = () => {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <Stack spacing={10} pt={2}>
+                <Stack spacing={10} pt={2} justifyItems={'flex-end'} alignItems={'flex-end'}>
                   <Button
                     type="submit"
                     loadingText="Submitting"
                     size="lg"
                     bg={'blue.400'}
                     color={'white'}
+                    w={'100px'}
                     _hover={{
                       bg: 'blue.500',
                     }}

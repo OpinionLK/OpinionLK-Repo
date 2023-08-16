@@ -92,7 +92,7 @@ export const ClientSignUp = async (req, res) => {
   try {
     console.log('Received client signup request:', req.body);
 
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
     let user = await ClientAuth.findOne({ email });
 
     if (user) {
@@ -100,9 +100,11 @@ export const ClientSignUp = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 12);
     const result = await ClientAuth.create({
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      confirmPassword: hashedConfirmPassword
     });
 
     const token = jwt.sign(
