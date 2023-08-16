@@ -17,9 +17,9 @@ import {
 } from 'react-router-dom';
 
 const Links = [
-    { route: '/portal/home', linkName: 'Home', icon: BsHouseFill },
+    // { route: '/portal/home', linkName: 'Home', icon: BsHouseFill },
     { route: '/portal/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
+    // { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
     // { route: '/portal/profile2', linkName: 'profile2', icon: BsHouseFill },
 ];
 
@@ -35,7 +35,7 @@ const SurveyeeRoutes = [
         children: [
             {
                 path: '',
-                element: <Navigate to="/portal/home" replace />,
+                element: <Navigate to="/portal/dashboard" replace />,
             },
             {
                 path: 'home',
