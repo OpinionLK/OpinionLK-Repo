@@ -80,6 +80,7 @@ const Login = () => {
                 <Image 
                     src={LoginImage}
                     width={'50%'} m={'20px'}
+                    backgroundSize={'cover'}
                     backgroundColor={'brand.purple'}
                     backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
                     borderRadius={'20px'} />

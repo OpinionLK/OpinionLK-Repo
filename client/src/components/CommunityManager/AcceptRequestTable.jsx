@@ -18,7 +18,7 @@ function AcceptRequestTable() {
     <>
       <Table variant="simple" colorScheme="purple">
         <Thead>
-          <Tr textColor={'#899dad'}>
+          <Tr textColor={'brand.textDarkPurple'}>
             <Th>Name</Th>
             <Th>Organization</Th>
             <Th>Error Catergory</Th>
@@ -26,7 +26,7 @@ function AcceptRequestTable() {
             <Th>Status </Th>
           </Tr>
         </Thead>
-        <Tbody textColor={'#6874f2'}>
+        <Tbody textColor={'brand.textDarkPurple'}>
           <Tr>
             <Td>Nipuna Dakshina</Td>
             <Td>Bug zero</Td>
