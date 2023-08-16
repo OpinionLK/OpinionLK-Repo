@@ -108,53 +108,53 @@ const CommunityManagers = () => {
         e.preventDefault();
 
         const ManagerFirstName = editedValues.ManagerFirstName;
-          if (ManagerFirstName.length < 3) {
-            alert('First Name must be at least 3 characters long');
-            return;
-          }
+          // if (ManagerFirstName.length < 3) {
+          //   alert('First Name must be at least 3 characters long');
+          //   return;
+          // }
         const ManagerLastName = editedValues.ManagerLastName;
-          if (ManagerLastName.length < 3) {
-            alert('Last Name must be at least 3 characters long');
-            return;
-          }
+          // if (ManagerLastName.length < 3) {
+          //   alert('Last Name must be at least 3 characters long');
+          //   return;
+          // }
         const ManagerAddLine1 = editedValues.ManagerAddLine1;
-          if (ManagerAddLine1.length < 3) {
-            alert('Address Line 1 must be at least 3 characters long');
-            return;
-          }
+          // if (ManagerAddLine1.length < 3) {
+          //   alert('Address Line 1 must be at least 3 characters long');
+          //   return;
+          // }
         const ManagerAddLine2 = editedValues.ManagerAddLine2;
-          if (ManagerAddLine2.length < 3) {
-            alert('Address Line 2 must be at least 3 characters long');
-            return;
-          }
+          // if (ManagerAddLine2.length < 3) {
+          //   alert('Address Line 2 must be at least 3 characters long');
+          //   return;
+          // }
         const ManagerDistrict = editedValues.ManagerDistrict;
-          if (ManagerDistrict.length < 3) {
-            alert('District must be at least 3 characters long');
-            return;
-          }
+          // if (ManagerDistrict.length < 3) {
+          //   alert('District must be at least 3 characters long');
+          //   return;
+          // }
         const ManagerEmail = editedValues.ManagerEmail;
-          if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
-            alert('Email should be at least 3 characters long and should contain @');
-            return;
-        }
+        //   if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
+        //     alert('Email should be at least 3 characters long and should contain @');
+        //     return;
+        // }
         const ManagerPhone = editedValues.ManagerPhone;
-          if (!ManagerPhone.length === 10) {
-            alert('Phone number should contain 10 numbers');
-            return;
-        }
+        //   if (!ManagerPhone.length === 10) {
+        //     alert('Phone number should contain 10 numbers');
+        //     return;
+        // }
         const ManagerNic = editedValues.ManagerNic;
         const nicValidation = /^[0-9]{9}(v|V)?$/; 
         const nicValidation12 = /^[0-9]{12}$/; 
 
-        if (!nicValidation.test(ManagerNic) && !nicValidation12.test(ManagerNic)) {
-          alert('Please enter a valid NIC');
-          return;
-        }
+        // if (!nicValidation.test(ManagerNic) && !nicValidation12.test(ManagerNic)) {
+        //   alert('Please enter a valid NIC');
+        //   return;
+        // }
 
-        if (ManagerNic.length !== 10 && ManagerNic.length !== 12) {
-          alert('Please enter a valid NIC');
-          return;
-        }
+        // if (ManagerNic.length !== 10 && ManagerNic.length !== 12) {
+        //   alert('Please enter a valid NIC');
+        //   return;
+        // }
 
         try {
             const response = await axios.put(
