@@ -21,7 +21,7 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/surveys', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/mysurveys', linkName: 'Surveys', icon: RiSurveyFill },
     { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
@@ -31,7 +31,7 @@ const OrganisationRoutes = [
     {
         path: '/organisation',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['client']}>
                 <OrganisationDashboard sidebarLinks={Links} />
             </PrivateRoute>
         ),

@@ -25,14 +25,42 @@ import {
     HStack,
     Heading,
     Text,
+    AlertDialog,
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody,
+    AlertDialogFooter,
+    
 } from '@chakra-ui/react';
 import Modal from 'react-modal';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef  } from 'react';
 import axios from 'axios';
 
 const CommunityManagers = () => {
   const [communityManagers, setCommunityManagers] = useState([]);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    managerId: null,
+  });
+
+  const cancelRef = useRef();
+
+  const onDeleteConfirmationOpen = (id) => {
+    setDeleteConfirmation({ isOpen: true, managerId: id });
+  };
+
+  const onDeleteConfirmationClose = () => {
+    setDeleteConfirmation({ isOpen: false, managerId: null });
+  };
+
+  const onDeleteConfirm = async () => {
+    const idToDelete = deleteConfirmation.managerId;
+    onDeleteConfirmationClose();
+    await deleteManager(idToDelete);
+  };
+
 
   //Fetch Community Managers Data
     useEffect(() => {
@@ -142,8 +170,6 @@ const CommunityManagers = () => {
         }
     };
 
-
-
     //Delete Community Managers
     const deleteManager = async id => {
         try {
@@ -174,6 +200,33 @@ const CommunityManagers = () => {
 
     return (
         <>
+        <AlertDialog
+        isOpen={deleteConfirmation.isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onDeleteConfirmationClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Manager
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete this manager?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onDeleteConfirmationClose}>
+                No
+              </Button>
+              <Button colorScheme="red" onClick={onDeleteConfirm} ml={3}>
+                Yes
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
         <Box>
         <Grid templateColumns="repeat(1, 1fr)">
         <Flex>
@@ -232,8 +285,8 @@ const CommunityManagers = () => {
                                     aria-label="Delete"
                                     size="sm"
                                     icon={<DeleteIcon />}
-                                    onClick={() => deleteManager(manager._id)}
-                                />
+                                    onClick={() => onDeleteConfirmationOpen(manager._id)}
+                                                                    />
                                 </HStack>
                             </Td>
                             </Tr>

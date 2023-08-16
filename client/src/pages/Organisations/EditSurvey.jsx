@@ -120,8 +120,8 @@ const EditSurvey = () => {
                     <CardBody>
                         <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
                             <AnimatePresence>
-
-                                {
+                                { survey?.questions.length === 0 ? <Text>No questions added yet</Text> : 
+                                
                                     survey?.questions.map(question => (
                                         <motion.div
                                             key={question._id}
@@ -135,7 +135,8 @@ const EditSurvey = () => {
                                         </motion.div>
 
                                     ))
-                                }
+                                
+                            }
                             </AnimatePresence>
 
                         </Flex>
