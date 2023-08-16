@@ -77,45 +77,45 @@ const AdminActions = () => {
       return;
     }
 
-        const ManagerPhone = event.target.elements.ManagerPhone.value;
-        if (!ManagerPhone.length === 10) {
-            alert('Phone number should contain 10 numbers');
-            return;
-        }
+    const ManagerPhone = event.target.elements.ManagerPhone.value;
+    if (!ManagerPhone.length === 10) {
+      alert('Phone number should contain 10 numbers');
+      return;
+    }
 
-        const ManagerNic = event.target.elements.ManagerNic.value;
-        const nicValidation = /^[0-9]{9}(v|V)?$/; 
-        const nicValidation12 = /^[0-9]{12}$/; 
+    const ManagerNic = event.target.elements.ManagerNic.value;
+    const nicValidation = /^[0-9]{9}(v|V)?$/;
+    const nicValidation12 = /^[0-9]{12}$/;
 
-        if (!nicValidation.test(ManagerNic) && !nicValidation12.test(ManagerNic)) {
-          alert('Please enter a valid NIC');
-          return;
-        }
+    if (!nicValidation.test(ManagerNic) && !nicValidation12.test(ManagerNic)) {
+      alert('Please enter a valid NIC');
+      return;
+    }
 
-        if (ManagerNic.length !== 10 && ManagerNic.length !== 12) {
-          alert('Please enter a valid NIC');
-          return;
-        }
-        
-        
-        try {
-            await axios.post("http://localhost:3002/api/auth/savemember", {
-                ManagerFirstName,
-                ManagerLastName,
-                ManagerDistrict,
-                ManagerAddLine1,
-                ManagerAddLine2,
-                ManagerEmail,
-                ManagerPhone,
-                ManagerNic
-            });
-             console.log('User created successfully');
+    if (ManagerNic.length !== 10 && ManagerNic.length !== 12) {
+      alert('Please enter a valid NIC');
+      return;
+    }
 
-        } catch (error) {
-            console.error("Error adding manager:", error);
-            // Handle error here if necessary
-        }
-    };
+    try {
+      await axios.post('http://localhost:3002/api/auth/savemember', {
+        ManagerFirstName,
+        ManagerLastName,
+        ManagerDistrict,
+        ManagerAddLine1,
+        ManagerAddLine2,
+        ManagerEmail,
+        ManagerPhone,
+        ManagerNic,
+      });
+      console.log('User created successfully');
+      setIsSuccess(true);
+      closePopup(true);
+    } catch (error) {
+      console.error('Error adding manager:', error);
+      // Handle error here if necessary
+    }
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const openPopup = () => {
