@@ -20,6 +20,7 @@ import {
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useAuthContext } from '../hooks/useAuthContext'
+import LoginImage from '../assets/images/q.png'
 
 const Login = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
@@ -76,7 +77,9 @@ const Login = () => {
         <Stack direction="row" spacing={4} height={'100vh'}>
             {isLargerThanLG ? (
 
-                <Flex width={'50%'} m={'20px'}
+                <Image 
+                    src={LoginImage}
+                    width={'50%'} m={'20px'}
                     backgroundColor={'brand.purple'}
                     backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
                     borderRadius={'20px'} />
@@ -97,6 +100,7 @@ const Login = () => {
                             <FormControl id="email">
                                 <FormLabel>Email address</FormLabel>
                                 <Input type="email"
+                                    mb={3}
                                     value={email}
                                     // variant='pill'
                                     onChange={(e) => setEmail(e.target.value)}
@@ -109,7 +113,7 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </FormControl>
-                            <Stack spacing={10}>
+                            <Stack spacing={10} mt={5}>
                                 <Stack
                                     direction={{ base: 'column', sm: 'row' }}
                                     align={'start'}
@@ -118,9 +122,11 @@ const Login = () => {
                                     <Link color={'blue.400'}>Forgot password?</Link>
                                 </Stack>
                                 <Button
+                                    alignSelf={'flex-end'}
                                     type="submit"
                                     bg={'blue.400'}
                                     color={'white'}
+                                    width={'100px'}
                                     _hover={{
                                         bg: 'blue.500',
                                     }}
