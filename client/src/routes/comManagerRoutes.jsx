@@ -28,7 +28,7 @@ const ComManagerRoutes = [
         children: [
             {
                 path:'',
-                element: <Navigate to="Commanager/dashboard" replace/>
+                element: <Navigate to="/ComManager/dashboard" replace/>
             },
             {
                 path: '/ComManager',
