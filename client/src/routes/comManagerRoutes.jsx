@@ -21,7 +21,7 @@ const ComManagerRoutes = [
     {
         path: '/ComManager',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['manager']}>
                 <DashBoard sidebarLinks={Links} />
             </PrivateRoute>
         ),

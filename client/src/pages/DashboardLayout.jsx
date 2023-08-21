@@ -37,7 +37,7 @@ const Dashboard = ({ sidebarLinks }) => {
         }
 
         if (user) {
-            fetchUserData();
+            // fetchUserData();
         }
     }, [dispatch, user]);
 
