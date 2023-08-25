@@ -77,12 +77,12 @@ const Login = () => {
         <Stack direction="row" spacing={4} height={'100vh'}>
             {isLargerThanLG ? (
 
-                <Image 
+                <Image
                     src={LoginImage}
                     width={'50%'} m={'20px'}
                     backgroundSize={'cover'}
-                    backgroundColor={'brand.purple'}
-                    backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
+                    backgroundColo  r={'brand.purple'}
+                    backgroundPosition={'center'} backgroundRepeat={'no-repeat'}
                     borderRadius={'20px'} />
 
             ) : null}

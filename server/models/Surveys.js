@@ -12,6 +12,7 @@ const questionSchema = new mongoose.Schema({
 const surveySchema = new mongoose.Schema({
   surveyID: { type: String, required: true },
   surveyName: { type: String, required: true },
+  surveyImage: { type: String, required: false },
   surveyDescription: { type: String, required: true },
   questions: [questionSchema], // Now an array of question objects
   created_date: { type: Date, default: Date.now },

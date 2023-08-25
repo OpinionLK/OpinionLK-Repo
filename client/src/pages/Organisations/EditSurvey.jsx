@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { useRef } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import Alert from './Alert'
+
+import Cropper from './cropper.tsx'
 
 import { useParams } from 'react-router-dom';
 import {
@@ -14,6 +18,18 @@ import {
     Box,
     IconButton
 } from '@chakra-ui/react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+} from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
+
 
 import {
     DeleteIcon
@@ -22,6 +38,42 @@ import createsurveybg from '../../assets/images/createsurveybg.png'
 import surveybg from '../../assets/images/surveydefaultbg.png'
 
 import AddQuestionModal from '../../components/organisation/AddQuestionModal'
+
+
+function BasicUsage({ ImgName, setImgName }) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+    const loadImage = (imageName) => {
+        setImgName(imageName)
+    }
+
+    return (
+        <>
+            <Button onClick={onOpen}>Upload Image</Button>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+
+                        <Cropper loadImage={loadImage} />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            Close
+                        </Button>
+                        <Button variant='ghost'>Secondary Action</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
+
 
 const QuestionCard = ({ surveyid, question, refreshdata }) => {
     const handleDelete = async () => {
@@ -49,15 +101,22 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
 
             }
         }>
-            <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}><Flex gap={'20px'}>
-                {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
-                <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text fontWeight={'bold'}>{question.type.toUpperCase()}</Text><IconButton icon={<DeleteIcon />} onClick={handleDelete} /></Flex></CardBody>
+            <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
+                alignItems={'center'}><Flex gap={'20px'}>
+                    {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
+                    <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
+                        fontWeight={'bold'}>{question.type.toUpperCase()}</Text><IconButton icon={<DeleteIcon />}
+                            onClick={handleDelete} /></Flex></CardBody>
         </Card>
     )
 }
 
 const EditSurvey = () => {
     const { surveyid } = useParams();
+    const [file, setFile] = useState()
+    const [ImgName, setImgName] = useState()
+
+
     const [survey, setSurvey] = useState();
 
     const handleContentUpdate = (newContent) => {
@@ -65,32 +124,46 @@ const EditSurvey = () => {
         console.log(newContent);
     };
 
+
+
+
     async function handleSubmit() {
 
         try {
             const response = await axios.get('http://localhost:3002/api/survey/getsurvey/' + surveyid);
+
             console.log(response.data);
             setSurvey(response.data[0]);
+            setImgName(response.data[0].surveyImage);
+
         } catch (error) {
             alert('Error Fetching survey. Please try again.');
         }
     }
+
     useEffect(() => {
         handleSubmit();
     }, [])
+    const toast = useToast()
 
 
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
-            <Card height={'s'} p={'25px 20px'}
-                backgroundColor={'gray'} backgroundPosition={'center'}
+            <Card height={'s'}
+                p={'25px 20px'}
+
+                backgroundColor={'brand.textDarkPurple'}
+                backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
+                backgroundSize={'cover'}
+                backgroundPosition={'center'}
                 color={'white'}
             >
-                <CardHeader >
-                    <Flex justifyContent='space-between' alignItems={'center'} w='100%' flexDirection={'row'} >
+                <CardHeader>
+                    <Flex justifyContent='space-between' alignItems={'center'} w='100%' flexDirection={'row'}>
 
                         <Flex gap='10px' flexDir={'column'}>
+
                             <Heading>
                                 {
                                     survey?.surveyName
@@ -100,15 +173,18 @@ const EditSurvey = () => {
                                 {
                                     survey?.surveyDescription
                                 }
+
                             </Text>
                         </Flex>
-                        <Button>Upload Image</Button>
+
+                        <BasicUsage ImgName={ImgName} setImgName={setImgName} />
+
                     </Flex>
                 </CardHeader>
             </Card>
             <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
 
-                <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4} >
+                <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
                     <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
@@ -120,8 +196,8 @@ const EditSurvey = () => {
                     <CardBody>
                         <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
                             <AnimatePresence>
-                                { survey?.questions.length === 0 ? <Text>No questions added yet</Text> : 
-                                
+                                {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
+
                                     survey?.questions.map(question => (
                                         <motion.div
                                             key={question._id}
@@ -135,15 +211,17 @@ const EditSurvey = () => {
                                         </motion.div>
 
                                     ))
-                                
-                            }
+
+                                }
                             </AnimatePresence>
 
                         </Flex>
                     </CardBody>
                 </Card>
 
-                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'} padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'}>
+                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
+                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
+                    alignItems={'center'}>
 
                     <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                         Ready to publish your survey?

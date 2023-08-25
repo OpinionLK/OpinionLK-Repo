@@ -21,8 +21,8 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/mysurveys', linkName: 'Surveys', icon: RiSurveyFill },
-    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
+    { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
+    // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
 
@@ -38,7 +38,7 @@ const OrganisationRoutes = [
         children: [
             {
                 path: '',
-                element: <Navigate to="/organisation/mysurveys" replace />,
+                element: <Navigate to="/organisation/home" replace />,
             },
             {
                 path: 'home',
@@ -50,7 +50,7 @@ const OrganisationRoutes = [
                 element: <MakeSurvey />,
             },
             {
-                path: '/organisation/mysurveys',
+                path: '/organisation/survey',
                 element: <SurveyPage />,
             },
             {

@@ -8,6 +8,7 @@ import swagger from 'swagger-ui-express';
 import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 
+
 dotenv.config();
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
 app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/survey', surveyRoutes);
+app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
 // Swagger
 const options = {

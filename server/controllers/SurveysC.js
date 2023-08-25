@@ -1,4 +1,5 @@
 
+
 import Surveys from '../models/Surveys.js';
 
 function generateCustomId(length = 8) {
@@ -23,7 +24,7 @@ console.log(customId);
 
 export const getAllSurveys = async (req, res) => {
     try {
-        const surveys = await Surveys.find();
+        const surveys = await Surveys.find().limit(5).sort({ 'created_date': -1 });
         res.status(200).json(surveys);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -96,9 +97,10 @@ export const deleteQuestion = async (req, res) => {
         if (resp.Modified > 0) {
             res.status(404).json({ message: "Question not found." });
         } else {
-            res.status(200).json({ message: "Question deleted successfully.",
-            resp: resp
-        });
+            res.status(200).json({
+                message: "Question deleted successfully.",
+                resp: resp
+            });
         }
     }
     catch (error) {
