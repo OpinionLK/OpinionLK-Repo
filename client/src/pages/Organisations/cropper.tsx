@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 
 import ReactCrop, {
     centerCrop,
@@ -7,13 +7,54 @@ import ReactCrop, {
     PixelCrop,
     convertToPixelCrop,
 } from 'react-image-crop'
-// import { canvasPreview } from './canvasPreview'
-// import { useDebounceEffect } from './useDebounceEffect'
+
+import {
+    Button,
+    Flex,
+    ModalCloseButton,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    ModalContent,
+    Modal,
+    ModalBody,
+    useDisclosure
+} from '@chakra-ui/react'
+
+import { useDropzone } from 'react-dropzone';
 
 import 'react-image-crop/dist/ReactCrop.css'
 import axios from 'axios'
-// This is to demonstate how to make and center a % aspect crop
-// which is a bit trickier so we use some helper functions.
+
+const baseStyle = {
+    flex: 1,
+    display: 'flex',
+    // flexDirection: 'column',
+    alignItems: 'center',
+    padding: '10px',
+    height:'200px',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#fafafa',
+    color: '#bdbdbd',
+    outline: 'none',
+    transition: 'border .24s ease-in-out'
+};
+
+const focusedStyle = {
+    borderColor: '#2196f3'
+};
+
+const acceptStyle = {
+    borderColor: '#00e676'
+};
+
+const rejectStyle = {
+    borderColor: '#ff1744'
+};
+
 function centerAspectCrop(
     mediaWidth: number,
     mediaHeight: number,
@@ -23,7 +64,7 @@ function centerAspectCrop(
         makeAspectCrop(
             {
                 unit: '%',
-                width: 90,
+                width: 100,
             },
             aspect,
             mediaWidth,
@@ -34,26 +75,22 @@ function centerAspectCrop(
     )
 }
 
-export default function App({loadImage}) {
+export default function App({ loadImage }) {
     const [imgSrc, setImgSrc] = useState('')
-    const previewCanvasRef = useRef<HTMLCanvasElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
-    const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
-    const blobUrlRef = useRef('')
     const [crop, setCrop] = useState<Crop>()
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
-    const [scale, setScale] = useState(1)
-    const [rotate, setRotate] = useState(0)
     const [aspect, setAspect] = useState<number | undefined>(21 / 9)
 
     function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.files && e.target.files.length > 0) {
+        if (e) {
             setCrop(undefined) // Makes crop preview update between images.
             const reader = new FileReader()
             reader.addEventListener('load', () =>
                 setImgSrc(reader.result?.toString() || ''),
             )
-            reader.readAsDataURL(e.target.files[0])
+            reader.readAsDataURL(e[0])
+            setShowCropper(true)
         }
     }
 
@@ -90,11 +127,13 @@ export default function App({loadImage}) {
                 completedCrop.height!
             );
 
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             canvas.toBlob(async (blob) => {
                 if (!blob) return;
 
                 const formData = new FormData();
-                formData.append('image', blob, 'croppedImage.png');
+                formData.append('image', blob, 'croppedImage.jpg');
 
                 try {
                     const response = await axios.post('http://localhost:3002/api/survey/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -103,120 +142,98 @@ export default function App({loadImage}) {
                     if (response.status === 200) {
                         console.log(response.data)
                         loadImage(response.data.imageName)
+                        resetFile()
+                        onClose()
                     } else {
                         // Handle error
                     }
                 } catch (error) {
                     // Handle error
                 }
-            }, 'image/png');
+            }, 'image/jpeg', 1);
         }
     }
 
+    const onDrop = (acceptedFiles) => {
+        console.log(acceptedFiles)
+        onSelectFile(acceptedFiles)
+        console.log('File dropped!');
+    };
 
-    //   function onDownloadCropClick() {
-    //     if (!previewCanvasRef.current) {
-    //       throw new Error('Crop canvas does not exist')
-    //     }
+    const resetFile = () => {
+        setImgSrc('')
+        setShowCropper(false)
+    };
+    const { getRootProps, getInputProps, isFocused,
+        isDragAccept,
+        isDragReject } = useDropzone({ onDrop });
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [showCropper, setShowCropper] = useState(false)
 
-    //     previewCanvasRef.current.toBlob((blob) => {
-    //       if (!blob) {
-    //         throw new Error('Failed to create blob')
-    //       }
-    //       if (blobUrlRef.current) {
-    //         URL.revokeObjectURL(blobUrlRef.current)
-    //       }
-    //       blobUrlRef.current = URL.createObjectURL(blob)
-    //       hiddenAnchorRef.current!.href = blobUrlRef.current
-    //       hiddenAnchorRef.current!.click()
-    //     })
-    //   }
-
-    //   useDebounceEffect(
-    //     async () => {
-    //       if (
-    //         completedCrop?.width &&
-    //         completedCrop?.height &&
-    //         imgRef.current &&
-    //         previewCanvasRef.current
-    //       ) {
-    //         // We use canvasPreview as it's much faster than imgPreview.
-    //         canvasPreview(
-    //           imgRef.current,
-    //           previewCanvasRef.current,
-    //           completedCrop,
-    //           scale,
-    //           rotate,
-    //         )
-    //       }
-    //     },
-    //     100,
-    //     [completedCrop, scale, rotate],
-    //   )
-
-    //   function handleToggleAspectClick() {
-    //     if (aspect) {
-    //       setAspect(undefined)
-    //     } else if (imgRef.current) {
-    //       const { width, height } = imgRef.current
-    //       setAspect(16 / 9)
-    //       const newCrop = centerAspectCrop(width, height, 16 / 9)
-    //       setCrop(newCrop)
-    //       // Updates the preview
-    //       setCompletedCrop(convertToPixelCrop(newCrop, width, height))
-    //     }
-    //   }
+    const style = useMemo(() => ({
+        ...baseStyle,
+        ...(isFocused ? focusedStyle : {}),
+        ...(isDragAccept ? acceptStyle : {}),
+        ...(isDragReject ? rejectStyle : {})
+    }), [
+        isFocused,
+        isDragAccept,
+        isDragReject
+    ]);
 
     return (
         <div className="App">
-            <div className="Crop-Controls">
-                <input type="file" accept="image/*" onChange={onSelectFile} />
-                <div>
-                    <label htmlFor="scale-input">Scale: </label>
-                    <input
-                        id="scale-input"
-                        type="number"
-                        step="0.1"
-                        value={scale}
-                        disabled={!imgSrc}
-                        onChange={(e) => setScale(Number(e.target.value))}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="rotate-input">Rotate: </label>
-                    <input
-                        id="rotate-input"
-                        type="number"
-                        value={rotate}
-                        disabled={!imgSrc}
-                        onChange={(e) =>
-                            setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
+            <Button onClick={onOpen}>Upload Image</Button>
+            <Modal size={'xl'} isOpen={isOpen} onClose={onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody minHeight={'50vh'} display={'flex'} flexDirection={'column'} justifyContent={'center'}
+                        alignItems={'center'}>
+                        {
+                            !showCropper ? <Flex flexDirection={'column'}>
+   <div className="Crop-Controls">
+                            <div {...getRootProps({ style })}>
+                                <input {...getInputProps()} />
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                            </div>
+
+
+                        </div>
+                            </Flex>
+                                : null
                         }
-                    />
-                </div>
-                <div>
-                    <button onClick={sendCroppedImageToBackend}>
-download
-          </button>
-                </div>
-            </div>
-            {!!imgSrc && (
-                <ReactCrop
-                    crop={crop}
-                    onChange={(_, percentCrop) => setCrop(percentCrop)}
-                    onComplete={(c) => setCompletedCrop(c)}
-                    aspect={aspect}
-                >
-                    <img
-                        ref={imgRef}
-                        alt="Crop me"
-                        src={imgSrc}
-                        style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-                        onLoad={onImageLoad}
-                    />
-                </ReactCrop>
-            )}
+                     
+                        {!!imgSrc && (
+                            <ReactCrop
+                                crop={crop}
+                                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                                onComplete={(c) => setCompletedCrop(c)}
+                                aspect={aspect}
+                            >
+                                <img
+                                    ref={imgRef}
+                                    alt="Crop me"
+                                    src={imgSrc}
+                                    onLoad={onImageLoad}
+                                />
+                            </ReactCrop>
+                        )}
+
+                    </ModalBody>
+                    {
+                        showCropper ? <ModalFooter>
+                            <Button colorScheme='red' mr={3} onClick={resetFile}>
+                                Delete
+                            </Button>
+                            <Button colorScheme='blue' onClick={sendCroppedImageToBackend}>Set Image</Button>
+                        </ModalFooter> : null
+                    }
+
+                </ModalContent>
+            </Modal>
 
         </div>
+
     )
 }

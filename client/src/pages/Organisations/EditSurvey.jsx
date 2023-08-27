@@ -1,88 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useRef } from 'react';
+import React, {useEffect, useState} from 'react'
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
-import Alert from './Alert'
-
+import {motion, AnimatePresence} from 'framer-motion';
 import Cropper from './cropper.tsx'
 
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    Heading,
-    Text,
-    Flex,
-    Button,
-    Box,
-    IconButton
-} from '@chakra-ui/react';
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-} from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
+    Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton,
 
+} from '@chakra-ui/react';
 
 import {
     DeleteIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
-import surveybg from '../../assets/images/surveydefaultbg.png'
 
 import AddQuestionModal from '../../components/organisation/AddQuestionModal'
 
 
-function BasicUsage({ ImgName, setImgName }) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-
-    const loadImage = (imageName) => {
-        setImgName(imageName)
-    }
-
-    return (
-        <>
-            <Button onClick={onOpen}>Upload Image</Button>
-
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-
-                        <Cropper loadImage={loadImage} />
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant='ghost'>Secondary Action</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    )
-}
-
-
-const QuestionCard = ({ surveyid, question, refreshdata }) => {
+const QuestionCard = ({surveyid, question, refreshdata}) => {
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`,
-                {
-                    questionid: question.questionID
-                });
+            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
+                questionid: question.questionID
+            });
 
             refreshdata();
 
@@ -91,32 +32,26 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
         }
     };
 
-    return (
-        <Card cursor="pointer" transition={'0.3s'} sx={
-            {
-                _hover: {
-                    backgroundColor: '#eef1ff',
+    return (<Card cursor="pointer" transition={'0.3s'} sx={{
+        _hover: {
+            backgroundColor: '#eef1ff',
 
-                },
+        },
 
-            }
-        }>
-            <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
-                alignItems={'center'}><Flex gap={'20px'}>
-                    {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
-                    <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
-                        fontWeight={'bold'}>{question.type.toUpperCase()}</Text><IconButton icon={<DeleteIcon />}
-                            onClick={handleDelete} /></Flex></CardBody>
-        </Card>
-    )
+    }}>
+        <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
+                  alignItems={'center'}><Flex gap={'20px'}>
+            {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
+            <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
+            fontWeight={'bold'}>{question.type.toUpperCase()}</Text><IconButton aria-label={'delete'}
+                                                                                icon={<DeleteIcon/>}
+                                                                                onClick={handleDelete}/></Flex></CardBody>
+    </Card>)
 }
 
 const EditSurvey = () => {
-    const { surveyid } = useParams();
-    const [file, setFile] = useState()
+    const {surveyid} = useParams();
     const [ImgName, setImgName] = useState()
-
-
     const [survey, setSurvey] = useState();
 
     const handleContentUpdate = (newContent) => {
@@ -125,10 +60,7 @@ const EditSurvey = () => {
     };
 
 
-
-
     async function handleSubmit() {
-
         try {
             const response = await axios.get('http://localhost:3002/api/survey/getsurvey/' + surveyid);
 
@@ -144,20 +76,23 @@ const EditSurvey = () => {
     useEffect(() => {
         handleSubmit();
     }, [])
-    const toast = useToast()
 
+    // const toast = useToast()
+    const loadImage = (imageName) => {
+        setImgName(imageName)
+    }
 
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
             <Card height={'s'}
-                p={'25px 20px'}
+                  p={'25px 20px'}
 
-                backgroundColor={'brand.textDarkPurple'}
-                backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
-                backgroundSize={'cover'}
-                backgroundPosition={'center'}
-                color={'white'}
+                  backgroundColor={'brand.textDarkPurple'}
+                  backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
+                  backgroundSize={'cover'}
+                  backgroundPosition={'center'}
+                  color={'white'}
             >
                 <CardHeader>
                     <Flex justifyContent='space-between' alignItems={'center'} w='100%' flexDirection={'row'}>
@@ -165,19 +100,15 @@ const EditSurvey = () => {
                         <Flex gap='10px' flexDir={'column'}>
 
                             <Heading>
-                                {
-                                    survey?.surveyName
-                                }
+                                <Text textShadow='0px 0px 200px #000000'>{survey?.surveyName}</Text>
                             </Heading>
                             <Text>
-                                {
-                                    survey?.surveyDescription
-                                }
+                                <Text textShadow='0px 0px 200px #000000'>{survey?.surveyDescription}</Text>
 
                             </Text>
                         </Flex>
+                        <Cropper loadImage={loadImage}/>
 
-                        <BasicUsage ImgName={ImgName} setImgName={setImgName} />
 
                     </Flex>
                 </CardHeader>
@@ -189,7 +120,7 @@ const EditSurvey = () => {
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
 
-                            <AddQuestionModal onUpdateContent={handleContentUpdate} />
+                            <AddQuestionModal onUpdateContent={handleContentUpdate}/>
                             <Button colorScheme={'teal'}>Preview Survey</Button>
                         </Flex>
                     </CardHeader>
@@ -198,16 +129,14 @@ const EditSurvey = () => {
                             <AnimatePresence>
                                 {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
 
-                                    survey?.questions.map(question => (
-                                        <motion.div
+                                    survey?.questions.map(question => (<motion.div
                                             key={question._id}
-                                            initial={{ opacity: 0, y: -50 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                                            initial={{opacity: 0, y: -50}}
+                                            animate={{opacity: 1, y: 0}}
+                                            exit={{opacity: 0, transition: {duration: 0.3}}}
                                         >
-                                            <QuestionCard surveyid={survey.surveyID} question={question} refreshdata={
-                                                handleSubmit
-                                            } />
+                                            <QuestionCard surveyid={survey.surveyID} question={question}
+                                                          refreshdata={handleSubmit}/>
                                         </motion.div>
 
                                     ))
@@ -220,8 +149,8 @@ const EditSurvey = () => {
                 </Card>
 
                 <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
-                    alignItems={'center'}>
+                      padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
+                      alignItems={'center'}>
 
                     <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                         Ready to publish your survey?
@@ -240,16 +169,11 @@ const EditSurvey = () => {
 
 export const variants = {
     show: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            ease: 'easeOut',
-            duration: 0.3
+        opacity: 1, y: 0, transition: {
+            ease: 'easeOut', duration: 0.3
         }
-    },
-    hide: {
-        y: -20,
-        opacity: 0
+    }, hide: {
+        y: -20, opacity: 0
     }
 };
 

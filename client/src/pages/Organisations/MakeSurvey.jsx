@@ -1,6 +1,6 @@
 import React from 'react'
 import Makerlayout from '../../components/survey-maker/Layout'
-import { Heading, Flex } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
 
 const MakeSurvey = () => {
   return (

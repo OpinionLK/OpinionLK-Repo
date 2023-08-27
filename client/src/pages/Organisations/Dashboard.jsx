@@ -5,7 +5,7 @@ import DiscoverCard from '../../components/Stats/Organization/DiscoverCard'
 import SurveyGraphCard from '../../components/Stats/Organization/SurveyGraphCard'
 import ReachCard from '../../components/Stats/Organization/ReachCard'
 import SurveyRow from '../../components/Survey/SurveyRow'
-import { Heading, Flex, Spacer, Grid, GridItem } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 
 
 const Dashboard = () => {
