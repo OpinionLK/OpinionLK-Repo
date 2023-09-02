@@ -1,14 +1,13 @@
 
 import Dashboard from "../pages/DashboardLayout"
 import ClientPortal from "../pages/Surveyee/ClientPortal"
-import Survey from "../pages/Surveyee/Survey"
+import Survey from "../pages/Surveyee/create-survey"
 import Profile from "../pages/Surveyee/Profile"
 import Serydashboard from "../pages/Surveyee/SurveyeeDashboard"
-// import Profile2 from "../pages/Surveyee/Profile2"
+import Myrewards from "../pages/Surveyee/Myrewards"
+import Upgrade from "../pages/Surveyee/Upgrade"
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-
-
 
 import { BsHouseFill } from 'react-icons/bs';
 
@@ -17,11 +16,12 @@ import {
 } from 'react-router-dom';
 
 const Links = [
-    // { route: '/portal/home', linkName: 'Home', icon: BsHouseFill },
+
     { route: '/portal/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    // { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
-    // { route: '/portal/profile2', linkName: 'profile2', icon: BsHouseFill },
-];
+    { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
+    { route: '/portal/My Rewards', linkName: 'Rewards', icon: BsHouseFill },
+    { route: '/portal/Upgrade', linkName: 'Upgrade', icon: BsHouseFill },
+    { route: '/portal/create-survey', linkName: 'Create Survey', icon: BsHouseFill}];
 
 //   const { user } = useAuthContext()
 const SurveyeeRoutes = [
@@ -36,6 +36,7 @@ const SurveyeeRoutes = [
             {
                 path: '',
                 element: <Navigate to="/portal/dashboard" replace />,
+                element: <Navigate to="/portal/dashboard" replace />,
             },
             {
                 path: 'home',
@@ -49,10 +50,19 @@ const SurveyeeRoutes = [
                 path: '/portal/profile',
                 element: <Profile />,
             },
-            // {
-            //     path: '/portal/profile2',
-            //     element: <Profile2 />,
-            // },
+            {
+                path: '/portal/My Rewards',
+                element: <Myrewards />,
+            },
+            {
+                path: '/portal/Upgrade',
+                element: <Upgrade />,
+            },
+            {
+                path: '/portal/create-survey',
+                element: <Survey />,
+            },
+           
         ],
     },
 ]

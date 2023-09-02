@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ClientPortal2 = () => {
+const Myrewards = () => {
   return (
     <div>ClientPortal2</div>
   )
 }
 
-export default ClientPortal2
+export default Myrewards
