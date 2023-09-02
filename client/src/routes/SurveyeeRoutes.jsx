@@ -1,7 +1,7 @@
 
 import Dashboard from "../pages/DashboardLayout"
 import ClientPortal from "../pages/Surveyee/ClientPortal"
-import Survey from "../pages/Surveyee/create-survey"
+import Survey from "../pages/Surveyee/surveys"
 import Profile from "../pages/Surveyee/Profile"
 import Serydashboard from "../pages/Surveyee/SurveyeeDashboard"
 import Myrewards from "../pages/Surveyee/Myrewards"
@@ -18,10 +18,10 @@ import {
 const Links = [
 
     { route: '/portal/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
+    { route: '/portal/surveys', linkName: 'Surveys', icon: BsHouseFill},
     { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
     { route: '/portal/My Rewards', linkName: 'Rewards', icon: BsHouseFill },
-    { route: '/portal/Upgrade', linkName: 'Upgrade', icon: BsHouseFill },
-    { route: '/portal/create-survey', linkName: 'Create Survey', icon: BsHouseFill}];
+    { route: '/portal/Upgrade', linkName: 'Upgrade', icon: BsHouseFill }];
 
 //   const { user } = useAuthContext()
 const SurveyeeRoutes = [
@@ -47,6 +47,10 @@ const SurveyeeRoutes = [
                 element: <Serydashboard />,
             },
             {
+                path: '/portal/surveys',
+                element: <Survey />,
+            },
+            {
                 path: '/portal/profile',
                 element: <Profile />,
             },
@@ -58,10 +62,7 @@ const SurveyeeRoutes = [
                 path: '/portal/Upgrade',
                 element: <Upgrade />,
             },
-            {
-                path: '/portal/create-survey',
-                element: <Survey />,
-            },
+           
            
         ],
     },
