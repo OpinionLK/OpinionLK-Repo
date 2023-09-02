@@ -13,15 +13,19 @@ import {
   Heading
 
 } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom';
 
-const ClientPortal = () => {
-  const { id } = useParams();
+const Survey = () => {
 
+  const style = {
+    width: '100%',
+    overflow: 'auto',
+    height: '100%',
+    paddingBottom: '20px',
+}
+  
   return (
     <>
-      <div><Text fontWeight={'semibold'}>Recommended Surveys</Text></div>
-      <div>{id}</div>
+     <div><Text fontWeight={'semibold'}>Recommended Surveys</Text></div>
       <Divider colorScheme="blackAlpha" />
       <Flex>
         <Card maxW='sm' size=''>
@@ -58,4 +62,4 @@ const ClientPortal = () => {
   )
 }
 
-export default ClientPortal
+export default Survey

@@ -8,10 +8,13 @@ import ClientSignUp from '../pages/ClientSignUp';
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
+import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+
 
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
 import adminRoutes from './adminRoutes';
+import comManagerRoutes from './comManagerRoutes';
 
 import {
     createBrowserRouter
@@ -21,7 +24,7 @@ import {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing />,
+        element: <Landing/>,
         errorElement: <ErrorPage />,
     },
     {
@@ -51,6 +54,7 @@ const router = createBrowserRouter([
     ...SurveyeeRoutes,
     ...OrganisationRoutes,
     ...adminRoutes,
+    ...comManagerRoutes,
 ]
 );
 

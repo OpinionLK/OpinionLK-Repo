@@ -23,7 +23,7 @@ root.render(
   
     <AuthContextProvider>
       <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
+       <RouterProvider router={router} />
       </ChakraProvider>
     </AuthContextProvider>
   // {/* </StrictMode> */}
