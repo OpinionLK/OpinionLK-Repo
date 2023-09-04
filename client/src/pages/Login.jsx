@@ -35,6 +35,7 @@ const Login = () => {
             const response = await axios.post("http://localhost:3002/api/auth/login", {
                 email, password
             });
+            console.log(response);
 
             if (response.status === 200) {
                 // Successful login
@@ -82,7 +83,7 @@ const Login = () => {
                     width={'50%'} m={'20px'}
                     backgroundSize={'cover'}
                     backgroundColor={'brand.purple'}
-                    backgroundPosition={'center'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'}
+                    backgroundPosition={'center'} backgroundRepeat={'no-repeat'}
                     borderRadius={'20px'} />
 
             ) : null}

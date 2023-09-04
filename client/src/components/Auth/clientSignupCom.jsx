@@ -35,6 +35,8 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
       const orgEmail = data.get('orgEmail');
       const orgWebsite = data.get('orgWebsite');
 
+
+
       if (!orgName || !orgAddressLine1 || !orgCity || !orgState || !orgZip || !orgPhone || !orgEmail) {
         alert('Please fill all the required fields');
         return;
@@ -66,26 +68,11 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
         orgEmail,
         orgWebsite,
       });
-      
-      const response = await axios.post('http://localhost:3002/api/client/signup', {
-        orgName,
-        orgAddressLine1,
-        orgAddressLine2,
-        orgCity,
-        orgState,
-        orgZip,
-        orgPhone,
-        orgEmail,
-        orgWebsite,
-      }, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      
-      const responseData = response.data; // Access parsed data directly
-      console.log('User created successfully');
+
+      console.log('Organization Data Submitted');
+
+    setActiveStep(activeStep + 1);
       console.log("Organization Details");
-      console.log(responseData);
-      setActiveStep(activeStep + 1);
 
     }
     
@@ -142,6 +129,7 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
               colorScheme="blue"
               type="submit"
               // onClick={handleSubmit}
+              onClick={() => setActiveStep(activeStep + 1)}
               >
               Next
             </Button>
@@ -150,6 +138,9 @@ export const OrganizationSignUp = ({activeStep, setActiveStep, orgFormData, setO
     </Stack>
   );
 };
+
+
+console.log('Client Data Submitted');
 
 export const ClientData = ({activeStep, setActiveStep, clientFormData, setClientFormData}) => {
 
@@ -204,20 +195,7 @@ export const ClientData = ({activeStep, setActiveStep, clientFormData, setClient
           nic,
         });
 
-        const response = await axios.post('http://localhost:3002/api/client/signup/ClientData', {
-            firstName,
-            lastName,
-            position,
-            department,
-            phone,
-            nic,
-          }, {
-            headers: { 'Content-Type': 'application/json' },
-          });
-          
-        const responseData = response.data; // Access parsed data directly
-        console.log('User created successfully');
-        console.log(responseData);
+        console.log('Client Data Submitted');
         setActiveStep(activeStep + 1);
 
     }
@@ -268,7 +246,7 @@ export const ClientData = ({activeStep, setActiveStep, clientFormData, setClient
               width={'100px'}
               colorScheme="blue"
               type="submit"
-              // onClick={() => setActiveStep(activeStep + 1)}
+              onClick={() => setActiveStep(activeStep + 1)}
               >
               Next
             </Button>
@@ -278,7 +256,7 @@ export const ClientData = ({activeStep, setActiveStep, clientFormData, setClient
   );
 };
 
-export const ClientSignUp = ({setActiveStep, activeStep, clientSignUpData, setClientSignUpData}) => {
+export const ClientSignUp = ({setActiveStep, orgFormData, clientFormData, activeStep, clientSignUpData, setClientSignUpData}) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -289,47 +267,53 @@ export const ClientSignUp = ({setActiveStep, activeStep, clientSignUpData, setCl
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      const data = new FormData(e.target);
-      const email = data.get('email');
-      const password = data.get('password');
-      const confirmPassword = data.get('confirmPassword');
+    e.preventDefault();
+    const data = new FormData(e.target);
 
-      if (!email || !password || !confirmPassword) {
-        alert('Please fill all the required fields');
-        return;
-      }
+    const email = data.get('email');
+    const password = data.get('password');
+    const confirmPassword = data.get('confirmPassword');
 
-      if (password !== confirmPassword) {
-        alert('Passwords do not match');
-        return;
-      }
+    if (!email || !password || !confirmPassword) {
+      alert('Please fill all the required fields');
+      return;
+    }
 
-      if (password.length < 8) {
-        alert('Password must be at least 8 characters long');
-        return;
-      }
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
 
-      setClientSignUpData({
+    if (password.length < 8) {
+      alert('Password must be at least 8 characters long');
+      return;
+    }
+
+    setClientSignUpData({
+      email,
+      password,
+      confirmPassword,
+    });
+
+    const response = await axios.post('http://localhost:3002/api/client/signup', {
+        ...orgFormData,
+        ...clientFormData,
         email,
         password,
         confirmPassword,
+      }, {
+        headers: { 'Content-Type': 'application/json' },
       });
 
-      const response = await axios.post('http://localhost:3002/api/client/signup/ClientSignUp', {
-          email,
-          password,
-          confirmPassword,
-        }, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-        
-        const responseData = response.data; // Access parsed data directly
+      console.log('Organization and Client Data:', orgFormData, clientFormData);
+      
+      console.log(response);
+      const responseData = response.data; // Access parsed data directly
       console.log('User created successfully');
       console.log(responseData);
       setActiveStep((prevStep) => prevStep + 1);
+  }
 
-    }
 
   return (
     <Stack spacing={4}>

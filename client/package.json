@@ -27,6 +27,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.1",
+    "react-hook-form": "^7.45.4",
     "react-icons": "^3.11.0",
     "react-modal": "^3.16.1",
     "react-pro-sidebar": "^1.1.0-alpha.1",
@@ -61,6 +62,9 @@
     "@iconify/react": "^4.1.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.48.0",
+    "eslint-scope": "^7.2.2",
     "jest": "^27.5.1"
   }
 }

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import { OrganizationDetails, ClientDetails, ClientAuth } from '../models/Client.js';
+import { Clients } from '../models/Client.js';
 import ComManager from '../models/ComManagerModel.js';
 import Admin from '../models/Admin.js';
 
@@ -49,7 +49,7 @@ export const Login = async (req, res) => {
     console.log('Received login request - Password:', password);
 
     // Find the user by email
-    const client = await ClientAuth.findOne({ email });
+    const client = await Clients.findOne({ email });
     const user = await User.findOne({ email });
     const manager = await ComManager.findOne({ email });
     const admin = await Admin.findOne({ email });
@@ -92,10 +92,12 @@ export const Login = async (req, res) => {
     } else if (admin) {
       console.log('Admin found:', admin);
       // const isPasswordValid = await bcrypt.compare(password, manager.password);
+      console.log('password detected');
       const isPasswordValid = password == admin.password;
 
       if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
+        return res.status(401).json({ 
+          message: 'Invalid password. Please check your email and password.'});
       }
 
       const token = jwt.sign(
