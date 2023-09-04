@@ -46,6 +46,7 @@ const components = {
     baseStyle: {
       fontWeight: "bold",
       borderRadius: "15px",
+      boxShadow: "0px 3px 4px rgb(0 0 0 / 6%)",
     },
   },
   Input: inputTheme,

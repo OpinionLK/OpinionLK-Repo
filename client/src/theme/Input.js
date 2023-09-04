@@ -8,11 +8,12 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const pill = definePartsStyle({
     field: {
         border: '1px solid',
-        borderColor: 'purple.100',
+        borderColor: '#D2D2D2',
+        boxShadow: '0px 3px 4px rgb(0 0 0 / 6%)',
         background: '#FFF',
         _focus: {
             borderColor: 'brand.purple',
-            boxShadow: "0 0 0 1px rgba(128, 90, 213, 0.6)", // Add your focus box-shadow here
+            boxShadow: "inset 0px 0px 0px 1px #1964ff, 0px 4px 8px rgb(0 78 236 / 15%)", // Add your focus box-shadow here
           },
         // borderRadius: 'full',
         // focus

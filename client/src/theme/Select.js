@@ -8,7 +8,8 @@ const brandPrimary = definePartsStyle({
  field: {
 
     border: "1px solid",
-    borderColor: "#a7a0ff",
+    borderColor: "#D2D2D2",
+    boxShadow: "0px 3px 4px rgb(0 0 0 / 6%)",
 
   },
   icon: {
