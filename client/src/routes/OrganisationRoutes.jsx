@@ -1,4 +1,4 @@
-
+import React from 'react';
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
 import Dashboard from '../pages//Organisations/Dashboard';
@@ -13,7 +13,6 @@ import {
 } from 'react-router-dom';
 
 import { BsHouseFill } from 'react-icons/bs';
-// import { BiEditAlt } from 'react-icons/bi';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiSurveyFill } from 'react-icons/ri';
 

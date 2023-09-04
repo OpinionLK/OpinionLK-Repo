@@ -1,5 +1,4 @@
 import React from "react";
-
 import CommunityManagerdashboard from "./pages/CommunityManager/dashboard";
 
 function App() {
