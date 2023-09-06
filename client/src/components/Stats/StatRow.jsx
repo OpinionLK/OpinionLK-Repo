@@ -30,8 +30,8 @@ const StatRow = () => {
             <StatCard/>
             <StatCard/>
             <StatCard/>
-            <StatCard/>
-            <StatCard/>
+            {/* <StatCard/>
+            <StatCard/> */}
         </Grid>
     )
 }

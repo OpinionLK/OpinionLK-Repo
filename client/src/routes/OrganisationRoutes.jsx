@@ -6,6 +6,7 @@ import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
 import EditSurvey from '../pages/Organisations/EditSurvey';
+import TestComponenets from '../pages/Organisations/TestComponenets';
 
 
 import {
@@ -55,6 +56,10 @@ const OrganisationRoutes = [
             {
                 path: '/organisation/survey/:surveyid/edit',
                 element: <EditSurvey />,
+            },
+            {
+                path: '/organisation/test-components',
+                element: <TestComponenets />,
             },
         ],
     }

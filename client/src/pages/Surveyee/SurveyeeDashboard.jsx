@@ -2,6 +2,7 @@ import {
     Grid,
     Box,
     GridItem,
+    Wrap,
  } from '@chakra-ui/react'
 import React from 'react'
 import StatRow from '../../components/Stats/StatRow'
@@ -11,6 +12,7 @@ import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph'
 import StatCard from '../../components/Stats/Organization/DiscoverCard';
 import CouponBoard from '../../components/Surveyee/PopularCoupons';
 import SurveyRow from '../../components/Survey/SurveyRow';
+import SurveyCard from '../../components/Survey/SurveyCard';
 
 // import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Serydashboard = () => {
@@ -25,7 +27,7 @@ const Serydashboard = () => {
     return (
         <>
             <Box style={style}>
-                <StatRow /> {/* This is the row of cards at the top of the page */}
+
 
                 <Grid templateColumns="repeat(3, 1fr)">
                     <GridItem colSpan={2}>
@@ -40,6 +42,19 @@ const Serydashboard = () => {
                     </GridItem>
                     <GridItem colSpan={2} mt={5} mr={5}>
                         <SurveyRow />
+                        {/* <Box
+                            width="auto"
+                            px={5}
+                            pb='4'
+                            minW='1000px'
+                        >
+                            <Wrap spacing='30px'>
+                                <SurveyCard />
+                                <SurveyCard />
+                                <SurveyCard />
+                                <SurveyCard />
+                            </Wrap>
+                        </Box> */}
                     </GridItem>
 
                 </Grid>
