@@ -3,12 +3,14 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
 
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton,
 
 } from '@chakra-ui/react';
 
+import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon
 } from '@chakra-ui/icons'
@@ -43,13 +45,19 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
             alignItems={'center'}><Flex gap={'20px'}>
                 {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
                 <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
-                    fontWeight={'bold'}>{question.type.toUpperCase()}</Text><IconButton aria-label={'delete'}
+                    fontWeight={'bold'}>{!question ? question.type.toUpperCase() : null }</Text><IconButton aria-label={'delete'}
                         icon={<DeleteIcon />}
                         onClick={handleDelete} /></Flex></CardBody>
     </Card>)
 }
 
 const EditSurvey = () => {
+
+    const history = useNavigate();
+
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
     const { surveyid } = useParams();
     const [ImgName, setImgName] = useState()
     const [survey, setSurvey] = useState();
@@ -62,18 +70,25 @@ const EditSurvey = () => {
 
     async function handleSubmit() {
         try {
-            const response = await axios.get('http://localhost:3002/api/survey/getsurvey/' + surveyid);
-
-            console.log(response.data);
+            const response = await axios.get('http://localhost:3002/api/survey/getsurvey/' + surveyid,
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                }
+            );
             setSurvey(response.data[0]);
             setImgName(response.data[0].surveyImage);
 
         } catch (error) {
-            alert('Error Fetching survey. Please try again.');
+            console.log(error.response.status)
+            if (error.response.status === 401) {
+                console.log('forwarding;....')
+                history("/404");
+            }
         }
     }
 
     useEffect(() => {
+
         handleSubmit();
     }, [])
 

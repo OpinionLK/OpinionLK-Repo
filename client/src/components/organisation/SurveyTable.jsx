@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from '../../hooks/useAuthContext'
 import {
     Flex,
     Heading,
@@ -24,6 +25,9 @@ import {
 } from '@chakra-ui/react'
 
 const SurveyTable = () => {
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const numRows = 5;
@@ -34,7 +38,12 @@ const SurveyTable = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/survey/all')
+        fetch('http://localhost:3002/api/survey/byid',
+            {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            }
+        )
             .then(response => response.json())
             .then(data => {
                 setData(data);  

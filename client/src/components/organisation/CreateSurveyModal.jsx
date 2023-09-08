@@ -34,10 +34,15 @@ const CreateSurveyModal = () => {
 
     try {
       const response = await axios.post('http://localhost:3002/api/survey/create', {
-        creatorID: user.id,
         surveyName: name,
         surveyDescription: description
-      });
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      }
+      );
 
       console.log(response.data);
       alert('Survey created!');

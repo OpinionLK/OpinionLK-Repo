@@ -24,10 +24,10 @@ const Dashboard = ({ sidebarLinks }) => {
                 url = 'http://localhost:3002/api/user/userdata'
             }
             else if (user.type === 'client') {
-                url = 'http://localhost:3002/api/client/userdata'
+                url = 'http://localhost:3002/api/client/clientdata'
             }
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });
             const json = await response.json();
@@ -37,7 +37,7 @@ const Dashboard = ({ sidebarLinks }) => {
         }
 
         if (user) {
-            // fetchUserData();
+            fetchUserData();
         }
     }, [dispatch, user]);
 
