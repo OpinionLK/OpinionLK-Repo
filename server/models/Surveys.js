@@ -49,8 +49,7 @@ const surveySchema = new mongoose.Schema({
   surveyDescription: { type: String, required: true },
   questions: {
     type: [mongoose.Schema.Types.Mixed],
-    required: true,
-    validate: [array => array.length >= 1, '{PATH} must have at least 1 item.'],
+    required: false,
   },
   created_date: { type: Date, default: Date.now },
   expiration_date: { type: Date, required: false },

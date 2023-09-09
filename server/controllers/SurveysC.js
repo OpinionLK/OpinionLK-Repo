@@ -113,27 +113,32 @@ export const createSurvey = async (req, res) => {
 
 export const getSurveytoEdit = async (req, res) => {
     const { surveyid } = req.params;
-    const token = req.headers.authorization.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
-    // verify token
-    const { id } = jwt.verify(token, 'test');
-
     try {
-        const survey = await Surveys.find({ surveyID: surveyid });
-        console.log(survey[0].creatorID);
-        console.log(id);
-        // console.log(token);
-        if (survey[0].creatorID !== id) {
-            console.log(survey);
+        const token = req.headers.authorization.split(' ')[1];
+
+
+        if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        console.log(survey);
-        res.status(200).json(survey);
-    }
-    catch (error) {
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        try {
+            const survey = await Surveys.find({ surveyID: surveyid });
+            console.log(survey[0].creatorID);
+            console.log(id);
+            // console.log(token);
+            if (survey[0].creatorID !== id) {
+                console.log(survey);
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+            console.log(survey);
+            res.status(200).json(survey);
+        }
+        catch (error) {
+            res.status(404).json({ message: error.message });
+        }
+    } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }

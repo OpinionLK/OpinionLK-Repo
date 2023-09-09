@@ -55,6 +55,7 @@ const Dashboard = ({ sidebarLinks }) => {
                 minHeight={'calc(100vh - 80px)'}
                 height={'80vh'}
                 position={'fixed'}
+                overflow={'auto'}
                 p={'20px'}
                 transition={'0.3s'}
                 // display={'flex'}
@@ -73,7 +74,7 @@ const Dashboard = ({ sidebarLinks }) => {
                     JSON.stringify(user)
 
                 } */}
-               
+
                 <Outlet />
 
             </Box >

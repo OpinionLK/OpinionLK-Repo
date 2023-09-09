@@ -44,8 +44,8 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
         <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
             alignItems={'center'}><Flex gap={'20px'}>
                 {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
-                <Text>{question.questionText}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
-                    fontWeight={'bold'}>{!question ? question.type.toUpperCase() : null }</Text><IconButton aria-label={'delete'}
+                <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
+                    fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null }</Text><IconButton aria-label={'delete'}
                         icon={<DeleteIcon />}
                         onClick={handleDelete} /></Flex></CardBody>
     </Card>)

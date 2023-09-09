@@ -231,7 +231,7 @@ function BasicUsage({ onUpdateContent }) {
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Button onClick={onOpen}>Add Question</Button>
 
       <Modal size={'full'} width={'60%'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
