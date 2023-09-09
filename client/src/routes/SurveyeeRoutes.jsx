@@ -6,6 +6,7 @@ import Profile from "../pages/Surveyee/Profile"
 import Serydashboard from "../pages/Surveyee/SurveyeeDashboard"
 import Myrewards from "../pages/Surveyee/Myrewards"
 import Upgrade from "../pages/Surveyee/Upgrade"
+import TestSurvey from "../pages/Surveyee/TestSurvey"
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
@@ -61,6 +62,10 @@ const SurveyeeRoutes = [
             {
                 path: '/portal/Upgrade',
                 element: <Upgrade />,
+            },
+            {
+                path: '/portal/testSurvey',
+                element: <TestSurvey />,
             },
            
            
