@@ -10,18 +10,17 @@ import {
 } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom';
 
+import Form from "../../components/Surveyee/Survey"
+import { FormProvider } from '../../context/FormContext'
+
 const TestSurvey = () => {
   // const { id } = useParams();
 
   return (
     <>
-      <Flex>
-        <MultipleChoice/>
-        <Spacer/>
-        <ShortAnswer/>
-        <Spacer/>
-        <LongAnswer/>
-      </Flex>
+      <FormProvider>
+        <Form/>
+      </FormProvider>
 
     </>
   )
