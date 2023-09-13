@@ -20,7 +20,6 @@ const Survey = () => {
   const [surveys, setSurveys] = useState([])
 
   useEffect(() => {
-    // fetch surveys
     const fetchSurveys = async () => {
       try {
         const response = await axios.get('http://localhost:3002/api/user/allsurveys')

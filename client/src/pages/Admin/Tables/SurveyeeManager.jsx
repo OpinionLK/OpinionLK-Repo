@@ -4,11 +4,6 @@ import {
     CardBody,
     CardHeader,
     TableContainer,
-    // Input,
-    // Button,
-    // VStack,
-    // FormControl,
-    // FormLabel,
 } from '@chakra-ui/react'
 import {
     Grid,
@@ -21,8 +16,6 @@ import {
     Th,
     Td,
     TableCaption,
-    // IconButton,
-    // HStack,
     Heading,
 } from '@chakra-ui/react';
 // import Modal from 'react-modal';
