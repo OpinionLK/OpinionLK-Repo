@@ -13,7 +13,7 @@ const Landing = () => {
    
       <motion.div
         initial={{ opacity: 0, y: '50px' }}
-        animate={{ y: '0', opacity: 1 }}
+        animate={{ y: '0', opacity: 1, overflowX:'hidden' }}
         transition={{ ease: "easeOut", duration: 0.5 }}
       >
         <Hero />

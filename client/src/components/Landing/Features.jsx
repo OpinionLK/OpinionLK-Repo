@@ -34,7 +34,7 @@ const Features = () => {
             <Flex
 
                 alignItems="flex-start"
-                mt={'300px'}
+
                 // w="full"
                 px={isLargerThanLG ? '16' : '6'}
                 py="16"

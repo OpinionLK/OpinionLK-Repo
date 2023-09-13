@@ -95,7 +95,7 @@ const Hero = () => {
         py="16"
         minHeight="60vh"
         justifyContent="center"
-
+        overflowX={'hidden'}
         color={'brand.textBlack'}
 
         flexDirection={isLargerThanLG ? 'column' : 'column'}
@@ -129,7 +129,7 @@ const Hero = () => {
         </Stack>
 
       </Flex>
-      <motion.div style={{ x, bottom: '-350px', position: 'absolute', display: 'flex', gap: '30px', overflowX: 'scroll', padding: '0px 20px' }} overflowX={'scroll'} padding={'20px 20px'}>
+      <motion.div style={{ x, marginTop: '-100px', display: 'flex', gap: '30px', padding: '40px 20px' }} >
         <Card minWidth={'300px'} maxWidth='300px' size={'sm'} boxShadow={'2xl'} mb={'40px'}>
 
           <CardBody>
