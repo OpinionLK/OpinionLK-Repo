@@ -13,11 +13,15 @@ import {
   Heading
 
 } from '@chakra-ui/react'
+import { useParams } from 'react-router-dom';
 
 const ClientPortal = () => {
+  const { id } = useParams();
+
   return (
     <>
       <div><Text fontWeight={'semibold'}>Recommended Surveys</Text></div>
+      <div>{id}</div>
       <Divider colorScheme="blackAlpha" />
       <Flex>
         <Card maxW='sm' size=''>

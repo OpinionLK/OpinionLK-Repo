@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { Clients } from '../models/Client.js';
+import ComManager from '../models/ComManagerModel.js';
+import Admin from '../models/Admin.js';
 
 // Sign up user
 export const SignUp = async (req, res) => {
@@ -17,7 +20,7 @@ export const SignUp = async (req, res) => {
       firstName,
       lastName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     const token = jwt.sign(
@@ -46,33 +49,85 @@ export const Login = async (req, res) => {
     console.log('Received login request - Password:', password);
 
     // Find the user by email
+    const client = await Clients.findOne({ email });
     const user = await User.findOne({ email });
+    const manager = await ComManager.findOne({ email });
+    const admin = await Admin.findOne({ email });
 
-    // If user not found, return error
-    if (!user) {
-      return res.status(401).json({ message: 'User not found. Please check your email and password.' });
-    }
 
-    // Compare provided password with hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
-    }
+    if (client) {
+      console.log('Client found:', client);
+      const isPasswordValid = await bcrypt.compare(password, client.password);
 
-    // If user and password are valid, send success response
-    // res.status(200).json({ message: 'Login successful.' });
-
-    const token = jwt.sign(
-      { email: user.email, id: user._id, firstName: user.firstName, lastName: user.lastName },
-      'test',
-      {
-        expiresIn: '1h'
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
       }
-    );
-    res.status(200).json({ email , token , type: 'user'});
 
-    
+      const token = jwt.sign(
+        { email: client.email, id: client._id },
+        'test',
+        {
+          expiresIn: '1h'
+        }
+      );
+      res.status(200).json({ email, token, type: 'client' });
+    } else if (manager) {
+      console.log('Manager found:', manager);
+      // const isPasswordValid = await bcrypt.compare(password, manager.password);
+      const isPasswordValid = password == manager.password;
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
+      }
+
+      const token = jwt.sign(
+        { email: manager.email, id: manager._id },
+        'test',
+        {
+          expiresIn: '1h'
+        }
+      );
+      res.status(200).json({ email, token, type: 'manager' });
+    } else if (admin) {
+      console.log('Admin found:', admin);
+      // const isPasswordValid = await bcrypt.compare(password, manager.password);
+      console.log('password detected');
+      const isPasswordValid = password == admin.password;
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ 
+          message: 'Invalid password. Please check your email and password.'});
+      }
+
+      const token = jwt.sign(
+        { email: admin.email, id: admin._id },
+        'test',
+        {
+          expiresIn: '1h'
+        }
+      );
+      res.status(200).json({ email, token, type: 'admin' });
+    } else if (user) {
+      console.log('User found:', user);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
+      }
+
+
+      const token = jwt.sign(
+        { email: user.email, id: user._id, firstName: user.firstName, lastName: user.lastName },
+        'test',
+        {
+          expiresIn: '1h'
+        }
+      );
+      res.status(200).json({ email, token, type: 'user' });
+
+    }
+
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error. Please try again later.' });

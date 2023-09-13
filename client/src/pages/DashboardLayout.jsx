@@ -13,6 +13,7 @@ import '../components/Layout/style.css'
 
 const Dashboard = ({ sidebarLinks }) => {
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
 
@@ -24,10 +25,10 @@ const Dashboard = ({ sidebarLinks }) => {
                 url = 'http://localhost:3002/api/user/userdata'
             }
             else if (user.type === 'client') {
-                url = 'http://localhost:3002/api/client/userdata'
+                url = 'http://localhost:3002/api/client/clientdata'
             }
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });
             const json = await response.json();
@@ -43,7 +44,6 @@ const Dashboard = ({ sidebarLinks }) => {
 
     const [navOpen, setNavOpen] = useState(false)
 
-
     return (
         <Box
             backgroundColor={'brand.dashboardBackground'}>
@@ -54,12 +54,16 @@ const Dashboard = ({ sidebarLinks }) => {
             <Box
                 width={navOpen ? 'calc(100% - 100px)' : 'calc(100% - 274px)'}
                 minHeight={'calc(100vh - 80px)'}
-                position={'absolute'}
+                height={'80vh'}
+                position={'fixed'}
+                overflow={'auto'}
                 p={'20px'}
-                pl={'50px'}
                 transition={'0.3s'}
+                // display={'flex'}
+                // flexDir={'column'}
+                // gap={'20px'}
                 backgroundColor={'brand.dashboardBackground'}
-
+                zIndex={'0'}
                 left={navOpen ? '100px' : '274px'}
                 top={'80px'}
             >
@@ -71,7 +75,7 @@ const Dashboard = ({ sidebarLinks }) => {
                     JSON.stringify(user)
 
                 } */}
-               
+
                 <Outlet />
 
             </Box >

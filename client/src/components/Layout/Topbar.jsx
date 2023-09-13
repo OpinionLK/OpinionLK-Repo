@@ -1,10 +1,8 @@
-import React from 'react'
+import React from 'react';
 import {
     Box,
-    Image,
     Flex,
     Text,
-    Heading,
     Avatar,
     Menu,
     MenuButton,
@@ -15,12 +13,11 @@ import {
     MenuDivider
 } from '@chakra-ui/react'
 
-import topbarLogo from '../../images/topbar/scaled-logo-icon.svg'
+import CreateSurveyModal from '../organisation/CreateSurveyModal'
+
 import { Icon } from '@iconify/react';
 import userdp from '../../images/topbar/download.jpeg'
-import {
-    ChevronDownIcon,
-} from '@chakra-ui/icons'
+
 
 import { useLogout } from '../../hooks/useLogout';
 
@@ -28,17 +25,17 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Topbar = () => {
     const { user } = useAuthContext()
-    const logout  = useLogout()
+    const logout = useLogout()
     return (
         <Box
             width={'100%'}
-            height={'70px'}
+            height={'80px'}
             display={'flex'}
             justifyContent={'space-between'}
             position={'fixed'}
             top={'0'}
             zIndex={'100'}
-            // backgroundColor={'#F8FAFC'}
+            backgroundColor={'brand.dashboardBackground'}
             alignItems={'center'}>
             {/* Topbar Left Side, Logo + Page Name */}
             <Flex display={'flex'}
@@ -54,66 +51,45 @@ const Topbar = () => {
             </Flex>
 
             <Flex gap={'10px'} mr={'20px'} alignItems={'center'}>
-                {/* pill with points info */}
-                {/* <Link
-                    display={'flex'}
 
-                    alignItems={'center'}
-                    height={'80%'}
-                    borderRadius={'20px'}
-                    padding={'5px 10px'}
 
-                    transition={'0.3s'}
-                    _hover={{
-                        textDecoration: 'none',
-                        bgColor: '#eae9ff',
-                    }}
-                    _active={{
-                        bgColor: '#c0bdef',
-                    }}
-                >
-                    <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
-                    <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
-                </Link> */}
+                {user.type === 'client' ?
+                    <CreateSurveyModal /> : null}
 
+                {user.type === 'user' ?
+                    <Menu>
+                        <MenuButton as={Button}
+                            // alignItems={'center'}
+                            width={'100px'}
+                            height={'80%'}
+                            padding={'10px 5px'}
+                            transition={'0.3s'}
+                            _hover={{
+                                textDecoration: 'none',
+                                bgColor: '#eae9ff',
+                            }}
+                            _active={{
+                                bgColor: '#c0bdef',
+                            }}>
+                            <Flex justifyContent={'center'} alignItems={'center'}>
+                                <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
+                                <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
+                            </Flex>
+                        </MenuButton>
+                        <MenuList>
+                            <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'}>
+                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgGradient='linear(to-r, green.200, pink.500)' borderRadius={'15px'}>
+
+                                </Box>
+                            </Flex>
+                        </MenuList>
+                    </Menu>
+                    : null}
                 <Menu>
-                    <MenuButton as={Button}
 
-                        alignItems={'center'}
-                        width={'100px'}
-                        height={'80%'}
-                        borderRadius={'20px'}
-                        padding={'10px 5px'}
-                        transition={'0.3s'}
-                        _hover={{
-                            textDecoration: 'none',
-                            bgColor: '#eae9ff',
-                        }}
-                        _active={{
-                            bgColor: '#c0bdef',
-                        }}>
-                        <Flex
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                        >
-                            <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
-                            <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
-
-                        </Flex>
-
-                    </MenuButton>
-                    <MenuList>
-                        <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'}>
-                            <Box height={'90%'} w={'90%'} boxShadow='2xl' bgGradient='linear(to-r, green.200, pink.500)' borderRadius={'15px'}>
-
-                            </Box>
-                        </Flex>
-                    </MenuList>
-                </Menu>
-                <Menu>
                     {({ isOpen }) => (
                         <>
-                            <MenuButton as={Avatar}  size='md' padding={'5px'}
+                            <MenuButton as={Avatar} size='md' padding={'5px'}
                                 transition={'0.3s'}
                                 _hover={{
                                     textDecoration: 'none',
@@ -127,7 +103,7 @@ const Topbar = () => {
                             <MenuList>
                                 <span style={{ textAlign: 'center' }}>
                                     {/* print json as a string */}
-                                    { user && JSON.stringify(user.email)}
+                                    {user && JSON.stringify(user.email)}
                                 </span>
                                 <MenuGroup title='Profile'>
                                     <MenuItem>My Account</MenuItem>
@@ -146,9 +122,11 @@ const Topbar = () => {
                 </Menu>
 
 
+
             </Flex>
         </Box>
     )
 }
+
 
 export default Topbar

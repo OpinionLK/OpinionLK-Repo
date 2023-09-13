@@ -5,9 +5,12 @@ import { Heading } from '@chakra-ui/react'
 const MakeSurvey = () => {
   return (
     <>
-      <Heading>MakeSurvey</Heading>
-      <Makerlayout />
-    </>
+      <Heading size={'md'}>Add a Question to </Heading>
+  
+        <Makerlayout />
+
+
+      </>
   )
 }
 

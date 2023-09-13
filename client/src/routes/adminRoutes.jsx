@@ -1,22 +1,25 @@
 import Admindashboard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-import Adminprofile from '../pages/Admin/profile';
+// import Adminprofile from '../pages/Admin/profile';
 import AdminDashboard from '../pages/Admin/dashboard';
 import AdminTables from '../pages/Admin/tables';
+// import TestAdminTables from '../pages/Admin/tables';
 import AdminActions from '../pages/Admin/actions';
+import Adminprofile from '../pages/Admin/Profile';
 
 import {
     Navigate
 } from 'react-router-dom';
 
-import { BsHouseFill } from 'react-icons/bs';
-import { BiEditAlt } from 'react-icons/bi';
+import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
+// import { BiSolidEditAlt } from 'react-icons/bi';
 
 const Links = [
 
     { route: '/admin/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/admin/tables', linkName: 'Tables', icon: BiEditAlt },
-    { route: '/admin/actions', linkName: 'Actions', icon: BiEditAlt },
+    { route: '/admin/tables', linkName: 'Tables', icon: BsTable },
+    { route: '/admin/actions', linkName: 'Actions', icon: BsCollectionFill },
+    { route: '/admin/profile', linkName: 'Profile', icon: BsCollectionFill}
 
 ];
 
@@ -24,7 +27,7 @@ const adminRoutes = [
     {
         path: '/admin',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['admin']}>
                 <Admindashboard sidebarLinks={Links} />
             </PrivateRoute>
         ),
@@ -34,8 +37,8 @@ const adminRoutes = [
                 element: <Adminprofile/>,
             },
             {
-                path: '/admin',
-                element: <Navigate to="/admin" />,
+                path: '',
+                element: <Navigate to="/admin/dashboard" />,
             },
             {
                 path: '/admin/dashboard',

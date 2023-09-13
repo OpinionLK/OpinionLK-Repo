@@ -11,13 +11,17 @@ import topbarLogo from '../../images/logonav.png'
 
 import NavItem from './NavItem';
 
+
 const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
+
     console.log(sidebarLinks)
     return (
         <Box display={'flex'}
             flexDir={'column'}
             position={'fixed'}
             height={'100vh'}
+            zIndex={'999'}
+            backgroundColor={'brand.dashboardBackground'}
         >
             <Box
                 height={'10%'}
@@ -29,7 +33,7 @@ const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
             </Box>
 
             <Box
-                zIndex={'100'}
+                zIndex={'1000'}
 
                 display={'flex'}
 

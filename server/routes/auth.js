@@ -11,8 +11,6 @@ import{
     Deletemember
 }from '../controllers/AddMemberC.js';
 
-console.log('auth.js');
-
 const router = express.Router();
 
 router.post('/signup', SignUp);
@@ -22,5 +20,6 @@ router.get('/getmembers', Getmembers);
 router.post('/savemember', Savemember);
 router.put('/updatemember/:id', Updatemember);
 router.delete('/deletemember/:id', Deletemember);
+
 
 export default router;

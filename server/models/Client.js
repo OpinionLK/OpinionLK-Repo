@@ -1,13 +1,18 @@
 import mongoose from "mongoose";
 
-export const OrganizationDetailsSchema = new mongoose.Schema(
+const ClientsSchema = new mongoose.Schema(
   {
     orgName: {
         type: String,
         required: true,
         trim: true,
     },
-    orgAddress: {
+    orgAddressLine1: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    orgAddressLine2: {
         type: String,
         required: true,
         trim: true,
@@ -42,75 +47,60 @@ export const OrganizationDetailsSchema = new mongoose.Schema(
         required: true,
         trim: true,
     },
+    firstName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    position: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    department: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    nic: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    confirmPassword: {
+        type: String,
+        required: false,
+        trim: true,
+    },
   },
   {
     timestamps: true,
-    collection: 'Organization' // Specify your collection name here
+    collection: 'Clients' // Specify your collection name here
   }
 );
 
-export const ClientDetailsSchema = new mongoose.Schema(
-  {
-        firstName: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        lastName: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        position: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        department: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        phone: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        nic: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-  },
-  {
-    timestamps: true,
-    collection: 'clientDetails' // Specify your collection name here
-  }
-);
+export default mongoose.models.Clients || mongoose.model("Clients", ClientsSchema);
 
-const ClientAuthSchema = new mongoose.Schema(
-  {
-        email: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-  },
-  {
-    timestamps: true,
-    collection: 'ClientAuth' // Specify your collection name here
-  }
-);
+const Clients = mongoose.model("Clients", ClientsSchema);
 
-export default mongoose.models.ClientAuth || mongoose.model("ClientAuth", ClientAuthSchema);
-
-const OrganizationDetails = mongoose.model("Organization", OrganizationDetailsSchema);
-const ClientDetails = mongoose.model("ClientDetails", ClientDetailsSchema);
-const ClientAuth = mongoose.model("ClientAuth", ClientAuthSchema);
-
-export { OrganizationDetails, ClientDetails, ClientAuth };
+export { Clients };

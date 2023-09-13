@@ -4,18 +4,12 @@ import {
     Text,
     useMediaQuery,
     Stack,
-    Box,
-    useColorModeValue,
-    Button,
     Grid,
     GridItem,
     Image,
     Heading
 } from '@chakra-ui/react'
 
-import Clip from '../../images/clip.png'
-import Check from '../../images/checkbox.png'
-import Clip2 from '../../images/clipp2.png'
 import coin from '../../images/coin.png'
 
 const Features = () => {
@@ -39,10 +33,11 @@ const Features = () => {
 
             <Flex
 
-                alignItems="center"
+                alignItems="flex-start"
+
                 // w="full"
                 px={isLargerThanLG ? '16' : '6'}
-                py="16"
+                py="8"
                 minHeight="90vh"
                 // justifyContent="center"
 
@@ -50,6 +45,7 @@ const Features = () => {
 
                 flexDirection={isLargerThanLG ? 'column' : 'column'}
             >
+                <Heading m={'40px 0px'} color={'brand.textDarkPurple'}>Why OpinionLK?</Heading>
 
                 <Grid
 

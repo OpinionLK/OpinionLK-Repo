@@ -16,16 +16,13 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-
-
-
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const Login = () => {
 
     const {
-        user
-    } = useAuthContext();
+        // eslint-disable-next-line
+        user } = useAuthContext();
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const history = useNavigate();
 
@@ -38,7 +35,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:3002/api/auth/client/login", {
+            const response = await axios.post("http://localhost:3002/api/client/login/ClientLogin", {
                 email, password
             });
 

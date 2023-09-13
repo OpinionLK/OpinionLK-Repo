@@ -1,9 +1,11 @@
-
+import React from 'react';
 import OrganisationDashboard from '../pages/DashboardLayout';
 import MakeSurvey from '../pages//Organisations/MakeSurvey'
+import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
+import EditSurvey from '../pages/Organisations/EditSurvey';
 
 
 import {
@@ -11,15 +13,15 @@ import {
 } from 'react-router-dom';
 
 import { BsHouseFill } from 'react-icons/bs';
-import { BiEditAlt } from 'react-icons/bi';
-import { RiSurveyLine } from 'react-icons/ri';
+// import { AiFillEdit } from 'react-icons/ai';
+import { RiSurveyFill } from 'react-icons/ri';
 
 
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/surveys', linkName: 'Surveys', icon: RiSurveyLine },
-    { route: '/organisation/make-survey', linkName: 'Make Survey', icon: BiEditAlt },
+    { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
+    // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
 
@@ -28,7 +30,7 @@ const OrganisationRoutes = [
     {
         path: '/organisation',
         element: (
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['client']}>
                 <OrganisationDashboard sidebarLinks={Links} />
             </PrivateRoute>
         ),
@@ -39,6 +41,7 @@ const OrganisationRoutes = [
             },
             {
                 path: 'home',
+                element: <Dashboard />,
 
             },
             {
@@ -46,8 +49,12 @@ const OrganisationRoutes = [
                 element: <MakeSurvey />,
             },
             {
-                path: '/organisation/surveys',
+                path: '/organisation/survey',
                 element: <SurveyPage />,
+            },
+            {
+                path: '/organisation/survey/:surveyid/edit',
+                element: <EditSurvey />,
             },
         ],
     }
