@@ -8,7 +8,7 @@ import ClientSignUp from '../pages/ClientSignUp';
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
-import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+// import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
 
 
 import OrganisationRoutes from './OrganisationRoutes';

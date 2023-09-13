@@ -1,27 +1,11 @@
-import {useState, useEffect} from 'react'
 import {
     Flex,
     Heading,
     Card,
     CardHeader,
     CardBody,
-    Skeleton,
-    Text,
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Tag,
-    Th,
-    Td,
-    IconButton,
-    TableCaption,
-    TableContainer,
-    Button,
 } from '@chakra-ui/react'
 import {Grid, GridItem} from '@chakra-ui/react'
-import {CheckIcon, ViewIcon, ExternalLinkIcon} from "@chakra-ui/icons";
 import SurveyTable from '../../components/organisation/SurveyTable';
 
 const SurveyPage = () => {

@@ -13,6 +13,7 @@ import '../components/Layout/style.css'
 
 const Dashboard = ({ sidebarLinks }) => {
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
 

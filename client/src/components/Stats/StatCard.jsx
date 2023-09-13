@@ -1,22 +1,11 @@
 import React from 'react'
-
 // import './style.css'
-
 import { 
-    Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
-    Box,
+    Card, 
+    CardBody, 
     Heading,
-    Divider,
-    ButtonGroup,
-    Button,
     Image,
-    Flex
 } from '@chakra-ui/react'
 
 import totalSurveysIcon from '../../images/totalSurveys-icon.png'

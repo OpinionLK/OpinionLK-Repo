@@ -1,7 +1,6 @@
 import {
   Flex,
   Heading,
-  Text,
   Card,
   CardHeader,
   CardBody,
@@ -14,17 +13,14 @@ import {
   Box,
   Alert,
   AlertIcon,
-  useMediaQuery,
   FormLabel,
-  InputGroup,
-  InputRightElement,
   HStack,
   Stack,
   CardFooter,
 } from '@chakra-ui/react';
 
 import React, { useEffect, useState } from 'react';
-import { PhoneIcon, CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
 import axios from 'axios';
 

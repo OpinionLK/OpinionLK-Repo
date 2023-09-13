@@ -1,8 +1,5 @@
-
 import { useState } from 'react'
-
 import {
-    Box,
     FormControl,
     FormLabel,
     Input,
@@ -13,17 +10,10 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    Card,
-    CardBody,
-    Checkbox,
 } from '@chakra-ui/react'
-
-
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-
-
-import { ChevronDownIcon } from '@chakra-ui/icons';
+// import { ChevronDownIcon } from '@chakra-ui/icons';
 import React from 'react'
 
 const MoodOption = ({ index }) => {
@@ -79,6 +69,7 @@ const DropDownOption = ({ index }) => {
 const Layout = () => {
 
     const [type, setType] = useState('text')
+    // eslint-disable-next-line
     const [showEmoji, setShowEmoji] = useState(true)
     const [moodOptionCount, setMoodOptionCount] = useState(4)
     const [DropdownOptionCount, setDropdownOptionCount] = useState(4)

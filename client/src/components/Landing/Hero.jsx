@@ -1,23 +1,16 @@
-import React,
-{
-  useEffect
-}
-  from 'react'
+import React,{useEffect}from 'react'
 import {
   Flex,
   Text,
   useMediaQuery,
   Stack,
-  Box,
   Heading,
-  Divider,
   CardFooter,
   Tag,
   ButtonGroup,
   Button,
   Image,
   Card,
-  CardHeader,
   CardBody
 } from '@chakra-ui/react'
 

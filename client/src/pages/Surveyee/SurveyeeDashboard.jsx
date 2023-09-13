@@ -5,9 +5,9 @@ import {
  } from '@chakra-ui/react'
 import React from 'react'
 import StatRow from '../../components/Stats/StatRow'
-import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
-import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
-import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
+// import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
+// import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
+// import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
 import StatCard from '../../components/Stats/Organization/DiscoverCard';
 import CouponBoard from '../../components/Surveyee/PopularCoupons';
 import SurveyRow from '../../components/Survey/SurveyRow';

@@ -1,5 +1,3 @@
-import { chakra } from '@chakra-ui/react';
-
 import {
     Box,
     Flex,
@@ -17,7 +15,6 @@ import {
     useColorModeValue,
     useColorMode,
     useDisclosure,
-
 } from '@chakra-ui/react';
 import {
     Link as ReachLink
@@ -35,7 +32,8 @@ import Logo from '../assets/images/landing/darklogo.png';
 import DarkLogo from '../images/darklogo.png';
 
 export default function WithSubnavigation() {
-    const { colorMode, toggleColorMode } = useColorMode()
+    // eslint-disable-next-line
+    const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onToggle } = useDisclosure();
 
 
@@ -127,6 +125,7 @@ export default function WithSubnavigation() {
 }
 
 const DesktopNav = () => {
+    // eslint-disable-next-line
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.800', 'white');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');

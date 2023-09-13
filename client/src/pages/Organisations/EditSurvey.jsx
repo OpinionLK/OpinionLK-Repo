@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
-
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import {
@@ -56,6 +55,7 @@ const EditSurvey = () => {
     const history = useNavigate();
 
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     const { surveyid } = useParams();
@@ -86,11 +86,8 @@ const EditSurvey = () => {
             }
         }
     }
-
-    useEffect(() => {
-
-        handleSubmit();
-    }, [])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+   useEffect(() => { handleSubmit(); }, [])
 
     // const toast = useToast()
     const loadImage = (imageName) => {
