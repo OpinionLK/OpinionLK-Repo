@@ -41,7 +41,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://opinionlk.azurewebsites.net:3002',
+        url: 'https://opinionlk.azurewebsites.net:3002',
       },
     ],
   },
