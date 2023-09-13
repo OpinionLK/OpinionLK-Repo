@@ -71,5 +71,10 @@
     "eslint": "^8.48.0",
     "eslint-scope": "^7.2.2",
     "jest": "^27.5.1"
-  }
+  },
+  "assets":[
+    "src/web.config"
+  ]
+    
+  
 }
