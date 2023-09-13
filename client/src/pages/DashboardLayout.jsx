@@ -22,10 +22,10 @@ const Dashboard = ({ sidebarLinks }) => {
         const fetchUserData = async () => {
             let url
             if (user.type === 'user') {
-                url = 'http://localhost:3002/api/user/userdata'
+                url = 'http://opinionlk.azurewebsites.net:3002/api/user/userdata'
             }
             else if (user.type === 'client') {
-                url = 'http://localhost:3002/api/client/clientdata'
+                url = 'http://opinionlk.azurewebsites.net:3002/api/client/clientdata'
             }
             const response = await fetch(url, {
                 method: 'GET',

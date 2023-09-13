@@ -176,7 +176,7 @@ const AddQuestionModal = ({ onUpdateContent }) => {
   //   console.log(question)
 
   //   try {
-  //     const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
+  //     const response = await axios.post('http://opinionlk.azurewebsites.net:3002/api/survey/addQuestion/' + surveyid, {
   //       question: question,
   //     });
 

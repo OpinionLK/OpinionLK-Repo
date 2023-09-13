@@ -67,7 +67,7 @@ const CommunityManagers = () => {
     const fetchCommunityManagers = async () => {
         try {
           const response = await axios.get(
-            'http://localhost:3002/api/auth/getmembers'
+            'http://opinionlk.azurewebsites.net:3002/api/auth/getmembers'
           );
           const data = response.data;
           setCommunityManagers(data);
@@ -166,7 +166,7 @@ const nicValidation12 = /^[0-9]{12}$/;
 
         try {
             const response = await axios.put(
-                `http://localhost:3002/api/auth/updatemember/${selectedManager._id}`,
+                `http://opinionlk.azurewebsites.net:3002/api/auth/updatemember/${selectedManager._id}`,
                 editedValues
             );
             const data = response.data;
@@ -182,7 +182,7 @@ const nicValidation12 = /^[0-9]{12}$/;
     const deleteManager = async id => {
         try {
             const response = await axios.delete(
-                `http://localhost:3002/api/auth/deletemember/${id}`
+                `http://opinionlk.azurewebsites.net:3002/api/auth/deletemember/${id}`
             );
             const data = response.data;
             console.log('Deleted data:', data);

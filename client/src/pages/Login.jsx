@@ -30,7 +30,7 @@ const Login = () => {
     async function submit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3002/api/auth/login", {
+            const response = await axios.post("http://opinionlk.azurewebsites.net:3002/api/auth/login", {
                 email, password
             });
             console.log(response);

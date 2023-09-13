@@ -70,7 +70,7 @@ const Table2 = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/survey/all')
+        fetch('http://opinionlk.azurewebsites.net:3002/api/survey/all')
             .then(response => response.json())
             .then(data => {
                 setData(data);
