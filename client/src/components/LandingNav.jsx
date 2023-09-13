@@ -42,8 +42,8 @@ export default function WithSubnavigation() {
     return (
 
         <motion.div
-            initial={{ opacity: 0, y: '-100px' }}
-            animate={{ y: '0', opacity: 1, top: 0, position: 'sticky', zIndex: '100' }}
+            initial={{ opacity: 0,  }}
+            animate={{ opacity: 1, top: 0, position: 'sticky', zIndex: '100' }}
             transition={{ ease: "easeOut", duration: 0.5 }}>
             <Box>
                 <Flex

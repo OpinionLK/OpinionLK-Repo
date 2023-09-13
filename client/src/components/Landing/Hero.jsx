@@ -129,7 +129,14 @@ const Hero = () => {
         </Stack>
 
       </Flex>
-      <motion.div style={{ x, marginTop: '-100px', display: 'flex', gap: '30px', padding: '40px 20px' }} >
+      <motion.div 
+        initial = {{ opacity: 0, y: '+100px' }}
+        animate = {{ y: '0', opacity: 1 }}
+        transition = {{
+          ease: "easeOut", delay: '0.5'
+          , duration: 0.5
+        }}
+      style={{ x, marginTop: '-100px', display: 'flex', gap: '30px', padding: '30px 20px' }} >
         <Card minWidth={'300px'} maxWidth='300px' size={'sm'} boxShadow={'2xl'} mb={'40px'}>
 
           <CardBody>

@@ -37,7 +37,7 @@ const Features = () => {
 
                 // w="full"
                 px={isLargerThanLG ? '16' : '6'}
-                py="16"
+                py="8"
                 minHeight="90vh"
                 // justifyContent="center"
 
