@@ -135,7 +135,7 @@ export default function App({ loadImage }) {
                 formData.append('image', blob, 'croppedImage.jpg');
 
                 try {
-                    const response = await axios.post('http://opinionlk.azurewebsites.net:3002/api/survey/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    const response = await axios.post('http://opinionlk.azurewebsites.net/api/survey/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 
 
                     if (response.status === 200) {

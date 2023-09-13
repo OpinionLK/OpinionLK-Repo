@@ -22,7 +22,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://opinionlk.azurewebsites.net:3002/api/survey/deleteQuestion/${surveyid}`, {
+            await axios.put(`http://opinionlk.azurewebsites.net/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
             });
 
@@ -70,7 +70,7 @@ const EditSurvey = () => {
 
     async function handleSubmit() {
         try {
-            const response = await axios.get('http://opinionlk.azurewebsites.net:3002/api/survey/getsurvey/' + surveyid,
+            const response = await axios.get('http://opinionlk.azurewebsites.net/api/survey/getsurvey/' + surveyid,
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
                 }
@@ -98,7 +98,7 @@ const EditSurvey = () => {
 
         <Flex flexDirection={'column'} gap={'20px'}>
             <Card
-                backgroundImage={'url("http://opinionlk.azurewebsites.net:3002/api/survey/images/' + ImgName + '")'}
+                backgroundImage={'url("http://opinionlk.azurewebsites.net/api/survey/images/' + ImgName + '")'}
                 backgroundSize={'cover'}
                 backgroundPosition={'center'}
             >

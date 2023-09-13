@@ -35,7 +35,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("https://opinionlk.azurewebsites.net:3002/api/client/login/ClientLogin", {
+            const response = await axios.post("https://opinionlk.azurewebsites.net/api/client/login/ClientLogin", {
                 email, password
             });
 

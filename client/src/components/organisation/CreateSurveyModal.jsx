@@ -33,7 +33,7 @@ const CreateSurveyModal = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://opinionlk.azurewebsites.net:3002/api/survey/create', {
+      const response = await axios.post('http://opinionlk.azurewebsites.net/api/survey/create', {
         surveyName: name,
         surveyDescription: description
       },

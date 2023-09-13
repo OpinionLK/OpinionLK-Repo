@@ -295,7 +295,7 @@ export const ClientSignUp = ({setActiveStep, orgFormData, clientFormData, active
       confirmPassword,
     });
 
-    const response = await axios.post('http://opinionlk.azurewebsites.net:3002/api/client/signup', {
+    const response = await axios.post('http://opinionlk.azurewebsites.net/api/client/signup', {
         ...orgFormData,
         ...clientFormData,
         email,

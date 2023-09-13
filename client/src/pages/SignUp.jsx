@@ -45,7 +45,7 @@ const SignUp = () => {
 
 
     try {
-      const json = await axios.post('https://opinionlk.azurewebsites.net:3002/api/auth/signup', {
+      const json = await axios.post('https://opinionlk.azurewebsites.net/api/auth/signup', {
         firstName,
         lastName,
         email,

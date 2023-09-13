@@ -31,7 +31,7 @@ const SurveyTable = () => {
     }
 
     useEffect(() => {
-        fetch('http://opinionlk.azurewebsites.net:3002/api/survey/byid',
+        fetch('http://opinionlk.azurewebsites.net/api/survey/byid',
             {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },

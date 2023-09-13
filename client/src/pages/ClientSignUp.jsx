@@ -109,7 +109,7 @@ const SignUp = () => {
   const handleFormSubmit = (formData) => {
 
     console.log('These are the form data: ',formData);
-    axios.post('https://opinionlk.azurewebsites.net:3002/api/client/signup', formData)
+    axios.post('https://opinionlk.azurewebsites.net/api/client/signup', formData)
       .then((res) => {
         console.log(res);
         setUserCreated(true);

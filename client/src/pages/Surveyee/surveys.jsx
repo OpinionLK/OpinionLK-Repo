@@ -22,7 +22,7 @@ const Survey = () => {
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
-        const response = await axios.get('http://opinionlk.azurewebsites.net:3002/api/user/allsurveys')
+        const response = await axios.get('http://opinionlk.azurewebsites.net/api/user/allsurveys')
         console.log(response.data)
         setSurveys(response.data)
       }
@@ -45,7 +45,7 @@ const Survey = () => {
             <Card key={survey._id} width={'100%'} height={'100%'} margin={'10px'}>
               <CardBody>
                 <Stack>
-                  <Image src={'http://opinionlk.azurewebsites.net:3002/api/survey/images/' + survey.surveyImage} alt={survey.surveyName} />
+                  <Image src={'http://opinionlk.azurewebsites.net/api/survey/images/' + survey.surveyImage} alt={survey.surveyName} />
                   <Heading as={'h3'} size={'md'}>{survey.surveyName}</Heading>
                   <Text>{survey.surveyDescription}</Text>
                 </Stack>

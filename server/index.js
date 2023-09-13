@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 });
 // MIDDLEWARE
 app.use(express.json());
-app.use(cors({ origin: 'https://opinionlk.azurewebsites.net', optionsSuccessStatus: 200 }));
+app.use(cors({ origin: process.env.ORIGIN_URL, optionsSuccessStatus: 200 }));
 
 // ROUTES
 app.use('/api/auth', authRoutes); 
@@ -41,7 +41,7 @@ const options = {
     },
     servers: [
       {
-        url: 'https://opinionlk.azurewebsites.net:3002',
+        url: `${process.env.ORIGIN_URL}`,
       },
     ],
   },
