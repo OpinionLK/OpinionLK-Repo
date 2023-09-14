@@ -5,8 +5,9 @@ import {
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
+// eslint-disable-next-line
 import {Line, Pie, Doughnut} from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+// import Chart from 'chart.js/auto';
 
 // sample data
 const state = {

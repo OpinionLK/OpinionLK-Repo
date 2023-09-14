@@ -1,6 +1,7 @@
+import jwt from 'jsonwebtoken';
 
+import { Surveys, Mood, Choice, Text } from '../models/Surveys.js';
 
-import Surveys from '../models/Surveys.js';
 
 function generateCustomId(length = 8) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -31,10 +32,72 @@ export const getAllSurveys = async (req, res) => {
     }
 }
 
+
+export const checkEditPrivilege = async (req, res) => {
+    const { surveyid } = req.params;
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // verify token
+    const { _id } = jwt.verify(token, 'test');
+
+    try {
+        const survey = await Surveys.find({ surveyID: surveyid });
+        console.log(survey.creatorID);
+        console.log(_id);
+        if (survey.creatorID !== id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        res.status(200).json({ message: "Authorized" });
+    }
+    catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+
+
+
+}
+
+export const getSurveysByUser = async (req, res) => {
+
+    // get token from header
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+
+    // const
+    try {
+        const surveys = await Surveys.find({ creatorID: id }).limit(5).sort({ 'created_date': -1 });
+        res.status(200).json(surveys);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const createSurvey = async (req, res) => {
+
+    // get token from header
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+
+
     console.log(req.body);
     const survey = req.body;
-    survey.creatorID = '64dba9a7bbbf7248137d5673'
+    survey['creatorID'] = id;
     survey['surveyID'] = generateCustomId();
 
 
@@ -48,11 +111,33 @@ export const createSurvey = async (req, res) => {
     }
 }
 
-export const getSurvey = async (req, res) => {
+export const getSurveytoEdit = async (req, res) => {
     const { surveyid } = req.params;
     try {
-        const survey = await Surveys.find({ surveyID: surveyid });
-        res.status(200).json(survey);
+        const token = req.headers.authorization.split(' ')[1];
+
+
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        try {
+            const survey = await Surveys.find({ surveyID: surveyid });
+            console.log(survey[0].creatorID);
+            console.log(id);
+            // console.log(token);
+            if (survey[0].creatorID !== id) {
+                console.log(survey);
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+            console.log(survey);
+            res.status(200).json(survey);
+        }
+        catch (error) {
+            res.status(404).json({ message: error.message });
+        }
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -60,19 +145,70 @@ export const getSurvey = async (req, res) => {
 
 export const addQuestion = async (req, res) => {
     const { surveyid } = req.params;
-    const { question } = req.body;
+    console.log(req.body);
+    const { data } = req.body;
 
-    question.questionID = generateCustomId();
+    const token = req.headers.authorization.split(' ')[1];
 
-    console.log(surveyid);
-    console.log(question);
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+    console.log(id);
 
     try {
-        const survey = await Surveys.findOneAndUpdate({ surveyID: surveyid }, { $push: { questions: question } }, {
-            new: true,
+        const survey = await Surveys.find({ surveyID: surveyid });
+        console.log(survey[0].creatorID);
+        if (survey[0].creatorID !== id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+
+    data.questionID = generateCustomId();
+
+    console.log(surveyid);
+
+
+
+    // switch (data.responseType) {
+    //     case 'shorttext':
+    //         QuestionSchema = new Text(data);
+    //         break;
+    //     case 'longtext':
+    //         QuestionSchema = new Text(data);
+    //         break;
+    //     case 'singlechoice':
+    //         QuestionSchema = new Choice(data);
+    //         break;
+    //     case 'multiplechoice':
+    //         QuestionSchema = new Choice(data);
+    //         break;
+    //     case 'mood':
+    //         QuestionSchema = new Mood(data);
+    //         console.log(QuestionSchema);
+    //         break;
+    //     default:
+    //         console.log("Invalid response type");
+    //         QuestionSchema = new Text(data);
+    //         break;
+    // }
+
+    try {
+
+        const resp = await Surveys.updateOne(
+            { surveyID: surveyid },
+            { $push: { questions: data } },
+            { new: true }
+        );
+        console.log(resp);
+        res.status(200).json({
+            message: "Question added successfully.",
+            resp: resp
         });
-        console.log(survey);
-        res.status(200).json(survey);
     }
     catch (error) {
         res.status(404).json({ message: error.message });

@@ -1,22 +1,25 @@
 import React from "react";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-
 import {
-
   Modal,
   Radio,
   RadioGroup,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  Checkbox, CheckboxGroup,
+  Checkbox,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
   Button,
   Input,
   Text,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
   FormControl,
   Menu,
   MenuButton,
@@ -33,13 +36,48 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+import { useAuthContext } from '../../hooks/useAuthContext';
 import { DeleteIcon } from '@chakra-ui/icons'
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+// eslint-disable-next-line
+function CompExample() {
+  const {
+    isOpen: isVisible,
+    onClose,
+    onOpen,
+  } = useDisclosure({ defaultIsOpen: true })
+
+  return isVisible ? (
+    <Alert status='success'>
+      <AlertIcon />
+      <Box>
+        <AlertTitle>Success!</AlertTitle>
+        <AlertDescription>
+          Your application has been received. We will review your application
+          and respond within the next 48 hours.
+        </AlertDescription>
+      </Box>
+      <CloseButton
+        alignSelf='flex-start'
+        position='relative'
+        right={-1}
+        top={-1}
+        onClick={onClose}
+      />
+    </Alert>
+  ) : (
+    <Button onClick={onOpen}>Show Alert</Button>
+  )
+}
 
 
 const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
+  // eslint-disable-next-line
   const [selectedEmoji, setSelectedEmoji] = useState('grinning');
   function onClick(emoji) {
     setValue(`items.${index}.emoji`, emoji.id)
@@ -68,8 +106,25 @@ const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
     </FormControl>
   )
 }
+const FailAlert = () => {
+  return (
+    <Alert status='error'>
+      <AlertIcon />
+      <AlertTitle>Your browser is outdated!</AlertTitle>
+      <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
+    </Alert>
+  )
+}
 
-function BasicUsage() {
+function BasicUsage({ onUpdateContent }) {
+
+  const { surveyid } = useParams();
+
+  const {
+    // eslint-disable-next-line
+    user, dispatch, userData
+  } = useAuthContext();
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { register, control, handleSubmit, watch, reset, setValue } = useForm({
@@ -81,19 +136,67 @@ function BasicUsage() {
     },
   });
   const response = watch("responseType");
+  // eslint-disable-next-line
   const question = watch("question");
   const textPlaceholder = watch("textPlaceholder");
   const items = watch("items");
 
 
+  // async function handleSubmit(e) {
+  // e.preventDefault();
+
+  //   let question = {
+  //     questionText: questionText,
+  //   }
+  //   if (questionType === 'text') {
+  //     question.type = 'text'
+  //     question.placeholder = questionPlaceholder
+  //   }
+  //   console.log(question)
+
+  //   try {
+  //     const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
+  //       question: question,
+  //     });
+
+  //     console.log(response.data);
+  //     onUpdateContent(response.data);
+
+
+  //     onClose();
+  //     // Clear input fields
+  //     setQuestion('');
+  //     setQuestionPlaceholder('')
+  //     history('/organisation/survey/' + response.data.surveyID + '/edit');
+  //   } catch (error) {
+  //     console.error('Error creating question:', error);
+  //     // Handle error and show user-friendly message
+  //     alert('Error creating survey. Please try again.');
+  //   }
+  // }
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    try {
+      const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
+        data
+      }, {
+        headers: { 'Authorization': `Bearer ${user.token}` },
+      }
+      );
+      console.log(response.data);
+      onUpdateContent(response.data);
+      onClose();
+    }
+    catch (error) {
+      console.log(error);
+    }
+
     // handle form submission here
   };
 
@@ -129,7 +232,7 @@ function BasicUsage() {
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Button onClick={onOpen}>Add Question</Button>
 
       <Modal size={'full'} width={'60%'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -139,7 +242,7 @@ function BasicUsage() {
           <ModalBody alignItems={'flex-start'} justifyContent={'center'} display={'flex'}>
             <Flex width={'80%'} height={'100%'} gap={'40px'} justifyContent={'center'} alignItems={'flex-start'}>
 
-              <form style={{ width: '50%', height:'100%' }} onSubmit={handleSubmit(onSubmit)}>
+              <form style={{ width: '50%', height: '100%' }} onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'10px'} alignItems={'flex-start'} justifyContent={'flex-start'}>
                   <label htmlFor="question">Question:</label>
                   <Input {...register("question", { required: true })} />
@@ -320,7 +423,7 @@ function BasicUsage() {
                       <Input placeholder={textPlaceholder} width={'100%'} />
                     )}
                     {response === "longtext" && (
-                      <Textarea placeholder={textPlaceholder} borderColor={'#D2D2D2'}backgroundColor={'white'} width={'100%'} variant={'outline'} colorScheme="whiteAlpha" />
+                      <Textarea placeholder={textPlaceholder} borderColor={'#D2D2D2'} backgroundColor={'white'} width={'100%'} variant={'outline'} colorScheme="whiteAlpha" />
                     )}
                     {response === "singlechoice" && (
                       <Flex flexDirection={'column'}>
@@ -377,12 +480,11 @@ function BasicUsage() {
             </Flex>
           </ModalBody>
 
-          {/* <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter> */}
+          <ModalFooter>
+            
+            <FailAlert />
+
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

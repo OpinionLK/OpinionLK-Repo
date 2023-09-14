@@ -7,7 +7,10 @@ import {
     Navigate
 } from 'react-router-dom';
 
-import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
+import { BsHouseFill, 
+    // BsCollectionFill, 
+    // BsTable 
+} from 'react-icons/bs';
 // import { BiSolidEditAlt } from 'react-icons/bi';
 
 const Links = [

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, Heading, Input, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Input,  Textarea } from '@chakra-ui/react';
 
 
 const DocumentScanner = () => {

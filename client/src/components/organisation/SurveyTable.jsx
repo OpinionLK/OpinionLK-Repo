@@ -1,30 +1,27 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from '../../hooks/useAuthContext'
 import {
-    Flex,
-    Heading,
-    Card,
-    CardHeader,
-    CardBody,
     Skeleton,
-    Text,
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Tag,
     Th,
     Td,
-    IconButton,
-    TableCaption,
     TableContainer,
     Button,
 } from '@chakra-ui/react'
 
 const SurveyTable = () => {
+    const {
+        // eslint-disable-next-line
+        user, dispatch, userData
+    } = useAuthContext();
     const [data, setData] = useState(null);
+    // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
     const numRows = 5;
     const history = useNavigate();
@@ -34,7 +31,12 @@ const SurveyTable = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/survey/all')
+        fetch('http://localhost:3002/api/survey/byid',
+            {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            }
+        )
             .then(response => response.json())
             .then(data => {
                 setData(data);  
@@ -43,6 +45,7 @@ const SurveyTable = () => {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
+            // eslint-disable-next-line
     }, []);
     return (
         <>

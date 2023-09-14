@@ -1,15 +1,7 @@
 import {
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  StatGroup,
-  Box,
   Card,
   CardBody,
   Image,
-  StarIcon,
   Text,
   Heading
 } from '@chakra-ui/react';
@@ -19,8 +11,6 @@ import surveyIcon from '../../images/ic-1.png';
 const StatViewCard=(props) => {
   return (
     <>
-
-
 <Card
             size='md'
             direction={{ base: 'column', sm: 'row' }}

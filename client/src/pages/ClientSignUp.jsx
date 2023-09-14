@@ -53,6 +53,7 @@ const SignUp = () => {
   const { register, handleSubmit, formState: { errors }, trigger  } = useForm();
   const required = { required: 'This field is required' };
   const phoneValidation = (value) => /^[0-9]{10}$/.test(value);
+  // eslint-disable-next-line
   const nicValidation = (value) => /^[0-9]{9}[vV]?$|^[0-9]{12}$/.test(value);
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -83,7 +84,7 @@ const SignUp = () => {
       [e.target.name]: e.target.value
     })
   }
-
+// eslint-disable-next-line
   const formData = {
     orgName: orgFormData.orgName || 'Example Companey (Pvt) Ltd',
     orgWebsite: orgFormData.orgWebsite  || 'example.com',

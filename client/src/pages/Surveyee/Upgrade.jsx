@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, GridItem, Button, ButtonGroup, Heading, Flex, UnorderedList, ListItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Button, Heading, Flex, UnorderedList, ListItem } from '@chakra-ui/react';
 
 const pricingData = [
   {

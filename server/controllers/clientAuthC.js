@@ -53,3 +53,28 @@ export const ClientSignUp = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+export const ClientData = async (req, res) => {
+  // get token from header
+  const token = req.headers.authorization.split(' ')[1];
+  console.log('Received client data request:', token);
+
+  // check if token is verified
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // verify token
+  const {id} = jwt.verify(token, 'test');
+  console.log(id);
+
+
+  
+  if (!id) {
+    return res.status(400).json({ error: 'Server Error' });
+  }
+  let user = await Clients.findOne({ _id:id });
+  res.status(200).json({
+    id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email, phone: user.phone, nic: user.nic, orgName: user.orgName, orgAddressLine1: user.orgAddressLine1, orgAddressLine2: user.orgAddressLine2, orgCity: user.orgCity, orgState: user.orgState, orgZip: user.orgZip, orgPhone: user.orgPhone, orgEmail: user.orgEmail, orgWebsite: user.orgWebsite, position: user.position, department: user.department
+  });
+};

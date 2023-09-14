@@ -1,11 +1,14 @@
 import express, {application} from 'express';
-import Surveys from '../models/Surveys.js';
+import {Surveys} from '../models/Surveys.js';
 import {
     getAllSurveys,
+    getSurveysByUser,
     createSurvey,
-    getSurvey,
+
     addQuestion,
+    checkEditPrivilege,
     deleteQuestion,
+    getSurveytoEdit,
 
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
@@ -19,11 +22,12 @@ import {requireAuth} from '../middleware/requireAuth.js'
 const router = express.Router();
 
 // router.use(requireAuth)
-router.get('/all', getAllSurveys);
+router.get('/byid', getSurveysByUser);
 router.post('/create', createSurvey);
-router.get('/getsurvey/:surveyid', getSurvey);
+router.get('/getsurvey/:surveyid', getSurveytoEdit);
 router.post('/addQuestion/:surveyid', addQuestion);
 router.put('/deleteQuestion/:surveyid', deleteQuestion);
+router.get('/checkeditpriviledge/:surveyid', checkEditPrivilege);
 
 router.post('/imageUpload', upload.single('image'), async (req, res) => {
     // 4

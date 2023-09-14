@@ -5,7 +5,6 @@ import ReactCrop, {
     makeAspectCrop,
     Crop,
     PixelCrop,
-    convertToPixelCrop,
 } from 'react-image-crop'
 
 import {
@@ -13,7 +12,6 @@ import {
     Flex,
     ModalCloseButton,
     ModalFooter,
-    ModalHeader,
     ModalOverlay,
     ModalContent,
     Modal,
@@ -80,6 +78,7 @@ export default function App({ loadImage }) {
     const imgRef = useRef<HTMLImageElement>(null)
     const [crop, setCrop] = useState<Crop>()
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+    // eslint-disable-next-line
     const [aspect, setAspect] = useState<number | undefined>(21 / 9)
 
     function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
