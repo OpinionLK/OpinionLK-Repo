@@ -1,3 +1,4 @@
+//multipage implementation
 import LongAnswer from "./LongAnswer"
 import ShortAnswer from "./ShortAnswer"
 import MultipleChoice from "./MultipleChoice"
