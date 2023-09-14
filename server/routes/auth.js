@@ -21,5 +21,4 @@ router.post('/savemember', Savemember);
 router.put('/updatemember/:id', Updatemember);
 router.delete('/deletemember/:id', Deletemember);
 
-
 export default router;

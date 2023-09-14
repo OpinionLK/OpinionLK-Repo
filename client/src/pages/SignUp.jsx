@@ -43,7 +43,6 @@ const SignUp = () => {
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
 
-
     try {
       const json = await axios.post('https://opinionlk.azurewebsites.net/api/auth/signup', {
         firstName,

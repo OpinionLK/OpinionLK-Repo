@@ -10,15 +10,19 @@ import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 
 dotenv.config();
-
 const app = express();
+
+const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 3000;
+const ORIGIN_URL = process.env.ORIGIN_URL;
 
 app.get('/', function (req, res) {
   res.json({
     message: 'Welcome to the OpinionLK API',
   });
 });
+
+app.listen(process.env.PORT || 3000);
 // MIDDLEWARE
 app.use(express.json());
 app.use(cors({ origin: process.env.ORIGIN_URL, optionsSuccessStatus: 200 }));
