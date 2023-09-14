@@ -12,6 +12,7 @@ import userRoutes from './routes/user.js';
 dotenv.config();
 
 const app = express();
+const ORIGIN_URL = process.env.ORIGIN_URL || 'http://localhost:3000';
 const PORT = process.env.PORT || 3002;
 
 app.get('/', function (req, res) {
@@ -21,7 +22,7 @@ app.get('/', function (req, res) {
 });
 // MIDDLEWARE
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
+app.use(cors({ origin: ORIGIN_URL, optionsSuccessStatus: 200 }));
 
 // ROUTES
 app.use('/api/auth', authRoutes); 
