@@ -26,11 +26,6 @@ jobs:
           cd client
           npm install
           npm run build --if-present
-
-      - name: npm install for server
-        run: |
-          cd server
-          npm install
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
