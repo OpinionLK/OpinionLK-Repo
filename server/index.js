@@ -10,22 +10,19 @@ import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 
 dotenv.config();
-const app = express();
 
-const MONGO_URL = process.env.MONGO_URL;
-const PORT = process.env.PORT || 3000;
-const ORIGIN_URL = process.env.ORIGIN_URL;
+const app = express();
+const ORIGIN_URL = process.env.ORIGIN_URL || 'http://localhost:3000';
+const PORT = process.env.PORT || 3002;
 
 app.get('/', function (req, res) {
   res.json({
     message: 'Welcome to the OpinionLK API',
   });
 });
-
-app.listen(process.env.PORT || 3000);
 // MIDDLEWARE
 app.use(express.json());
-app.use(cors({ origin: process.env.ORIGIN_URL, optionsSuccessStatus: 200 }));
+app.use(cors({ origin: ORIGIN_URL, optionsSuccessStatus: 200 }));
 
 // ROUTES
 app.use('/api/auth', authRoutes); 
@@ -45,7 +42,7 @@ const options = {
     },
     servers: [
       {
-        url: `${process.env.ORIGIN_URL}`,
+        url: 'http://localhost:3002',
       },
     ],
   },
@@ -62,6 +59,7 @@ mongoose
   })
 
   .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
     console.log('MongoDB Connected');
   })
   .catch((error) => console.error('Error connecting to MongoDB: ', error.message));

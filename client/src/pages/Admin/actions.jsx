@@ -28,7 +28,7 @@ const AdminActions = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    axios.get('http://opinionlk.azurewebsites.net/api/auth/getmembers').then(response => {
+    axios.get('http://localhost:3002/api/auth/getmembers').then(response => {
       console.log(response.data);
     });
   }, []);
@@ -94,7 +94,7 @@ const AdminActions = () => {
     }
 
     try {
-      await axios.post('http://opinionlk.azurewebsites.net/api/auth/savemember', {
+      await axios.post('http://localhost:3002/api/auth/savemember', {
         ManagerFirstName,
         ManagerLastName,
         ManagerDistrict,
