@@ -41,6 +41,8 @@ import {
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import {EditIcon} from '@chakra-ui/icons'
+
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DeleteIcon } from '@chakra-ui/icons'
 import { AnimatePresence, motion } from "framer-motion";
@@ -223,9 +225,11 @@ function BasicUsage({ onUpdateContent }) {
 
   return (
     <>
-      <Button onClick={onOpen}>Add Question</Button>
 
-      <Modal variant={'editModal'} width={'100%'} isOpen={isOpen} onClose={onClose}>
+      <IconButton aria-label={'delete'}
+                                icon={<EditIcon />}
+                                onClick={onOpen} />
+      <Modal variant={'editModal'} width={'60%'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent  >
           <ModalHeader>Add a Question</ModalHeader>

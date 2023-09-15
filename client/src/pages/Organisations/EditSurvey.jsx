@@ -45,7 +45,8 @@ import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
 
 
-import AddQuestionModal from '../../components/organisation/AddQuestionModal'
+import AddQuestionModal from '../../components/organisation/AddQuestionModal.jsx'
+import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
 
 
 function InitialFocus({ surveyid }) {
@@ -239,7 +240,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
             </Modal>
 
 
-            <Modal size={'xl'} isOpen={isEditOpen} onClose={OnEditClose} isCentered>
+            {/* <Modal size={'xl'} isOpen={isEditOpen} onClose={OnEditClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Edit</ModalHeader>
@@ -256,7 +257,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                                     <option value="option2">Option 2</option>
                                 </Select>
                             </FormControl>
-                            
+
                     </ModalBody>
 
                     <ModalFooter>
@@ -266,7 +267,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                         <Button colorScheme='whatsapp' onClick={handleDelete}>Save</Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal> */}
 
           
 
@@ -276,9 +277,8 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                         {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
                         <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
-                            <IconButton aria-label={'delete'}
-                                icon={<EditIcon />}
-                                onClick={onEditOpen} />
+                                       <EditQuestionModal />
+
                             <IconButton aria-label={'delete'}
                                 icon={<DeleteIcon />}
                                 onClick={onDeleteOpen} />
