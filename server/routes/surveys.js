@@ -3,6 +3,8 @@ import {Surveys} from '../models/Surveys.js';
 import {
     getAllSurveys,
     getSurveysByUser,
+    getSurveyByID,
+    createResponse,
     ChangeSurveyState,
     createSurvey,
     getSurveyBySurveyId,
@@ -23,6 +25,9 @@ import {requireAuth} from '../middleware/requireAuth.js'
 const router = express.Router();
 
 // router.use(requireAuth)
+router.get('/byid', getSurveysByUser);
+router.get('/fillSurvey/:surveyid', getSurveyByID);
+router.post('/createResponse', createResponse);
 router.get('/getbyUserId', getSurveysByUser);
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId);
 router.put('/changestatus/:surveyid', ChangeSurveyState);

@@ -1,3 +1,4 @@
+import useFormContext from "../../hooks/useFormContext"
 import React from 'react'
 
 // import './style.css'
@@ -24,8 +25,9 @@ import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 
 import BackButton from '../../images/backButton.png'
 
-const ShortAnswer = () => {
+const LongAnswer = ({question, onChange}) => {
     const [value, setValue] = React.useState('1')
+    const { data, handleChange } = useFormContext()
     return (
 
         <Box
@@ -34,23 +36,23 @@ const ShortAnswer = () => {
             overflow='hidden'
             variant='elevated'
             p='5'
+            m='5'
             borderRadius='20'
             // width='253px'
             // align='center'
             bgColor='white'
         >
-            <Flex align='center' mb='10'>
-                <IconButton variant='unstyled' aria-label='Back' icon={<ChevronLeftIcon />} color='#6C63FF' />
-                <Text fontSize={'xs'} color={'#A3AED0'} pl='3'>
-                    Question 3 of 10
-                </Text>
-            </Flex>
-            <Heading size='md' color={'#2B3674'} mb='5'>What is your opinion on the meaning of life?</Heading>
-            <Input variant='outline' placeholder='Provide a long answer' focusBorderColor='#6C63FF'/>
-            <Button mt='5' colorScheme='purple' borderRadius='100px' bg='#6C63FF' w='100px'>Next</Button>
+            <Heading size='md' color={'#2B3674'} mb='5'>{question}</Heading>
+            <Input 
+                type='text' 
+                variant='outline' 
+                placeholder='Provide a short answer' 
+                focusBorderColor='#6C63FF'
+                onChange={(event) => onChange(event.target.value)}
+            />
         </Box>
 
     )
 }
 
-export default ShortAnswer
+export default LongAnswer
