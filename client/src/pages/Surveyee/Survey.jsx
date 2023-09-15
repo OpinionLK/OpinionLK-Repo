@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios'; // Import Axios for making HTTP requests
+import { useAuthContext } from '../../hooks/useAuthContext';
 import MultipleChoice from "../../components/Surveyee/MultipleChoice";
 import LongAnswer from "../../components/Surveyee/LongAnswer"
 import ShortAnswer from "../../components/Surveyee/ShortAnswer"
+import { useParams } from 'react-router-dom';
 
 import { Button, Text, Heading } from '@chakra-ui/react'
 
 // Your component
-export default function Survey({ match }) {
+export default function Survey() {
   // const { surveyid } = match.params;
-  const surveyid='056npeUPlmboj6zm'
+  const { surveyid } = useParams();
+  // const surveyid='056npeUPlmboj6zm'
   const [survey, setSurvey] = useState(null);
   const { handleSubmit, control } = useForm();
+
+  const {
+    user, dispatch, userData
+  } = useAuthContext();
+
+  // console.log('HELOOO:', user);
 
   useEffect(() => {
     if (surveyid && !survey) {
@@ -32,14 +41,19 @@ export default function Survey({ match }) {
     try {
       // Assuming you have the surveyID available, either as a prop or state
       const surveyID = '056npeUPlmboj6zm'; // Replace with the actual survey ID
-      const userID = '123456789'; // Replace with the actual user ID
+
+      
       const response = data; // Use the form data as the response 
   
       // Send the response data to the server
       const responseFromServer = await axios.post(`http://localhost:3002/api/survey/createResponse`, {
-        surveyID,
-        userID,
+        surveyid,
         response
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        },
       });
   
       console.log('Response added successfully:', responseFromServer.data);
@@ -47,39 +61,11 @@ export default function Survey({ match }) {
       console.error('Error adding response:', error);
     }
   };
-  
-  
 
   if (!survey) {
     return <div>Loading...</div>;
     // put the skeleton loader here
   }
-
-  // async function submit(e) {
-  //   e.preventDefault();
-
-  //   try {
-  //       const response = await axios.post("http://localhost:3002/api/survey/createResponse", {
-            
-  //       });
-
-  //       if (response.status === 200) {
-  //           // Successful login
-  //           console.log("successfully added response");
-  //           // history("/portal", { state: { id: email } });
-  //           // go to home page
-  //       } else if (response.status === 401) {
-  //           // User does not exist
-  //           alert("User is not authorised");
-  //       } else {
-  //           // Unexpected response data
-  //           alert("Something went wrong");
-  //       }
-  //   } catch (error) {
-  //       alert("Wrong details or server error");
-  //       console.log(error);
-  //   }
-  // }
   
   return (
     <>

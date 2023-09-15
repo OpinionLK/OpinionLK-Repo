@@ -68,10 +68,10 @@ const SurveyeeRoutes = [
                 path: '/portal/testSurvey',
                 element: <TestSurvey />,
             },
-            // {
-            //     path: '/portal/survey/:surveyid',
-            //     element: <Survey/>,
-            // },
+            {
+                path: '/portal/survey/:surveyid/fill',
+                element: <Survey/>,
+            },
            
            
         ],

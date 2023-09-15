@@ -43,12 +43,6 @@ const Survey = () => {
     fetchSurveys()
   }, [])
 
-  const goToSurvey = ({surveyID}) => {
-    // go to survey
-    console.log(surveyID)
-    
-  }
-
 
   return (
     <>
@@ -67,7 +61,7 @@ const Survey = () => {
               </CardBody>
               <CardFooter>
                 <ButtonGroup>
-                  <Button colorScheme={'green'} onClick={goToSurvey(survey.surveyID)}>Take Survey</Button>
+                  <Button colorScheme={'green'} onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + survey.surveyID + '/fill'}}>Take Survey</Button>
                 </ButtonGroup>
               </CardFooter>
             </Card>

@@ -101,21 +101,27 @@ export const getSurveyByID = async (req, res) => {
 
 export const createResponse = async (req, res) => {
     try {
-      const { surveyID, userID, response } = req.body;
-  
+      const { surveyid, response } = req.body;
+      const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+        console.log(surveyid);
       // Generate a custom response ID on the server side
       const responseID = generateCustomId();
   
       // Create a new response object with responseID and an array of responses
       const newResponse = {
         responseID: responseID,
-        userID: userID,
+        userID: id,
         responses: response.responses, // Assuming you have an array of responses
       };
       console.log(newResponse);
       // Add the new response to the survey document in the database as an object in the responses array
       const resp = await Surveys.updateOne(
-        { surveyID },
+        { surveyID: surveyid },
         { $push: { responses: newResponse } },
         { new: true }
       );
