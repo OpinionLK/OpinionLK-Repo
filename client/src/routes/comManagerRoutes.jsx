@@ -2,21 +2,23 @@ import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+import NeedApproval from '../pages/CommunityManager/NeedApproval';
+import ViewSurveys from '../pages/CommunityManager/ViewSurveys';
+import ViewSurvey from '../pages/CommunityManager/ViewSurvey';
 
 import {
     Navigate
 } from 'react-router-dom';
 
-import { BsHouseFill, 
-    // BsCollectionFill, 
-    // BsTable 
-} from 'react-icons/bs';
+import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
+import { RiSurveyFill } from 'react-icons/ri';
+
 // import { BiSolidEditAlt } from 'react-icons/bi';
 
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    
+    { route: '/ComManager/allsurveys', linkName: 'All Surveys', icon: RiSurveyFill },
 
 ];
 
@@ -30,8 +32,8 @@ const ComManagerRoutes = [
         ),
         children: [
             {
-                path:'',
-                element: <Navigate to="/ComManager/dashboard" replace/>
+                path: '',
+                element: <Navigate to="/ComManager/dashboard" replace />
             },
             {
                 path: '/ComManager',
@@ -41,8 +43,16 @@ const ComManagerRoutes = [
                 path: '/ComManager/dashboard',
                 element: <CommunityManagerDashBoard />,
             },
-         
-           
+            {
+                path: '/ComManager/allsurveys',
+                element: <ViewSurveys />,
+            },
+            {
+                path: '/ComManager/viewsurvey/:surveyid',
+                element: <ViewSurvey />,
+            },
+
+
         ],
     }
 ]

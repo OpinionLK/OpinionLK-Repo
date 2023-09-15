@@ -56,26 +56,7 @@ const Sidebar = ({ navOpen, setNavOpen, sidebarLinks }) => {
                     alignItems={'center'}
 
                 >
-                    {/* <Flex
-                width={'100%'}
-                alignContent={'center'}
-                justifyContent={'center'}
-                >
-                    <Button variant={'ghost'} colorScheme='whiteAlpha' onClick={() => {
-
-                        setNavOpen(!navOpen)
-                    }}>
-
-                        <Icon as={HiMenu} color={'white'} />
-                    </Button>
-                </Flex> */}
-
-                    {/*               
-                <NavItem route="/portal/home" linkName="Home" navOpen={navOpen} icon={BsHouseFill} />
-                <NavItem route="/portal/dashboard" linkName="Home" navOpen={navOpen} icon={BsHouseFill} />
-                <NavItem linkName="Hoefwfweme" navOpen={navOpen} icon={BsHouseFill} />
-                <NavItem linkName="Hofwefme" navOpen={navOpen} icon={BsHouseFill} />
-                <NavItem linkName="efw" navOpen={navOpen} icon={BsHouseFill} /> */}
+             
                     {sidebarLinks.map((item, index) => (
                         <NavItem
                             key={index}

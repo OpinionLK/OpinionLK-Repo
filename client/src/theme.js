@@ -4,6 +4,7 @@ import { extendTheme } from '@chakra-ui/react'
 import { inputTheme } from './theme/Input'
 import { selectTheme } from './theme/Select';
 import {cardTheme} from './theme/Card';
+import { modalTheme } from './theme/Modal';
 // 1. import `extendTheme` function
 import "@fontsource/inter"; // Defaults to weight 400
 import "@fontsource/inter/900.css"; // Specify weight
@@ -53,6 +54,7 @@ const components = {
   Input: inputTheme,
   Select: selectTheme,
   Card: cardTheme,
+  Modal: modalTheme,
 }
 
 // 3. extend the theme

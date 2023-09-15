@@ -33,6 +33,7 @@ export const getAllSurveys = async (req, res) => {
 }
 
 
+
 export const checkEditPrivilege = async (req, res) => {
     const { surveyid } = req.params;
     const token = req.headers.authorization.split(' ')[1];
@@ -111,27 +112,41 @@ export const createSurvey = async (req, res) => {
     }
 }
 
+export const getSurveyBySurveyId = async (req, res) => {
+
+    const { surveyid } = req.params;
+    try {
+        const survey = await Surveys.find({ surveyID: surveyid });
+        res.status(200).json(survey);
+    }
+    catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+
+
+}
+
 export const getSurveytoEdit = async (req, res) => {
     const { surveyid } = req.params;
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        // const token = req.headers.authorization.split(' ')[1];
 
 
-        if (!token) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+        // if (!token) {
+        //     return res.status(401).json({ error: 'Unauthorized' });
+        // }
         // verify token
-        const { id } = jwt.verify(token, 'test');
+        // const { id } = jwt.verify(token, 'test');
 
         try {
             const survey = await Surveys.find({ surveyID: surveyid });
             console.log(survey[0].creatorID);
-            console.log(id);
+            // console.log(id);
             // console.log(token);
-            if (survey[0].creatorID !== id) {
-                console.log(survey);
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
+            // if (survey[0].creatorID !== id) {
+            //     console.log(survey);
+            //     return res.status(401).json({ error: 'Unauthorized' });
+            // }
             console.log(survey);
             res.status(200).json(survey);
         }
@@ -201,17 +216,69 @@ export const addQuestion = async (req, res) => {
 
         const resp = await Surveys.updateOne(
             { surveyID: surveyid },
-            { $push: { questions: data } },
-            { new: true }
+            { $push: { questions: data } }
         );
-        console.log(resp);
+
+        const updated = await Surveys.find({ surveyID: surveyid });
+
+
         res.status(200).json({
             message: "Question added successfully.",
-            resp: resp
+            resp: updated
         });
     }
     catch (error) {
         res.status(404).json({ message: error.message });
+    }
+}
+
+export const ChangeSurveyState = async (req, res) => {
+
+    // AUTHORISE USER
+    
+    try {
+
+        const token = req.headers.authorization.split(' ')[1];
+        console.log(token); 
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // verify token
+
+        const { id } = jwt.verify(token, 'test');
+
+        // check if user is creator of survey
+
+        const survey = await Surveys.find({ surveyID: req.params.surveyid });
+        console.log(survey[0].creatorID);
+        if (survey[0].creatorID !== id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const { surveyid } = req.params;
+        const { state } = req.body;
+        console.log('Survey id '+ surveyid);
+        console.log('Survey state '+ state);
+
+        const resp = await Surveys.updateOne(
+            { surveyID: surveyid },
+            { $set: { approvalStatus: state } }
+        );
+
+
+        if (resp.Modified > 0) {
+            res.status(404).json({ message: "Survey not found." });
+        } else {
+            res.status(200).json({
+                message: "Survey state changed successfully.",
+                data: resp
+
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: "An error occurred." });
     }
 }
 
@@ -243,5 +310,7 @@ export const deleteQuestion = async (req, res) => {
         res.status(500).json({ message: "An error occurred." });
     }
 }
+
+
 
 
