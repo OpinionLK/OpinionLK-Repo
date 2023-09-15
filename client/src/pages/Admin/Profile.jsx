@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Flex, Image, Text, Button, Grid, Card, } from '@chakra-ui/react';
+import { Box, Flex, Image, Text,  Grid, Card, } from '@chakra-ui/react';
 import profileImage from '../../images/profile/Profile Image.png';
 import profileBackgroundImage from '../../images/profile/Background Image.png';
-import profileComplete from '../../images/profile/profile-complete.png';
+// import profileComplete from '../../images/profile/profile-complete.png';
 import './customerProfile2.css';
 import DocumentScanner from './DocumentScanner';
 

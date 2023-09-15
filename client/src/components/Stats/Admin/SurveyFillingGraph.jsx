@@ -6,7 +6,6 @@ import {
     CardBody,
     VStack,
     Flex,
-    color,
 } from '@chakra-ui/react'
 import { Bar } from 'react-chartjs-2';
 

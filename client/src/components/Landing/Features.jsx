@@ -33,10 +33,11 @@ const Features = () => {
 
             <Flex
 
-                alignItems="center"
+                alignItems="flex-start"
+
                 // w="full"
                 px={isLargerThanLG ? '16' : '6'}
-                py="16"
+                py="8"
                 minHeight="90vh"
                 // justifyContent="center"
 
@@ -44,6 +45,7 @@ const Features = () => {
 
                 flexDirection={isLargerThanLG ? 'column' : 'column'}
             >
+                <Heading m={'40px 0px'} color={'brand.textDarkPurple'}>Why OpinionLK?</Heading>
 
                 <Grid
 

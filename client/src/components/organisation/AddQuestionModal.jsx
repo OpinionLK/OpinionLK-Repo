@@ -1,16 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-
 import {
-
   Modal,
   Radio,
   RadioGroup,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  Checkbox, CheckboxGroup,
+  Checkbox,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
@@ -43,10 +41,10 @@ import axios from 'axios';
 
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DeleteIcon } from '@chakra-ui/icons'
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-
+// eslint-disable-next-line
 function CompExample() {
   const {
     isOpen: isVisible,
@@ -79,6 +77,7 @@ function CompExample() {
 
 
 const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
+  // eslint-disable-next-line
   const [selectedEmoji, setSelectedEmoji] = useState('grinning');
   function onClick(emoji) {
     setValue(`items.${index}.emoji`, emoji.id)
@@ -122,6 +121,7 @@ function BasicUsage({ onUpdateContent }) {
   const { surveyid } = useParams();
 
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
@@ -136,6 +136,7 @@ function BasicUsage({ onUpdateContent }) {
     },
   });
   const response = watch("responseType");
+  // eslint-disable-next-line
   const question = watch("question");
   const textPlaceholder = watch("textPlaceholder");
   const items = watch("items");

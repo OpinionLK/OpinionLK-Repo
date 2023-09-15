@@ -3,15 +3,10 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
-  CheckCircleIcon,
 } from '@chakra-ui/react';
-
-
 
 function AcceptRequestTable() {
   return (

@@ -21,7 +21,7 @@ const StatRow = () => {
         },
         padding: '3px 2px',
     }
-
+// eslint-disable-next-line
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     return (
         <Grid style={TopStatCardGrid} overflow={'auto'} templateColumns="repeat(7, 1fr)" gap={4}>

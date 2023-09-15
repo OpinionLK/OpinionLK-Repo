@@ -2,26 +2,24 @@
 
 import {
   Flex,
-  Heading,
-  Stack,
-  useMediaQuery,
-  FormControl,
-  FormLabel,
+  // Heading,
+  // Stack,
+  // useMediaQuery,
+  // FormControl,
+  // FormLabel,
   Text,
-  Input,
-  Checkbox,
-  Button,
+  // Input,
+  // Checkbox,
+  // Button,
   Box,
-  Grid,
-  GridItem,
+  // Grid,
+  // GridItem,
 } from '@chakra-ui/react';
-import Dashboard from '../DashboardLayout';
-
-import Sidebar from '../../components/Layout/Sidebar';
-import Topbar from '../../components/Layout/Topbar';
+// import Dashboard from '../DashboardLayout';
+// import Sidebar from '../../components/Layout/Sidebar';
+// import Topbar from '../../components/Layout/Topbar';
 
 import StatViewCard from '../../components/CommunityManager/StatViewCard';
-
 import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
 import TaskSummaryTable from '../../components/CommunityManager/TaskSummaryTable';
 import SurveyManagementGrph from '../../components/CommunityManager/SurveyManagementGraph';

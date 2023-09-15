@@ -37,7 +37,6 @@ const SurveyeeRoutes = [
             {
                 path: '',
                 element: <Navigate to="/portal/dashboard" replace />,
-                element: <Navigate to="/portal/dashboard" replace />,
             },
             {
                 path: 'home',

@@ -1,7 +1,5 @@
 import React from 'react'
-
 // import './style.css'
-
 import { 
     Card, 
     CardHeader, 
@@ -20,13 +18,11 @@ import {
     Spacer,
     IconButton
 } from '@chakra-ui/react'
-
 // import { NavLink } from "react-router-dom";
 import {Line, Pie, Doughnut, Bar} from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { FaChartBar } from 'react-icons/fa'
 
-// sample data
 const state = {
     labels: ['19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th'],
     datasets: [

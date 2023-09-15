@@ -11,7 +11,6 @@ import {
   Image,
   Stack,
   Heading
-
 } from '@chakra-ui/react'
 
 import axios from 'axios'
@@ -20,15 +19,7 @@ const Survey = () => {
 
   const [surveys, setSurveys] = useState([])
 
-  const style = {
-    width: '100%',
-    overflow: 'auto',
-    height: '100%',
-    paddingBottom: '20px',
-  }
-
   useEffect(() => {
-    // fetch surveys
     const fetchSurveys = async () => {
       try {
         const response = await axios.get('http://localhost:3002/api/user/allsurveys')

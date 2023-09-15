@@ -16,16 +16,13 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-
-
-
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const Login = () => {
 
     const {
-        user
-    } = useAuthContext();
+        // eslint-disable-next-line
+        user } = useAuthContext();
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
     const history = useNavigate();
 

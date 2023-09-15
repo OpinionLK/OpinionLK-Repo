@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, {  useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 import {
-    Box,
     Flex,
     Heading,
     Image,
@@ -15,7 +14,6 @@ import {
     Input,
     Checkbox,
     Button,
-    IconButton
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'

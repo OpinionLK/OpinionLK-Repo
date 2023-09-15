@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
+// eslint-disable-next-line
 import {Line, Pie, Doughnut} from 'react-chartjs-2';
 import {Chart, Title} from 'chart.js/auto';
 import { FaChartBar } from 'react-icons/fa'
