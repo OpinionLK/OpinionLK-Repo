@@ -67,7 +67,7 @@ const CommunityManagers = () => {
     const fetchCommunityManagers = async () => {
         try {
           const response = await axios.get(
-            'http://localhost:3002/api/auth/getmembers'
+            'https://opinion-lk-b3d64ae79a55.herokuapp.com/api/auth/getmembers'
           );
           const data = response.data;
           setCommunityManagers(data);

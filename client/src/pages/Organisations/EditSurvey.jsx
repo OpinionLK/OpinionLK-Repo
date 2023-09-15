@@ -22,7 +22,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
+            await axios.put(`https://opinion-lk-b3d64ae79a55.herokuapp.com/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
             });
 
