@@ -82,6 +82,53 @@ export const getSurveysByUser = async (req, res) => {
     }
 }
 
+export const getSurveyByID = async (req, res) => {
+    console.log(' hi ', req.params);
+    try {
+        // Get survey id from params
+        const { surveyid } = req.params;
+        const survey = await Surveys.findOne({ surveyID: surveyid });
+
+        if (!survey) {
+            return res.status(404).json({ message: 'Survey not found' });
+        }
+        console.log(survey);
+        res.status(200).json(survey);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export const createResponse = async (req, res) => {
+    try {
+      const { surveyID, userID, response } = req.body;
+  
+      // Generate a custom response ID on the server side
+      const responseID = generateCustomId();
+  
+      // Create a new response object with responseID and an array of responses
+      const newResponse = {
+        responseID: responseID,
+        userID: userID,
+        responses: response.responses, // Assuming you have an array of responses
+      };
+      console.log(newResponse);
+      // Add the new response to the survey document in the database as an object in the responses array
+      const resp = await Surveys.updateOne(
+        { surveyID },
+        { $push: { responses: newResponse } },
+        { new: true }
+      );
+  
+      res.status(200).json({
+        message: 'Response added successfully.',
+        resp: resp,
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Error adding response.', error: error.message });
+    }
+  };
+
 export const createSurvey = async (req, res) => {
 
     // get token from header

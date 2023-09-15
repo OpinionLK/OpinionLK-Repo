@@ -1,12 +1,13 @@
 import React from 'react'
 import Dashboard from "../pages/DashboardLayout"
 import ClientPortal from "../pages/Surveyee/ClientPortal"
-import Survey from "../pages/Surveyee/surveys"
+import Surveys from "../pages/Surveyee/surveys"
 import Profile from "../pages/Surveyee/Profile"
 import Serydashboard from "../pages/Surveyee/SurveyeeDashboard"
 import Myrewards from "../pages/Surveyee/Myrewards"
 import Upgrade from "../pages/Surveyee/Upgrade"
 import TestSurvey from "../pages/Surveyee/TestSurvey"
+import Survey from "../pages/Surveyee/Survey"
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
@@ -49,7 +50,7 @@ const SurveyeeRoutes = [
             },
             {
                 path: '/portal/surveys',
-                element: <Survey />,
+                element: <Surveys />,
             },
             {
                 path: '/portal/profile',
@@ -67,6 +68,10 @@ const SurveyeeRoutes = [
                 path: '/portal/testSurvey',
                 element: <TestSurvey />,
             },
+            // {
+            //     path: '/portal/survey/:surveyid',
+            //     element: <Survey/>,
+            // },
            
            
         ],

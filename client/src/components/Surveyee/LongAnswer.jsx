@@ -25,7 +25,7 @@ import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 
 import BackButton from '../../images/backButton.png'
 
-const ShortAnswer = () => {
+const LongAnswer = ({question, onChange}) => {
     const [value, setValue] = React.useState('1')
     const { data, handleChange } = useFormContext()
     return (
@@ -36,16 +36,23 @@ const ShortAnswer = () => {
             overflow='hidden'
             variant='elevated'
             p='5'
+            m='5'
             borderRadius='20'
             // width='253px'
             // align='center'
             bgColor='white'
         >
-            <Heading size='md' color={'#2B3674'} mb='5'>What is your opinion on the meaning of life?</Heading>
-            <Input variant='outline' placeholder='Provide a long answer' focusBorderColor='#6C63FF'/>
+            <Heading size='md' color={'#2B3674'} mb='5'>{question}</Heading>
+            <Input 
+                type='text' 
+                variant='outline' 
+                placeholder='Provide a short answer' 
+                focusBorderColor='#6C63FF'
+                onChange={(event) => onChange(event.target.value)}
+            />
         </Box>
 
     )
 }
 
-export default ShortAnswer
+export default LongAnswer

@@ -43,6 +43,12 @@ const Survey = () => {
     fetchSurveys()
   }, [])
 
+  const goToSurvey = ({surveyID}) => {
+    // go to survey
+    console.log(surveyID)
+    
+  }
+
 
   return (
     <>
@@ -61,7 +67,7 @@ const Survey = () => {
               </CardBody>
               <CardFooter>
                 <ButtonGroup>
-                  <Button colorScheme={'green'}>Take Survey</Button>
+                  <Button colorScheme={'green'} onClick={goToSurvey(survey.surveyID)}>Take Survey</Button>
                 </ButtonGroup>
               </CardFooter>
             </Card>

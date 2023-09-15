@@ -4,28 +4,12 @@ import React from 'react'
 // import './style.css'
 
 import { 
-    Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
-    Stack,
-    StackDivider,
     Box,
     Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
-    Flex,
-    IconButton,
     Input 
 } from '@chakra-ui/react'
-import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 
-import BackButton from '../../images/backButton.png'
-
-const ShortAnswer = () => {
+const ShortAnswer = ({ question, onChange }) => {
     const [value, setValue] = React.useState('1')
     const { data, handleChange } = useFormContext()
     return (
@@ -36,13 +20,21 @@ const ShortAnswer = () => {
             overflow='hidden'
             variant='elevated'
             p='5'
+            m='5'
             borderRadius='20'
             // width='253px'
             // align='center'
             bgColor='white'
         >
-            <Heading size='md' color={'#2B3674'} mb='5'>What is your favorite colour?</Heading>
-            <Input variant='outline' placeholder='Provide a short answer' focusBorderColor='#6C63FF'/>
+            <Heading size='md' color={'#2B3674'} mb='5'>{question}</Heading>
+            <Input 
+                type='text' 
+                variant='outline' 
+                placeholder='Provide a short answer' 
+                focusBorderColor='#6C63FF'
+                w='400px'
+                onChange={(event) => onChange(event.target.value)}
+            />    
         </Box>
 
     )
