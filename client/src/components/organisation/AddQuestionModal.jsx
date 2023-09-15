@@ -107,15 +107,7 @@ const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
     </FormControl>
   )
 }
-const FailAlert = () => {
-  return (
-    <Alert status='error'>
-      <AlertIcon />
-      <AlertTitle>Your browser is outdated!</AlertTitle>
-      <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
-    </Alert>
-  )
-}
+
 
 function BasicUsage({ onUpdateContent }) {
 
@@ -233,7 +225,7 @@ function BasicUsage({ onUpdateContent }) {
     <>
       <Button onClick={onOpen}>Add Question</Button>
 
-      <Modal size={'full'} width={'60%'} isOpen={isOpen} onClose={onClose}>
+      <Modal variant={'purple'} width={'60%'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent  >
           <ModalHeader>Add a Question</ModalHeader>
@@ -480,8 +472,6 @@ function BasicUsage({ onUpdateContent }) {
           </ModalBody>
 
           <ModalFooter>
-            
-            <FailAlert />
 
           </ModalFooter>
         </ModalContent>

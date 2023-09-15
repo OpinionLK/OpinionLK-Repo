@@ -38,7 +38,7 @@ const SurveyTable = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/survey/byid',
+        fetch('http://localhost:3002/api/survey/getbyUserId',
             {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
