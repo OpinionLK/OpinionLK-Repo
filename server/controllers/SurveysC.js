@@ -237,33 +237,8 @@ export const addQuestion = async (req, res) => {
     }
 
     data.questionID = generateCustomId();
-
     console.log(surveyid);
 
-
-
-    // switch (data.responseType) {
-    //     case 'shorttext':
-    //         QuestionSchema = new Text(data);
-    //         break;
-    //     case 'longtext':
-    //         QuestionSchema = new Text(data);
-    //         break;
-    //     case 'singlechoice':
-    //         QuestionSchema = new Choice(data);
-    //         break;
-    //     case 'multiplechoice':
-    //         QuestionSchema = new Choice(data);
-    //         break;
-    //     case 'mood':
-    //         QuestionSchema = new Mood(data);
-    //         console.log(QuestionSchema);
-    //         break;
-    //     default:
-    //         console.log("Invalid response type");
-    //         QuestionSchema = new Text(data);
-    //         break;
-    // }
 
     try {
 
@@ -288,11 +263,11 @@ export const addQuestion = async (req, res) => {
 export const ChangeSurveyState = async (req, res) => {
 
     // AUTHORISE USER
-    
+
     try {
 
         const token = req.headers.authorization.split(' ')[1];
-        console.log(token); 
+        console.log(token);
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
@@ -311,8 +286,8 @@ export const ChangeSurveyState = async (req, res) => {
 
         const { surveyid } = req.params;
         const { state } = req.body;
-        console.log('Survey id '+ surveyid);
-        console.log('Survey state '+ state);
+        console.log('Survey id ' + surveyid);
+        console.log('Survey state ' + state);
 
         const resp = await Surveys.updateOne(
             { surveyID: surveyid },

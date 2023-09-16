@@ -10,7 +10,7 @@ import TestSurvey from "../pages/Surveyee/TestSurvey"
 import Survey from "../pages/Surveyee/Survey"
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-
+import { motion } from 'framer-motion'
 import { BsHouseFill } from 'react-icons/bs';
 
 import {
@@ -20,7 +20,7 @@ import {
 const Links = [
 
     { route: '/portal/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/portal/surveys', linkName: 'Surveys', icon: BsHouseFill},
+    { route: '/portal/surveys', linkName: 'Surveys', icon: BsHouseFill },
     { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
     { route: '/portal/My Rewards', linkName: 'Rewards', icon: BsHouseFill },
     { route: '/portal/Upgrade', linkName: 'Upgrade', icon: BsHouseFill }];
@@ -31,9 +31,22 @@ const SurveyeeRoutes = [
         path: '/portal',
         element: (
             <PrivateRoute allowedRoles={['user']}>
-                <Dashboard sidebarLinks={Links} /> ,
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.5,
+                        delay: 0.2,
+                        ease: 'easeOut',
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20
+                    }}
+                >
+                    <Dashboard sidebarLinks={Links} /> ,
+                </motion.div>
             </PrivateRoute>
-            ),
+        ),
         children: [
             {
                 path: '',
@@ -69,10 +82,10 @@ const SurveyeeRoutes = [
             },
             {
                 path: '/portal/survey/:surveyid/fill',
-                element: <Survey/>,
+                element: <Survey />,
             },
-           
-           
+
+
         ],
     },
 ]

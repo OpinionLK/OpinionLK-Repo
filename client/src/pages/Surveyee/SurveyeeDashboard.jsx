@@ -1,10 +1,11 @@
-import { 
+import {
     Grid,
     Box,
     GridItem,
     Wrap,
- } from '@chakra-ui/react'
+} from '@chakra-ui/react'
 import React from 'react'
+
 import StatRow from '../../components/Stats/StatRow'
 // import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 // import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
@@ -25,24 +26,24 @@ const Serydashboard = () => {
     }
 
     return (
-        <>
-            <Box style={style}>
+
+        <Box style={style}>
 
 
-                <Grid templateColumns="repeat(3, 1fr)">
-                    <GridItem colSpan={2}>
-                        <Grid templateColumns="repeat(1, 1fr)">
-                            <StatCard />
-                        </Grid>
-                    </GridItem>
-                    <GridItem rowSpan={2}>
-                        <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={5}>
-                            <CouponBoard />
-                        </Grid>
-                    </GridItem>
-                    <GridItem colSpan={2} mt={5} mr={5}>
-                        <SurveyRow />
-                        {/* <Box
+            <Grid templateColumns="repeat(3, 1fr)">
+                <GridItem colSpan={2}>
+                    <Grid templateColumns="repeat(1, 1fr)">
+                        <StatCard />
+                    </Grid>
+                </GridItem>
+                <GridItem rowSpan={2}>
+                    <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={5}>
+                        <CouponBoard />
+                    </Grid>
+                </GridItem>
+                <GridItem colSpan={2} mt={5} mr={5}>
+                    <SurveyRow />
+                    {/* <Box
                             width="auto"
                             px={5}
                             pb='4'
@@ -55,12 +56,11 @@ const Serydashboard = () => {
                                 <SurveyCard />
                             </Wrap>
                         </Box> */}
-                    </GridItem>
+                </GridItem>
 
-                </Grid>
-                
-            </Box>
-        </>
+            </Grid>
+
+        </Box>
     )
 }
 

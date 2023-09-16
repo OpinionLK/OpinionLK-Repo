@@ -33,7 +33,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon,
-    EditIcon,
+
     DragHandleIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
@@ -100,7 +100,7 @@ function InitialFocus({ surveyid }) {
     return (
         <>
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
-
+                {user.id}
 
             <Modal
                 initialFocusRef={initialRef}
@@ -185,7 +185,7 @@ function InitialFocus({ surveyid }) {
     )
 }
 
-const QuestionCard = ({ surveyid, question, refreshdata }) => {
+const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
 
     const toast = useToast()
 
@@ -210,13 +210,13 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                 isClosable: true,
             })
 
-            
+
         } catch (error) {
             console.error('Error deleting question:', error);
         }
     };
-    const { isOpen:isDeleteOpen, onOpen:onDeleteOpen, onClose:OnDeleteClose } = useDisclosure()
-    const { isOpen:isEditOpen, onOpen:onEditOpen, onClose:OnEditClose } = useDisclosure()
+    const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: OnDeleteClose } = useDisclosure()
+    const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: OnEditClose } = useDisclosure()
 
     return (
         <>
@@ -268,7 +268,7 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                 </ModalContent>
             </Modal> */}
 
-          
+
 
             <Card cursor="pointer" transition={'0.3s'}>
                 <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
@@ -276,16 +276,20 @@ const QuestionCard = ({ surveyid, question, refreshdata }) => {
                         {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
                         <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
-                                       <EditQuestionModal />
+                        {
+                            approvalStatus == 'pending' ? null : (
+                                <EditQuestionModal />
+                            )
+                        }
 
-                            <IconButton aria-label={'delete'}
-                                icon={<DeleteIcon />}
-                                onClick={onDeleteOpen} />
-                                
-                            <IconButton aria-label={'delete'}
-                                icon={<DragHandleIcon />}
-                                onClick={()=>alert('Drag Handle')} />
-                                
+                        <IconButton aria-label={'delete'}
+                            icon={<DeleteIcon />}
+                            onClick={onDeleteOpen} />
+
+                        <IconButton aria-label={'delete'}
+                            icon={<DragHandleIcon />}
+                            onClick={() => alert('Drag Handle')} />
+
                     </Flex>
                 </CardBody>
             </Card >
@@ -338,8 +342,8 @@ const EditSurvey = () => {
             }
         }
     }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-   useEffect(() => { handleSubmit(); }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { handleSubmit(); }, [])
 
     // const toast = useToast()
     const loadImage = (imageName) => {
@@ -375,7 +379,12 @@ const EditSurvey = () => {
 
                                 </Text>
                             </Flex>
-                            <Cropper loadImage={loadImage} />
+                            <Flex gap='10px'>
+                                <Button>Suspend</Button>
+                                <Button>Delete</Button>
+                                <Cropper loadImage={loadImage} />
+
+                            </Flex>
 
 
                         </Flex>
@@ -389,9 +398,10 @@ const EditSurvey = () => {
                     <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
+                            {survey?.approvalStatus == 'draft' ? (
+                                <AddQuestionModal onUpdateContent={handleContentUpdate} />
+                            ) : null}
 
-                            <AddQuestionModal onUpdateContent={handleContentUpdate} />
-                            <Button colorScheme={'teal'}>Preview Survey</Button>
                         </Flex>
                     </CardHeader>
                     <CardBody>
@@ -407,7 +417,7 @@ const EditSurvey = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, transition: { duration: 0.3 } }}
                                         >
-                                            <QuestionCard surveyid={survey.surveyID} question={question}
+                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} question={question}
                                                 refreshdata={handleSubmit} />
                                         </motion.div>
 
@@ -419,20 +429,23 @@ const EditSurvey = () => {
                         </Flex>
                     </CardBody>
                 </Card>
+                {survey?.approvalStatus == 'pending' ? null : (
+                    <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
+                        padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
+                        alignItems={'center'}>
 
-                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
-                    alignItems={'center'}>
+                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                            Ready to publish your survey?
+                        </Text>
+                        <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
 
-                    <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                        Ready to publish your survey?
-                    </Text>
-                    <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
-
-                    <InitialFocus surveyid={survey?.surveyID} />
+                        <InitialFocus surveyid={survey?.surveyID} />
 
 
-                </Card>
+                    </Card>
+                )
+                }
+
             </Flex>
         </Flex>
 

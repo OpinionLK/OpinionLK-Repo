@@ -10,6 +10,10 @@ import {
     Navigate
 } from 'react-router-dom';
 
+import {
+    motion
+} from 'framer-motion';
+
 import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 
@@ -27,7 +31,20 @@ const ComManagerRoutes = [
         path: '/ComManager',
         element: (
             <PrivateRoute allowedRoles={['manager']}>
-                <DashBoard sidebarLinks={Links} />
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.5,
+                        delay: 0.2,
+                        ease: 'easeOut',
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20
+                    }}
+                >
+                    <DashBoard sidebarLinks={Links} />
+                </motion.div>
             </PrivateRoute>
         ),
         children: [

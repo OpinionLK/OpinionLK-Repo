@@ -10,6 +10,10 @@ import TestComponenets from '../pages/Organisations/TestComponenets';
 
 
 import {
+    motion
+} from 'framer-motion';
+
+import {
     Navigate
 } from 'react-router-dom';
 
@@ -32,7 +36,20 @@ const OrganisationRoutes = [
         path: '/organisation',
         element: (
             <PrivateRoute allowedRoles={['client']}>
-                <OrganisationDashboard sidebarLinks={Links} />
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.5,
+                        delay: 0.2,
+                        ease: 'easeOut',
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20
+                    }}
+                >
+                    <OrganisationDashboard sidebarLinks={Links} />
+                </motion.div>
             </PrivateRoute>
         ),
         children: [

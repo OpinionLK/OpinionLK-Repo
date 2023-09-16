@@ -15,9 +15,6 @@ import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon
 } from '@chakra-ui/icons'
-import createsurveybg from '../../assets/images/createsurveybg.png'
-
-import AddQuestionModal from '../../components/organisation/AddQuestionModal.jsx'
 
 
 const QuestionCard = ({ surveyid, question, refreshdata }) => {
@@ -119,7 +116,9 @@ const ViewSurvey = () => {
                                 <Flex gap='10px' flexDir={'column'}>
 
                                     <Heading>
-                                        <Text display={'flex'} gap={'20px'} alignItems={'center'}>{survey?.surveyName} <Tag fontWeight={'bold'} colorScheme={'green'}>{survey?.approvalStatus.toUpperCase()}</Tag></Text>
+                                        <Text display={'flex'} gap={'20px'} alignItems={'center'}>{survey?.surveyName}
+                                            <Tag fontWeight={'bold'} colorScheme={'yellow'}>{survey?.approvalStatus.toUpperCase()}</Tag>
+                                        </Text>
                                     </Heading>
                                     <Text>
                                         <Text >{survey?.surveyDescription}</Text>
