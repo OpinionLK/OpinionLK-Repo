@@ -1,29 +1,56 @@
 import React from 'react'
+
+// import './style.css'
+
 import { 
     Card, 
+    CardHeader, 
+    CardBody, 
+    CardFooter, 
+    Text,
+    Stack,
+    StackDivider,
     Box,
+    Heading,
+    Divider,
+    ButtonGroup,
+    Button,
+    Image,
+    Flex,
+    Spacer,
+    IconButton
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
 // eslint-disable-next-line
 import {Line, Pie, Doughnut} from 'react-chartjs-2';
-// import Chart from 'chart.js/auto';
+import {Chart, Title} from 'chart.js/auto';
+import { FaChartBar } from 'react-icons/fa'
 
 // sample data
 const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
+    labels: ['JAN', 'FEB', 'MAR',
+             'APR', 'MAY'],
     datasets: [
       {
-        label: 'Surveys',
+        label: 'Modern Art...',
         fill: false,
-        lineTension: 0.5,
+        lineTension: 0.4,
         backgroundColor: '#fff',
         borderColor: '#4318FF',
-        borderWidth: 2,
+        borderWidth: 3,
         data: [65, 59, 80, 81, 56]
+      },
+      {
+        label: 'AI and ML...',
+        fill: false,
+        lineTension: 0.4,
+        backgroundColor: '#fff',
+        borderColor: '#6AD2FF',
+        borderWidth: 3,
+        data: [43, 34, 90, 91, 70]
       }
-    ]
+    ],
   }
 
 const StatCard = () => {
@@ -44,23 +71,78 @@ const StatCard = () => {
                 width="570px"  // Set your desired width here
                 height="300px" // Set your desired height here
                 overflow="hidden"
-                p={[2, 3]}
+                p= '3'
             >
-                <Line
-                    data={state}
-                    options={{
-                        title:{
-                            display:true,
-                            text:'Average Rainfall per month',
-                            fontSize:20
-                        },
-                        legend:{
-                            display:true,
-                            position:'right'
-                        }
-                    }}
-                />
+
+                <Flex pl='3' pr='3'>
+                    <Box>
+                        
+                        <Text fontSize={20} fontWeight={'semibold'} color={'#2B3674'}>
+                            Survey Responses
+                        </Text>
+                        {/* <Text fontSize={12} fontWeight={'regular'} color={'#A3AED0'}>
+                            Data and Analytics
+                        </Text> */}
+                    </Box>
+                    <Spacer/>
+
+                    <IconButton aria-label='Add to friends' icon={<FaChartBar/>} borderRadius={50} color='#4318FF' backgroundColor={'#F4F7FE'}/>
+                </Flex>
+                
+                <Box
+                    position="relative"
+                    overflow="hidden"
+                    p= '5'
+                    pt='0'
+                >
+                    <Line
+                        data={state}
+                        options={{
+                            plugins: {
+                                legend:{
+                                    display:true,
+                                    position:'top',
+                                    labels: {
+                                        usePointStyle: true,
+                                        pointStyleWidth: 2.5,
+                                        boxWidth: 3,
+                                        pointStyle: 'circle',
+                                    }
+                                },
+                            },
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false
+                                    },
+                                    border: {
+                                        display: false
+                                    }
+                                },
+                                y: {
+                                    display: false,
+                                    // grid: {
+                                    //     display: false
+                                    // },
+                                    // border: {
+                                    //     display: false
+                                    // }
+                                }
+                            }
+                        }}
+                    />
+                </Box>
             </Box>
+            
+
+            
+            {/* <CardBody>
+                <Text size='0.2'>
+                    Total Surveys
+                </Text>
+                <Heading size='sm'>123</Heading>
+            </CardBody> */}
+    
         </Card>
 
     )

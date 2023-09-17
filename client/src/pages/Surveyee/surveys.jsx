@@ -52,7 +52,7 @@ const Survey = () => {
               </CardBody>
               <CardFooter>
                 <ButtonGroup>
-                  <Button colorScheme={'green'}>Take Survey</Button>
+                  <Button colorScheme={'green'} onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + survey.surveyID + '/fill'}}>Take Survey</Button>
                 </ButtonGroup>
               </CardFooter>
             </Card>

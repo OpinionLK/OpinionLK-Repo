@@ -10,16 +10,22 @@ import {
     Button,
     Image,
     Flex,
-    Spacer
+    Spacer,
+    HStack,
+    Tag,
+    TagLabel,
+    TagRightIcon,
+    Wrap,
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
 import sampleCard from '../../images/sample-card.png'
+import SurveyPopup from './SurveyPopup'
 
 const SurveyCard = () => {
     return (
 
-        <Box maxW='sm' width={'auto'} borderRadius={15} borderColor={'#fff'}>
+        <Box maxW='300px' width={'auto'} borderRadius={15} borderColor={'#fff'} p='4' bgColor='white'>
             <Box
                 position="relative"
                 height="150px"
@@ -28,7 +34,7 @@ const SurveyCard = () => {
             >
                 <Image
                 src={sampleCard}
-                alt='Green double couch with wooden legs'
+                alt='abstract art'
                 />
             </Box>  
 
@@ -44,11 +50,22 @@ const SurveyCard = () => {
                 pl='0.5'
                 pt='4'
             >
-                <Text color='blue.600' fontSize='2xl'>
+                {/* <Text color='blue.600' fontSize='2xl'>
                     $450
-                </Text>
+                </Text> */}
+                <Wrap spacing='1' width='140px'>
+                        <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
+                        <TagLabel>art</TagLabel>
+                        </Tag>
+                         <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
+                         <TagLabel>modern</TagLabel>
+                         </Tag>
+                          <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
+                        <TagLabel>youth</TagLabel>
+                        </Tag>
+                </Wrap>
                 <Spacer />
-                <Button 
+                {/* <Button 
                     variant='solid' 
                     colorScheme='blue' 
                     borderRadius={'full'} 
@@ -57,7 +74,8 @@ const SurveyCard = () => {
                     bg='#11047A'
                 >
                     Go to Survey
-                </Button>
+                </Button> */}
+                <SurveyPopup/>
             </Flex>
         </Box>
 

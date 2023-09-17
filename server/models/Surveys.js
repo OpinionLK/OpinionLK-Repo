@@ -56,10 +56,7 @@ const surveySchema = new mongoose.Schema({
   creatorID: { type: String, required: true },
   approvalStatus: { type: String, enum: ['draft', 'pending', 'approved', 'rejected'], default: 'draft' },
   approvedBy: { type: String },
-  responses: [{
-    user: { type: String, required: false },
-    answers: [{ type: String, required: false }]
-  }],
+  responses: { type: [mongoose.Schema.Types.Mixed], required: false },
   rejectionComment: { type: String },
   tags: [{ type: String }],
   comments: [{

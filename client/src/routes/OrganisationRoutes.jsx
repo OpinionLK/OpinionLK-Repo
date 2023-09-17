@@ -6,7 +6,12 @@ import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 
 import EditSurvey from '../pages/Organisations/EditSurvey';
+import TestComponenets from '../pages/Organisations/TestComponenets';
 
+
+import {
+    motion
+} from 'framer-motion';
 
 import {
     Navigate
@@ -31,7 +36,20 @@ const OrganisationRoutes = [
         path: '/organisation',
         element: (
             <PrivateRoute allowedRoles={['client']}>
-                <OrganisationDashboard sidebarLinks={Links} />
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.5,
+                        delay: 0.2,
+                        ease: 'easeOut',
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20
+                    }}
+                >
+                    <OrganisationDashboard sidebarLinks={Links} />
+                </motion.div>
             </PrivateRoute>
         ),
         children: [
@@ -55,6 +73,10 @@ const OrganisationRoutes = [
             {
                 path: '/organisation/survey/:surveyid/edit',
                 element: <EditSurvey />,
+            },
+            {
+                path: '/organisation/test-components',
+                element: <TestComponenets />,
             },
         ],
     }

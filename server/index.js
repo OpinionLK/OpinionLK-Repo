@@ -11,6 +11,7 @@ dotenv.config();
 
 const app = express();
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',');
+
 const PORT = process.env.PORT || 3002;
 
 app.get('/', function (req, res) {
