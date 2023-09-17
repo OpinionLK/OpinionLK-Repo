@@ -4,6 +4,7 @@ import SignUp from '../pages/SignUp';
 
 import ClientLogin from '../pages/ClientLogin';
 import ClientSignUp from '../pages/ClientSignUp';
+import { motion } from 'framer-motion';
 
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
@@ -24,16 +25,38 @@ import {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing/>,
+        element: <Landing />,
         errorElement: <ErrorPage />,
     },
     {
         path: '/login',
-        element: <Login />,
+        element:
+            <motion.div
+                initial={{ opacity: 0, y: -100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut',   
+                type: "spring",
+                stiffness: 260,
+                damping: 20
+                
+
+            }}
+            >
+                <Login /></motion.div>,
     },
     {
         path: '/signup',
-        element: <SignUp />,
+        element: <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut',
+            type: "spring",
+            stiffness: 260,
+            damping: 20
+        }}
+        > <SignUp />
+        </motion.div>
+        ,
     },
 
 

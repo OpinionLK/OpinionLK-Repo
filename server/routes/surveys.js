@@ -3,8 +3,11 @@ import {Surveys} from '../models/Surveys.js';
 import {
     getAllSurveys,
     getSurveysByUser,
+    getSurveyByID,
+    createResponse,
+    ChangeSurveyState,
     createSurvey,
-
+    getSurveyBySurveyId,
     addQuestion,
     checkEditPrivilege,
     deleteQuestion,
@@ -23,6 +26,12 @@ const router = express.Router();
 
 // router.use(requireAuth)
 router.get('/byid', getSurveysByUser);
+router.get('/fillSurvey/:surveyid', getSurveyByID);
+router.post('/createResponse', createResponse);
+router.get('/getbyUserId', getSurveysByUser);
+router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId);
+router.put('/changestatus/:surveyid', ChangeSurveyState);
+router.get('/all', getAllSurveys);
 router.post('/create', createSurvey);
 router.get('/getsurvey/:surveyid', getSurveytoEdit);
 router.post('/addQuestion/:surveyid', addQuestion);

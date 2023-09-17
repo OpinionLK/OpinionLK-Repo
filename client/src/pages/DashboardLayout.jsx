@@ -8,6 +8,7 @@ import { Outlet } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 
 import { useAuthContext } from '../hooks/useAuthContext'
+import { motion } from 'framer-motion'
 
 import '../components/Layout/style.css'
 
@@ -75,8 +76,16 @@ const Dashboard = ({ sidebarLinks }) => {
                     JSON.stringify(user)
 
                 } */}
+                <motion.div
+                
+                    initial={{ opacity: 0 , y: 50}}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
 
-                <Outlet />
+                >
+
+                    <Outlet />
+                </motion.div>
 
             </Box >
         </Box>
