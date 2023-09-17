@@ -6,6 +6,15 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
+// import swaggerAutogen from 'swagger-autogen';
+
+import  swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger-output.json' assert { type: "json" };
+
+
+var options = {
+  explorer: true
+};
 
 dotenv.config();
 
@@ -34,6 +43,8 @@ const corsOptions = {
 // MIDDLEWARE
 app.use(express.json());
 app.use(cors(corsOptions));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 // ROUTES
 app.use('/api/auth', authRoutes); 
