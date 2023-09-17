@@ -24,11 +24,11 @@ const Admindashboard = () => {
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
                 <UserManagementGraph />
-                <SurveyFillingGraph />
+                {/* <SurveyFillingGraph /> */}
             </Grid>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
-                <SurveyManagementGraph />
+                {/* <SurveyManagementGraph /> */}
             </Grid>
             </Box>
         </>
