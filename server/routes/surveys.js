@@ -1,5 +1,5 @@
 import express, {application} from 'express';
-import {Surveys} from '../models/Surveys.js';
+import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
     getSurveysByUser,
@@ -11,7 +11,7 @@ import {
     addQuestion,
     checkEditPrivilege,
     deleteQuestion,
-    getSurveytoEdit,
+
 
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
@@ -25,15 +25,14 @@ import {requireAuth} from '../middleware/requireAuth.js'
 const router = express.Router();
 
 // router.use(requireAuth)
-router.get('/byid', getSurveysByUser);
-router.get('/fillSurvey/:surveyid', getSurveyByID);
+router.get('/byid', getSurveysByUser); //client
+router.get('/fillSurvey/:surveyid', getSurveyByID); 
 router.post('/createResponse', createResponse);
 router.get('/getbyUserId', getSurveysByUser);
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId);
 router.put('/changestatus/:surveyid', ChangeSurveyState);
 router.get('/all', getAllSurveys);
 router.post('/create', createSurvey);
-router.get('/getsurvey/:surveyid', getSurveytoEdit);
 router.post('/addQuestion/:surveyid', addQuestion);
 router.put('/deleteQuestion/:surveyid', deleteQuestion);
 router.get('/checkeditpriviledge/:surveyid', checkEditPrivilege);

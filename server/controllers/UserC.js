@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { Surveys } from "../models/Surveys.js";
+import  Surveys  from "../models/Surveys.js";
 
 import jwt from 'jsonwebtoken';
 
