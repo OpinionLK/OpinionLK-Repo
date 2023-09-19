@@ -23,10 +23,10 @@ const Dashboard = ({ sidebarLinks }) => {
         const fetchUserData = async () => {
             let url
             if (user.type === 'user') {
-                url = 'https://opinion-lk-b3d64ae79a55.herokuapp.com/api/user/userdata'
+                url = 'http://localhost:3002/api/user/userdata'
             }
             else if (user.type === 'client') {
-                url = 'https://opinion-lk-b3d64ae79a55.herokuapp.com/api/client/clientdata'
+                url = 'http://localhost:3002/api/client/clientdata'
             }
             const response = await fetch(url, {
                 method: 'GET',

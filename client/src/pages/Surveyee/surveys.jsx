@@ -22,7 +22,7 @@ const Survey = () => {
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
-        const response = await axios.get('https://opinion-lk-b3d64ae79a55.herokuapp.com/api/user/allsurveys')
+        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
         console.log(response.data)
         setSurveys(response.data)
       }

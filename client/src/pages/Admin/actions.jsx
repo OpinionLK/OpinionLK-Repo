@@ -28,7 +28,7 @@ const AdminActions = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    axios.get('https://opinion-lk-b3d64ae79a55.herokuapp.com/api/auth/getmembers').then(response => {
+    axios.get('http://localhost:3002/api/auth/getmembers').then(response => {
       console.log(response.data);
     });
   }, []);

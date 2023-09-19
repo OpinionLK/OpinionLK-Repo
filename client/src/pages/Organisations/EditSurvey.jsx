@@ -100,7 +100,7 @@ function InitialFocus({ surveyid }) {
     return (
         <>
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
-                {user.id}
+            {user.id}
 
             <Modal
                 initialFocusRef={initialRef}
@@ -195,7 +195,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
 
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`https://opinion-lk-b3d64ae79a55.herokuapp.com/api/survey/deleteQuestion/${surveyid}`, {
+            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
             });
 
@@ -278,7 +278,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
                         {
                             approvalStatus == 'pending' ? null : (
-                                <EditQuestionModal />
+                                <EditQuestionModal questionID={question.questionID}/>
                             )
                         }
 
@@ -325,7 +325,7 @@ const EditSurvey = () => {
 
     async function handleSubmit() {
         try {
-            const response = await axios.get('http://localhost:3002/api/survey/getsurvey/' + surveyid,
+            const response = await axios.get('http://localhost:3002/api/client/getsurvey/' + surveyid,
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
                 }
