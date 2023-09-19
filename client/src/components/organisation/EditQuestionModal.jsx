@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
@@ -41,43 +41,13 @@ import {
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import {EditIcon} from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DeleteIcon } from '@chakra-ui/icons'
 import { AnimatePresence, motion } from "framer-motion";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-
-function CompExample() {
-  const {
-    isOpen: isVisible,
-    onClose,
-    onOpen,
-  } = useDisclosure({ defaultIsOpen: true })
-
-  return isVisible ? (
-    <Alert status='success'>
-      <AlertIcon />
-      <Box>
-        <AlertTitle>Success!</AlertTitle>
-        <AlertDescription>
-          Your application has been received. We will review your application
-          and respond within the next 48 hours.
-        </AlertDescription>
-      </Box>
-      <CloseButton
-        alignSelf='flex-start'
-        position='relative'
-        right={-1}
-        top={-1}
-        onClick={onClose}
-      />
-    </Alert>
-  ) : (
-    <Button onClick={onOpen}>Show Alert</Button>
-  )
-}
 
 
 const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
@@ -111,7 +81,14 @@ const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
 }
 
 
-function BasicUsage({ onUpdateContent }) {
+function BasicUsage({ onUpdateContent, questionID }) {
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  useEffect(() => {
+    if(isOpen){
+      getQuestion();
+    }
+  }, [isOpen])
 
   const { surveyid } = useParams();
 
@@ -119,11 +96,25 @@ function BasicUsage({ onUpdateContent }) {
     user, dispatch, userData
   } = useAuthContext();
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const getQuestion = async () => {
+    try {
+      const response = await axios.get('http://localhost:3002/api/client/getQuestion/' + surveyid + '/' + questionID);
+      console.log(response.data[0]);
+      setValue('question', response.data[0].question);
+      setValue('responseType', response.data[0].responseType);
+      setValue('textPlaceholder', response.data[0].textPlaceholder);
+
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const { register, control, handleSubmit, watch, reset, setValue } = useForm({
     defaultValues: {
-      question: "",
+      question: "", 
       responseType: "",
       textPlaceholder: "",
       items: [{ option: "" }, { option: "" }, { option: "" }, { option: "" }],
@@ -135,38 +126,6 @@ function BasicUsage({ onUpdateContent }) {
   const items = watch("items");
 
 
-  // async function handleSubmit(e) {
-  // e.preventDefault();
-
-  //   let question = {
-  //     questionText: questionText,
-  //   }
-  //   if (questionType === 'text') {
-  //     question.type = 'text'
-  //     question.placeholder = questionPlaceholder
-  //   }
-  //   console.log(question)
-
-  //   try {
-  //     const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
-  //       question: question,
-  //     });
-
-  //     console.log(response.data);
-  //     onUpdateContent(response.data);
-
-
-  //     onClose();
-  //     // Clear input fields
-  //     setQuestion('');
-  //     setQuestionPlaceholder('')
-  //     history('/organisation/survey/' + response.data.surveyID + '/edit');
-  //   } catch (error) {
-  //     console.error('Error creating question:', error);
-  //     // Handle error and show user-friendly message
-  //     alert('Error creating survey. Please try again.');
-  //   }
-  // }
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -227,8 +186,8 @@ function BasicUsage({ onUpdateContent }) {
     <>
 
       <IconButton aria-label={'delete'}
-                                icon={<EditIcon />}
-                                onClick={onOpen} />
+        icon={<EditIcon />}
+        onClick={onOpen} />
       <Modal variant={'editModal'} width={'60%'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent  >
