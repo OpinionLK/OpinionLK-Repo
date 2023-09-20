@@ -43,8 +43,6 @@ import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
 
-
-import AddQuestionModal from '../../components/organisation/AddQuestionModal.jsx'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
 
 
@@ -185,7 +183,7 @@ function InitialFocus({ surveyid }) {
     )
 }
 
-const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
+const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleSubmit }) => {
 
     const toast = useToast()
 
@@ -240,33 +238,33 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
 
 
             {/* <Modal size={'xl'} isOpen={isEditOpen} onClose={OnEditClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Edit</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                            <FormControl id="question">
-                                <FormLabel>Question</FormLabel>
-                                <Input type="text" />
-                            </FormControl>
-                            <FormControl id="responseType">
-                                <FormLabel>Response Type</FormLabel>
-                                <Select placeholder="Select option">
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                </Select>
-                            </FormControl>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Edit</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                                <FormControl id="question">
+                                    <FormLabel>Question</FormLabel>
+                                    <Input type="text" />
+                                </FormControl>
+                                <FormControl id="responseType">
+                                    <FormLabel>Response Type</FormLabel>
+                                    <Select placeholder="Select option">
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                    </Select>
+                                </FormControl>
 
-                    </ModalBody>
+                        </ModalBody>
 
-                    <ModalFooter>
-                        <Button variant={'outline'} mr={3} onClick={OnEditClose}>
-                            Cancel
-                        </Button>
-                        <Button colorScheme='whatsapp' onClick={handleDelete}>Save</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal> */}
+                        <ModalFooter>
+                            <Button variant={'outline'} mr={3} onClick={OnEditClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme='whatsapp' onClick={handleDelete}>Save</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal> */}
 
 
 
@@ -278,7 +276,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata }) => {
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
                         {
                             approvalStatus == 'pending' ? null : (
-                                <EditQuestionModal questionID={question.questionID}/>
+                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit} mode={'edit'} />
                             )
                         }
 
@@ -324,6 +322,7 @@ const EditSurvey = () => {
 
 
     async function handleSubmit() {
+
         try {
             const response = await axios.get('http://localhost:3002/api/client/getsurvey/' + surveyid,
                 {
@@ -372,10 +371,10 @@ const EditSurvey = () => {
                             <Flex gap='10px' flexDir={'column'}>
 
                                 <Heading>
-                                    <Text >{survey?.surveyName}</Text>
+                                    {survey?.surveyName}
                                 </Heading>
                                 <Text>
-                                    <Text >{survey?.surveyDescription}</Text>
+                                    {survey?.surveyDescription}
 
                                 </Text>
                             </Flex>
@@ -399,7 +398,7 @@ const EditSurvey = () => {
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
                             {survey?.approvalStatus == 'draft' ? (
-                                <AddQuestionModal onUpdateContent={handleContentUpdate} />
+                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit} mode={'add'} />
                             ) : null}
 
                         </Flex>
@@ -417,7 +416,7 @@ const EditSurvey = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, transition: { duration: 0.3 } }}
                                         >
-                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} question={question}
+                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} handleSubmit={handleSubmit} question={question}
                                                 refreshdata={handleSubmit} />
                                         </motion.div>
 

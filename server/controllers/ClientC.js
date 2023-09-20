@@ -24,13 +24,14 @@ export const getSurveytoEdit = async (req, res) => {
                 console.log(survey);
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            console.log(survey);
+            // console.log(survey);
             res.status(200).json(survey);
         }
         catch (error) {
             res.status(404).json({ message: error.message });
         }
     } catch (error) {
+        console.log('something went wrong');
         res.status(404).json({ message: error.message });
     }
 }
@@ -41,8 +42,9 @@ export const editQuestion = async (req, res) => {
 
     const questionID = req.params.questionid;
     const surveyid = req.params.surveyid;
-    const data = req.body;
+    const data = req.body.data;
 
+    console.log(questionID);
 
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -52,9 +54,9 @@ export const editQuestion = async (req, res) => {
 
     try {
         const survey = await Surveys.find({ surveyID: surveyid });
-        console.log(survey[0].creatorID);
-        console.log(id);
-        console.log(token);
+        // console.log(survey[0].creatorID);
+        // console.log(id);
+        // console.log(token);
         if (survey[0].creatorID !== id) {
             console.log(survey);
             return res.status(401).json({ error: 'Unauthorized' });
@@ -64,55 +66,135 @@ export const editQuestion = async (req, res) => {
         // update the question in the survey
 
         let updatedSurvey = null;
-        if (data.responseType === 'shorttext' || data.responseType === 'longtext') {
+        // get the response type from question id
 
-            updatedSurvey = await Surveys.findOneAndUpdate(
-                { surveyID: surveyid, "questions.questionID": questionID },
-                {
-                    $set: {
-                        "questions.$.textPlaceholder": data.placeholder,
-                        "questions.$.question": data.question,
-                    }
-                },
-                { new: true }
-            );
-        }
+        const responseType = survey[0].questions.filter((question) => question.questionID === questionID)[0].responseType;
 
-        if (data.responseType === 'singlechoice') {
-            updatedSurvey = await Surveys.findOneAndUpdate(
-                { surveyID: surveyid, "questions.questionID": questionID },
-                {
-                    $set: {
-                        "questions.$.question": data.question,
-                        "questions.$.items": data.items,
-                    }
-                },
-                { new: true }
-            );
-        }
-        if (data.responseType === 'multiplechoice') {
-            updatedSurvey = await Surveys.findOneAndUpdate(
-                { surveyID: surveyid, "questions.questionID": questionID },
-                {
-                    $set: {
-                        "questions.$.question": data.question,
-                        "questions.$.items": data.items,
-                    }
-                },
-                { new: true }
-            );
-        }
-        if (data.responseType === 'mood') {
-            updatedSurvey = await Surveys.findOneAndUpdate(
-                { surveyID: surveyid, "questions.questionID": questionID },
-                {
-                    $set: {
-                        "questions.$.question": data.question,
-                        "questions.$.items": data.items,
-                    }
-                },
-                { new: true }
-            );
+        console.log("A " + responseType);
+        console.log("B " + data.responseType);
+
+        if (data.responseType === responseType) {
+            if (data.responseType === 'shorttext' || data.responseType === 'longtext') {
+                console.log('shorttext editing');
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.textPlaceholder": data.textPlaceholder,
+                            "questions.$.question": data.question,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+
+            if (data.responseType === 'singlechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'multiplechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'mood') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            console.log(updatedSurvey);
+
+        } else {
+            if (data.responseType === 'shorttext' || data.responseType === 'longtext') {
+
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.items": 1,
+                        },
+                        $set: {
+                            "questions.$.textPlaceholder": data.placeholder,
+                            "questions.$.question": data.question,
+                            "questions.$.responseType": data.responseType,
+                        },
+                    },
+                    { new: true }
+                );
+            }
+
+            if (data.responseType === 'singlechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'multiplechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'mood') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            // console.log(updatedSurvey);
         }
         res.status(200).json(updatedSurvey);
     } catch (error) {
