@@ -25,22 +25,29 @@ const Dashboard = ({ sidebarLinks }) => {
 
         const fetchUserData = async () => {
             let url
-            if (user.type === 'user') {
-                url = 'http://localhost:3002/api/user/userdata'
+            try {
+                if (user.type === 'user' || user.type === 'client') {
+                    if (user.type === 'user') {
+                        url = 'http://localhost:3002/api/user/userdata'
+                    }
+                    else if (user.type === 'client') {
+                        url = 'http://localhost:3002/api/client/clientdata'
+                    }
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Authorization': `Bearer ${user.token}` },
+                    });
+                    if (response.status === 401) {
+                        logout()
+                    }
+                    console.log('fetching user data')
+                    const json = await response.json();
+                    dispatch({ type: 'SET_USER_DATA', payload: json });
+                    console.log('User data:', json);
+                }
+            } catch (error) {
+                console.log(error);
             }
-            else if (user.type === 'client') {
-                url = 'http://localhost:3002/api/client/clientdata'
-            }
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: { 'Authorization': `Bearer ${user.token}` },
-            });
-            if (response.status === 401) {
-                logout()
-            }
-            const json = await response.json();
-            dispatch({ type: 'SET_USER_DATA', payload: json });
-            console.log('User data:', json);
         }
 
         if (user) {
@@ -82,8 +89,8 @@ const Dashboard = ({ sidebarLinks }) => {
 
                 } */}
                 <motion.div
-                
-                    initial={{ opacity: 0 , y: 50}}
+
+                    initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
 
