@@ -34,7 +34,7 @@ router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by sur
 router.get('/all', getAllSurveys); //get all surveys
 
 
-router.get('/getsurvey/:surveyid', getSurveytoEdit); //get survey to edit
+router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
 router.put('/editquestion/:surveyid/:questionid', editQuestion); //send edited question data
 router.get('/getQuestion/:surveyid/:questionid', getQuestionToEdit); //get the question data for editing
 router.post('/addQuestion/:surveyid', addQuestion); //add a question to the survey
