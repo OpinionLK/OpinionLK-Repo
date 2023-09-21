@@ -2,14 +2,16 @@ import express, {application} from 'express';
 import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
-    getSurveysByUser,
-    getSurveyByID,
+    getSurveysByCreator,
+
     createResponse,
     ChangeSurveyState,
     createSurvey,
     getSurveyBySurveyId,
     addQuestion,
-    checkEditPrivilege,
+    getSurveytoEdit,
+    getQuestionToEdit,
+    editQuestion,
     deleteQuestion,
 
 
@@ -25,17 +27,24 @@ import {requireAuth} from '../middleware/requireAuth.js'
 const router = express.Router();
 
 // router.use(requireAuth)
-router.get('/byid', getSurveysByUser); //client
-router.get('/fillSurvey/:surveyid', getSurveyByID); 
-router.post('/createResponse', createResponse);
-router.get('/getbyUserId', getSurveysByUser);
-router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId);
-router.put('/changestatus/:surveyid', ChangeSurveyState);
-router.get('/all', getAllSurveys);
-router.post('/create', createSurvey);
-router.post('/addQuestion/:surveyid', addQuestion);
-router.put('/deleteQuestion/:surveyid', deleteQuestion);
-router.get('/checkeditpriviledge/:surveyid', checkEditPrivilege);
+
+router.post('/createResponse', createResponse); //create a survey response
+router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
+router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
+router.get('/all', getAllSurveys); //get all surveys
+
+
+router.get('/getsurvey/:surveyid', getSurveytoEdit); //get survey to edit
+router.put('/editquestion/:surveyid/:questionid', editQuestion); //send edited question data
+router.get('/getQuestion/:surveyid/:questionid', getQuestionToEdit); //get the question data for editing
+router.post('/addQuestion/:surveyid', addQuestion); //add a question to the survey
+router.put('/deleteQuestion/:surveyid', deleteQuestion); //delete a question
+router.post('/create', createSurvey); //create a survey
+router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
+
+
+
+
 
 router.post('/imageUpload', upload.single('image'), async (req, res) => {
     // 4

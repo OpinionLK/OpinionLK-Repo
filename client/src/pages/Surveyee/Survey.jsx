@@ -25,7 +25,7 @@ export default function Survey() {
 
   useEffect(() => {
     if (surveyid && !survey) {
-      axios.get(`http://localhost:3002/api/survey/fillSurvey/${surveyid}`)
+      axios.get(`http://localhost:3002/api/survey/getbysurveyid/${surveyid}`)
         .then((response) => {
           console.log(response.data)
           setSurvey(response.data);
