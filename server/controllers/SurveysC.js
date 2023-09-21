@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import Surveys from '../models/Surveys.js';
-
+import ComManagerModel from '../models/ComManagerModel.js';
 
 function generateCustomId(length = 8) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -284,10 +284,11 @@ export const getSurveytoEdit = async (req, res) => {
      // #swagger.tags = ['Organisation', 'Community Manager']
     const { surveyid } = req.params;
     try {
+
         const token = req.headers.authorization.split(' ')[1];
 
-
         if (!token) {
+            console.log('no token');
             return res.status(401).json({ error: 'Unauthorized' });
         }
         // verify token
@@ -295,17 +296,16 @@ export const getSurveytoEdit = async (req, res) => {
 
         try {
             const survey = await Surveys.find({ surveyID: surveyid });
-            console.log(survey[0].creatorID);
-            console.log(id);
-            console.log(token);
-            if (survey[0].creatorID !== id) {
+            const commanager = await ComManagerModel.find({ _id: id });
+
+            if (survey[0].creatorID == id || commanager)  {
                 console.log(survey);
+                return res.status(200).json(survey);
+            }else{
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            // console.log(survey);
-            res.status(200).json(survey);
         }
-        catch (error) {
+        catch (error) {t
             res.status(404).json({ message: error.message });
         }
     } catch (error) {
