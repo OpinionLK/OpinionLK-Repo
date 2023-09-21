@@ -300,6 +300,7 @@ export const getSurveytoEdit = async (req, res) => {
 
             if (survey[0].creatorID == id || commanager)  {
                 console.log(survey);
+
                 return res.status(200).json(survey);
             }else{
                 return res.status(401).json({ error: 'Unauthorized' });

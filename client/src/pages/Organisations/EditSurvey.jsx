@@ -324,7 +324,7 @@ const EditSurvey = () => {
     async function handleSubmit() {
 
         try {
-            const response = await axios.get('http://localhost:3002/api/client/getsurveytoedit/' + surveyid,
+            const response = await axios.get('http://localhost:3002/api/survey/getsurveytoedit/' + surveyid,
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
                 }
