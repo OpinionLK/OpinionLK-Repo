@@ -4,6 +4,9 @@ import { Clients } from '../models/Client.js';
 
 // Sign up client
 export const ClientSignUp = async (req, res) => {
+     // #swagger.tags = ['Organisation']
+      // #swagger.description = 'Endpoint to sign up organisation'
+
   try {
     console.log('Received client signup request:', req.body);
 
@@ -55,6 +58,9 @@ export const ClientSignUp = async (req, res) => {
 };
 
 export const ClientData = async (req, res) => {
+     // #swagger.tags = ['Organisation']
+      // #swagger.description = 'Endpoint to get organisation data'
+
   // get token from header
   const token = req.headers.authorization.split(' ')[1];
   console.log('Received client data request:', token);

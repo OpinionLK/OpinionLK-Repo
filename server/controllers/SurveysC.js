@@ -35,6 +35,8 @@ export const getAllSurveys = async (req, res) => {
 
 
 export const getSurveysByCreator = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
 
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
@@ -56,6 +58,8 @@ export const getSurveysByCreator = async (req, res) => {
 }
 
 export const createResponse = async (req, res) => {
+     // #swagger.tags = ['User']
+
     try {
       const { surveyid, response } = req.body;
       const token = req.headers.authorization.split(' ')[1];
@@ -92,6 +96,8 @@ export const createResponse = async (req, res) => {
   };
 
 export const createSurvey = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
 
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
@@ -137,6 +143,8 @@ export const getSurveyBySurveyId = async (req, res) => {
 
 
 export const addQuestion = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
     const { surveyid } = req.params;
     console.log(req.body);
     const { data } = req.body;
@@ -186,6 +194,7 @@ export const addQuestion = async (req, res) => {
 }
 
 export const ChangeSurveyState = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
 
     // AUTHORISE USER
 
@@ -237,6 +246,8 @@ export const ChangeSurveyState = async (req, res) => {
 
 
 export const deleteQuestion = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
     const { surveyid } = req.params;
     const { questionid } = req.body;
     console.log(surveyid);
@@ -268,6 +279,9 @@ export const deleteQuestion = async (req, res) => {
 
 
 export const getSurveytoEdit = async (req, res) => {
+
+    // #swagger.description = 'Gets survey to edit, checks edit privileges'
+     // #swagger.tags = ['Organisation', 'Community Manager']
     const { surveyid } = req.params;
     try {
         const token = req.headers.authorization.split(' ')[1];
