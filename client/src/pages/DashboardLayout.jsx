@@ -9,10 +9,13 @@ import { Box } from '@chakra-ui/react';
 
 import { useAuthContext } from '../hooks/useAuthContext'
 import { motion } from 'framer-motion'
+import { useLogout } from '../hooks/useLogout';
 
 import '../components/Layout/style.css'
 
 const Dashboard = ({ sidebarLinks }) => {
+    const logout = useLogout()
+
     const {
         // eslint-disable-next-line
         user, dispatch, userData
@@ -32,8 +35,10 @@ const Dashboard = ({ sidebarLinks }) => {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
             });
+            if (response.status === 401) {
+                logout()
+            }
             const json = await response.json();
-
             dispatch({ type: 'SET_USER_DATA', payload: json });
             console.log('User data:', json);
         }
