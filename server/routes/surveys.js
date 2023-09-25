@@ -17,9 +17,19 @@ import {
 
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
-import fs from 'fs';
 
-const upload = multer({dest: 'uploads/surveyheader'})
+import ImageKit from "imagekit";
+
+const imagekit = new ImageKit(
+    {
+        publicKey: "public_7aXbe5pmcYJOkB3NqDzOxEMSzzc=",
+        privateKey: "private_uGPBzLXF15h5fskPbPBX0gkac3Y=",
+        urlEndpoint: "https://ik.imagekit.io/7i3fql4kv7/"
+    }
+
+)
+
+const upload = multer()
 
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -46,23 +56,39 @@ router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
 
 
 
-router.post('/imageUpload', upload.single('image'), async (req, res) => {
-    // 4
-    const imageName = req.file.filename
+router.post("/imageUpload", upload.single("file"), async (req, res) => {
+    const fileBuffer = req.file.buffer;
+    const fileName = req.file.originalname;
+    const surveyid = req.body.surveyid;
+    
+    console.log(fileName);
+// console.log(fileBuffer);
+  
+    try {
+      // Upload the file to ImageKit
+      imagekit.upload({
+        file :  fileBuffer, //required
+        fileName : fileName,  //required
+        folder : "/survey_headers",
+        
+    }).then(response => {
 
+        Surveys.findOneAndUpdate({surveyid: surveyid}, {header: response.url}, {new: true}).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        })
 
-    try{
-        const survey = await Surveys.findOneAndUpdate({ surveyID: "aAZD6DLMllcc3yjh" }, { $set: { surveyImage: imageName } }, {
-            new: true,
-        });
-    }catch(error){
-        console.log(error)
+    }).catch(error => {
+        console.log(error);
+    });
+        res.status(200).send("Image upload successful");
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Image upload failed");
     }
-
-    console.log(imageName)
-    res.send({imageName})
-})
-
+  });
 
 
 export default router;
