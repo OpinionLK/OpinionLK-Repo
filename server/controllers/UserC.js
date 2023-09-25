@@ -37,7 +37,7 @@ export const userData = async (req, res) => {
         }
         let user = await User.findOne({ _id: id });
         res.status(200).json({
-            id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email, profilePicture: user.profilePicture
+            id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email, profilePicture: user.profilePicture, points: user.points
         });
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
