@@ -22,7 +22,7 @@ import {
 import sampleCard from '../../images/sample-card.png'
 import SurveyPopup from './SurveyPopup'
 
-const SurveyCard = () => {
+const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) => {
     return (
 
         <Box maxW='300px' width={'auto'} borderRadius={15} borderColor={'#fff'} p='4' bgColor='white'>
@@ -33,15 +33,15 @@ const SurveyCard = () => {
                 borderRadius='lg'
             >
                 <Image
-                src={sampleCard}
-                alt='abstract art'
+                // src={sampleCard}
+                src={'http://localhost:3002/api/survey/images/' + {surveyImage}} alt={surveyName}
                 />
             </Box>  
 
             <Stack mt='6' spacing='1' pr='0.5' pl='0.5'>
-                <Heading size='sm'>Modern Art in Society</Heading>
+                <Heading size='sm'>{surveyName}</Heading>
                 <Text fontSize='xs'>
-                    by MMCA Sri Sri Lanka
+                    {surveyDescription}
                 </Text>
             </Stack>
             
@@ -75,7 +75,15 @@ const SurveyCard = () => {
                 >
                     Go to Survey
                 </Button> */}
-                <SurveyPopup/>
+                <SurveyPopup
+                    type = {type}
+                    surveyID = {surveyID}
+                    surveyName = {surveyName}
+                    surveyDescription = {surveyDescription}
+                    surveyImage = {surveyImage}
+                    surveyTags = {surveyTags}
+                    surveyPoints = {surveyPoints}
+                />
             </Flex>
         </Box>
 

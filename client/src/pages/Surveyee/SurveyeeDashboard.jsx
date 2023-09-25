@@ -4,7 +4,8 @@ import {
     GridItem,
     Wrap,
  } from '@chakra-ui/react'
-import React from 'react'
+ import React, { useEffect, useState } from 'react'
+ import axios from 'axios'
 import StatRow from '../../components/Stats/StatRow'
 import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
@@ -24,6 +25,24 @@ const Serydashboard = () => {
         paddingBottom: '20px',
     }
 
+    const [surveys, setSurveys] = useState([])
+
+  useEffect(() => {
+    // fetch surveys
+    const fetchSurveys = async () => {
+      try {
+        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
+        console.log(response.data)
+        setSurveys(response.data)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchSurveys()
+  }, [])
+
     return (
         <>
             <Box style={style}>
@@ -41,7 +60,9 @@ const Serydashboard = () => {
                         </Grid>
                     </GridItem>
                     <GridItem colSpan={2} mt={5} mr={5}>
-                        <SurveyRow />
+                        <SurveyRow 
+                            surveys = {surveys}
+                        />
                         {/* <Box
                             width="auto"
                             px={5}
