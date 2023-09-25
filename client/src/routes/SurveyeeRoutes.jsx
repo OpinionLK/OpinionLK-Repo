@@ -11,7 +11,8 @@ import Survey from "../pages/Surveyee/Survey"
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import { motion } from 'framer-motion'
-import { BsHouseFill } from 'react-icons/bs';
+import { RiSurveyFill, RiDashboardFill, RiFolderUserFill, RiTicketFill} from 'react-icons/ri';
+import { GiUpgrade } from 'react-icons/gi';
 
 import {
     Navigate
@@ -19,11 +20,11 @@ import {
 
 const Links = [
 
-    { route: '/portal/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/portal/surveys', linkName: 'Surveys', icon: BsHouseFill },
-    { route: '/portal/profile', linkName: 'Profile', icon: BsHouseFill },
-    { route: '/portal/My Rewards', linkName: 'Rewards', icon: BsHouseFill },
-    { route: '/portal/Upgrade', linkName: 'Upgrade', icon: BsHouseFill }];
+    { route: '/portal/dashboard', linkName: 'Dashboard', icon: RiDashboardFill },
+    { route: '/portal/surveys', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/portal/profile', linkName: 'Profile', icon: RiFolderUserFill },
+    { route: '/portal/My Rewards', linkName: 'Rewards', icon: RiTicketFill },
+    { route: '/portal/Upgrade', linkName: 'Upgrade', icon: GiUpgrade }];
 
 //   const { user } = useAuthContext()
 const SurveyeeRoutes = [
