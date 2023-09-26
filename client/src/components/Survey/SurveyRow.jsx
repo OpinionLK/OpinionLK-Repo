@@ -8,13 +8,14 @@ import {
     Wrap,
     Flex,
     Button,
-    Spacer
+    Spacer,
+    Text
 } from '@chakra-ui/react'
 
 
 import SurveyCard from './SurveyCard';
 
-const SurveyRow = () => {
+const SurveyRow = ({surveys}) => {
     return (
         <Card
             overflow='hidden'
@@ -39,11 +40,27 @@ const SurveyRow = () => {
                 pb='4'
                 minW='1009px'
             >
+                {/* <Wrap spacing='21px'>
+                    <SurveyCard />
+                    <SurveyCard />
+                    <SurveyCard />
+                    <SurveyCard />
+                </Wrap> */}
                 <Wrap spacing='21px'>
-                    <SurveyCard />
-                    <SurveyCard />
-                    <SurveyCard />
-                    <SurveyCard />
+                    {surveys ? surveys.map((survey) => {
+                    return (
+                        <SurveyCard
+                        type = 'surveyee'
+                        surveyName={survey.surveyName}
+                        surveyDescription={survey.surveyDescription}
+                        surveyImage={survey.surveyImage}
+                        surveyID={survey.surveyID}
+                        surveyTags={survey.surveyTags}
+                        surveyPoints={survey.surveyPoints}
+                        />
+                    )
+                    }
+                    ) : <Text>No Surveys Available</Text>}
                 </Wrap>
             </Box>
         </Card>

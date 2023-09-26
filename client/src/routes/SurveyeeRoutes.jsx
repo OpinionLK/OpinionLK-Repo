@@ -8,6 +8,7 @@ import Myrewards from "../pages/Surveyee/Myrewards"
 import Upgrade from "../pages/Surveyee/Upgrade"
 import TestSurvey from "../pages/Surveyee/TestSurvey"
 import Survey from "../pages/Surveyee/Survey"
+import SurveyComplete from '../pages/Surveyee/SurveyComplete'
 
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import { motion } from 'framer-motion'
@@ -85,8 +86,12 @@ const SurveyeeRoutes = [
                 path: '/portal/survey/:surveyid/fill',
                 element: <Survey />,
             },
-
-
+            {
+                path: '/portal/survey/surveyComplete/:points',
+                element: <SurveyComplete/>,
+            },
+           
+           
         ],
     },
 ]

@@ -69,14 +69,13 @@ export const createResponse = async (req, res) => {
         // verify token
         const { id } = jwt.verify(token, 'test');
         console.log(surveyid);
-      // Generate a custom response ID on the server side
+        
       const responseID = generateCustomId();
   
-      // Create a new response object with responseID and an array of responses
       const newResponse = {
         responseID: responseID,
         userID: id,
-        responses: response.responses, // Assuming you have an array of responses
+        responses: response.responses,
       };
       console.log(newResponse);
       // Add the new response to the survey document in the database as an object in the responses array
@@ -89,6 +88,7 @@ export const createResponse = async (req, res) => {
       res.status(200).json({
         message: 'Response added successfully.',
         resp: resp,
+        // need a function call to add the points to the surveyee
       });
     } catch (error) {
       res.status(500).json({ message: 'Error adding response.', error: error.message });
