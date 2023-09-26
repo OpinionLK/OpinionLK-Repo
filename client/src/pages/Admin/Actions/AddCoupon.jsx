@@ -14,8 +14,17 @@ import {
     VStack,
     Box,
     Switch,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
+    Image,
+    Textarea,
+    Icon,
     } from '@chakra-ui/react';
     import Modal from 'react-modal';
+    import { FaUpload } from 'react-icons/fa'; 
     import axios from 'axios';
 
 
@@ -65,14 +74,15 @@ const AddCoupon = () => {
         e.preventDefault();
         const data = new FormData(e.target);
         const formData = {
+          CouponImage: data.get('CouponImage'),
           CouponName: data.get('CouponName'),
           CouponCode: data.get('CouponCode'),
-          Discount: data.get('Discount'),
           Description: data.get('Description'),
           StartDate: data.get('StartDate'),
           EndDate: data.get('EndDate'),
+          Points: data.get('Points'),
           Status: data.get('Status'),
-          count: data.get('count'),
+          Count: data.get('Count'),
           CompanyName: data.get('CompanyName'),
         };
         console.log(formData);
@@ -89,7 +99,6 @@ const AddCoupon = () => {
           console.error('Error submitting data:', err);
         }
       }
-        
 
       return (
         <>
@@ -133,7 +142,7 @@ const AddCoupon = () => {
               backgroundColor: 'rgba(0,0,0,0.5)',
             },
             content: {
-              width: '550px',
+              width: '1000px',
               height: 'max-content',
               margin: 'auto',
               borderRadius: '10px',
@@ -157,13 +166,24 @@ const AddCoupon = () => {
                   />
                 </HStack>
                 <hr></hr>
-                <Flex
-                  mb={'5px'}
-                  flexDirection={'column'}
-                  justifyContent={'flex-start'}
-                  alignItems={'flex-end'}
-                >
-                  <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
+                <Box display={'flex'} flexDirection={'row'}>
+                  <Box mr={5} pl={2} mt={5}>
+                    <Box position="relative">
+                      <Image 
+                        src='gibbresh.png' 
+                        fallbackSrc='https://picsum.photos/200/300'
+                        height={'180px'}
+                        w={'100%'} 
+                        objectFit={'cover'}
+                        borderRadius={5}
+                        mb={5}
+                      />
+                      <label htmlFor="upload" style={{ position: 'absolute', bottom: 1, right: 5, cursor: 'pointer' }}>
+                          <Icon as={FaUpload} color={'whiteAlpha.900'} boxSize={6} />
+                          <Input type="file" id="upload" name="CouponImage" style={{ display: 'none'}} />
+                      </label>
+                    </Box>
+                    <VStack spacing={3}>
                     <FormField label="Coupon Name">
                       <Input
                         type="text"
@@ -172,102 +192,119 @@ const AddCoupon = () => {
                         required
                       />
                     </FormField>
-                    <FormField label="Coupon Code">
-                      <Input
-                        type="text"
-                        placeholder="Coupon Code"
-                        name="CouponCode"
-                        required
-                      />
-                    </FormField>
-                    <FormField label="Discount">
-                      <Input
-                        type="number"
-                        placeholder="Discount"
-                        name="Discount"
-                        required
-                      />
-                    </FormField>
                     <FormField label="Description">
-                      <Input
+                      <Textarea
                         type="text"
                         placeholder="Description"
                         name="Description"
+                        height={'90px'}
+                        boxShadow="0 0 5px rgba(0, 0, 0, 0.1)" 
+                        bg={'whiteAlpha.900'}
                         required
                       />
                     </FormField>
-                    <FormField label="Start Date">
-                      <Input
-                        type="datetime-local"
-                        placeholder="Start Date"
-                        name="StartDate"
-                        required
-                      />
-                    </FormField>
-                    <FormField label="End Date">
-                      <Input
-                        type="datetime-local"
-                        placeholder="End Date"
-                        name="EndDate"
-                        required
-                      />
+                    </VStack>
+                  </Box>
+                  <Box>
+                    <Flex
+                      mb={'5px'}
+                      flexDirection={'column'}
+                      justifyContent={'flex-start'}
+                      alignItems={'flex-end'}
+                    >
+                      <VStack spacing={3} align="stretch" width={'100%'} my={'20px'}>
+
+                      <FormField label="Coupon Code">
+                        <Input
+                          type="text"
+                          placeholder="Coupon Code"
+                          name="CouponCode"
+                          required
+                        />
                       </FormField>
-                      <FormField label="Status" >
-                        <Flex justifyContent="flex-end" alignItems="flex-end">
-                          <Switch
-                            defaultChecked={false}
-                            colorScheme="green"
-                            size={'lg'}
-                            name="Status"
-                            value={switchValue ? 'Active' : 'Inactive'}
-                            onChange={(e) => console.log(e.target.checked)}
+                        <FormField label="Start Date">
+                          <Input
+                            type="datetime-local"
+                            placeholder="Start Date"
+                            name="StartDate"
                             required
                           />
-                        </Flex>
-                      </FormField>
-                      <FormField label={'count'} >
-                      <Input
-                        type="number"
-                        placeholder="count"
-                        name="count"
-                        required
-                      />
-                      </FormField>
-                      <FormField label="Company Name">
-                      <Input
-                        type="text"
-                        placeholder="Company Name"
-                        name="CompanyName"
-                        required
-                      />  
-                      </FormField>
+                        </FormField>
+                        <FormField label="End Date">
+                          <Input
+                            type="datetime-local"
+                            placeholder="End Date"
+                            name="EndDate"
+                            required
+                          />
+                        </FormField>
+                          <FormField label="Points Limit">
+                            <Input
+                              type="number"
+                              placeholder="2000"
+                              name="Points"
+                              required
+                            />
+                          </FormField>
+                          <FormField label="Status" >
+                            <Flex justifyContent="flex-end" alignItems="flex-end">
+                              <Switch
+                                defaultChecked={false}
+                                colorScheme="green"
+                                size={'lg'}
+                                name="Status"
+                                value={switchValue ? 'Active' : 'Inactive'}
+                                onChange={(e) => console.log(e.target.checked)}
+                                required
+                              />
+                            </Flex>
+                          </FormField>
+                          <FormField label="Count">
+                          <NumberInput defaultValue={5} min={1} max={1000} bg={'whiteAlpha.900'} name="Count" boxShadow="0 0 5px rgba(0, 0, 0, 0.1)" > 
+                            <NumberInputField />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                          </FormField>
+                          <FormField label="Company Name">
+                          <Input
+                            type="text"
+                            placeholder="Company Name"
+                            name="CompanyName"
+                            required
+                          />  
+                          </FormField>
 
 
-                  </VStack>
-                  
-                  {/*submit button*/}
-                  <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
-                    <Button
-                      name="submit"
-                      align={'right'}
-                      width={'100px'}
-                      colorScheme="green"
-                      type="Submit"
-                    >
-                      Add
-                    </Button>
-                    <Button
-                      name="cancel"
-                      align={'right'}
-                      width={'100px'}
-                      colorScheme="red"
-                      type="cancel"
-                      onClick={closePopup}
-                    >
-                      Cancel
-                    </Button>
-                  </Flex>
-                </Flex>
+                      </VStack>
+                      
+                      {/*submit button*/}
+                      <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
+                        <Button
+                          name="submit"
+                          align={'right'}
+                          width={'100px'}
+                          colorScheme="green"
+                          type="Submit"
+                        >
+                          Add
+                        </Button>
+                        <Button
+                          name="cancel"
+                          align={'right'}
+                          width={'100px'}
+                          colorScheme="red"
+                          type="cancel"
+                          onClick={closePopup}
+                        >
+                          Cancel
+                        </Button>
+                      </Flex>
+                    </Flex>
+                  </Box>
+                </Box>
               </form>
             </Stack>
           </Flex>

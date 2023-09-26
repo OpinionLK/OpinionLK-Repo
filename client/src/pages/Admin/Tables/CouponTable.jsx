@@ -30,6 +30,7 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
+    NumberInput,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
@@ -116,31 +117,34 @@ const CouponTable = () => {
 
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [editedValues, setEditedValues] = useState({
-        CouponName: '',
-        CompanyName: '',
-        Description: '',
-        CouponCode: '',
-        Discount: '',
-        Status: '',
-        StartDate: '',
-        EndDate: ''
+      CouponImage: '',
+      CouponName: '',
+      CompanyName: '',
+      CouponCode: '',
+      Description: '',
+      StartDate: '',
+      EndDate: '',
+      Points: '',
+      Status: '',
+      Count: ''
+
     });
     const [isOpen, setIsOpen] = useState(false);
 
     const onEdit = (id) => {
-        const coupon = coupons.find(coupon => coupon._id === id);
-        setSelectedCoupon(coupon);
-        setEditedValues({
-            CouponName: coupon.CouponName,
-            CompanyName: coupon.CompanyName,
-            Description: coupon.Description,
-            CouponCode: coupon.CouponCode,
-            Discount: coupon.Discount,
-            Status: coupon.Status,
-            StartDate: coupon.StartDate,
-            EndDate: coupon.EndDate
-        });
-        setIsOpen(true);
+      const coupon = coupons.find(coupon => coupon._id === id);
+      setSelectedCoupon(coupon);
+      setEditedValues({
+        CouponName: coupon.CouponName,
+        CompanyName: coupon.CompanyName,
+        Description: coupon.Description,
+        CouponCode: coupon.CouponCode,
+        StartDate: coupon.StartDate,
+        EndDate: coupon.EndDate,
+        Status: coupon.Status,
+        Count: coupon.Count
+      });
+      setIsOpen(true);
     }
     
 
@@ -260,22 +264,6 @@ const CouponTable = () => {
                             onChange={handleEditInputChange}
                         />
                     </FormField>
-                    <FormField label="Discount">
-                        <Input
-                            type="number"
-                            name="Discount"
-                            value={editedValues.Discount || selectedCoupon.Discount}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="Status">
-                        <Input
-                            type="text"
-                            name="Status"
-                            value={editedValues.Status || selectedCoupon.Status}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
                     <FormField label="Start Date">
                         <Input
                             type="datetime-local"
@@ -292,6 +280,27 @@ const CouponTable = () => {
                             onChange={handleEditInputChange}
                         />
                     </FormField>
+                    <FormField label="Count">
+                        <NumberInput 
+                            name="Count"
+                            value={editedValues.Count || selectedCoupon.Count}
+                            min={1} 
+                            max={1000} 
+                            bg={'whiteAlpha.900'} 
+                            boxShadow="0 0 5px rgba(0, 0, 0, 0.1)" 
+                            onChange={handleEditInputChange}
+                        >
+                        </NumberInput>
+                    </FormField>
+                    <FormField label="Status">
+                        <Input
+                            type="text"
+                            name="Status"
+                            value={editedValues.Status || selectedCoupon.Status}
+                            onChange={handleEditInputChange}
+                        />
+                    </FormField>
+
                     <FormField label="Status" >
                         <Flex justifyContent="flex-end" alignItems="flex-end">
                           <Switch
