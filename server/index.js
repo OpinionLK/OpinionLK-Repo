@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
+import adminRoutes from './routes/admin.js';
+
 // import swaggerAutogen from 'swagger-autogen';
 
 import  swaggerUi from 'swagger-ui-express';
@@ -51,6 +53,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/survey', surveyRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
 mongoose
