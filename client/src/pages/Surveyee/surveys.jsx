@@ -75,7 +75,7 @@ const Survey = () => {
               surveyImage={survey.surveyImage}
               surveyID={survey.surveyID}
               surveyTags={survey.surveyTags}
-              surveyPoints={survey.surveyPoints}
+              surveyPoints={survey.points}
             />
             </>
           )

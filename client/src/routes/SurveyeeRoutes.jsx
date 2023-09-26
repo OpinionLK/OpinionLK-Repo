@@ -74,7 +74,7 @@ const SurveyeeRoutes = [
                 element: <Survey/>,
             },
             {
-                path: '/portal/survey/surveyComplete/:pointsEarned',
+                path: '/portal/survey/surveyComplete/:points',
                 element: <SurveyComplete/>,
             },
            

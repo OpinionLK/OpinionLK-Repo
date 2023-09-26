@@ -6,8 +6,8 @@ import complete from '../../images/complete.png'
 
 // Your component
 export default function SurveyComplete() {
-    const { pointsEarned } = useParams();
-
+    const { points } = useParams();
+    console.log('points:' , points)
     return (
         <Flex
             direction='column'
@@ -20,7 +20,7 @@ export default function SurveyComplete() {
             </Heading>
             <Image m='3' src={complete}/>
             <Text m='3'>
-                You have earned {pointsEarned} points!
+                You have earned {points} points!
             </Text>
             <Button 
                 m='5' 

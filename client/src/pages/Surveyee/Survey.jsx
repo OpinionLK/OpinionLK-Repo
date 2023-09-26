@@ -61,8 +61,8 @@ export default function Survey() {
       );
   
       console.log('Response added successfully:', responseFromServer.data);
-      const pointsEarned = 50
-      navigate(`/portal/survey/surveyComplete/${pointsEarned}`); // Replace pointsEarned with the actual points earned
+      
+      navigate(`/portal/survey/surveyComplete/${survey.points}`);
     } catch (error) {
       console.error('Error adding response:', error);
     }
