@@ -31,6 +31,7 @@ ChartJS.register(
 
 const SurveyFillingGraph = () => {
     const state = {
+        type: 'category',
         labels: ['19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th'],
         datasets: [
           {

@@ -24,7 +24,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Topbar = () => {
-    const { user } = useAuthContext()
+    const { user, userData } = useAuthContext()
     const logout = useLogout()
     return (
         <Box
@@ -73,13 +73,17 @@ const Topbar = () => {
                             }}>
                             <Flex justifyContent={'center'} alignItems={'center'}>
                                 <Icon style={{ fontSize: '18px', color: '#4318FF' }} color={'brand.purple'} icon="mdi:star-four-points-circle-outline" />
-                                <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>500</Text>
+                                <Text pl="10px" color={'brand.darkPurple'} fontStyle={'normal'}>{userData?.points}</Text>
                             </Flex>
                         </MenuButton>
                         <MenuList>
-                            <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'}>
-                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgGradient='linear(to-r, green.200, pink.500)' borderRadius={'15px'}>
-
+                            <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'} bg={'whiteAlpha.400'}>
+                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgImage="url('https://ik.imagekit.io/7i3fql4kv7/cardbackgrounds/cardbackground.png?updatedAt=1695643900189')" bgPos="center" bgSize="contain"borderRadius={'15px'}>
+                                    <Text fontSize={'2xl'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Opinion Points</Text>
+                                    <Flex justifyContent={'space-around'} alignItems={'center'} marginBottom={20}>
+                                        <Text fontSize={'md'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Available Balance</Text>
+                                        <Text fontSize={'2xl'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>{userData?.points}</Text>
+                                    </Flex>
                                 </Box>
                             </Flex>
                         </MenuList>

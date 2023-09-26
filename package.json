@@ -2,7 +2,7 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "morgan": "^1.10.0",
     "react-modal": "^3.16.1"
   }
 }
-

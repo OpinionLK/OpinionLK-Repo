@@ -95,7 +95,10 @@
     },
     "/api/auth/getmembers": {
       "get": {
-        "description": "",
+        "tags": [
+          "Community Manager"
+        ],
+        "description": "Endpoint to get all community managers",
         "responses": {
           "200": {
             "description": "OK"
@@ -228,7 +231,10 @@
     },
     "/api/client/signup": {
       "post": {
-        "description": "",
+        "tags": [
+          "Organisation"
+        ],
+        "description": "Endpoint to sign up organisation",
         "parameters": [
           {
             "name": "body",
@@ -309,7 +315,10 @@
     },
     "/api/client/clientdata": {
       "get": {
-        "description": "",
+        "tags": [
+          "Organisation"
+        ],
+        "description": "Endpoint to get organisation data",
         "parameters": [
           {
             "name": "authorization",
@@ -345,7 +354,10 @@
     },
     "/api/user/userdata": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to get user data",
         "parameters": [
           {
             "name": "authorization",
@@ -366,55 +378,11 @@
         }
       }
     },
-    "/api/survey/byid": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/survey/fillSurvey/{surveyid}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "surveyid",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/api/survey/createResponse": {
       "post": {
+        "tags": [
+          "User"
+        ],
         "description": "",
         "parameters": [
           {
@@ -453,6 +421,10 @@
     },
     "/api/survey/getbyUserId": {
       "get": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
         "description": "",
         "parameters": [
           {
@@ -495,12 +467,64 @@
         }
       }
     },
-    "/api/survey/changestatus/{surveyid}": {
+    "/api/survey/all": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/survey/getsurvey/{surveyid}": {
+      "get": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
+        "description": "Gets survey to edit, checks edit privileges",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/survey/editquestion/{surveyid}/{questionid}": {
       "put": {
         "description": "",
         "parameters": [
           {
             "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionid",
             "in": "path",
             "required": true,
             "type": "string"
@@ -516,7 +540,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "state": {
+                "data": {
                   "example": "any"
                 }
               }
@@ -530,57 +554,24 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/api/survey/all": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/survey/create": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "409": {
-            "description": "Conflict"
-          }
-        }
-      }
-    },
-    "/api/survey/getsurvey/{surveyid}": {
+    "/api/survey/getQuestion/{surveyid}/{questionid}": {
       "get": {
         "description": "",
         "parameters": [
           {
             "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionid",
             "in": "path",
             "required": true,
             "type": "string"
@@ -598,6 +589,10 @@
     },
     "/api/survey/addQuestion/{surveyid}": {
       "post": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
         "description": "",
         "parameters": [
           {
@@ -639,6 +634,10 @@
     },
     "/api/survey/deleteQuestion/{surveyid}": {
       "put": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
         "description": "",
         "parameters": [
           {
@@ -673,8 +672,39 @@
         }
       }
     },
-    "/api/survey/checkeditpriviledge/{surveyid}": {
-      "get": {
+    "/api/survey/create": {
+      "post": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/survey/changestatus/{surveyid}": {
+      "put": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
         "description": "",
         "parameters": [
           {
@@ -687,6 +717,18 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -698,6 +740,9 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

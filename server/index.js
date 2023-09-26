@@ -8,6 +8,8 @@ import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
 
+import morgan from 'morgan';
+
 // import swaggerAutogen from 'swagger-autogen';
 
 import  swaggerUi from 'swagger-ui-express';
@@ -45,6 +47,7 @@ const corsOptions = {
 // MIDDLEWARE
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(morgan('dev'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 

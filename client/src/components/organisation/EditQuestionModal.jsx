@@ -1,30 +1,22 @@
-import React from "react";
-import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-
+import React, { useEffect, useState } from "react";
+import { useForm, useFieldArray, set } from "react-hook-form";
 import {
-
   Modal,
-  Radio,
   RadioGroup,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  Checkbox, CheckboxGroup,
-  ModalFooter,
-  ModalBody,
   ModalCloseButton,
   Button,
   Input,
   Text,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
   FormControl,
   Menu,
   MenuButton,
+  ModalBody,
+  ModalFooter,
+  Checkbox,
+  Radio,
   MenuList,
   FormErrorMessage,
   useDisclosure,
@@ -36,90 +28,21 @@ import {
   Heading,
   IconButton,
   Textarea,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
-import {EditIcon} from '@chakra-ui/icons'
-
-import { useAuthContext } from '../../hooks/useAuthContext';
-import { DeleteIcon } from '@chakra-ui/icons'
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { AnimatePresence, motion } from "framer-motion";
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-function CompExample() {
-  const {
-    isOpen: isVisible,
-    onClose,
-    onOpen,
-  } = useDisclosure({ defaultIsOpen: true })
-
-  return isVisible ? (
-    <Alert status='success'>
-      <AlertIcon />
-      <Box>
-        <AlertTitle>Success!</AlertTitle>
-        <AlertDescription>
-          Your application has been received. We will review your application
-          and respond within the next 48 hours.
-        </AlertDescription>
-      </Box>
-      <CloseButton
-        alignSelf='flex-start'
-        position='relative'
-        right={-1}
-        top={-1}
-        onClick={onClose}
-      />
-    </Alert>
-  ) : (
-    <Button onClick={onOpen}>Show Alert</Button>
-  )
-}
-
-
-const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
-  const [selectedEmoji, setSelectedEmoji] = useState('grinning');
-  function onClick(emoji) {
-    setValue(`items.${index}.emoji`, emoji.id)
-  }
-  return (
-
-    <FormControl id="text" isRequired w={'100%'}>
-
-      <Flex flexDirection={'column'} gap={'20px'} width={'100%'}>
-        <Flex gap={'10px'} width={'100%'}>
-          <Menu>
-            <MenuButton textAlign={'center'} as={Button} p={'0px'} variant={'solid'} colorScheme='gray' >
-              <em-emoji id={items[index].emoji} set="apple" size="2em"></em-emoji>
-            </MenuButton>
-            <MenuList>
-              <Picker data={data} onEmojiSelect={onClick} />
-            </MenuList>
-          </Menu>
-          <Input width={'100%'} placeholder={`Option ${index + 1}`} name={`EmojiOption ${index}`} {...register(`items.${index}.option`, { required: true })} />
-          {fields.length > 2 && (
-            <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />
-
-          )}
-        </Flex>
-      </Flex>
-    </FormControl>
-  )
-}
-
-
-function BasicUsage({ onUpdateContent }) {
-
+function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { surveyid } = useParams();
+  const { user } = useAuthContext();
 
-  const {
-    user, dispatch, userData
-  } = useAuthContext();
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { register, control, handleSubmit, watch, reset, setValue } = useForm({
     defaultValues: {
@@ -129,359 +52,334 @@ function BasicUsage({ onUpdateContent }) {
       items: [{ option: "" }, { option: "" }, { option: "" }, { option: "" }],
     },
   });
+
+  // watch the response type and text placeholder
   const response = watch("responseType");
-  const question = watch("question");
   const textPlaceholder = watch("textPlaceholder");
   const items = watch("items");
-
-
-  // async function handleSubmit(e) {
-  // e.preventDefault();
-
-  //   let question = {
-  //     questionText: questionText,
-  //   }
-  //   if (questionType === 'text') {
-  //     question.type = 'text'
-  //     question.placeholder = questionPlaceholder
-  //   }
-  //   console.log(question)
-
-  //   try {
-  //     const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
-  //       question: question,
-  //     });
-
-  //     console.log(response.data);
-  //     onUpdateContent(response.data);
-
-
-  //     onClose();
-  //     // Clear input fields
-  //     setQuestion('');
-  //     setQuestionPlaceholder('')
-  //     history('/organisation/survey/' + response.data.surveyID + '/edit');
-  //   } catch (error) {
-  //     console.error('Error creating question:', error);
-  //     // Handle error and show user-friendly message
-  //     alert('Error creating survey. Please try again.');
-  //   }
-  // }
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
+  const [isQuestionLoaded, setIsQuestionLoaded] = useState(false);
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const response = await axios.post('http://localhost:3002/api/survey/addQuestion/' + surveyid, {
-        data
-      }, {
-        headers: { 'Authorization': `Bearer ${user.token}` },
+  useEffect(() => {
+    if (isOpen) {
+      if (mode === "edit") {
+        getQuestion();
+      } else {
+        setIsQuestionLoaded(true);
       }
-      );
-      console.log(response.data);
-      onUpdateContent(response.data);
-      onClose();
     }
-    catch (error) {
-      console.log(error);
-    }
+  }, [isOpen]);
 
-    // handle form submission here
+
+  // get the quesetion data upon opening the modal
+  const getQuestion = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3002/api/client/getQuestion/${surveyid}/${questionID}`);
+      const responseData = response.data[0];
+      setValue("question", responseData.question);
+      setValue("responseType", responseData.responseType);
+
+      if (responseData.responseType === "shorttext" || responseData.responseType === "longtext") {
+        setValue("textPlaceholder", responseData.textPlaceholder);
+      } else if (responseData.responseType === "singlechoice" || responseData.responseType === "multiplechoice") {
+        setValue("items", responseData.items);
+      } else if (responseData.responseType === "mood") {
+        setValue("items", responseData.items);
+      }
+      setIsQuestionLoaded(true);
+
+      // console.log(responseData);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
-  const handleResponseTypeChange = (event) => {
-    if (event.target.value === "shorttext") {
-      reset({
-        responseType: event.target.value,
-        textPlaceholder: "",
-      });
-    } else if (event.target.value === "longtext") {
-      reset({
-        responseType: event.target.value,
-        textPlaceholder: "",
-      });
 
-    } else if (event.target.value === "singlechoice") {
-      reset({
-        responseType: event.target.value,
-        items: [{ option: "" }, { option: "" }, { option: "" }, { option: "" }],
-      });
-    } else if (event.target.value === "multiplechoice") {
-      reset({
-        responseType: event.target.value,
-        items: [{ option: "" }, { option: "" }, { option: "" }, { option: "" }],
-      });
-    } else if (event.target.value === "mood") {
-      reset({
-        responseType: event.target.value,
-        items: [{ option: "", emoji: "grinning" }, { option: "", emoji: "scream" }, { option: "", emoji: "sleeping" }, { option: "", emoji: "nauseated_face" }],
-      });
+  // submit the form data to the backend  
+  const onSubmit = async (data) => {
+
+
+    let URL = null;
+    let method = 'POST';
+
+    if (mode === "edit") {
+      URL = `http://localhost:3002/api/client/editQuestion/${surveyid}/${questionID}`;
+      method = 'PUT';
+    } else {
+      URL = `http://localhost:3002/api/survey/addQuestion/${surveyid}`;
     }
+    try {
+      const response = await axios.request({
+        url: URL,
+        method: method, // Use the dynamic method here
+        data: { data },
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      refreshdata();
+      onClose();
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  // handle the response type change
+  const handleResponseTypeChange = (event) => {
+    const resetValues = {
+      responseType: event.target.value,
+      textPlaceholder: "",
+    };
+
+    if (event.target.value === "singlechoice" || event.target.value === "multiplechoice") {
+      resetValues.items = [{ option: "" }, { option: "" }, { option: "" }, { option: "" }];
+    } else if (event.target.value === "mood") {
+      resetValues.items = [
+        { option: "", emoji: "grinning" },
+        { option: "", emoji: "scream" },
+        { option: "", emoji: "sleeping" },
+        { option: "", emoji: "nauseated_face" },
+      ];
+    }
+
+    reset(resetValues);
   };
 
   return (
     <>
-
-      <IconButton aria-label={'delete'}
-                                icon={<EditIcon />}
-                                onClick={onOpen} />
-      <Modal variant={'editModal'} width={'60%'} isOpen={isOpen} onClose={onClose}>
+      <IconButton aria-label={"delete"} icon={<EditIcon />} onClick={onOpen} />
+      <Modal variant={"editModal"} width={"60%"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent  >
+        <ModalContent>
           <ModalHeader>Add a Question</ModalHeader>
           <ModalCloseButton />
-          <ModalBody alignItems={'flex-start'} justifyContent={'center'} display={'flex'}>
-            <Flex padding={'20px'} width={'100%'} height={'100%'} gap={'40px'} justifyContent={'center'} alignItems={'flex-start'}>
+          <ModalBody alignItems={"flex-start"} justifyContent={"center"} display={"flex"}>
+            {isQuestionLoaded ? (
+              <Flex padding={"20px"} width={"100%"} height={"100%"} gap={"40px"} justifyContent={"center"} alignItems={"flex-start"}>
+                <form style={{ width: "50%", height: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+                  <VStack gap={"10px"} alignItems={"flex-start"} justifyContent={"flex-start"}>
+                    <label htmlFor="question">Question:</label>
+                    <Input {...register("question", { required: true })} />
 
-              <form style={{ width: '50%', height: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-                <VStack gap={'10px'} alignItems={'flex-start'} justifyContent={'flex-start'}>
-                  <label htmlFor="question">Question:</label>
-                  <Input {...register("question", { required: true })} />
+                    <label htmlFor="responseType">Response Type:</label>
+                    <Select {...register("responseType", { required: true })} onChange={handleResponseTypeChange}>
+                      <option value="">--Please choose an option--</option>
+                      <option value="shorttext">Text Response</option>
+                      <option value="longtext">Long Text Response</option>
+                      <option value="mood">Mood Scale</option>
+                      <option value="singlechoice">Single Choice</option>
+                      <option value="multiplechoice">Multiple Choice</option>
+                    </Select>
 
-                  <label htmlFor="responseType">Response Type:</label>
-                  <Select
-                    {...register("responseType", { required: true })}
-                    onChange={handleResponseTypeChange}
-                  >
-                    <option value="">--Please choose an option--</option>
-                    <option value="shorttext">Text Response</option>
-                    <option value="longtext">Long Text Response</option>
-                    <option value="mood">Mood Scale</option>
-                    <option value="singlechoice">Single Choice</option>
-                    <option value="multiplechoice">Multiple Choice</option>
-                  </Select>
-
-                  {response === "shorttext" && (
-                    <motion.div
-                      key={'shorttext'}
-                      width={'100%'}
-                      initial={{ opacity: 0, width: '100%' }}
-                      animate={{ opacity: 1, transition: { duration: 0.3 } }}
-                      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-
-                    >
-                      <FormControl
-                      // isInvalid={errors.name}
-                      >
-                        <Flex gap={'10px'}>
-                          <Flex flexDirection={'column'} width={'100%'}>
-
-                            <FormLabel>Input Placholder</FormLabel>
-                            <Input
-                              {...register(`textPlaceholder`, { required: true })}
-                              defaultValue={textPlaceholder}
-                            />
-                          </Flex>
-
-                        </Flex>
-                        {/* </VStack> */}
-                        <FormErrorMessage>
-                          {/* {errors.name && errors.name.message} */}
-                        </FormErrorMessage>
-                      </FormControl>
-                    </motion.div>
-                  )}
-                  {response === "longtext" && (
-                    <motion.div
-                      key={'longtext'}
-                      initial={{ opacity: 0, width: '100%' }}
-                      animate={{ opacity: 1, width: '100%', transition: { duration: 0.3 } }}
-                      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                    >
-                      <FormControl
-                      // isInvalid={errors.name}
-                      >
-                        {/* <VStack gap={'10px'} mt={'30px'}> */}
-                        <Flex gap={'10px'}>
-                          <Flex flexDirection={'column'} width={'100%'}>
-
-                            <FormLabel>TextArea Placholder</FormLabel>
-                            <Input
-                              {...register(`textPlaceholder`, { required: true })}
-                              defaultValue={textPlaceholder}
-                            />
-                          </Flex>
-
-                        </Flex>
-                        {/* </VStack> */}
-                        <FormErrorMessage>
-                          {/* {errors.name && errors.name.message} */}
-                        </FormErrorMessage>
-                      </FormControl>
-                    </motion.div>
-                  )}
-
-                  {response === "singlechoice" && (
-                    <motion.div
-                      key="singlechoice"
-                      initial={{ opacity: 0, width: '100%' }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                      width={'100%'}
-                    >
-                      <VStack gap={'20px'} alignItems={'flex-start'} mt={'30px'} width={'100%'}>
-                        <Text>Options</Text>
-                        {fields.map((field, index) => (
-                          <Flex alignItems={'center'} width={'100%'} gap={'20px'} key={field.id}>
-
-                            <Input
-                              {...register(`items.${index}.option`, { required: true })}
-                              placeholder={`Option ${index + 1}`}
-                            // defaultValue={field.option}
-                            />
-                            {
-                              fields.length > 2 && (
-                                <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />
-                              )
-                            }
-
-                          </Flex>
-
-                        ))}
-                      </VStack>
-                      <Button mt={'20px'} type="button" variant={'outline'} onClick={() => append({ option: "" })}>
-                        Add Another Option
-                      </Button>
-                    </motion.div>
-                  )}
-                  {response === "multiplechoice" && (
-                    <motion.div
-                      key="multiplechoice"
-                      initial={{ opacity: 0, width: '100%' }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                      width={'100%'}
-                    >
-                      <VStack gap={'20px'} alignItems={'flex-start'} mt={'30px'} width={'100%'}>
-                        <Text>Options</Text>
-                        {fields.map((field, index) => (
-                          <Flex alignItems={'center'} width={'100%'} gap={'20px'} key={field.id}>
-
-                            <Input
-                              {...register(`items.${index}.option`, { required: true })}
-                              placeholder={`Option ${index + 1}`}
-                              defaultValue={field.option}
-                            />
-                            {
-                              fields.length > 2 && (
-                                <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />
-                              )
-                            }
-
-                          </Flex>
-
-                        ))}
-                      </VStack>
-                      <Button mt={'20px'} type="button" variant={'outline'} onClick={() => append({ option: "" })}>
-                        Add Another Option
-                      </Button>
-                    </motion.div>
-                  )}
-
-                  {response === "mood" && (
-
-                    <motion.div
-                      key="mood"
-                      initial={{ opacity: 0, width: '100%' }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                      width={'100%'}
-                    >
-                      <VStack gap={'20px'} alignItems={'flex-start'} mt={'30px'} width={'100%'}>
-                        <Text>Options</Text>
-                        {fields.map((field, index) => (
-                          <Box width={'100%'} key={field.id}>
-                            <MoodOption index={index} register={register} setValue={setValue} items={items} remove={remove} fields={fields} />
-
-                          </Box>
-                        ))}
-                      </VStack>
-                      <Button mt={'20px'} type="button" onClick={() => append({ option: "", emoji: "scream" })}>
-                        Add Emoji Option
-                      </Button>
-                    </motion.div>
-                  )}
-
-
-                  <Button mt={'20px'} colorScheme="messenger" type="submit">Save Changes</Button>
-                </VStack>
-              </form>
-              <VStack width={'50%'} gap={'30px'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
-                <Heading as={'h2'} size={'md'}>Preview</Heading>
-                <Flex border={'1px'} borderColor={'brand.purple'} backgroundColor={'#FBFBFB'} height={'auto'} width={'90%'} justifyContent={'center'} alignItems={'center'} borderRadius={'2xl'} flexDirection={'column'}>
-                  <Flex alignItems={'center'} justifyContent={'flex-start'} padding={'20px'} width={'100%'}>
                     {response === "shorttext" && (
-                      <Input placeholder={textPlaceholder} width={'100%'} />
+                      // <motion.div key={"shorttext"} initial={{ opacity: 0, width: "100%" }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.3 } }}>
+                      <FormControl>
+                        <Flex gap={"10px"}>
+                          <Flex flexDirection={"column"} width={"100%"}>
+                            <FormLabel>Input Placeholder</FormLabel>
+                            <Input {...register(`textPlaceholder`, { required: true })} defaultValue={textPlaceholder} />
+                          </Flex>
+                        </Flex>
+                      </FormControl>
+                      // </motion.div>
                     )}
-                    {response === "longtext" && (
-                      <Textarea placeholder={textPlaceholder} borderColor={'#D2D2D2'} backgroundColor={'white'} width={'100%'} variant={'outline'} colorScheme="whiteAlpha" />
-                    )}
-                    {response === "singlechoice" && (
-                      <Flex flexDirection={'column'}>
-                        <RadioGroup defaultValue="1">
-                          {
-                            items.map((item, index) => (
-                              <Flex gap={'10px'}>
-                                <Radio value={index} backgroundColor={'white'}>
-                                  <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
-                                </Radio>
-                                {/* // <li key={index}>{item.option}</li> */}
-                              </Flex>
-                            ))
-                          }
-                        </RadioGroup>
-                      </Flex>
-                    )}
-                    {response === "multiplechoice" && (
-                      <Flex flexDirection={'column'}>
-                        <RadioGroup defaultValue="1">
-                          {
-                            items.map((item, index) => (
-                              <Flex gap={'10px'}>
-                                <Checkbox>
-                                  <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
-                                </Checkbox>
-                              </Flex>
-                            ))
-                          }
-                        </RadioGroup>
-                      </Flex>
-                    )}
-                    {response === "mood" && (
-                      <Flex gap={'10px'} wrap={'wrap'}>
-                        {
-                          items.map((item, index) => (
-                            <Flex>
-                              <Flex gap={'0px'} height={'100px'} width={'100px'} backgroundColor={'white'} justifyContent={'center'} alignItems={'center'} boxShadow={'lg'} border={'1px'} borderColor={'gray'} borderRadius={'lg'} flexDirection={'column'}>
-                                <Flex fontSize='60px' lineHeight={'65px'}>
-                                  <em-emoji id={items[index].emoji} set="apple" size=""></em-emoji>
-                                </Flex>
-                                <Text noOfLines={1} width={'90%'} textAlign={'center'}>{!item.option ? `Option ${index + 1}` : item.option}</Text>
-                              </Flex>
-                            </Flex>
 
-                          ))
-                        }
-                      </Flex>
-                    )
-                    }
+                    {response === "longtext" && (
+                      // <motion.div key={"longtext"} initial={{ opacity: 0, width: "100%" }} animate={{ opacity: 1, width: "100%", transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.3 } }}>
+                      <FormControl>
+                        <Flex gap={"10px"}>
+                          <Flex flexDirection={"column"} width={"100%"}>
+                            <FormLabel>TextArea Placeholder</FormLabel>
+                            <Input {...register(`textPlaceholder`, { required: true })} defaultValue={textPlaceholder} />
+                          </Flex>
+                        </Flex>
+                      </FormControl>
+                      // </motion.div>
+                    )}
+
+                    {(response === "singlechoice" || response === "multiplechoice") && (
+                      // <motion.div
+                      //   key={response}
+                      //   initial={{ opacity: 0, width: "100%" }}
+                      //   animate={{ opacity: 1 }}
+                      //   exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                      //   width={"100%"}
+                      // >
+                      <>
+                        <VStack gap={"20px"} alignItems={"flex-start"} mt={"30px"} width={"100%"}>
+                          <Text>Options</Text>
+                          {fields.map((field, index) => (
+                            <Flex alignItems={"center"} width={"100%"} gap={"20px"} key={field.id}>
+                              <Input {...register(`items.${index}.option`, { required: true })} placeholder={`Option ${index + 1}`} />
+                              {fields.length > 2 && <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
+                            </Flex>
+                          ))}
+                        </VStack>
+                        <Button mt={"20px"} type="button" variant={"outline"} onClick={() => append({ option: "" })}>
+                          Add Another Option
+                        </Button>
+                      </>
+                      // </motion.div>
+                    )}
+
+                    {response === "mood" && (
+                      // <motion.div
+                      //   key="mood"
+                      //   initial={{ opacity: 0, width: "100%" }}
+                      //   animate={{ opacity: 1 }}
+                      //   exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                      //   width={"100%"}
+                      // >
+                      <>
+                        <VStack gap={"20px"} alignItems={"flex-start"} mt={"30px"} width={"100%"}>
+                          <Text>Options</Text>
+                          {fields.map((field, index) => (
+                            <Box width={"100%"} key={field.id}>
+                              <MoodOption index={index} register={register} setValue={setValue} items={items} remove={remove} fields={fields} />
+                            </Box>
+                          ))}
+                        </VStack>
+                        <Button mt={"20px"} type="button" onClick={() => append({ option: "", emoji: "scream" })}>
+                          Add Emoji Option
+                        </Button>
+                      </>
+                      // </motion.div>
+                    )}
+
+                    <Button mt={"20px"} colorScheme="messenger" type="submit">
+                      Save Changes
+                    </Button>
+                  </VStack>
+                </form>
+
+
+
+                {/* Previe Sectionw */}
+
+                <VStack width={"50%"} gap={"30px"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
+                  <Heading as={"h2"} size={"md"}>
+                    Preview
+                  </Heading>
+                  <Flex border={"1px"} borderColor={"brand.purple"} backgroundColor={"#FBFBFB"} height={"auto"} width={"90%"} justifyContent={"center"} alignItems={"center"} borderRadius={"2xl"} flexDirection={"column"}>
+                    <Flex alignItems={"center"} justifyContent={"flex-start"} padding={"20px"} width={"100%"}>
+                      {/* preview for short text response */}
+                      {response === "shorttext" && <Input placeholder={textPlaceholder} width={"100%"} />}
+
+                      {/* preview for the long text response */}
+                      {response === "longtext" && <Textarea placeholder={textPlaceholder} borderColor={"#D2D2D2"} backgroundColor={"white"} width={"100%"} variant={"outline"} colorScheme="whiteAlpha" />}
+
+                      {/* preview for the single or multiple choice questions */}
+                      {(response === "singlechoice" || response === "multiplechoice") && (
+                        <Flex flexDirection={"column"}>
+                          <RadioGroup defaultValue="1">
+                            {items.map((item, index) => (
+                              <Flex gap={"10px"} key={index}>
+                                {response === "singlechoice" && (
+                                  <Radio value={index} backgroundColor={"white"}>
+                                    <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
+                                  </Radio>
+                                )}
+                                {response === "multiplechoice" && (
+                                  <Checkbox>
+                                    <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
+                                  </Checkbox>
+                                )}
+                              </Flex>
+                            ))}
+                          </RadioGroup>
+                        </Flex>
+                      )}
+                      {/* Preview for mood response questions */}
+                      {response === "mood" && (
+                        <MoodPreview items={items} />
+                      )}
+                    </Flex>
                   </Flex>
-                </Flex>
-              </VStack>
-            </Flex>
+                </VStack>
+              </Flex>
+            ) : (
+              <Text>Loading...</Text>
+            )}
           </ModalBody>
 
-          <ModalFooter>
-
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>
+  );
+}
+
+// Component for mood option creation
+
+const MoodOption = ({ index, register, setValue, items, fields, remove }) => {
+
+
+  const onClick = (emoji) => {
+    setValue(`items.${index}.emoji`, emoji.id);
+  };
+
+  return (
+    <FormControl id={`EmojiOption${index}`} isRequired w={"100%"}>
+      <Flex flexDirection={"column"} gap={"20px"} width={"100%"}>
+        <Flex gap={"10px"} width={"100%"}>
+            <em-emoji id={items[index].emoji} set="apple" size="2em"></em-emoji>
+          <Menu>
+            {({ isOpen }) => (
+              <>
+                <MenuButton textAlign={"center"} as={Button} p={"0px"} variant={"solid"} colorScheme="gray">
+                </MenuButton>
+                <MenuList>
+                  {isOpen ?
+                    (<Picker
+                      data={data} onEmojiSelect={onClick} />)
+
+                    : null
+                  
+                }
+                </MenuList>
+              </>
+            )}
+
+          </Menu>
+          <Input
+            width={"100%"}
+            placeholder={`Option ${index + 1}`}
+            name={`EmojiOption  ${index}`}
+            {...register(`items.${index}.option`, { required: true })}
+          />
+          {fields.length > 2 && (
+            <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />
+          )}
+        </Flex>
+      </Flex>
+    </FormControl>
+  );
+};
+
+// Component handling mood preview
+
+const MoodPreview = ({ items }) => {
+  return (
+    <Flex gap={"10px"} wrap={"wrap"}>
+      {items.map((item, index) => (
+        <Flex key={index} flexDirection={"column"} gap={"10px"}
+        >
+          <Flex gap={"0px"} height={"100px"} width={"100px"} backgroundColor={"white"} justifyContent={"center"} alignItems={"center"} boxShadow={"lg"} border={"1px"} borderColor={"gray"} borderRadius={"lg"} flexDirection={"column"}>
+            <Flex fontSize="60px" lineHeight={"65px"}>
+              <em-emoji id={items[index].emoji} set="apple" size=""></em-emoji>
+            </Flex>
+            <Text noOfLines={1} width={"90%"} textAlign={"center"}>
+              {!item.option ? `Option ${index + 1}` : item.option}
+            </Text>
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
   )
 }
 
-export default BasicUsage;
+
+
+export default QuestionForm;
