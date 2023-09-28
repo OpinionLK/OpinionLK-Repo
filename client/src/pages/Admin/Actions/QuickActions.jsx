@@ -24,7 +24,7 @@ import {
   import Modal from 'react-modal';
   import axios from 'axios';
   import AddComManager from './AddComManager'
-  import AddCoupon from './AddCoupon'
+  import AddCoupon from '../Components/AddCoupon'
   
   
   const QuickActions = () => {

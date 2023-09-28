@@ -26,7 +26,7 @@ import {
     import Modal from 'react-modal';
     import { FaUpload } from 'react-icons/fa'; 
     import axios from 'axios';
-
+    import ImageKit from 'imagekit-javascript';
 
 const AddCoupon = () => {
 
@@ -62,6 +62,8 @@ const AddCoupon = () => {
       };
 
       const [isOpen, setIsOpen] = useState(false);
+      const [imageUrl, setImageUrl] = useState('');
+
       const openPopup = () => {
         setIsOpen(true);
       };
@@ -73,32 +75,37 @@ const AddCoupon = () => {
       const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.target);
-        const formData = {
-          CouponImage: data.get('CouponImage'),
-          CouponName: data.get('CouponName'),
-          CouponCode: data.get('CouponCode'),
-          Description: data.get('Description'),
-          StartDate: data.get('StartDate'),
-          EndDate: data.get('EndDate'),
-          Points: data.get('Points'),
-          Status: data.get('Status'),
-          Count: data.get('Count'),
-          CompanyName: data.get('CompanyName'),
+        const CouponImage = data.get('CouponImage');
+        console.log(CouponImage);
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
         };
-        console.log(formData);
+        
         try {
-          axios.post('http://localhost:3002/api/admin/coupons/add', formData)
-            .then(response => {
-              console.log('Data submitted successfully:', response.data)
+          axios
+            .post('http://localhost:3002/api/admin/coupons/add', data, config)
+            .then((res) => {
+              console.log(res.data);
+              setIsSuccess(true);
+              closePopup();
+            })
+            .catch((err) => {
+              console.log(err);
             });
-          // alert("Successfully Added");
-          closePopup();
-          // window.location='/admin';
         }
         catch (err) {
-          console.error('Error submitting data:', err);
+          console.log(err);
         }
-      }
+      };
+
+      const handleImage = (e) => {
+        const selectedImage = e.target.files[0]; // Get the selected image file
+        const imageUrl = URL.createObjectURL(selectedImage); // Create a temporary URL for the selected image
+        setImageUrl(imageUrl); // Update the imageUrl state
+      };
+
 
       return (
         <>
@@ -170,8 +177,8 @@ const AddCoupon = () => {
                   <Box mr={5} pl={2} mt={5}>
                     <Box position="relative">
                       <Image 
-                        src='gibbresh.png' 
-                        fallbackSrc='https://picsum.photos/200/300'
+                        src={imageUrl || 'https://picsum.photos/200/300'}
+                        // fallbackSrc='https://picsum.photos/200/300'
                         height={'180px'}
                         w={'100%'} 
                         objectFit={'cover'}
@@ -180,7 +187,7 @@ const AddCoupon = () => {
                       />
                       <label htmlFor="upload" style={{ position: 'absolute', bottom: 1, right: 5, cursor: 'pointer' }}>
                           <Icon as={FaUpload} color={'whiteAlpha.900'} boxSize={6} />
-                          <Input type="file" id="upload" name="CouponImage" style={{ display: 'none'}} />
+                          <Input type="file" id="upload" name="CouponImage" style={{ display: 'none'}} onChange={handleImage} />
                       </label>
                     </Box>
                     <VStack spacing={3}>

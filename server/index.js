@@ -7,8 +7,8 @@ import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
-
 import morgan from 'morgan';
+import ImageKit from "imagekit";
 
 // import swaggerAutogen from 'swagger-autogen';
 
@@ -70,3 +70,19 @@ mongoose
     console.log('MongoDB Connected');
   })
   .catch((error) => console.error('Error connecting to MongoDB: ', error.message));
+
+//image uploads
+
+  const imagekit = new ImageKit({
+    privateKey: process.env.IMAGEKIT_PRIVATE_KEY, 
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+    urlEndpoint: process.env.IMAGEKIT_URL
+  });
+  app.get('/api/uploadKeys', (req, res) => {
+    res.json({ imagekit });
+  })
+
+  app.get('/api/generateAuth', (req, res) => {
+    const authenticationParams = imagekit.getAuthenticationParameters();
+    res.json({ authenticationParams });
+  });

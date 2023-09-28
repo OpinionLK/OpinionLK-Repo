@@ -1,5 +1,12 @@
 import Coupons from '../models/Coupons.js';
+import ImageKit from "imagekit";
+import dotenv from 'dotenv';
+import upload from '../middleware/upload.js';
+import multer from 'multer';
+import axios from 'axios';
 
+
+dotenv.config();
 export const GetCoupons = async (_, res) => {
     try {
         const coupon = await Coupons.find();
@@ -10,15 +17,63 @@ export const GetCoupons = async (_, res) => {
 };
 
 export const CreateCoupon = async (req, res) => {
-    const Coupon = req.body;
-    const newCoupon = new Coupons(Coupon);
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }else {
+        console.log(req.file);
+    }
+    var imagekit = new ImageKit({
+        publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+        privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+        urlEndpoint: process.env.IMAGEKIT_URL
+    });
+
+    const imageFile = req.file;
+    const imageUploadRes = imagekit.upload({
+        file: imageFile.buffer.toString("base64"),
+        fileName: imageFile.originalname,
+        folder: "/couponImages",
+        transformation:[
+            {
+                "height": "300",
+                "width": "300"
+            }
+        ],
+    });
+
+    const coupon = req.body;
+    if (
+        !coupon.CouponName ||
+        !coupon.CouponCode ||
+        !coupon.Description ||
+        !coupon.StartDate ||
+        !coupon.Points ||
+        !coupon.EndDate ||
+        !coupon.Status ||
+        !coupon.Count ||
+        !coupon.CompanyName
+    ) {
+        return res.status(400).json({ message: 'Please fill all the fields' });
+    }
+    const newCoupon = new Coupons({
+        CouponName: coupon.CouponName,
+        CouponCode: coupon.CouponCode,
+        Description: coupon.Description,
+        StartDate: coupon.StartDate,
+        Points : coupon.Points ,
+        EndDate: coupon.EndDate,
+        Status: coupon.Status,
+        Count: coupon.Count,
+        CompanyName: coupon.CompanyName,
+        CouponImage: imageUploadRes.url,
+    });
+
     try {
         await newCoupon.save();
-        console.log(newCoupon);
         res.status(201).json(newCoupon);
-    } catch (error) {
+    }
+    catch (error) {
         res.status(409).json({ message: error.message });
-        console.log(error);
     }
 };
 
@@ -33,7 +88,7 @@ export const UpdateCoupon = async (req,res) => {
             StartDate: req.body.StartDate,
             EndDate: req.body.EndDate,
             Status: req.body.Status,
-            count: req.body.count,
+            Count: req.body.Count,
             CompanyName: req.body.CompanyName,
         };
         

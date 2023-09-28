@@ -34,6 +34,7 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
+import UpdateCoupon from '../Components/UpdateCoupons';
 import axios from 'axios';
 
 
@@ -176,11 +177,17 @@ const CouponTable = () => {
         }
     }
 
-    const [switchValue, setSwitchValue] = useState(false);    
+    const [switchValue, setSwitchValue] = useState(false);
+    
+    const editCoupon = () => {
+      return (
+        <UpdateCoupon />
+      )
+    }
 
     return (
         <>
-        <Modal
+        {/* <Modal
             isOpen={isOpen}
             onRequestClose={closeEditPopup}
             contentLabel="Example Modal"
@@ -330,7 +337,7 @@ const CouponTable = () => {
             </form>
           </Stack>
         </Flex>
-        </Modal>
+        </Modal> */}
         <Box>
         <Grid templateColumns="repeat(1, 1fr)">
             <Flex overflowX="scroll">
@@ -367,7 +374,6 @@ const CouponTable = () => {
                             <Th>Organization</Th>
                             <Th>Description</Th>
                             <Th>Code</Th>
-                            <Th>Discount</Th>
                             <Th>Status</Th>
                             <Th>Start Date</Th>
                             <Th>End Date</Th>
@@ -381,7 +387,6 @@ const CouponTable = () => {
                                     <Td>{coupon.CompanyName}</Td>
                                     <Td>{coupon.Description}</Td>
                                     <Td>{coupon.CouponCode}</Td>
-                                    <Td>{coupon.Discount}</Td>
                                     <Td>{coupon.Status}</Td>
                                     <Td>{coupon.StartDate}</Td>
                                     <Td>{coupon.EndDate}</Td>
@@ -392,7 +397,7 @@ const CouponTable = () => {
                                                 aria-label="Edit"
                                                 icon={<EditIcon />}
                                                 size={'sm'}
-                                                onClick={()=>onEdit(coupon._id)}
+                                                onClick={editCoupon}
                                             />
                                             <IconButton
                                                 colorScheme="red"
