@@ -7,7 +7,7 @@ import {
     VStack,
     Flex,
 } from '@chakra-ui/react'
-import {Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,

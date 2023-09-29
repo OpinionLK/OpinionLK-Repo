@@ -64,6 +64,7 @@ const CommunityManagers = () => {
     useEffect(() => {
         fetchCommunityManagers();
       }, []);
+      
     const fetchCommunityManagers = async () => {
         try {
           const response = await axios.get(
@@ -205,48 +206,64 @@ const nicValidation12 = /^[0-9]{12}$/;
           </FormControl>
         );
       };
+    
 
     return (
         <>
-        <AlertDialog
-        isOpen={deleteConfirmation.isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onDeleteConfirmationClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Manager
-            </AlertDialogHeader>
+          <AlertDialog
+            isOpen={deleteConfirmation.isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onDeleteConfirmationClose}
+          >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Delete Manager
+              </AlertDialogHeader>
 
-            <AlertDialogBody>
-              Are you sure you want to delete this manager?
-            </AlertDialogBody>
+              <AlertDialogBody>
+                Are you sure you want to delete this manager?
+              </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onDeleteConfirmationClose}>
-                No
-              </Button>
-              <Button colorScheme="red" onClick={onDeleteConfirm} ml={3}>
-                Yes
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onDeleteConfirmationClose}>
+                  No
+                </Button>
+                <Button colorScheme="red" onClick={onDeleteConfirm} ml={3}>
+                  Yes
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
 
         <Box>
         <Grid templateColumns="repeat(1, 1fr)">
         <Flex>
             <Stack width={'100%'}>
                 <Card borderRadius={'20px'} width={'100%'}>
-                <CardHeader>
+                <CardHeader display={'flex'} flexDirection={'row'}>
                     <Heading color={'purple.900'} size={'md'}>Community Managers</Heading>
+                    <Box>
+                      <Input
+                        type='search'
+                        placeholder = 'Search by Name or Email...'
+                        fontSize={'14px'}
+                        width={'250px'}
+                        ml={'20px'}
+                        px={2}
+                        py={1}
+                        height={'30px'}
+                        borderRadius={'8px'}
+                        // onChange={(e) => setFilterText(e.target.value)}
+                        // value ={filterText}
+                        />
+                    </Box>
                 </CardHeader>
                 <hr />
                 <CardBody>
                     <TableContainer>
-                    <Table variant="simple">
+                    <Table variant="striped" colorScheme='gray' size={'sm'}>
                         <TableCaption>
                           Total Community Managers: {getTotalCommunityManagers()}
                         </TableCaption>
@@ -261,7 +278,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                             <Th>Actions</Th>
                         </Tr>
                         </Thead>
-                        <Tbody fontSize={'sm'}>{communityManagers.map(manager => (
+                        <Tbody fontSize={'sm'}>
+                          {communityManagers.map(manager => (
                             <Tr key={manager._id}>
                             <Td>
                                 {manager.ManagerFirstName} {manager.ManagerLastName}
@@ -443,58 +461,6 @@ const nicValidation12 = /^[0-9]{12}$/;
           </Stack>
         </Flex>
       </Modal>
-
-      {/* <Modal
-        isOpen={isOpen}
-        onRequestClose={closePopup}
-        contentLabel="My dialog"
-        ariaHideApp={false}
-        style={{
-          overlay: {
-            zIndex: 1000,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-          },
-          content: {
-            width: '500px',
-            height: 'max-content',
-            margin: 'auto',
-            borderRadius: '10px',
-            padding: '20px',
-            backgroundColor: '#F8FAFC',
-            boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
-          },
-        }}
-      >
-            <Heading size={'md'}>Delete Community Manager</Heading>
-          <hr />
-            <VStack>
-              <Flex width={'100%'} h={'300px'} justifyContent={'center'}>
-                <Text size={'md'}>Are you sure you want to delete this Community Manager?</Text>
-              </Flex>
-              <Flex>
-                <Button
-                  name="submit"
-                  align={'right'}
-                  width={'100px'}
-                  colorScheme="red"
-                  type="submit"
-                  onClick={closePopup}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  name="submit"
-                  align={'right'}
-                  width={'100px'}
-                  colorScheme="green"
-                  type="submit"
-                  onClick={closePopup}
-                >
-                  Delete
-                </Button>
-              </Flex>
-            </VStack>
-      </Modal> */}
 
     </>
     )

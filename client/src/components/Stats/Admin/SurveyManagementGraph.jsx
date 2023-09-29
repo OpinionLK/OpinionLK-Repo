@@ -29,7 +29,6 @@ ChartJS.register(
     Legend
   );
 
-
 const SurveyManagementGraph = () => {
     const state = {
         labels: ['Total Surveys', 'Completed Surveys', 'Pending Surveys'],
