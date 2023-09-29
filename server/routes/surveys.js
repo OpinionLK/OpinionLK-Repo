@@ -5,6 +5,7 @@ import {
     getSurveysByCreator,
 
     createResponse,
+    addSurveyPoints,
     ChangeSurveyState,
     createSurvey,
     getSurveyBySurveyId,
@@ -39,6 +40,7 @@ const router = express.Router();
 // router.use(requireAuth)
 
 router.post('/createResponse', createResponse); //create a survey response
+router.post('/addSurveyPoints', addSurveyPoints); //add points to user
 router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
 router.get('/all', getAllSurveys); //get all surveys

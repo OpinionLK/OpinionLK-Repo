@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import Surveys from '../models/Surveys.js';
 import ComManagerModel from '../models/ComManagerModel.js';
+import User from '../models/User.js';
 
 function generateCustomId(length = 8) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -58,8 +59,6 @@ export const getSurveysByCreator = async (req, res) => {
 }
 
 export const createResponse = async (req, res) => {
-     // #swagger.tags = ['User']
-
     try {
       const { surveyid, response } = req.body;
       const token = req.headers.authorization.split(' ')[1];
@@ -68,7 +67,8 @@ export const createResponse = async (req, res) => {
         }
         // verify token
         const { id } = jwt.verify(token, 'test');
-        console.log(surveyid);
+        
+        // console.log(surveyid);
         
       const responseID = generateCustomId();
   
@@ -78,6 +78,7 @@ export const createResponse = async (req, res) => {
         responses: response.responses,
       };
       console.log(newResponse);
+
       // Add the new response to the survey document in the database as an object in the responses array
       const resp = await Surveys.updateOne(
         { surveyID: surveyid },
@@ -88,12 +89,40 @@ export const createResponse = async (req, res) => {
       res.status(200).json({
         message: 'Response added successfully.',
         resp: resp,
-        // need a function call to add the points to the surveyee
       });
     } catch (error) {
       res.status(500).json({ message: 'Error adding response.', error: error.message });
     }
-  };
+}
+
+export const addSurveyPoints = async (req, res) => {
+    // add points to a user's points where userID = id
+    // points is an integer
+    try{
+        const { points } = req.body;
+        
+        const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        const resp = await User.updateOne(
+            { _id: id },
+            { $inc: { points: points } },
+            // { new: true }
+        );
+
+        res.status(200).json({
+            message: 'Points added successfully.',
+            resp: resp,
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding points.', error: error.message });
+    }
+}
 
 export const createSurvey = async (req, res) => {
      // #swagger.tags = ['Organisation', 'Community Manager']

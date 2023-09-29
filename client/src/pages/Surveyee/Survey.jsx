@@ -41,17 +41,13 @@ export default function Survey() {
     console.log('Form data:', data);
     
     try {
-      // Assuming you have the surveyID available, either as a prop or state
-      const surveyID = '056npeUPlmboj6zm'; // Replace with the actual survey ID
-
+      const points = survey.points;
+      const response = data; // Use the form data as the response   
       
-      const response = data; // Use the form data as the response 
-  
-      // Send the response data to the server
       const responseFromServer = await axios.post(`http://localhost:3002/api/survey/createResponse`, 
         {
           surveyid,
-          response
+          response,
         },
         {
           headers: {
@@ -59,8 +55,24 @@ export default function Survey() {
           },
         }
       );
-  
       console.log('Response added successfully:', responseFromServer.data);
+
+      if (responseFromServer.status === 200) {
+        // Call addSurveyPoints
+        const pointsResponse = await axios.post(
+          `http://localhost:3002/api/survey/addSurveyPoints`,
+          {
+            points,
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            },
+          }
+        );
+  
+        console.log('Survey points added successfully:', pointsResponse.data);
+      }
       
       navigate(`/portal/survey/surveyComplete/${survey.points}`);
     } catch (error) {
