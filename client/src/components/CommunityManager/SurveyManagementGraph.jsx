@@ -4,9 +4,9 @@ import {
     Box,
 } from '@chakra-ui/react'
 
-// import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {Line,} from 'react-chartjs-2';
-// import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
 // sample data
 const state = {

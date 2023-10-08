@@ -2,6 +2,8 @@ import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+import CommuntyManagerTables from '../pages/CommunityManager/CommunityManagerTables';
+import CommunityManagerActions from '../pages/CommunityManager/CommunityMangerActions';
 
 import {
     Navigate
@@ -16,8 +18,7 @@ import { BsHouseFill,
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    
-
+    { route: '/ComManager/Tables', linkName: 'Tables',icon:BsHouseFill},
 ];
 
 const ComManagerRoutes = [
