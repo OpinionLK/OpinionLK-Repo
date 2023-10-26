@@ -98,17 +98,14 @@ const Topbar = () => {
                                 _hover={{
                                     textDecoration: 'none',
                                     bgColor: '#eae9ff',
+                                    cursor: 'pointer',
                                 }}
                                 _active={{
                                     bgColor: '#c0bdef',
                                 }}
                                 src={userdp} />
 
-                            <MenuList>
-                                <span style={{ textAlign: 'center' }}>
-                                    {/* print json as a string */}
-                                    {user && JSON.stringify(user.email)}
-                                </span>
+                            <MenuList style={{ padding:'5px 20px 5px 20px'}}>
                                 <MenuGroup title='Profile'>
                                     <MenuItem>My Account</MenuItem>
                                     <MenuItem onClick={() => {
