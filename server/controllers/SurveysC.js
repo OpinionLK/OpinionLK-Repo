@@ -36,7 +36,7 @@ export const getAllSurveys = async (req, res) => {
 
 
 export const getSurveysByCreator = async (req, res) => {
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
 
 
     // get token from header
@@ -60,47 +60,47 @@ export const getSurveysByCreator = async (req, res) => {
 
 export const createResponse = async (req, res) => {
     try {
-      const { surveyid, response } = req.body;
-      const token = req.headers.authorization.split(' ')[1];
+        const { surveyid, response } = req.body;
+        const token = req.headers.authorization.split(' ')[1];
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
         // verify token
         const { id } = jwt.verify(token, 'test');
-        
-        // console.log(surveyid);
-        
-      const responseID = generateCustomId();
-  
-      const newResponse = {
-        responseID: responseID,
-        userID: id,
-        responses: response.responses,
-      };
-      console.log(newResponse);
 
-      // Add the new response to the survey document in the database as an object in the responses array
-      const resp = await Surveys.updateOne(
-        { surveyID: surveyid },
-        { $push: { responses: newResponse } },
-        { new: true }
-      );
-  
-      res.status(200).json({
-        message: 'Response added successfully.',
-        resp: resp,
-      });
+        // console.log(surveyid);
+
+        const responseID = generateCustomId();
+
+        const newResponse = {
+            responseID: responseID,
+            userID: id,
+            responses: response.responses,
+        };
+        console.log(newResponse);
+
+        // Add the new response to the survey document in the database as an object in the responses array
+        const resp = await Surveys.updateOne(
+            { surveyID: surveyid },
+            { $push: { responses: newResponse } },
+            { new: true }
+        );
+
+        res.status(200).json({
+            message: 'Response added successfully.',
+            resp: resp,
+        });
     } catch (error) {
-      res.status(500).json({ message: 'Error adding response.', error: error.message });
+        res.status(500).json({ message: 'Error adding response.', error: error.message });
     }
 }
 
 export const addSurveyPoints = async (req, res) => {
     // add points to a user's points where userID = id
     // points is an integer
-    try{
+    try {
         const { points } = req.body;
-        
+
         const token = req.headers.authorization.split(' ')[1];
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
@@ -125,7 +125,7 @@ export const addSurveyPoints = async (req, res) => {
 }
 
 export const createSurvey = async (req, res) => {
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
 
 
     // get token from header
@@ -172,7 +172,7 @@ export const getSurveyBySurveyId = async (req, res) => {
 
 
 export const addQuestion = async (req, res) => {
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
 
     const { surveyid } = req.params;
     console.log(req.body);
@@ -223,7 +223,7 @@ export const addQuestion = async (req, res) => {
 }
 
 export const ChangeSurveyState = async (req, res) => {
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
 
     // AUTHORISE USER
 
@@ -275,7 +275,7 @@ export const ChangeSurveyState = async (req, res) => {
 
 
 export const deleteQuestion = async (req, res) => {
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
 
     const { surveyid } = req.params;
     const { questionid } = req.body;
@@ -310,7 +310,7 @@ export const deleteQuestion = async (req, res) => {
 export const getSurveytoEdit = async (req, res) => {
 
     // #swagger.description = 'Gets survey to edit, checks edit privileges'
-     // #swagger.tags = ['Organisation', 'Community Manager']
+    // #swagger.tags = ['Organisation', 'Community Manager']
     const { surveyid } = req.params;
     try {
 
@@ -327,15 +327,16 @@ export const getSurveytoEdit = async (req, res) => {
             const survey = await Surveys.find({ surveyID: surveyid });
             const commanager = await ComManagerModel.find({ _id: id });
 
-            if (survey[0].creatorID == id || commanager)  {
+            if (survey[0].creatorID == id || commanager) {
                 console.log(survey);
 
                 return res.status(200).json(survey);
-            }else{
+            } else {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
         }
-        catch (error) {t
+        catch (error) {
+            t
             res.status(404).json({ message: error.message });
         }
     } catch (error) {
@@ -343,6 +344,100 @@ export const getSurveytoEdit = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+export const getSurveyToReview = async (req, res) => {
+
+    // #swagger.description = 'Gets survey to edit, checks edit privileges'
+    // #swagger.tags = ['Organisation', 'Community Manager']
+    const { surveyid } = req.params;
+    try {
+
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            console.log('no token');
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        try {
+            const survey = await Surveys.find({ surveyID: surveyid });
+            const commanager = await ComManagerModel.find({ _id: id });
+
+            if (survey[0].creatorID == id || commanager) {
+                console.log(survey);
+
+                let response = {
+                    surveyID: survey[0].surveyID,
+                    surveyName: survey[0].surveyName,
+                    surveyDescription: survey[0].surveyDescription,
+                    // surveyImage = survey[0].surveyImage,
+                    surveyPoints: survey[0].points,
+                    surveyStatus: survey[0].approvalStatus,
+                 questions: survey[0].questions,
+                }
+                return res.status(200).json(
+                    response
+                );
+            } else {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+        }
+        catch (error) {
+            console.log(error);
+            res.status(404).json({ message: error.message });
+        }
+    } catch (error) {
+        console.log(error);
+        console.log('something went wrong');
+        res.status(404).json({ message: error.message });
+    }
+}
+export const getQuestionToReview = async (req, res) => {
+
+    // #swagger.description = 'Gets survey to edit, checks edit privileges'
+    // #swagger.tags = ['Organisation', 'Community Manager']
+    const { surveyid } = req.params;
+    try {
+
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            console.log('no token');
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        try {
+            const survey = await Surveys.find({ surveyID: surveyid });
+            const commanager = await ComManagerModel.find({ _id: id });
+
+            if (survey[0].creatorID == id || commanager) {
+                console.log(survey);
+
+                let response = {
+                    questions: survey[0].questions,
+                }
+                return res.status(200).json(
+                    response
+                );
+            } else {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+        }
+        catch (error) {
+            console.log(error);
+            res.status(404).json({ message: error.message });
+        }
+    } catch (error) {
+        console.log(error);
+        console.log('something went wrong');
+        res.status(404).json({ message: error.message });
+    }
+}
+
+
 
 export const editQuestion = async (req, res) => {
 

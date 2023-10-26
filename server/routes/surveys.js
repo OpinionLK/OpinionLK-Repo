@@ -3,8 +3,9 @@ import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
     getSurveysByCreator,
-
+getSurveyToReview,
     createResponse,
+    getQuestionToReview,
     addSurveyPoints,
     ChangeSurveyState,
     createSurvey,
@@ -47,6 +48,8 @@ router.get('/all', getAllSurveys); //get all surveys
 
 
 router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
+router.get('/getquestiontoreview/:surveyid', getQuestionToReview); //get question to review
+router.get('/getSurveyToReview/:surveyid', getSurveyToReview); //get survey to edit
 router.put('/editquestion/:surveyid/:questionid', editQuestion); //send edited question data
 router.get('/getQuestion/:surveyid/:questionid', getQuestionToEdit); //get the question data for editing
 router.post('/addQuestion/:surveyid', addQuestion); //add a question to the survey
