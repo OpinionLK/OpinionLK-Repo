@@ -365,8 +365,18 @@ export const getSurveyToReview = async (req, res) => {
             const commanager = await ComManagerModel.find({ _id: id });
 
             if (survey[0].creatorID == id || commanager) {
-                console.log(survey);
-
+                const { surveyid } = req.params;
+                let responseCount =await Surveys.aggregate([
+                    {
+                        $match: { surveyID: surveyid }
+                    },
+                    {
+                        $project: {
+                            responseCount: { $size: "$responses" }
+                        }
+                    }
+                ])
+                console.log(responseCount[0].responseCount);
                 let response = {
                     surveyID: survey[0].surveyID,
                     surveyName: survey[0].surveyName,
@@ -374,7 +384,8 @@ export const getSurveyToReview = async (req, res) => {
                     // surveyImage = survey[0].surveyImage,
                     surveyPoints: survey[0].points,
                     surveyStatus: survey[0].approvalStatus,
-                 questions: survey[0].questions,
+                    questions: survey[0].questions,
+                    responseCount: responseCount[0].responseCount,
                 }
                 return res.status(200).json(
                     response
@@ -614,6 +625,60 @@ export const getQuestionToEdit = async (req, res) => {
         const question = survey[0].questions.filter((question) => question.questionID === questionid);
         res.status(200).json(question);
     } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getResponseCount = async (req, res) => {
+    const { surveyid } = req.params;
+    let responseCount =await Surveys.aggregate([
+        {
+            $match: { surveyID: surveyid }
+        },
+        {
+            $project: {
+                responseCount: { $size: "$responses" }
+            }
+        }
+    ])
+    console.log(responseCount[0].responseCount);
+}
+
+
+export const insertComment = async (req, res) => {
+
+    const token = req.headers.authorization.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+    console.log(token);
+
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+
+
+    const { surveyid } = req.params;
+
+    try {
+        const survey = await Surveys.find({ surveyID: surveyid });
+        const comment = req.body;
+        const newComment = {
+            commentID: generateCustomId(),
+            managerID: id,
+            comment: comment.comment,
+            created_date: Date.now(),
+        };
+        const resp = await Surveys.updateOne(
+            { surveyID: surveyid },
+            { comments: newComment },
+            { new: true }
+        );
+        res.status(200).json({
+            message: 'Comment added successfully.',
+            resp: resp,
+        });
+    }
+    catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
