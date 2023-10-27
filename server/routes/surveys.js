@@ -1,16 +1,22 @@
-import express, {application} from 'express';
+import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
+
+
 import {
     getAllSurveys,
     getSurveysByCreator,
-getSurveyToReview,
+    getSurveyToReview,
+    getQuestionCount,
     createResponse,
+    getResponseCount,
     getQuestionToReview,
     addSurveyPoints,
+    insertComment,
     ChangeSurveyState,
     createSurvey,
     getSurveyBySurveyId,
     addQuestion,
+    getPlatformData,
     getSurveytoEdit,
     getQuestionToEdit,
     editQuestion,
@@ -33,7 +39,7 @@ const imagekit = new ImageKit(
 
 const upload = multer()
 
-import {requireAuth} from '../middleware/requireAuth.js'
+import { requireAuth } from '../middleware/requireAuth.js'
 
 
 const router = express.Router();
@@ -56,7 +62,11 @@ router.post('/addQuestion/:surveyid', addQuestion); //add a question to the surv
 router.put('/deleteQuestion/:surveyid', deleteQuestion); //delete a question
 router.post('/create', createSurvey); //create a survey
 router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
+router.get('/getresponsecount/:surveyid', getResponseCount); //get response count
+router.get('/getplatformdata', getPlatformData);
+router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question count
 
+router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 
 
@@ -65,35 +75,35 @@ router.post("/imageUpload", upload.single("file"), async (req, res) => {
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
     const surveyid = req.body.surveyid;
-    
-    console.log(fileName);
-// console.log(fileBuffer);
-  
-    try {
-      // Upload the file to ImageKit
-      imagekit.upload({
-        file :  fileBuffer, //required
-        fileName : fileName,  //required
-        folder : "/survey_headers",
-        
-    }).then(response => {
 
-        Surveys.findOneAndUpdate({surveyid: surveyid}, {header: response.url}, {new: true}).then(response => {
-            console.log(response);
+    console.log(fileName);
+
+
+    try {
+        // Upload the file to ImageKit
+        imagekit.upload({
+            file: fileBuffer, //required
+            fileName: fileName,  //required
+            folder: "/survey_headers",
+
+        }).then(response => {
+
+            Surveys.findOneAndUpdate({ surveyid: surveyid }, { header: response.url }, { new: true }).then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            })
+
         }).catch(error => {
             console.log(error);
-        })
-
-    }).catch(error => {
-        console.log(error);
-    });
+        });
         res.status(200).send("Image upload successful");
 
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Image upload failed");
+        console.error(error);
+        res.status(500).send("Image upload failed");
     }
-  });
+});
 
 
 export default router;

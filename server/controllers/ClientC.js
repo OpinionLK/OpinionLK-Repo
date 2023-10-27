@@ -2,7 +2,6 @@ import Surveys from '../models/Surveys.js';
 import jwt from 'jsonwebtoken';
 
 
-
 export const getSurveytoEdit = async (req, res) => {
     const { surveyid } = req.params;
     try {
@@ -214,3 +213,4 @@ export const getQuestionToEdit = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+

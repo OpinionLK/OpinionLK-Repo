@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import Surveys from '../models/Surveys.js';
 import ComManagerModel from '../models/ComManagerModel.js';
 import User from '../models/User.js';
+import PlatformData from '../models/PlatformData.js';
+
 
 function generateCustomId(length = 8) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -232,6 +234,7 @@ export const ChangeSurveyState = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1];
         console.log(token);
         if (!token) {
+            console.log('no token');
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
@@ -242,10 +245,12 @@ export const ChangeSurveyState = async (req, res) => {
         // check if user is creator of survey
 
         const survey = await Surveys.find({ surveyID: req.params.surveyid });
+        const commanager = await ComManagerModel.find({ _id: id });
+
         console.log(survey[0].creatorID);
-        if (survey[0].creatorID !== id) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+        // if (survey[0].creatorID !== id || !commanager) {
+        //     return res.status(401).json({ error: 'Unauthorized' });
+        // }
 
         const { surveyid } = req.params;
         const { state } = req.body;
@@ -326,15 +331,31 @@ export const getSurveytoEdit = async (req, res) => {
         try {
             const survey = await Surveys.find({ surveyID: surveyid });
             const commanager = await ComManagerModel.find({ _id: id });
+            let questionCount = await Surveys.aggregate([
+                {
+                    $match: { surveyID: surveyid }
+                },
+                {
+                    $project: {
+                        questionCount: { $size: "$questions" }
+                    }
+                }
+            ])
 
+
+            console.log(questionCount[0].questionCount);
+            // add question count to survey object
+            survey[0].questionCount = questionCount[0].questionCount;
+            console.log(survey[0].questionCount);
             if (survey[0].creatorID == id || commanager) {
-                console.log(survey);
+                console.log(survey[0]);
 
                 return res.status(200).json(survey);
             } else {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
         }
+
         catch (error) {
             t
             res.status(404).json({ message: error.message });
@@ -366,7 +387,7 @@ export const getSurveyToReview = async (req, res) => {
 
             if (survey[0].creatorID == id || commanager) {
                 const { surveyid } = req.params;
-                let responseCount =await Surveys.aggregate([
+                let responseCount = await Surveys.aggregate([
                     {
                         $match: { surveyID: surveyid }
                     },
@@ -376,7 +397,18 @@ export const getSurveyToReview = async (req, res) => {
                         }
                     }
                 ])
+                let questionCount = await Surveys.aggregate([
+                    {
+                        $match: { surveyID: surveyid }
+                    },
+                    {
+                        $project: {
+                            questionCount: { $size: "$questions" }
+                        }
+                    }
+                ])
                 console.log(responseCount[0].responseCount);
+                console.log(questionCount[0].questionCount);
                 let response = {
                     surveyID: survey[0].surveyID,
                     surveyName: survey[0].surveyName,
@@ -385,8 +417,10 @@ export const getSurveyToReview = async (req, res) => {
                     surveyPoints: survey[0].points,
                     surveyStatus: survey[0].approvalStatus,
                     questions: survey[0].questions,
+                    questionCount: questionCount[0].questionCount,
                     responseCount: responseCount[0].responseCount,
                 }
+                console.log(response);
                 return res.status(200).json(
                     response
                 );
@@ -631,7 +665,7 @@ export const getQuestionToEdit = async (req, res) => {
 
 export const getResponseCount = async (req, res) => {
     const { surveyid } = req.params;
-    let responseCount =await Surveys.aggregate([
+    let responseCount = await Surveys.aggregate([
         {
             $match: { surveyID: surveyid }
         },
@@ -681,4 +715,25 @@ export const insertComment = async (req, res) => {
     catch (error) {
         res.status(404).json({ message: error.message });
     }
+}
+
+export const getPlatformData = async (req, res) => {
+    const data = await PlatformData.find({});
+    res.status(200).json(data[0]);
+}
+
+export const getQuestionCount = async (req, res) => {
+    const { surveyid } = req.params;
+    let questionCount = await Surveys.aggregate([
+        {
+            $match: { surveyID: surveyid }
+        },
+        {
+            $project: {
+                questionCount: { $size: "$questions" }
+            }
+        }
+    ])
+    console.log(questionCount[0].questionCount);
+    res.status(200).json(questionCount[0].questionCount);
 }

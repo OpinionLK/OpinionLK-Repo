@@ -7,10 +7,13 @@ import {
     FormErrorMessage,
     FormLabel,
     FormControl,
+    useToast,
+    Textarea,
+
 
 } from '@chakra-ui/react'
 
-import data from "@emoji-mart/data";
+import Status from '../../components/Status.jsx';
 
 import { useAuthContext } from '../../hooks/useAuthContext.js';
 import { useParams } from 'react-router-dom';
@@ -51,39 +54,7 @@ import {
 } from '@chakra-ui/icons'
 
 
-const QuestionCard = ({ surveyid, question, refreshdata }) => {
-    const handleDelete = async () => {
-        try {
-            // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
-                questionid: question.questionID
-            });
 
-            refreshdata();
-
-        } catch (error) {
-            console.error('Error deleting question:', error);
-        }
-    };
-
-    return (<Card cursor="pointer" transition={'0.3s'} sx={{
-        _hover: {
-            backgroundColor: '#eef1ff',
-
-        },
-
-    }}>
-        <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
-            alignItems={'center'}><Flex gap={'20px'}>
-                {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
-                {/* <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
-                    fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text> */}
-                <IconButton aria-label={'delete'}
-                    icon={<DeleteIcon />}
-                    onClick={handleDelete} />
-            </Flex></CardBody>
-    </Card>)
-}
 
 const ViewSurvey = () => {
 
@@ -150,28 +121,23 @@ const ViewSurvey = () => {
                     >
                         <CardHeader>
                             <Flex justifyContent='space-between' alignItems={'center'} w='100%' flexDirection={'row'}>
-
                                 <Flex gap='10px' flexDir={'column'}>
-
                                     <Heading>
                                         {console.log(survey)}
                                         <Text display={'flex'} gap={'20px'} alignItems={'center'}>{survey?.surveyName}
-                                            {/* <Tag fontWeight={'bold'} colorScheme={'yellow'}>{survey?.approvalStatus.toUpperCase()}</Tag> */}
+                                            <Status status={survey?.surveyStatus} />
+
+
                                         </Text>
                                     </Heading>
                                     <Text>
                                         <Text >{survey?.surveyDescription}</Text>
-
                                     </Text>
                                 </Flex>
-
-
-
                             </Flex>
                         </CardHeader>
-                        {console.log(survey)}
-                        <ReturnFocus question={survey?.questions}
-                            surveyid={surveyid} />
+
+
                     </Card>
                 </Card>
 
@@ -182,7 +148,7 @@ const ViewSurvey = () => {
 
                 <Tabs isLazy variant='enclosed' width={'100%'} height={'100%'}>
                     <TabList>
-                        <Tab>Details</Tab>
+                        <Tab>Overview</Tab>
                         <Tab>Data</Tab>
 
                     </TabList>
@@ -190,24 +156,25 @@ const ViewSurvey = () => {
                     <TabPanels height={'95%'} >
                         <TabPanel display={'flex'} flexDirection={'column'} height={'100%'} gap={'50px'}>
                             <Flex flexDirection={'row'} width={'100%'} gap={'20px'}>
-                                <Flex flexDirection={'column'} padding={'40px'} backgroundColor={'brand.dashboardBackground'} height={'300px'} borderRadius={'20px'} width={'50%'}>
+                                <Flex flexDirection={'column'} padding={'40px'} height={'300px'} borderRadius={'20px'} width={'50%'}>
                                     <VStack alignItems={'flex-start'}>
 
-                                        <Text fontWeight={'semibold'}>Type :</Text>
-                                        <Text fontWeight={'semibold'}>Duration :</Text>
-                                        <Text fontWeight={'semibold'}>Start Date :</Text>
-                                        <Text fontWeight={'semibold'}>End Date :</Text>
-                                        <Text fontWeight={'semibold'}>No. of questions : </Text>
-                                        <Text fontWeight={'semibold'}>Pricing : </Text>
+                                        <Heading size={'md'}>Actions</Heading>
+                                        {survey?.surveyStatus === 'pending' && (
+                                            <ReturnFocus question={survey?.questions}
+                                                surveyid={surveyid} />)
+                                        }
+                                        {survey?.surveyStatus === 'active' && (
+                                            <Button colorScheme={'orange'}>Suspend</Button>)
+                                        }
                                     </VStack>
                                 </Flex>
 
                                 <Flex flexDirection={'column'} padding={'40px'} backgroundColor={'brand.dashboardBackground'} height={'300px'} borderRadius={'20px'} width={'50%'}>
                                     <VStack alignItems={'flex-start'}>
 
-                                        <Text fontWeight={'semibold'}>Responses :</Text>
-                                        <Text fontWeight={'semibold'}>Users viewed:</Text>
-                                        <Text fontWeight={'semibold'}>Useful responses : ???</Text>
+                                        <Text fontWeight={'semibold'}>Responses : {survey?.responseCount}</Text>
+
                                         <Text fontWeight={'semibold'}>Targeted User Group :</Text>
 
                                     </VStack>
@@ -247,6 +214,9 @@ function ReturnFocus({ surveyid, question }) {
         if (currentQuestionIndex < question?.length - 1) {
             setCurrentQuestionIndex((prevIndex) => {
                 console.log("New index " + (prevIndex + 1));
+                setShowField(false);
+
+                getFeedbackForQuestion(prevIndex + 1);
                 return prevIndex + 1;
             });
         }
@@ -257,20 +227,31 @@ function ReturnFocus({ surveyid, question }) {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex((prevIndex) => {
                 console.log("New index " + (prevIndex - 1));
+                setShowField(false);
                 getFeedbackForQuestion(prevIndex - 1);
                 return prevIndex - 1;
             });
         }
     };
 
-    const getFeedbackForQuestion = (questionIndex) => {
-        // find feedback from the flagged questions array of objects
-        console.log(questionIndex)
-        let feedback = flaggedQuestions.find((item) => item.questionIndex === questionIndex);
-        // update react hook input field with feedback
-        setValue('feedback', feedback.feedback);
 
-        console.log(feedback)
+    const getFeedbackForQuestion = (questionIndex) => {
+        console.log(questionIndex);
+
+        // Find feedback from the flaggedQuestions array of objects
+        const feedback = flaggedQuestions.find((item) => item.questionIndex === questionIndex);
+
+        if (feedback) {
+            // If feedback is found, update the React hook input field with feedback
+            setValue('feedback', feedback.feedback);
+            setShowField(true);
+            console.log(feedback);
+        } else {
+            // Handle the case where feedback is not found
+            console.log('Feedback not found for question index: ' + questionIndex);
+            setValue('feedback', '');
+            // You can choose to set a default value or show an error message, depending on your requirements.
+        }
     };
 
     const [showField, setShowField] = useState(false);
@@ -303,6 +284,45 @@ function ReturnFocus({ surveyid, question }) {
         formState: { errors, isSubmitting },
     } = useForm()
 
+    const toast = useToast()
+    const SendFeedback = async (values) => {
+        let message = '';
+        for (let i = 0; i < flaggedQuestions.length; i++) {
+            message += `Question ${flaggedQuestions[i].questionIndex + 1}: ${flaggedQuestions[i].feedback}\n`;
+        }
+        message += '\nAdditional Feedback:\n';
+        message += values.message;
+
+        try {
+            const response = await axios.put('http://localhost:3002/api/survey/insertcomment/' + surveyid,
+                {
+                    comment: message
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                }
+            );
+
+            if (response.status === 200) {
+
+                toast({
+                    title: 'Account created.',
+                    description: "We've created your account for you.",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+            // console.log(error.response.status)
+            alert('Error sending feedback');
+        }
+        console.log(message);
+        onClose();
+    }
     function onSubmit(values) {
         console.log(values)
 
@@ -315,31 +335,36 @@ function ReturnFocus({ surveyid, question }) {
 
         if (index === -1) {
             setFlaggedQuestions([...flaggedQuestions, feedback]);
-            alert(flaggedQuestions)
         }
         else {
             let temp = [...flaggedQuestions];
             temp[index] = feedback;
-            alert(temp)
             setFlaggedQuestions(temp);
         }
-
-
         setQuestionFeedback('');
 
     }
 
-
-
-    console.log(flaggedQuestions)
+    async function approve() {
+        try {
+            const response = await axios.put('http://localhost:3002/api/survey/changestatus/' + surveyid,
+                {
+                    state: 'approved'
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                }
+            );
+        } catch (error) {
+            console.log(error)
+            // console.log(error.response.status)
+            alert('Error approving survey');
+        }
+    }
     return (
         <>
-            <Box ref={finalRef} tabIndex={-1} aria-label='Focus moved to this box'>
-                Some other content that'll receive focus on close.
-            </Box>
-
             <Button mt={4} onClick={onOpen}>
-                Open Modal
+                Review
             </Button>
             <Modal variant={"reviewModal"} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
@@ -386,19 +411,31 @@ function ReturnFocus({ surveyid, question }) {
                                             </Flex>
                                         )}
                                         <Button onClick={() => {
+                                            if (showField) {
+                                                // delete feedback from flagged questions
+                                                let index = flaggedQuestions.findIndex((item) => item.questionIndex === currentQuestionIndex);
+                                                if (index !== -1) {
+                                                    let temp = [...flaggedQuestions];
+                                                    temp.splice(index, 1);
+                                                    setFlaggedQuestions(temp);
+                                                }
+
+                                            }
                                             setShowField(!showField);
                                         }} disabled={currentQuestionIndex === question?.length - 1} icon={<StarIcon />}
                                             colorScheme={flaggedQuestions.includes(currentQuestionIndex) ? 'red' : 'gray'}
                                         >Flag Question</Button>
-                                        {/* if flagged show feedback text box
-
-                                         */}
                                         {showField
-                                            && (
-                                                <form onSubmit={handleSubmit(onSubmit)}>
+                                            && (<Flex>
+
+                                                <form
+                                                    onSubmit={handleSubmit(onSubmit)}
+                                                    // width 100
+                                                    width={'100%'}
+                                                >
                                                     <FormControl isInvalid={errors.feedback}>
                                                         <FormLabel htmlFor='name'>Feedback</FormLabel>
-                                                        <Input
+                                                        <Textarea
                                                             id='feedback'
                                                             placeholder='Enter feedback'
                                                             {...register('feedback', {
@@ -414,6 +451,8 @@ function ReturnFocus({ surveyid, question }) {
                                                         Save
                                                     </Button>
                                                 </form>
+                                            </Flex>
+
                                             )}
                                     </VStack>
                                 )}
@@ -451,37 +490,76 @@ function ReturnFocus({ surveyid, question }) {
 
 
                         </ModalBody>
-                    ) : (
+                    ) :
+                        (showField && flaggedQuestions.length > 0) ?
+                            (
 
-                        <ModalBody display={'flex'} alignItems={'center'} width={'100%'} height={'100%'} flexDirection={'column'}>
-                            <Link onClick={() => setProceed(false)}>Back to survey</Link>
-                            <Flex width={'100%'} flexDirection={'column'}>
+                                <ModalBody display={'flex'} alignItems={'center'} width={'100%'} height={'100%'} flexDirection={'column'}>
+                                    <Link onClick={() => setProceed(false)}>Back to survey</Link>
+                                    <Flex width={'100%'} flexDirection={'column'}>
 
-                                <Text>You have flagged the following questions</Text>
-                                <HStack gap={'5px'}>
+                                        <Text>You have flagged the following questions</Text>
+                                        <HStack gap={'5px'}>
 
-                                    {flaggedQuestions.map((index) => (
-                                        <Button max-width={'fit-content'} disabled>
-                                            {index + 1}
-                                        </Button>
-                                    ))}
-                                </HStack>
-                                <Text> Please provide feedback for the flagged questions </Text>
-                                <Flex width={'100%'} flexDirection={'column'}>
+                                            {flaggedQuestions.map((index) => (
+                                                <Button max-width={'fit-content'} disabled>
+                                                    {index.questionIndex + 1}
+                                                </Button>
+                                            ))}
+                                        </HStack>
+                                        <Text> Enter Additional Feedback</Text>
+                                        <Flex width={'100%'} flexDirection={'column'}>
 
-                                    {flaggedQuestions.map((index) => (
-                                        <Flex width={'100%'} flexDirection={'column'} gap={'10px'}>
-                                            <Text>Question {index + 1}</Text>
-                                            <Input placeholder={'Enter feedback'} />
+                                            <form onSubmit={handleSubmit(SendFeedback)}>
+                                                <FormControl isInvalid={errors.feedback}>
+                                                    <FormLabel htmlFor='name'>Feedback</FormLabel>
+                                                    <Textarea
+                                                        id='feedback'
+                                                        placeholder='Enter feedback'
+                                                        {...register('message', {
+                                                            required: 'This is required',
+                                                            minLength: { value: 4, message: 'Minimum length should be 4' },
+                                                        })}
+                                                    />
+                                                    <FormErrorMessage>
+                                                        {errors.name && errors.name.message}
+                                                    </FormErrorMessage>
+                                                </FormControl>
+                                                <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
+                                                    Save
+                                                </Button>
+                                            </form>
+
                                         </Flex>
-                                    ))}
 
-                                </Flex>
+                                    </Flex>
 
-                            </Flex>
+                                </ModalBody>
+                            ) : (
+                                <ModalBody display={'flex'} alignItems={'center'} width={'100%'} height={'100%'} flexDirection={'column'}>
+                                    <Link onClick={() => setProceed(false)}>Back to survey</Link>
+                                    <Flex width={'100%'} flexDirection={'column'}>
 
-                        </ModalBody>
-                    )}
+                                        <Text>You have not flagged any questions, do you wish to approve this survey for payment and publish this on the OpinionLK?</Text>
+                                        <HStack gap={'5px'}>
+                                            <Button onClick={() => {
+                                                setProceed(false);
+                                                onClose();
+                                            }}>No</Button>
+                                            <Button onClick={
+                                                () => {
+                                                    approve();
+                                                    onClose();
+                                                }
+                                            } colorScheme={'green'}>Yes</Button>
+                                        </HStack>
+
+                                    </Flex>
+
+                                </ModalBody>
+                            )
+
+                    }
 
                     <ModalFooter>
 

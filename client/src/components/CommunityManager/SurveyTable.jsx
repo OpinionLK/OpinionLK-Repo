@@ -34,6 +34,7 @@ import {
 
 import axios from 'axios';
 
+import Status from '../../components/Status.jsx';
 
 import { useDisclosure } from '@chakra-ui/react'
 
@@ -53,23 +54,7 @@ const SurveyTable = ({ url }) => {
     const [survey, setSurvey] = useState(null);
 
     async function onclickhandler(id) {
-        // try {
-        //     const response = await axios.get(`http://localhost:3002/api/survey//getbySurveyId/${id}`,
-        //         {
-        //             headers: { 'Authorization': `Bearer ${user.token}` },
-        //         }
-        //     )
-
-        //         ;
-        //     console.log(response.data[0])
-        //     setSurvey(response.data[0])
-
-        //     onOpen();
-
-
-        // } catch (error) {
-        //     console.log(error)
-        // }
+      
 
 
         history("/commanager/viewsurvey/" + id + "/")
@@ -108,7 +93,7 @@ const SurveyTable = ({ url }) => {
                                 <Tag colorScheme="green" ml={2} fontWeight={'bold'}>Active</Tag>
                             </Flex>
                             <Flex width={'100%'}>
-                                weonfiowen
+
                             </Flex>
                         </Flex>
                         <Flex height={'50%'} flex={1}>fegwgw</Flex>
@@ -156,13 +141,7 @@ const SurveyTable = ({ url }) => {
                                     <Td isNumeric>{survey.questions.length}</Td>
                                     <Td isNumeric>{survey.responses.length}</Td>
                                     <Td>
-                                        {survey.approvalStatus === 'draft' ? (
-                                            <Tag colorScheme="facebook"
-                                                fontWeight={'bold'}>Draft</Tag>) : survey.approvalStatus === 'pending' ? (
-                                                    <Tag colorScheme="orange"
-                                                        fontWeight={'bold'}>Pending</Tag>) : survey.approvalStatus === 'approved' ? (
-                                                            <Tag colorScheme="green"
-                                                                fontWeight={'bold'}>Approved</Tag>) : null}
+                                        <Status status={survey.approvalStatus} />
                                     </Td>
 
 
