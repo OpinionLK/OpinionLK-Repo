@@ -23,16 +23,11 @@ import {
     TableContainer,
     Button,
 } from '@chakra-ui/react'
-
 import axios from 'axios';
-
 import Status from '../../components/Status.jsx';
-
-import { useDisclosure } from '@chakra-ui/react'
-import axios from 'axios'
+import { useDisclosure } from '@chakra-ui/react';
 
 const SurveyTable = ({ url }) => {
-    console.log("SurveyTable url: ", url);
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const {
@@ -47,11 +42,7 @@ const SurveyTable = ({ url }) => {
     const [survey, setSurvey] = useState(null);
 
     async function onclickhandler(id) {
-      
-
-
         history("/commanager/viewsurvey/" + id + "/")
-
     }
 
     useEffect(() => {
@@ -85,9 +76,7 @@ const SurveyTable = ({ url }) => {
         });
     }, []);
 
-    async function onclickhandler(id) {
-        history("/commanager/viewsurvey/" + id + "/")
-    }
+
 
     return (
         <>
@@ -104,7 +93,6 @@ const SurveyTable = ({ url }) => {
                                 <Tag colorScheme="green" ml={2} fontWeight={'bold'}>Active</Tag>
                             </Flex>
                             <Flex width={'100%'}>
-
                             </Flex>
                         </Flex>
                         <Flex height={'50%'} flex={1}>fegwgw</Flex>
@@ -133,7 +121,6 @@ const SurveyTable = ({ url }) => {
                     </Thead>
                     <Tbody>
                         {data ? (data.map((survey) => {
-                            console.log("Hello guyszzzzzzzzz",survey)
                             return (
                                 <Tr _hover={{
                                     bg: 'gray.100', cursor: 'pointer'

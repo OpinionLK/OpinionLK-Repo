@@ -9,12 +9,10 @@ import {
     TableCaption,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
     TableContainer,
-    VStack,
     HStack,
     Input,
 } from '@chakra-ui/react';
@@ -30,9 +28,15 @@ const SurveyHistory = () => {
         try {
             const res = await axios.get('http://localhost:3002/api/user/surveyHistory');
             const data = res.data;
-            setSurveyHistory(data);
-        }
-        catch (err) {
+            console.log(data);
+            const updatedSurveyHistory = data.map((survey) => ({
+                surveyName: survey.surveyName,
+                surveyDescription: survey.surveyDescription,
+                dateSubmitted: survey.dateSubmitted,
+                reward: survey.reward,
+            }));
+            setSurveyHistory(updatedSurveyHistory);
+        } catch (err) {
             console.error('Error fetching Survey History:', err);
         }
     }
@@ -67,8 +71,8 @@ const SurveyHistory = () => {
                         <Thead>
                         <Tr>
                             <Th>Survey Name</Th>
+                            <Th>Description</Th>
                             <Th>Date Submitted</Th>
-                            <Th>Progress</Th>
                             <Th>Reward</Th>
                         </Tr>
                         </Thead>
@@ -76,8 +80,8 @@ const SurveyHistory = () => {
                             {surveyHistory.map((survey) => (
                                 <Tr>
                                     <Td>{survey.surveyName}</Td>
+                                    <Td>{survey.surveyDescription}</Td>
                                     <Td>{survey.dateSubmitted}</Td>
-                                    <Td>{survey.progress}</Td>
                                     <Td>{survey.reward}</Td>
                                 </Tr>
                             ))}

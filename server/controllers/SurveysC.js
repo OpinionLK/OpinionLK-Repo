@@ -78,6 +78,7 @@ export const createResponse = async (req, res) => {
             responseID: responseID,
             userID: id,
             responses: response.responses,
+            created_date: Date.now(),
         };
         console.log(newResponse);
 
