@@ -488,7 +488,7 @@ export const getSurveyToReview = async (req, res) => {
                     surveyID: survey[0].surveyID,
                     surveyName: survey[0].surveyName,
                     surveyDescription: survey[0].surveyDescription,
-                    // surveyImage = survey[0].surveyImage,
+                    surveyImage : survey[0].surveyImage,
                     surveyPoints: survey[0].points,
                     surveyStatus: survey[0].approvalStatus,
                     questions: survey[0].questions,

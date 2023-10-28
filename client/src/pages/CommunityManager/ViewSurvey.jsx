@@ -64,7 +64,7 @@ const ViewSurvey = () => {
         user, dispatch, userData
     } = useAuthContext();
     const { surveyid } = useParams();
-    const [ImgName, setImgName] = useState()
+    const [ImgName, setImgName] = useState('default_bg')
     const [survey, setSurvey] = useState();
 
     const handleContentUpdate = (newContent) => {
@@ -80,17 +80,16 @@ const ViewSurvey = () => {
                     headers: { 'Authorization': `Bearer ${user.token}` },
                 }
             );
-            console.log(response)
+
             setSurvey(response.data);
-            // setImgName(response.data[0].surveyImage);
+            console.log(response.data);
+            setImgName(response.data.surveyImage);
 
         } catch (error) {
             console.log(error)
             // console.log(error.response.status)
-            if (error.response.status === 401) {
-                console.log('forwarding;....')
-                history("/404");
-            }
+
+
         }
     }
 
@@ -100,21 +99,21 @@ const ViewSurvey = () => {
     }, [])
 
     // const toast = useToast()
-    const loadImage = (imageName) => {
-        setImgName(imageName)
-    }
+
 
     return (
         <>
             <Flex flexDirection={'column'} gap={'20px'} mb={'20px'}>
                 <Card
-                    backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
+                    backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                     backgroundSize={'cover'}
                     backgroundPosition={'center'}
                 >
                     <Card height={'s'}
                         p={'25px 20px'}
-                        backgroundColor="grey"
+                        // backgroundColor="grey"
+                        backgroundColor="rgba(0, 0, 0, 0.2)"
+
                         backdropFilter={'blur(5px)'}
                         color={'white'}
                         boxShadow={'none'}

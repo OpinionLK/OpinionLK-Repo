@@ -522,7 +522,7 @@ const EditSurvey = () => {
                 <Card height={'s'}
                     p={'25px 20px'}
                     backgroundColor="rgba(0, 0, 0, 0.2)"
-                    // backdropFilter={'blur(5px)'}
+                    backdropFilter={'blur(5px)'}
                     color={'white'}
                     boxShadow={'none'}
                 >
