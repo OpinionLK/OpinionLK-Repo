@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
     Box,
     Card,
@@ -19,10 +19,6 @@ import {
     Button,
     IconButton,
     HStack, 
-    FormControl,
-    FormLabel,
-    VStack,
-    Switch,
     Heading,
     AlertDialog,
     AlertDialogBody,
@@ -30,7 +26,6 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
-    NumberInput,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import Modal from 'react-modal';
@@ -38,33 +33,15 @@ import UpdateCoupon from '../Components/UpdateCoupons';
 import axios from 'axios';
 
 
-const FormField = ({ label, children }) => {
-    return (
-      <FormControl display="flex" alignItems="center">
-        <FormLabel marginRight="1rem" width="150px">
-          {label}
-        </FormLabel>
-        <Flex flexDirection="column" width="100%" gap="10px">
-          {children}
-        </Flex>
-      </FormControl>
-    );
-  };
-
-
 const CouponTable = () => {
 
-  const [filterText, setFilterText] = useState('');
   const [coupons, setCoupons] = useState([]);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     isOpen: false,
     id: null
   });
 
-  const cancelRef = () => {
-    return null;
-  }
-  
   //fetch coupon details
   const fetchCoupons = async () => {
     try {
@@ -77,21 +54,27 @@ const CouponTable = () => {
     }
   } 
 
-  //total coupon count
-  const getTotalCoupons = () => {
+    //total coupon count
+    const getTotalCoupons = () => {
       return coupons.length;
-  }
-
-    const md = 'md';
-    const lg = "lg";
-
-      useEffect(() => {
+    }
+    useEffect(() => {
         fetchCoupons();
     }, []);
 
+    // Update Coupon
+    const [isOpen, setIsOpen] = useState(false);
 
+    const editCoupon = (id) => {
+      const coupon = coupons.find((coupon) => coupon._id === id);
+      setSelectedCoupon(coupon);
+      onOpen();
+    };
 
-    const onDelete = (id) => {
+    const onOpen = () => setIsOpen(true);
+    const onClose = () => setIsOpen(false);
+
+    const onDelete = (id) => {   //Delete coupon
         setDeleteConfirmation({
             isOpen: true,
             id: id
@@ -105,6 +88,8 @@ const CouponTable = () => {
         });
     }
 
+    const cancelRef = useRef();
+
     const onDeleteConfirm = async () => {
         try {
             await axios.delete(`http://localhost:3002/api/admin/coupons/delete/${deleteConfirmation.id}`);
@@ -116,228 +101,8 @@ const CouponTable = () => {
         }
     }
 
-    const [selectedCoupon, setSelectedCoupon] = useState(null);
-    const [editedValues, setEditedValues] = useState({
-      CouponImage: '',
-      CouponName: '',
-      CompanyName: '',
-      CouponCode: '',
-      Description: '',
-      StartDate: '',
-      EndDate: '',
-      Points: '',
-      Status: '',
-      Count: ''
-
-    });
-    const [isOpen, setIsOpen] = useState(false);
-
-    const onEdit = (id) => {
-      const coupon = coupons.find(coupon => coupon._id === id);
-      setSelectedCoupon(coupon);
-      setEditedValues({
-        CouponName: coupon.CouponName,
-        CompanyName: coupon.CompanyName,
-        Description: coupon.Description,
-        CouponCode: coupon.CouponCode,
-        StartDate: coupon.StartDate,
-        EndDate: coupon.EndDate,
-        Status: coupon.Status,
-        Count: coupon.Count
-      });
-      setIsOpen(true);
-    }
-    
-
-    const closeEditPopup = () => {
-        setIsOpen(false);
-    }
-
-    const handleEditInputChange = (e) => {
-        const key = e.target.name;
-        const value = e.target.value;
-        setEditedValues(prevState => ({
-            ...prevState,
-            [key]: value
-        }));
-    }
-    
-
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        try {
-          const response = await axios.put(`http://localhost:3002/api/admin/coupons/update/${selectedCoupon._id}`, editedValues);
-            const data = response.data;
-            console.log(data);
-            fetchCoupons();
-            closeEditPopup();
-        }
-        catch (err) {
-            console.error('Error updating Coupon:', err);
-        }
-    }
-
-    const [switchValue, setSwitchValue] = useState(false);
-    
-    const editCoupon = () => {
-      return (
-        <UpdateCoupon />
-      )
-    }
-
     return (
         <>
-        {/* <Modal
-            isOpen={isOpen}
-            onRequestClose={closeEditPopup}
-            contentLabel="Example Modal"
-            ariaHideApp={false}
-            size={md}
-            style={{
-                overlay: {
-                    backgroundColor: 'rgba(0,0,0,0.6)',
-                    zIndex: 1000
-                },
-                content: {
-                    width: '500px',
-                    height: 'max-content',
-                    margin: 'auto',
-                    borderRadius: '10px',
-                    padding: '20px',
-                    backgroundColor: '#F8FAFC',
-                    boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
-                }
-            }} 
-        >
-        <Flex>
-          <Stack width={'100%'}>
-            <form onSubmit={handleSubmit} method='POST'>
-              <HStack justifyContent={'space-between'} mb={'20px'}>
-                <Heading size={'md'}>Update Coupon Details</Heading>
-                <IconButton
-                  colorScheme="purple"
-                  borderRadius={'10px'}
-                  // bg={'gray.200'}
-                  color={'#fff'}
-                  aria-label="Call Segun"
-                  size="sm"
-                  icon={<CloseIcon />}
-                  onClick={closeEditPopup}
-                />
-              </HStack>
-              <hr></hr>
-              <Flex
-                mb={'5px'}
-                flexDirection={'column'}
-                justifyContent={'flex-start'}
-                alignItems={'flex-end'}
-              >
-                {selectedCoupon && ( // Check if selectedManager is not null
-                  <VStack
-                    spacing={3}
-                    align="stretch"
-                    width={'100%'}
-                    my={'20px'}
-                  >
-                    <FormField label="Coupon Name">
-                      <Input
-                        type="text"
-                        name="CouponName"
-                        value={editedValues.CouponName || selectedCoupon.CouponName}
-                        onChange={handleEditInputChange}
-                      />
-                    </FormField>
-                    <FormField label="Company Name">
-                        <Input
-                            type="text"
-                            name="CompanyName"
-                            value={editedValues.CompanyName || selectedCoupon.CompanyName}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="Coupon Code">
-                        <Input
-                            type="text"
-                            name="CouponCode"
-                            value={editedValues.CouponCode || selectedCoupon.CouponCode}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="Description">
-                        <Input
-                            type="text"
-                            name="Description"
-                            value={editedValues.Description || selectedCoupon.Description}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="Start Date">
-                        <Input
-                            type="datetime-local"
-                            name="StartDate"
-                            value={editedValues.StartDate || selectedCoupon.StartDate}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="End Date">
-                        <Input
-                            type="datetime-local"
-                            name="EndDate"
-                            value={editedValues.EndDate || selectedCoupon.EndDate}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-                    <FormField label="Count">
-                        <NumberInput 
-                            name="Count"
-                            value={editedValues.Count || selectedCoupon.Count}
-                            min={1} 
-                            max={1000} 
-                            bg={'whiteAlpha.900'} 
-                            boxShadow="0 0 5px rgba(0, 0, 0, 0.1)" 
-                            onChange={handleEditInputChange}
-                        >
-                        </NumberInput>
-                    </FormField>
-                    <FormField label="Status">
-                        <Input
-                            type="text"
-                            name="Status"
-                            value={editedValues.Status || selectedCoupon.Status}
-                            onChange={handleEditInputChange}
-                        />
-                    </FormField>
-
-                    <FormField label="Status" >
-                        <Flex justifyContent="flex-end" alignItems="flex-end">
-                          <Switch
-                            defaultChecked={false}
-                            colorScheme="green"
-                            size={'lg'}
-                            name="Status"
-                            value={switchValue ? 'Inactive' : 'Active'}
-                            onChange={setSwitchValue}
-                            required
-                          />
-                        </Flex>
-                      </FormField>
-                  </VStack>
-                )}
-
-                <Button
-                  name="submit"
-                  align={'right'}
-                  width={'100px'}
-                  colorScheme="green"
-                  type="submit"
-                >
-                  Update
-                </Button>
-              </Flex>
-            </form>
-          </Stack>
-        </Flex>
-        </Modal> */}
         <Box>
         <Grid templateColumns="repeat(1, 1fr)">
             <Flex overflowX="scroll">
@@ -393,11 +158,11 @@ const CouponTable = () => {
                                     <Td>
                                         <HStack>
                                             <IconButton
-                                                colorScheme="green"
+                                                colorScheme="purple"
                                                 aria-label="Edit"
                                                 icon={<EditIcon />}
                                                 size={'sm'}
-                                                onClick={editCoupon}
+                                                onClick={() => editCoupon(coupon._id)}
                                             />
                                             <IconButton
                                                 colorScheme="red"
@@ -413,12 +178,23 @@ const CouponTable = () => {
                         </Tbody>
                     </Table>
                     </TableContainer>
-                </CardBody>
+                </CardBody>selectedCoupon
                 </Card>
             </Stack>
             </Flex>
         </Grid>
         </Box>
+
+        <UpdateCoupon />
+
+        {isOpen && selectedCoupon && (
+          <UpdateCoupon 
+            isOpen={isOpen}
+            onClose={onClose}
+            coupon={selectedCoupon}
+          />
+        )}
+
 
         <AlertDialog
             isOpen={deleteConfirmation.isOpen}

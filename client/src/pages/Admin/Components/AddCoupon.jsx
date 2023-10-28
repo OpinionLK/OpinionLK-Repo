@@ -132,7 +132,7 @@ const AddCoupon = () => {
                     borderRadius={'5px'}
                     bg={'purple.500'}
                 >
-                    Search
+                    View
                 </Button>
                 </HStack>
             </Box>

@@ -1,4 +1,4 @@
-import react from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Box,
     Input,
@@ -24,54 +24,54 @@ import {
 import { CloseIcon } from '@chakra-ui/icons';
 import { FaUpload } from 'react-icons/fa';
 import axios from 'axios';
-import {
-    Model,
-} from 'react-modal';
+import Modal from 'react-modal';
 
-const UpdateCoupon = () => {
 
-    const FormField = ({ label, children }) => {
-        return (
-          <FormControl display="flex" alignItems="center">
-            <FormLabel marginRight="1rem" width="150px">
-              {label}
-            </FormLabel>
-            <Flex flexDirection="column" width="100%" gap="10px">
-              {children}
-            </Flex>
-          </FormControl>
-        );
-      };
+const FormField = ({ label, children }) => {
+    return (
+      <FormControl display="flex" alignItems="center">
+        <FormLabel marginRight="1rem" width="150px">
+          {label}
+        </FormLabel>
+        <Flex flexDirection="column" width="100%" gap="10px">
+          {children}
+        </Flex>
+      </FormControl>
+    );
+  };
 
-    const [isOpen, setIsOpen] = react.useState(false);
-    const [imageUrl, setImageUrl] = react.useState('');
-    const [switchValue, setSwitchValue] = react.useState(false);
-    const [coupons, setCoupons] = react.useState([]);
-
-    const openPopup = () => {
-        setIsOpen(true);
-    }
-    const closePopup = () => {
-        setIsOpen(false);
-    }
-
-    const fetchCoupons = async () => {
-        const response = await axios.get('http://localhost:3002/api/admin/coupons');
-        setCoupons(response.data);
-    }
-
-    const handleUpdate = (e) => {
+const UpdateCoupon = (props) => {
+    const { isOpen, closePopup, selectedCoupon } = props;
+    console.log(selectedCoupon);
+    const [switchValue, setSwitchValue] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
+    const [editedValues, setEditedValues] = useState({
+        // CouponName: selectedCoupon.CouponName,
+        // Description: selectedCoupon.Description,
+        // CouponCode: selectedCoupon.CouponCode,
+        // StartDate: selectedCoupon.StartDate,
+        // EndDate: selectedCoupon.EndDate,
+        // Points: selectedCoupon.Points,
+        // Status: selectedCoupon.Status,
+        // Count: selectedCoupon.Count,
+        // CompanyName: selectedCoupon.CompanyName,
+    });    
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        console.log(e.target.value);
-    }
-
-    
+        try {
+            const res = await axios.put(`http://localhost:3002/api/admin/coupons/${selectedCoupon._id}`, editedValues);
+            console.log(res.data);
+        }
+        catch (err) {
+            console.error('Error updating coupon:', err);
+        }
+    };
 
     return (
         <>
         <Box>
-        <Model
-            isOpen={isOpen}
+        <Modal
+            isOpen={isOpen} // Use the isOpen prop
             onRequestClose={closePopup}
             contentLabel="Com Manager add Modal"
             ariaHideApp={false}
@@ -110,7 +110,6 @@ const UpdateCoupon = () => {
                             <Box position="relative">
                             <Image 
                                 src={imageUrl || 'https://picsum.photos/200/300'}
-                                // fallbackSrc='https://picsum.photos/200/300'
                                 height={'180px'}
                                 w={'100%'} 
                                 objectFit={'cover'}
@@ -127,6 +126,8 @@ const UpdateCoupon = () => {
                             <Input
                                 type="text"
                                 placeholder="Coupon Name"
+                                // value={selectedCoupon.CouponName}
+                                // onChange={(e) => setEditedValues({ ...editedValues, CouponName: e.target.value })}
                                 name="CouponName"
                                 required
                             />
@@ -215,8 +216,6 @@ const UpdateCoupon = () => {
                                     required
                                 />  
                                 </FormField>
-
-
                             </VStack>
                             
                             {/*submit button*/}
@@ -228,7 +227,7 @@ const UpdateCoupon = () => {
                                 colorScheme="green"
                                 type="Submit"
                                 >
-                                Add
+                                Update
                                 </Button>
                                 <Button
                                 name="cancel"
@@ -248,7 +247,7 @@ const UpdateCoupon = () => {
 
                 </Stack>
             </Flex>
-        </Model>
+        </Modal>
         </Box>
         </>
     )
