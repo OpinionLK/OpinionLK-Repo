@@ -5,8 +5,6 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import {
     Flex,
     Heading,
-    Card,
-    CardHeader,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -14,37 +12,29 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-
-    CardBody,
     Skeleton,
-    Text,
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Tag,
     Th,
     Td,
-    IconButton,
-    TableCaption,
     TableContainer,
     Button,
 } from '@chakra-ui/react'
 
-import axios from 'axios';
-
-
 import { useDisclosure } from '@chakra-ui/react'
-
-
+import axios from 'axios'
 
 const SurveyTable = ({ url }) => {
+    console.log("SurveyTable url: ", url);
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const {
         user, dispatch, userData
     } = useAuthContext();
+
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const numRows = 5;
@@ -52,49 +42,43 @@ const SurveyTable = ({ url }) => {
 
     const [survey, setSurvey] = useState(null);
 
-    async function onclickhandler(id) {
-        // try {
-        //     const response = await axios.get(`http://localhost:3002/api/survey//getbySurveyId/${id}`,
-        //         {
-        //             headers: { 'Authorization': `Bearer ${user.token}` },
-        //         }
-        //     )
-
-        //         ;
-        //     console.log(response.data[0])
-        //     setSurvey(response.data[0])
-
-        //     onOpen();
-
-
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-
-        history("/commanager/viewsurvey/" + id + "/")
-
-    }
-
     useEffect(() => {
+        console.log("Fetching data");
         fetch('http://localhost:3002/api/survey/all',
             {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
             }
         )
-            .then(response => response.json())
-            .then(data => {
+        .then(response => {
+            if (!response.ok) {
+                console.error('API request failed:', response);
+                throw new Error('API request failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (Array.isArray(data)) {
                 setData(data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+            } else {
+                console.error('API response is not an array:', data);
+                setData([]);
+            }
+            setIsLoading(false);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            setData([]);
+            setIsLoading(false);
+        });
     }, []);
+
+    async function onclickhandler(id) {
+        history("/commanager/viewsurvey/" + id + "/")
+    }
+
     return (
         <>
-
             <Modal variant={'purple'} size={'xl'} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -137,6 +121,7 @@ const SurveyTable = ({ url }) => {
                     </Thead>
                     <Tbody>
                         {data ? (data.map((survey) => {
+                            console.log("Hello guyszzzzzzzzz",survey)
                             return (
                                 <Tr _hover={{
                                     bg: 'gray.100', cursor: 'pointer'
@@ -150,7 +135,6 @@ const SurveyTable = ({ url }) => {
                                         onclickhandler(survey.surveyID)
                                     }}
                                 >
-
                                     <Td>{survey.surveyName}</Td>
                                     <Td>{survey.created_date}</Td>
                                     <Td isNumeric>{survey.questions.length}</Td>
@@ -188,4 +172,4 @@ const SurveyTable = ({ url }) => {
     )
 }
 
-export default SurveyTable
+export default SurveyTable;
