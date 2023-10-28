@@ -4,19 +4,10 @@ import StatRow from '../../components/Stats/StatRow'
 import DiscoverCard from '../../components/Stats/Organization/DiscoverCard'
 import SurveyGraphCard from '../../components/Stats/Organization/SurveyGraphCard'
 import ReachCard from '../../components/Stats/Organization/ReachCard'
-import SurveyCard from '../../components/Survey/SurveyCard'
 import SurveyRow from '../../components/Survey/SurveyRow'
 import { 
   Grid, 
-  GridItem,
-  Box,
-  SimpleGrid,
-  Card,
-  CardHeader, 
-  Wrap,
-  Flex,
-  Spacer,
-  Button
+  GridItem
 } from '@chakra-ui/react'
 
 

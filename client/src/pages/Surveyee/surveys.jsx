@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Divider,
-  Flex,
   Text,
-  Card,
-  CardBody,
-  CardFooter,
-  ButtonGroup,
-  Button,
-  Image,
-  Stack,
-  Heading,
   Wrap
-
 } from '@chakra-ui/react'
 import SurveyCard from '../../components/Survey/SurveyCard'
 

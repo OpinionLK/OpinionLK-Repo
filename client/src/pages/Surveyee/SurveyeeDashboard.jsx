@@ -2,18 +2,15 @@ import {
     Grid,
     Box,
     GridItem,
-    Wrap,
  } from '@chakra-ui/react'
  import React, { useEffect, useState } from 'react'
  import axios from 'axios'
-import StatRow from '../../components/Stats/StatRow'
 // import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 // import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
 // import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
 import StatCard from '../../components/Stats/Organization/DiscoverCard';
 import CouponBoard from '../../components/Surveyee/PopularCoupons';
 import SurveyRow from '../../components/Survey/SurveyRow';
-import SurveyCard from '../../components/Survey/SurveyCard';
 
 // import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Serydashboard = () => {

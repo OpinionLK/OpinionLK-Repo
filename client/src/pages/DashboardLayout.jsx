@@ -53,6 +53,7 @@ const Dashboard = ({ sidebarLinks }) => {
         if (user) {
             fetchUserData();
         }
+        // eslint-disable-next-line
     }, [dispatch, user]);
 
     const [navOpen, setNavOpen] = useState(false)

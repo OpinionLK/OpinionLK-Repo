@@ -27,8 +27,7 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
-import Modal from 'react-modal';
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import UpdateCoupon from '../Components/UpdateCoupons';
 import axios from 'axios';
 

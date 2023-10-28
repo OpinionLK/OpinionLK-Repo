@@ -19,7 +19,7 @@ import {
 
 
 const AddComManager = () => {
-
+// eslint-disable-next-line
     const [isSuccess, setIsSuccess] = useState(false);
     
     const CloseIcon = () => (

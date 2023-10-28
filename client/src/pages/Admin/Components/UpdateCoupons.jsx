@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React, {useState, useEffect} from 'react';
 import {
     Box,
@@ -26,7 +27,6 @@ import { FaUpload } from 'react-icons/fa';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-
 const FormField = ({ label, children }) => {
     return (
       <FormControl display="flex" alignItems="center">
@@ -43,8 +43,11 @@ const FormField = ({ label, children }) => {
 const UpdateCoupon = (props) => {
     const { isOpen, closePopup, selectedCoupon } = props;
     console.log(selectedCoupon);
+    // eslint-disable-next-line
     const [switchValue, setSwitchValue] = useState(false);
+    // eslint-disable-next-line
     const [imageUrl, setImageUrl] = useState('');
+    // eslint-disable-next-line
     const [editedValues, setEditedValues] = useState({
         // CouponName: selectedCoupon.CouponName,
         // Description: selectedCoupon.Description,

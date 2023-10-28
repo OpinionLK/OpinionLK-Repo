@@ -1,12 +1,7 @@
 import React from 'react';
 import {
     Tag,
-    TagLabel,
-    TagLeftIcon,
-    TagRightIcon,
-    TagCloseButton,
 } from '@chakra-ui/react'
-
 
 const status = (status) => {
     let color = 'gray'

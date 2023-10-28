@@ -1,8 +1,6 @@
 import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
-
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
-import NeedApproval from '../pages/CommunityManager/NeedApproval';
 import ViewSurveys from '../pages/CommunityManager/ViewSurveys';
 import ViewSurvey from '../pages/CommunityManager/ViewSurvey';
 
@@ -13,7 +11,7 @@ import {
 import {
     motion
 } from 'framer-motion';
-
+// eslint-disable-next-line
 import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 

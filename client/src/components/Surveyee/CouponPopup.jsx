@@ -1,7 +1,4 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Text,
     Button,
@@ -11,7 +8,6 @@ import {
     ModalHeader,
     ModalCloseButton,
     ModalBody,
-    ModalFooter,
     useDisclosure,
     Flex,
     Box,
@@ -19,13 +15,10 @@ import {
     HStack,
     Tag,
     TagLabel,
-    Wrap, 
-    WrapItem,
     Progress,
     Spacer,
 } from '@chakra-ui/react'
 
-// import { NavLink } from "react-router-dom";
 import CouponIMG from '../../images/couponimg.png'
 import { RiCopperCoinFill } from "react-icons/ri";
 

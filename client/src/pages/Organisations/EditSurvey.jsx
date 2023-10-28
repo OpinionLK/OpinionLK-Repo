@@ -8,50 +8,38 @@ import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
     ModalOverlay,
     ModalContent,
-
     useToast,
     ModalHeader,
     Slider,
     SliderTrack,
     SliderMark,
-
     SliderFilledTrack,
-    Box,
     SliderThumb,
     ModalFooter,
     Tooltip,
     FormControl,
     FormLabel,
-    Input,
     ModalBody,
     ModalCloseButton,
     Select,
     Icon,
-
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon,
-
     DragHandleIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
-
 import { useDisclosure } from '@chakra-ui/react';
-
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
-
-
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
-import { set } from 'mongoose';
-
 
 function InitialFocus({ surveyid }) {
   
     const toast = useToast()
-
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
 
@@ -90,6 +78,7 @@ function InitialFocus({ surveyid }) {
 
 
     }
+    // eslint-disable-next-line
     const setActive = async () => {
         try {
             console.log(user.token)
@@ -119,6 +108,7 @@ function InitialFocus({ surveyid }) {
 
 
     }
+    // eslint-disable-next-line
     const setSuspend = async () => {
         try {
             console.log(user.token)
@@ -152,6 +142,7 @@ function InitialFocus({ surveyid }) {
     const [baseCost, setBaseCost] = useState(0);
     const [costPerResponse, setCostPerResponse] = useState(0);
     const [perDayCost, setPerDayCost] = useState(0);
+    // eslint-disable-next-line
     const [maxDuration, setMaxDuration] = useState(0);
     const [perQuestionCost, setPerQuestionCost] = useState(0);
     const [questionCount, setQuestionCount] = useState(0);
@@ -206,12 +197,12 @@ function InitialFocus({ surveyid }) {
 
     }
     useEffect(() => {
-        if(questionCount==0){
+        if(questionCount===0){
             onClose();
         }
         getSurveyConstraints();
 
-    }
+    }// eslint-disable-next-line
         , [])
     return (
         <>
@@ -377,11 +368,7 @@ function InitialFocus({ surveyid }) {
 const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleSubmit }) => {
 
     const toast = useToast()
-
     const handleDelete = async () => {
-
-
-
         try {
             // Make an HTTP DELETE request to your backend API
             await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
@@ -405,6 +392,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
         }
     };
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: OnDeleteClose } = useDisclosure()
+    // eslint-disable-next-line
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: OnEditClose } = useDisclosure()
 
     return (
@@ -434,7 +422,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                         <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
                         {
-                            approvalStatus == 'pending' ? null : (
+                            approvalStatus === 'pending' ? null : (
                                 <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit} mode={'edit'} />
                             )
                         }
@@ -557,7 +545,7 @@ const EditSurvey = () => {
                     <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
-                            {survey?.approvalStatus == 'draft' ? (
+                            {survey?.approvalStatus === 'draft' ? (
                                 <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit} mode={'add'} />
                             ) : null}
 
@@ -592,7 +580,7 @@ const EditSurvey = () => {
                     padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
                     alignItems={'center'}>
 
-                    {survey?.approvalStatus == 'draft' && (
+                    {survey?.approvalStatus === 'draft' && (
                         <>
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Ready to publish your survey?
@@ -603,7 +591,7 @@ const EditSurvey = () => {
                         </>
                     )
                     }
-                    {survey?.approvalStatus == 'pending' && (
+                    {survey?.approvalStatus === 'pending' && (
                         <>
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is pending approval
@@ -613,7 +601,7 @@ const EditSurvey = () => {
                         </>
                     )
                     }
-                    {survey?.approvalStatus == 'active' && (
+                    {survey?.approvalStatus === 'active' && (
                         <>
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is live!
@@ -623,7 +611,7 @@ const EditSurvey = () => {
                         </>
                     )
                     }
-                    {survey?.approvalStatus == 'rejected' && (
+                    {survey?.approvalStatus === 'rejected' && (
                         <>
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey was rejected
@@ -633,7 +621,7 @@ const EditSurvey = () => {
                         </>
                     )
                     }
-                    {survey?.approvalStatus == 'approved' && (
+                    {survey?.approvalStatus === 'approved' && (
                         <>
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey was approved

@@ -1,8 +1,5 @@
 import useFormContext from "../../hooks/useFormContext"
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Box,
     Heading,
@@ -10,7 +7,9 @@ import {
 } from '@chakra-ui/react'
 
 const ShortAnswer = ({ question, onChange }) => {
+    // eslint-disable-next-line
     const [value, setValue] = React.useState('1')
+    // eslint-disable-next-line
     const { data, handleChange } = useFormContext()
     return (
 
