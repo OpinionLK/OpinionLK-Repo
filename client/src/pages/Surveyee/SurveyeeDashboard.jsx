@@ -2,18 +2,15 @@ import {
     Grid,
     Box,
     GridItem,
-    Wrap,
-} from '@chakra-ui/react'
-import React from 'react'
-
-import StatRow from '../../components/Stats/StatRow'
+ } from '@chakra-ui/react'
+ import React, { useEffect, useState } from 'react'
+ import axios from 'axios'
 // import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 // import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
 // import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
 import StatCard from '../../components/Stats/Organization/DiscoverCard';
 import CouponBoard from '../../components/Surveyee/PopularCoupons';
 import SurveyRow from '../../components/Survey/SurveyRow';
-import SurveyCard from '../../components/Survey/SurveyCard';
 
 // import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Serydashboard = () => {
@@ -25,25 +22,45 @@ const Serydashboard = () => {
         paddingBottom: '20px',
     }
 
+    const [surveys, setSurveys] = useState([])
+
+  useEffect(() => {
+    // fetch surveys
+    const fetchSurveys = async () => {
+      try {
+        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
+        console.log(response.data)
+        setSurveys(response.data)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchSurveys()
+  }, [])
+
     return (
 
         <Box style={style}>
 
 
-            <Grid templateColumns="repeat(3, 1fr)">
-                <GridItem colSpan={2}>
-                    <Grid templateColumns="repeat(1, 1fr)">
-                        <StatCard />
-                    </Grid>
-                </GridItem>
-                <GridItem rowSpan={2}>
-                    <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={5}>
-                        <CouponBoard />
-                    </Grid>
-                </GridItem>
-                <GridItem colSpan={2} mt={5} mr={5}>
-                    <SurveyRow />
-                    {/* <Box
+                <Grid templateColumns="repeat(3, 1fr)">
+                    <GridItem colSpan={2}>
+                        <Grid templateColumns="repeat(1, 1fr)">
+                            <StatCard />
+                        </Grid>
+                    </GridItem>
+                    <GridItem rowSpan={2}>
+                        <Grid templateColumns="repeat(1, 1fr)" gap={6} mt={5}>
+                            <CouponBoard />
+                        </Grid>
+                    </GridItem>
+                    <GridItem colSpan={2} mt={5} mr={5}>
+                        <SurveyRow 
+                            surveys = {surveys}
+                        />
+                        {/* <Box
                             width="auto"
                             px={5}
                             pb='4'

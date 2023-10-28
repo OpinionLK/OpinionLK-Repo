@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Divider,
-  Flex,
   Text,
-  Card,
-  CardBody,
-  CardFooter,
-  ButtonGroup,
-  Button,
-  Image,
-  Stack,
-  Heading
+  Wrap
 } from '@chakra-ui/react'
+import SurveyCard from '../../components/Survey/SurveyCard'
 
 import axios from 'axios'
 
@@ -22,7 +14,7 @@ const Survey = () => {
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
-        const response = await axios.get('https://opinion-lk-b3d64ae79a55.herokuapp.com/api/user/allsurveys')
+        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
         console.log(response.data)
         setSurveys(response.data)
       }
@@ -37,12 +29,13 @@ const Survey = () => {
 
   return (
     <>
-      <div><Text fontWeight={'semibold'}>Recommended Surveys</Text></div>
-      <Divider colorScheme="blackAlpha" />
-      <Flex>
+      <div><Text size='6' fontWeight={'semibold'} mb='4'>Recommended Surveys</Text></div>
+      {/* <Divider colorScheme="blackAlpha" /> */}
+      <Wrap spacing='21px'>
         {surveys ? surveys.map((survey) => {
           return (
-            <Card key={survey._id} width={'100%'} height={'100%'} margin={'10px'}>
+            <>
+            {/* <Card key={survey._id} width={'100%'} height={'100%'} margin={'10px'}>
               <CardBody>
                 <Stack>
                   <Image src={'http://localhost:3002/api/survey/images/' + survey.surveyImage} alt={survey.surveyName} />
@@ -55,11 +48,21 @@ const Survey = () => {
                   <Button colorScheme={'green'} onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + survey.surveyID + '/fill'}}>Take Survey</Button>
                 </ButtonGroup>
               </CardFooter>
-            </Card>
+            </Card> */}
+            <SurveyCard
+              type = 'surveyee'
+              surveyName={survey.surveyName}
+              surveyDescription={survey.surveyDescription}
+              surveyImage={survey.surveyImage}
+              surveyID={survey.surveyID}
+              surveyTags={survey.surveyTags}
+              surveyPoints={survey.points}
+            />
+            </>
           )
         }
         ) : <Text>No Surveys Available</Text>}
-      </Flex>
+      </Wrap>
     </>
   )
 }

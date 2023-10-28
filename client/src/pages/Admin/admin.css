@@ -1,0 +1,11 @@
+.tableSearchMain {
+    background-color: #D0CBFF;
+    margin: 0 auto;
+    position: fixed;
+    width: calc(100% - 326px);
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: fit-content;
+    box-shadow: 0 0 10px #ccc;
+}

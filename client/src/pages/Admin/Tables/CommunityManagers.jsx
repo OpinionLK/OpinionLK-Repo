@@ -36,7 +36,22 @@ import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import { useState, useEffect,useRef  } from 'react';
 import axios from 'axios';
 
+
+const FormField = ({ label, children }) => {
+  return (
+    <FormControl display="flex" alignItems="center">
+      <FormLabel marginRight="1rem" width="120px">
+        {label}
+      </FormLabel>
+      <Flex flexDirection="column" width="100%" gap="10px">
+        {children}
+      </Flex>
+    </FormControl>
+  );
+};
+
 const CommunityManagers = () => {
+  
   const [communityManagers, setCommunityManagers] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     isOpen: false,
@@ -60,21 +75,22 @@ const CommunityManagers = () => {
   };
 
 
-  //Fetch Community Managers Data
+  //Fetch Community Managers Data    
+  const fetchCommunityManagers = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:3002/api/auth/getmembers'
+        );
+        const data = response.data;
+        setCommunityManagers(data);
+      } catch (error) {
+        console.error('Error fetching community managers:', error);
+      }
+    };
+
     useEffect(() => {
-        fetchCommunityManagers();
-      }, []);
-    const fetchCommunityManagers = async () => {
-        try {
-          const response = await axios.get(
-            'https://opinion-lk-b3d64ae79a55.herokuapp.com/api/auth/getmembers'
-          );
-          const data = response.data;
-          setCommunityManagers(data);
-        } catch (error) {
-          console.error('Error fetching community managers:', error);
-        }
-      };
+      fetchCommunityManagers();
+    }, []);
 
     //Get Total Community Managers
     const getTotalCommunityManagers = () => {
@@ -96,7 +112,7 @@ const CommunityManagers = () => {
     const [editedValues, setEditedValues] = useState({});
 
     const handleEditInputChange = (key, value) => {
-        setEditedValues({ ...editedValues, [key]: value });                   //editedValues is the new state
+      setEditedValues({ ...editedValues, [key]: value });
     };
 
     const closePopup = () => {
@@ -192,61 +208,62 @@ const nicValidation12 = /^[0-9]{12}$/;
         }
     };
 
-    //Custom Form Field Component
-    const FormField = ({ label, children }) => {
-        return (
-          <FormControl display="flex" alignItems="center">
-            <FormLabel marginRight="1rem" width="120px">
-              {label}
-            </FormLabel>
-            <Flex flexDirection="column" width="100%" gap="10px">
-              {children}
-            </Flex>
-          </FormControl>
-        );
-      };
-
     return (
         <>
-        <AlertDialog
-        isOpen={deleteConfirmation.isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onDeleteConfirmationClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Manager
-            </AlertDialogHeader>
+          <AlertDialog
+            isOpen={deleteConfirmation.isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onDeleteConfirmationClose}
+          >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Delete Manager
+              </AlertDialogHeader>
 
-            <AlertDialogBody>
-              Are you sure you want to delete this manager?
-            </AlertDialogBody>
+              <AlertDialogBody>
+                Are you sure you want to delete this manager?
+              </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onDeleteConfirmationClose}>
-                No
-              </Button>
-              <Button colorScheme="red" onClick={onDeleteConfirm} ml={3}>
-                Yes
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onDeleteConfirmationClose}>
+                  No
+                </Button>
+                <Button colorScheme="red" onClick={onDeleteConfirm} ml={3}>
+                  Yes
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
 
         <Box>
         <Grid templateColumns="repeat(1, 1fr)">
         <Flex>
             <Stack width={'100%'}>
                 <Card borderRadius={'20px'} width={'100%'}>
-                <CardHeader>
+                <CardHeader display={'flex'} flexDirection={'row'}>
                     <Heading color={'purple.900'} size={'md'}>Community Managers</Heading>
+                    <Box>
+                      <Input
+                        type='search'
+                        placeholder = 'Search by Name or Email...'
+                        fontSize={'14px'}
+                        width={'250px'}
+                        ml={'20px'}
+                        px={2}
+                        py={1}
+                        height={'30px'}
+                        borderRadius={'8px'}
+                        // onChange={(e) => setFilterText(e.target.value)}
+                        // value ={filterText}
+                        />
+                    </Box>
                 </CardHeader>
                 <hr />
                 <CardBody>
-                    <TableContainer>
-                    <Table variant="simple">
+                    <TableContainer w={'100%'}>
+                    <Table variant="striped" colorScheme='gray' size={'sm'}>
                         <TableCaption>
                           Total Community Managers: {getTotalCommunityManagers()}
                         </TableCaption>
@@ -258,10 +275,11 @@ const nicValidation12 = /^[0-9]{12}$/;
                             <Th>Email</Th>
                             <Th>Phone</Th>
                             <Th>NIC</Th>
-                            <Th>Actions</Th>
+                            <Th mr={'-30px'}>Actions</Th>
                         </Tr>
                         </Thead>
-                        <Tbody fontSize={'sm'}>{communityManagers.map(manager => (
+                        <Tbody fontSize={'sm'}>
+                          {communityManagers.map(manager => (
                             <Tr key={manager._id}>
                             <Td>
                                 {manager.ManagerFirstName} {manager.ManagerLastName}
@@ -286,10 +304,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                                     onClick={() => comEditPopup(manager._id)}
                                 />
                                 <IconButton
-                                    // colorScheme="teal"
-                                    bg={'purple.500'}
-                                    color={'#fff'}
-                                    _hover={{ bg: 'purple.400' }}
+                                    colorScheme="red"
                                     aria-label="Delete"
                                     size="sm"
                                     icon={<DeleteIcon />}
@@ -338,10 +353,10 @@ const nicValidation12 = /^[0-9]{12}$/;
               <HStack justifyContent={'space-between'} mb={'20px'}>
                 <Heading size={'md'}>Update Details</Heading>
                 <IconButton
-                  colorScheme="purple"
+                  colorScheme="gray"
                   borderRadius={'10px'}
                   // bg={'gray.200'}
-                  color={'#fff'}
+                  color={'gray'}
                   aria-label="Call Segun"
                   size="sm"
                   icon={<CloseIcon />}
@@ -366,7 +381,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerFirstName"
-                        value={editedValues.ManagerFirstName || selectedManager.ManagerFirstName}
+                        placeholder={editedValues.ManagerFirstName}
+                        value={editedValues.ManagerFirstName !== undefined ? editedValues.ManagerFirstName : selectedManager.ManagerFirstName}
                         onChange={e => handleEditInputChange('ManagerFirstName', e.target.value)}
                       />
                     </FormField>
@@ -374,7 +390,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerLastName"
-                        value={editedValues.ManagerLastName || selectedManager.ManagerLastName}
+                        placeholder={editedValues.ManagerLastName}
+                        value={editedValues.ManagerLastName !== undefined ? editedValues.ManagerLastName : selectedManager.ManagerLastName}
                         onChange={e => handleEditInputChange('ManagerLastName', e.target.value)}
                       />
                     </FormField>
@@ -383,14 +400,14 @@ const nicValidation12 = /^[0-9]{12}$/;
                         type="text"
                         placeholder="Line 1"
                         name="ManagerAddLine1"
-                        value={editedValues.ManagerAddLine1 || selectedManager.ManagerAddLine1}
+                        value={editedValues.ManagerAddLine1 !== undefined ? editedValues.ManagerAddLine1 : selectedManager.ManagerAddLine1}
                         onChange={e => handleEditInputChange('ManagerAddLine1', e.target.value)}
                       />
                       <Input
                         type="text"
                         placeholder="Line 2"
                         name="ManagerAddLine2"
-                        value={editedValues.ManagerAddLine2 || selectedManager.ManagerAddLine2}
+                        value={editedValues.ManagerAddLine2 !== undefined ? editedValues.ManagerAddLine2 : selectedManager.ManagerAddLine2}
                         onChange={e => handleEditInputChange('ManagerAddLine2', e.target.value)}
                       />
                     </FormField>
@@ -398,7 +415,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerDistrict"
-                        value={editedValues.ManagerDistrict || selectedManager.ManagerDistrict}
+                        placeholder={editedValues.ManagerDistrict}
+                        value={editedValues.ManagerDistrict !== undefined ? editedValues.ManagerDistrict : selectedManager.ManagerDistrict}
                         onChange={e => handleEditInputChange('ManagerDistrict', e.target.value)}
                       />
                     </FormField>
@@ -406,7 +424,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="email"
                         name="ManagerEmail"
-                        value={editedValues.ManagerEmail || selectedManager.ManagerEmail}
+                        placeholder={editedValues.ManagerEmail}
+                        value={editedValues.ManagerEmail !== undefined ? editedValues.ManagerEmail : selectedManager.ManagerEmail}
                         onChange={e => handleEditInputChange('ManagerEmail', e.target.value)}
                       />
                     </FormField>
@@ -414,7 +433,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="tel"
                         name="ManagerPhone"
-                        value={editedValues.ManagerPhone || selectedManager.ManagerPhone}
+                        placeholder={editedValues.ManagerPhone}
+                        value={editedValues.ManagerPhone !== undefined ? editedValues.ManagerPhone : selectedManager.ManagerPhone}
                         onChange={e => handleEditInputChange('ManagerPhone', e.target.value)}
                       />
                     </FormField>
@@ -422,7 +442,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerNic"
-                        value={editedValues.ManagerNic || selectedManager.ManagerNic}
+                        placeholder={editedValues.ManagerNic}
+                        value={editedValues.ManagerNic !== undefined ? editedValues.ManagerNic : selectedManager.ManagerNic}
                         onChange={e => handleEditInputChange('ManagerNic', e.target.value)}
                       />
                     </FormField>
@@ -433,7 +454,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                   name="submit"
                   align={'right'}
                   width={'100px'}
-                  colorScheme="green"
+                  colorScheme="purple"
                   type="submit"
                 >
                   Update
@@ -443,58 +464,6 @@ const nicValidation12 = /^[0-9]{12}$/;
           </Stack>
         </Flex>
       </Modal>
-
-      {/* <Modal
-        isOpen={isOpen}
-        onRequestClose={closePopup}
-        contentLabel="My dialog"
-        ariaHideApp={false}
-        style={{
-          overlay: {
-            zIndex: 1000,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-          },
-          content: {
-            width: '500px',
-            height: 'max-content',
-            margin: 'auto',
-            borderRadius: '10px',
-            padding: '20px',
-            backgroundColor: '#F8FAFC',
-            boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
-          },
-        }}
-      >
-            <Heading size={'md'}>Delete Community Manager</Heading>
-          <hr />
-            <VStack>
-              <Flex width={'100%'} h={'300px'} justifyContent={'center'}>
-                <Text size={'md'}>Are you sure you want to delete this Community Manager?</Text>
-              </Flex>
-              <Flex>
-                <Button
-                  name="submit"
-                  align={'right'}
-                  width={'100px'}
-                  colorScheme="red"
-                  type="submit"
-                  onClick={closePopup}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  name="submit"
-                  align={'right'}
-                  width={'100px'}
-                  colorScheme="green"
-                  type="submit"
-                  onClick={closePopup}
-                >
-                  Delete
-                </Button>
-              </Flex>
-            </VStack>
-      </Modal> */}
 
     </>
     )

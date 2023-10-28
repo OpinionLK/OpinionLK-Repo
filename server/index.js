@@ -6,9 +6,14 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
-// import swaggerAutogen from 'swagger-autogen';
+import adminRoutes from './routes/admin.js';
+import morgan from 'morgan';
+import ImageKit from "imagekit";
 
-import  swaggerUi from 'swagger-ui-express';
+// import swaggerAutogen from 'swagger-autogen';
+import PlatformData from './models/PlatformData.js';
+
+import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger-output.json' assert { type: "json" };
 
 
@@ -30,7 +35,7 @@ app.get('/', function (req, res) {
 });
 
 const corsOptions = {
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -43,14 +48,16 @@ const corsOptions = {
 // MIDDLEWARE
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(morgan('dev'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 // ROUTES
-app.use('/api/auth', authRoutes); 
+app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/survey', surveyRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
 mongoose
@@ -64,3 +71,39 @@ mongoose
     console.log('MongoDB Connected');
   })
   .catch((error) => console.error('Error connecting to MongoDB: ', error.message));
+
+//image uploads
+// check if platform data exists
+let pd = await PlatformData.find({});
+
+if (pd.length === 0) {
+  console.log('creating platform data');
+  try {
+    const platformData = new PlatformData({
+      surveyBaseCost: 1000,
+      surveyCostPerResponse: 10,
+      perDayCost: 7,
+      maxDuration: 14,
+      perQuestionCost: 20,
+    });
+    await platformData.save();
+  } catch (error) {
+    console.log(error.message);
+  }
+} else {
+  console.log('platform data exists');
+}
+
+const imagekit = new ImageKit({
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL
+});
+app.get('/api/uploadKeys', (req, res) => {
+  res.json({ imagekit });
+})
+
+app.get('/api/generateAuth', (req, res) => {
+  const authenticationParams = imagekit.getAuthenticationParameters();
+  res.json({ authenticationParams });
+});

@@ -5,9 +5,8 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import MultipleChoice from "../../components/Surveyee/MultipleChoice";
 import LongAnswer from "../../components/Surveyee/LongAnswer"
 import ShortAnswer from "../../components/Surveyee/ShortAnswer"
-import { useParams } from 'react-router-dom';
-
-import { Button, Text, Heading } from '@chakra-ui/react'
+import { useParams, useNavigate  } from 'react-router-dom';
+import { Button, Heading } from '@chakra-ui/react'
 
 // Your component
 export default function Survey() {
@@ -16,8 +15,10 @@ export default function Survey() {
   // const surveyid='056npeUPlmboj6zm'
   const [survey, setSurvey] = useState(null);
   const { handleSubmit, control } = useForm();
+  const navigate = useNavigate();
 
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
@@ -25,7 +26,7 @@ export default function Survey() {
 
   useEffect(() => {
     if (surveyid && !survey) {
-      axios.get(`http://localhost:3002/api/survey/fillSurvey/${surveyid}`)
+      axios.get(`http://localhost:3002/api/survey/getbysurveyid/${surveyid}`)
         .then((response) => {
           console.log(response.data)
           setSurvey(response.data);
@@ -38,25 +39,42 @@ export default function Survey() {
 
   const onSubmit = async (data) => {
     console.log('Form data:', data);
+    
     try {
-      // Assuming you have the surveyID available, either as a prop or state
-      const surveyID = '056npeUPlmboj6zm'; // Replace with the actual survey ID
-
+      const points = survey.points;
+      const response = data; // Use the form data as the response   
       
-      const response = data; // Use the form data as the response 
-  
-      // Send the response data to the server
-      const responseFromServer = await axios.post(`http://localhost:3002/api/survey/createResponse`, {
-        surveyid,
-        response
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${user.token}`
+      const responseFromServer = await axios.post(`http://localhost:3002/api/survey/createResponse`, 
+        {
+          surveyid,
+          response,
         },
-      });
-  
+        {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          },
+        }
+      );
       console.log('Response added successfully:', responseFromServer.data);
+
+      if (responseFromServer.status === 200) {
+        // Call addSurveyPoints
+        const pointsResponse = await axios.post(
+          `http://localhost:3002/api/survey/addSurveyPoints`,
+          {
+            points,
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            },
+          }
+        );
+  
+        console.log('Survey points added successfully:', pointsResponse.data);
+      }
+      
+      navigate(`/portal/survey/surveyComplete/${survey.points}`);
     } catch (error) {
       console.error('Error adding response:', error);
     }

@@ -20,6 +20,7 @@ import {
   InputGroup,
   InputRightElement,
   Image,
+  Card,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
@@ -45,7 +46,7 @@ const SignUp = () => {
 
 
     try {
-      const json = await axios.post('https://opinion-lk-b3d64ae79a55.herokuapp.com/api/auth/signup', {
+      const json = await axios.post('http://localhost:3002/api/auth/signup', {
         firstName,
         lastName,
         email,
@@ -54,13 +55,21 @@ const SignUp = () => {
       console.log('User created successfully');
       setUserCreated(true);
 
-
       localStorage.setItem('user', JSON.stringify(json.data));
 
       dispatch({
         type: 'LOGIN',
         payload: json
       });
+
+      document.getElementById('SignUpForm').reset();
+      document.getElementById('SignUpForm').style.display = 'none';
+      document.getElementById('SignUpHeader').style.display = 'none';
+      document.getElementById('footer').style.display = 'none';
+      document.getElementById('emailVeryfyCard').style.display = 'block';
+      document.getElementById('emailVeryfyCard').style.marginBottom = '-50px';
+      document.getElementById('back').style.marginBottom = '-50px';
+      document.getElementById('back').style.marginBottom = '-50px';
 
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -95,37 +104,21 @@ const SignUp = () => {
         alignItems={'center'}
       >
         <Stack spacing={8} width={'80%'}>
-          <Flex width={'100%'}>
+          <Flex id='back' width={'100%'}>
             <Link to="/">
               <ArrowBackIcon /> <u>Return to Home</u>
             </Link>
           </Flex>
-
-          <Stack align={'left'}>
+          <Stack id='SignUpHeader' align={'left'}>
             <Heading fontSize={'4xl'} textAlign={'left'}>
               Sign up
             </Heading>
             <Text fontSize={'lg'} color={'gray.600'}>
               to access surveys and earn rewards!
             </Text>
-
-            {userCreated && (
-              <Box color="green.500" mt={2} mb={2}>
-                <Alert
-                  status="success"
-                  variant="subtle"
-                  fontSize="md"
-                  borderRadius="5px"
-                >
-                  <AlertIcon />
-                  User created successfully.
-                </Alert>
-              </Box>
-            )}
           </Stack>
-
           <Stack spacing={4} gap={'40px'}>
-            <form onSubmit={handleSubmit} method="POST">
+            <form id='SignUpForm' onSubmit={handleSubmit} method="POST">
               <Stack spacing={5}>
                 <HStack>
                   <Box width={'100%'}>
@@ -194,7 +187,7 @@ const SignUp = () => {
                 </Stack>
               </Stack>
             </form>
-            <Stack pt={6}>
+            <Stack id='footer' pt={6}>
               <Text align={'center'}>
                 Already a user? <Link color={'blue.400'} to="/login">Login</Link>
               </Text>
@@ -203,6 +196,41 @@ const SignUp = () => {
               </Text>
             </Stack>
           </Stack>
+
+          {userCreated && (
+              <Box color="green.500" mt={2} mb={2}>
+                <Alert
+                  status="success"
+                  variant="subtle"
+                  fontSize="md"
+                  borderRadius="5px"
+                >
+                  <AlertIcon />
+                  User created successfully.
+                </Alert>
+              </Box>
+            )}
+
+          <Card 
+            id='emailVeryfyCard' 
+            p={6} 
+            w={'100%'} 
+            maxH={'150px'}
+            display={'none'} 
+            bg={'blue.100'}
+            zIndex={'100'}
+            // position={'fixed'}
+            // top={'40%'}
+            // left={'60%'}
+          >
+              <Heading fontSize={'xl'} mb={2} textAlign={'left'}>
+                Please veryify your email address
+              </Heading>
+              <Text fontSize={'md'} textAlign={'left'}>
+                We have sent you an email with a link to verify your email address.
+                Please click on the link to verify your email address.
+              </Text>
+            </Card>
         </Stack>
       </Flex >
     </Stack >

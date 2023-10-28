@@ -17,13 +17,16 @@ import {
     Td,
     TableCaption,
     Heading,
+    Input,
 } from '@chakra-ui/react';
 // import Modal from 'react-modal';
 // import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // import axios from 'axios';
 
 const SurveyeeManager = () => {
+
+    const [filterText, setFilterText] = useState('');
 
   const md = 'md';
 
@@ -34,8 +37,22 @@ const SurveyeeManager = () => {
             <Flex>
             <Stack width={'100%'}>
                 <Card borderRadius={'20px'} width={'100%'}>
-                <CardHeader>
+                <CardHeader  display={'flex'} flexDirection={'row'}>
                     <Heading color={'purple.900'}  size={md}>Surveyees</Heading>
+                    <Box>
+                      <Input
+                        type='search'
+                        placeholder = 'Search by Name or Email...'
+                        fontSize={'14px'}
+                        width={'250px'}
+                        ml={'20px'}
+                        px={2}
+                        py={1}
+                        height={'30px'}
+                        borderRadius={'8px'}
+                        onChange={(e) => setFilterText(e.target.value)}
+                        value ={filterText}/>
+                    </Box>
                 </CardHeader>
                 <hr></hr>
                 <CardBody>

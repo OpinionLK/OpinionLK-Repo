@@ -5,9 +5,6 @@ import {
 import React from 'react'
 import StatRow from '../../components/Stats/StatRow'
 import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
-import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
-import SurveyFillingGraph from '../../components/Stats/Admin/SurveyFillingGraph';
-// import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Admindashboard = () => {
 
     const style = {
@@ -24,11 +21,11 @@ const Admindashboard = () => {
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
                 <UserManagementGraph />
-                <SurveyFillingGraph />
+                {/* <SurveyFillingGraph /> */}
             </Grid>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
-                <SurveyManagementGraph />
+                {/* <SurveyManagementGraph /> */}
             </Grid>
             </Box>
         </>

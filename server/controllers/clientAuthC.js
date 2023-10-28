@@ -4,6 +4,9 @@ import { Clients } from '../models/Client.js';
 
 // Sign up client
 export const ClientSignUp = async (req, res) => {
+     // #swagger.tags = ['Organisation']
+      // #swagger.description = 'Endpoint to sign up organisation'
+
   try {
     console.log('Received client signup request:', req.body);
 
@@ -55,26 +58,46 @@ export const ClientSignUp = async (req, res) => {
 };
 
 export const ClientData = async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to get user data'
   // get token from header
-  const token = req.headers.authorization.split(' ')[1];
+
+  const authHeader = req.headers.authorization;
+
+  // Check if the authorization header is missing or not in the expected format
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const token = authHeader.split(' ')[1];
   console.log('Received client data request:', token);
 
   // check if token is verified
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
   }
 
   // verify token
-  const {id} = jwt.verify(token, 'test');
-  console.log(id);
 
+  try {
+      const { id } = jwt.verify(token, 'test');
+      console.log(id);
 
-  
-  if (!id) {
-    return res.status(400).json({ error: 'Server Error' });
+      if (!id) {
+          return res.status(400).json({ error: 'Server Error' });
+      }
+      let user = await Clients.findOne({ _id: id });
+
+      res.status(200).json({
+          id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email
+      });
+  } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+          return res.status(401).json({ error: 'Unauthorized' });
+      }else{
+        console.log(error)
+        return res.status(401).json(error);
+      }
   }
-  let user = await Clients.findOne({ _id:id });
-  res.status(200).json({
-    id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email, phone: user.phone, nic: user.nic, orgName: user.orgName, orgAddressLine1: user.orgAddressLine1, orgAddressLine2: user.orgAddressLine2, orgCity: user.orgCity, orgState: user.orgState, orgZip: user.orgZip, orgPhone: user.orgPhone, orgEmail: user.orgEmail, orgWebsite: user.orgWebsite, position: user.position, department: user.department
-  });
+
 };

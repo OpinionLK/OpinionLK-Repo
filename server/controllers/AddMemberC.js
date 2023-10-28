@@ -1,6 +1,8 @@
 import ComManager from "../models/ComManagerModel.js";
 
 export const Getmembers = async (req, res) => {
+     // #swagger.tags = ['Community Manager']
+      // #swagger.description = 'Endpoint to get all community managers'
   const members = await ComManager.find();
   res.send(members);
 };
