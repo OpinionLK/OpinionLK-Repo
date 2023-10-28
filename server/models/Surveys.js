@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 const surveySchema = new mongoose.Schema({
   surveyID: { type: String, required: true },
   surveyName: { type: String, required: true },
-  surveyImage: { type: String, required: false },
+  surveyImage: { type: String, required: true, default: 'default_bg' },
   surveyDescription: { type: String, required: true },
-  questionCount: { type: Number, required: true },
+  questionCount: { type: Number, required: false },
   questions: {
     type: [mongoose.Schema.Types.Mixed],
     required: false,

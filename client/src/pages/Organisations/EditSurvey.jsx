@@ -512,8 +512,7 @@ const EditSurvey = () => {
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
-
-            
+            {/* dim loader */}
             <Card
                 backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                 backgroundSize={'cover'}
@@ -523,7 +522,7 @@ const EditSurvey = () => {
                 <Card height={'s'}
                     p={'25px 20px'}
                     backgroundColor="rgba(0, 0, 0, 0.2)"
-                    backdropFilter={'blur(5px)'}
+                    // backdropFilter={'blur(5px)'}
                     color={'white'}
                     boxShadow={'none'}
                 >
