@@ -11,8 +11,9 @@ import morgan from 'morgan';
 import ImageKit from "imagekit";
 
 // import swaggerAutogen from 'swagger-autogen';
+import PlatformData from './models/PlatformData.js';
 
-import  swaggerUi from 'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger-output.json' assert { type: "json" };
 
 
@@ -34,7 +35,7 @@ app.get('/', function (req, res) {
 });
 
 const corsOptions = {
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -52,7 +53,7 @@ app.use(morgan('dev'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 // ROUTES
-app.use('/api/auth', authRoutes); 
+app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/survey', surveyRoutes);
@@ -72,17 +73,37 @@ mongoose
   .catch((error) => console.error('Error connecting to MongoDB: ', error.message));
 
 //image uploads
+// check if platform data exists
+let pd = await PlatformData.find({});
 
-  const imagekit = new ImageKit({
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY, 
-    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
-    urlEndpoint: process.env.IMAGEKIT_URL
-  });
-  app.get('/api/uploadKeys', (req, res) => {
-    res.json({ imagekit });
-  })
+if (pd.length === 0) {
+  console.log('creating platform data');
+  try {
+    const platformData = new PlatformData({
+      surveyBaseCost: 1000,
+      surveyCostPerResponse: 10,
+      perDayCost: 7,
+      maxDuration: 14,
+      perQuestionCost: 20,
+    });
+    await platformData.save();
+  } catch (error) {
+    console.log(error.message);
+  }
+} else {
+  console.log('platform data exists');
+}
 
-  app.get('/api/generateAuth', (req, res) => {
-    const authenticationParams = imagekit.getAuthenticationParameters();
-    res.json({ authenticationParams });
-  });
+const imagekit = new ImageKit({
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL
+});
+app.get('/api/uploadKeys', (req, res) => {
+  res.json({ imagekit });
+})
+
+app.get('/api/generateAuth', (req, res) => {
+  const authenticationParams = imagekit.getAuthenticationParameters();
+  res.json({ authenticationParams });
+});

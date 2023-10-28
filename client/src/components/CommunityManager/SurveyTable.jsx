@@ -24,6 +24,10 @@ import {
     Button,
 } from '@chakra-ui/react'
 
+import axios from 'axios';
+
+import Status from '../../components/Status.jsx';
+
 import { useDisclosure } from '@chakra-ui/react'
 import axios from 'axios'
 
@@ -41,6 +45,14 @@ const SurveyTable = ({ url }) => {
     const history = useNavigate();
 
     const [survey, setSurvey] = useState(null);
+
+    async function onclickhandler(id) {
+      
+
+
+        history("/commanager/viewsurvey/" + id + "/")
+
+    }
 
     useEffect(() => {
         console.log("Fetching data");
@@ -92,7 +104,7 @@ const SurveyTable = ({ url }) => {
                                 <Tag colorScheme="green" ml={2} fontWeight={'bold'}>Active</Tag>
                             </Flex>
                             <Flex width={'100%'}>
-                                weonfiowen
+
                             </Flex>
                         </Flex>
                         <Flex height={'50%'} flex={1}>fegwgw</Flex>
@@ -140,13 +152,7 @@ const SurveyTable = ({ url }) => {
                                     <Td isNumeric>{survey.questions.length}</Td>
                                     <Td isNumeric>{survey.responses.length}</Td>
                                     <Td>
-                                        {survey.approvalStatus === 'draft' ? (
-                                            <Tag colorScheme="facebook"
-                                                fontWeight={'bold'}>Draft</Tag>) : survey.approvalStatus === 'pending' ? (
-                                                    <Tag colorScheme="orange"
-                                                        fontWeight={'bold'}>Pending</Tag>) : survey.approvalStatus === 'approved' ? (
-                                                            <Tag colorScheme="green"
-                                                                fontWeight={'bold'}>Approved</Tag>) : null}
+                                        <Status status={survey.approvalStatus} />
                                     </Td>
 
 

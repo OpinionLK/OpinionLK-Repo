@@ -4,7 +4,7 @@ import MakeSurvey from '../pages//Organisations/MakeSurvey'
 import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
-
+import PaymentBilling from '../pages/Organisations/PaymentBilling';
 import EditSurvey from '../pages/Organisations/EditSurvey';
 import TestComponenets from '../pages/Organisations/TestComponenets';
 
@@ -26,6 +26,7 @@ const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
     { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/paymentbilling', linkName: 'Payments & Billing', icon: RiSurveyFill },
     // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
@@ -77,6 +78,10 @@ const OrganisationRoutes = [
             {
                 path: '/organisation/test-components',
                 element: <TestComponenets />,
+            },
+            {
+                path: '/organisation/paymentbilling',
+                element: <PaymentBilling />
             },
         ],
     }
