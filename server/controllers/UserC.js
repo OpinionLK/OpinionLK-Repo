@@ -47,3 +47,8 @@ export const userData = async (req, res) => {
 
 };
 
+
+export const getUserSurveys = async (req, res) => {
+    
+};
+
