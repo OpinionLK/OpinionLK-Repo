@@ -48,6 +48,7 @@ import { set } from 'mongoose';
 
 
 function InitialFocus({ surveyid }) {
+  
     const toast = useToast()
 
     const {
@@ -59,8 +60,12 @@ function InitialFocus({ surveyid }) {
             console.log(user.token)
             const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
                 {
-                    state: 'pending'
-
+                    state: 'pending',
+                    estCost: total,
+                    duration: duration,
+                    targetResponses: targetResponses,
+                    endCriteria: 'duration',
+                    userTag: [{ gender: 'male' }, { birthyear1: 1970 }, { birthyear2: 2000 }, { city: 'Colombo' }]
                 },
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
@@ -73,6 +78,64 @@ function InitialFocus({ surveyid }) {
                     title: 'Request Sent',
                     description: "We will get back to you shortly.",
                     status: 'success',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+    const setActive = async () => {
+        try {
+            console.log(user.token)
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
+                {
+                    state: 'active',
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+
+            if (response.status === 200) {
+                onClose();
+                toast({
+                    title: 'Survey is now active',
+                    status: 'success',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+    const setSuspend = async () => {
+        try {
+            console.log(user.token)
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
+                {
+                    state: 'active',
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+
+            if (response.status === 200) {
+                onClose();
+                toast({
+                    title: 'Survey is now suspended',
+                    status: 'info',
                     position: 'bottom-right',
                     duration: 9000,
                     isClosable: true,
@@ -139,13 +202,16 @@ function InitialFocus({ surveyid }) {
         console.log(baseCost);
         console.log(duration);
         console.log(targetResponses);
-        
+
         setTotal(baseCost + (costPerResponse * targetResponses) + (perDayCost * duration) + (perQuestionCost * questionCount));
-        
+
     }
     useEffect(() => {
-
+        if(questionCount==0){
+            onClose();
+        }
         getSurveyConstraints();
+
     }
         , [])
     return (
@@ -219,7 +285,7 @@ function InitialFocus({ surveyid }) {
                                 max={14}
                                 mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
                                     setDuration(val)
-                                   console.log(val)
+                                    console.log(val)
                                 }}>
 
 
@@ -446,8 +512,10 @@ const EditSurvey = () => {
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
+
+            
             <Card
-                backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
+                backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                 backgroundSize={'cover'}
                 backgroundColor={'gray'}
                 backgroundPosition={'center'}
@@ -475,7 +543,7 @@ const EditSurvey = () => {
                             <Flex gap='10px'>
                                 <Button>Suspend</Button>
                                 <Button>Delete</Button>
-                                <Cropper loadImage={loadImage} />
+                                <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
 
                             </Flex>
 
@@ -533,7 +601,7 @@ const EditSurvey = () => {
                             </Text>
                             <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
 
-                            <InitialFocus surveyid={survey?.surveyID} />
+                            <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
                         </>
                     )
                     }

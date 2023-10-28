@@ -18,6 +18,11 @@ const surveySchema = new mongoose.Schema({
   approvedBy: { type: String },
   responses: { type: [mongoose.Schema.Types.Mixed], required: false },
   rejectionComment: { type: String },
+  endCriteria: { type: String },
+  duration: { type: Number },
+  targetResponses: { type: Number },
+  estimatedCost: { type: Number },
+  userTags: { type: [mongoose.Schema.Types.Mixed], required: false },
   tags: [{ type: String }],
   comments: [{
     commentID: { type: String },

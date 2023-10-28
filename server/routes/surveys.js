@@ -71,38 +71,35 @@ router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 
 
-router.post("/imageUpload", upload.single("file"), async (req, res) => {
+router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {
+
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
-    const surveyid = req.body.surveyid;
-
+    const surveyid = req.params.surveyid;
+console.log(surveyid);
     console.log(fileName);
+    // Upload the file to ImageKit
+    imagekit.upload({
+        file: fileBuffer, //required
+        fileName: fileName,  //required
+        folder: "/survey_headers",
 
+    }).then(async response => {
 
-    try {
-        // Upload the file to ImageKit
-        imagekit.upload({
-            file: fileBuffer, //required
-            fileName: fileName,  //required
-            folder: "/survey_headers",
-
-        }).then(response => {
-
-            Surveys.findOneAndUpdate({ surveyid: surveyid }, { header: response.url }, { new: true }).then(response => {
-                console.log(response);
-            }).catch(error => {
-                console.log(error);
-            })
-
+        //    update survey with image name
+        const survey = await Surveys.findOneAndUpdate({ surveyID: surveyid }, { surveyImage: response.name }, {
+            new: true
+        }).then((survey) => {
+            res.status(200).send(survey);
         }).catch(error => {
             console.log(error);
         });
-        res.status(200).send("Image upload successful");
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Image upload failed");
-    }
+
+    }).catch(error => {
+        console.log(error);
+    });
+
 });
 
 
