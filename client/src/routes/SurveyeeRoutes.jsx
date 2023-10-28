@@ -14,7 +14,6 @@ import SurveyHistory from '../pages/Surveyee/SurveyHistory'
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import { motion } from 'framer-motion'
 import { RiSurveyFill, RiDashboardFill, RiFolderUserFill, RiTicketFill, RiHistoryFill} from 'react-icons/ri';
-import { GiUpgrade } from 'react-icons/gi';
 
 import {
     Navigate
