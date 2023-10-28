@@ -177,7 +177,6 @@ function InitialFocus({ surveyid }) {
                 setMaxDuration(response1.data.maxDuration);
                 setPerQuestionCost(response1.data.perQuestionCost);
                 setQuestionCount(response2.data);
-                alert(response2.data)
             }
 
         } catch (error) {
@@ -541,7 +540,7 @@ const EditSurvey = () => {
                             </Flex>
                             <Flex gap='10px'>
                                 <Button>Suspend</Button>
-                                <Button>Delete</Button>
+
                                 <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
 
                             </Flex>

@@ -23,6 +23,7 @@ import { useDropzone } from 'react-dropzone';
 
 import 'react-image-crop/dist/ReactCrop.css'
 import axios from 'axios'
+import { set } from 'mongoose';
 
 const baseStyle = {
     flex: 1,
@@ -135,7 +136,7 @@ export default function App({ loadImage, surveyId }) {
                 formData.append('image', blob, 'croppedImage.jpg');
 // add survey id to the request
 
-
+                setIsLoading(true)
                 try {
                     const response = await axios.post('http://localhost:3002/api/survey/'+surveyId+'/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } }
                     )
@@ -146,6 +147,7 @@ export default function App({ loadImage, surveyId }) {
                         loadImage(response.data.surveyImage)
                         resetFile()
                         onClose()
+                        setIsLoading(false)
                     } else {
                         // Handle error
                     }
@@ -162,6 +164,7 @@ export default function App({ loadImage, surveyId }) {
         console.log('File dropped!');
     };
 
+    const [isLoading, setIsLoading] = useState(false)
     const resetFile = () => {
         setImgSrc('')
         setShowCropper(false)
@@ -228,7 +231,7 @@ export default function App({ loadImage, surveyId }) {
                             <Button colorScheme='red' mr={3} onClick={resetFile}>
                                 Delete
                             </Button>
-                            <Button colorScheme='blue' onClick={sendCroppedImageToBackend}>Set Image</Button>
+                            <Button isLoading={isLoading} colorScheme='blue' onClick={sendCroppedImageToBackend}>Set Image</Button>
                         </ModalFooter> : null
                     }
 
