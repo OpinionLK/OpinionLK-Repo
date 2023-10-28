@@ -1,15 +1,22 @@
-import express, {application} from 'express';
+import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
+
+
 import {
     getAllSurveys,
     getSurveysByCreator,
-
+    getSurveyToReview,
+    getQuestionCount,
     createResponse,
+    getResponseCount,
+    getQuestionToReview,
     addSurveyPoints,
+    insertComment,
     ChangeSurveyState,
     createSurvey,
     getSurveyBySurveyId,
     addQuestion,
+    getPlatformData,
     getSurveytoEdit,
     getQuestionToEdit,
     editQuestion,
@@ -32,7 +39,7 @@ const imagekit = new ImageKit(
 
 const upload = multer()
 
-import {requireAuth} from '../middleware/requireAuth.js'
+import { requireAuth } from '../middleware/requireAuth.js'
 
 
 const router = express.Router();
@@ -47,50 +54,53 @@ router.get('/all', getAllSurveys); //get all surveys
 
 
 router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
+router.get('/getquestiontoreview/:surveyid', getQuestionToReview); //get question to review
+router.get('/getSurveyToReview/:surveyid', getSurveyToReview); //get survey to edit
 router.put('/editquestion/:surveyid/:questionid', editQuestion); //send edited question data
 router.get('/getQuestion/:surveyid/:questionid', getQuestionToEdit); //get the question data for editing
 router.post('/addQuestion/:surveyid', addQuestion); //add a question to the survey
 router.put('/deleteQuestion/:surveyid', deleteQuestion); //delete a question
 router.post('/create', createSurvey); //create a survey
 router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
+router.get('/getresponsecount/:surveyid', getResponseCount); //get response count
+router.get('/getplatformdata', getPlatformData);
+router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question count
+
+router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 
 
 
+router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {
 
-router.post("/imageUpload", upload.single("file"), async (req, res) => {
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
-    const surveyid = req.body.surveyid;
-    
+    const surveyid = req.params.surveyid;
+console.log(surveyid);
     console.log(fileName);
-// console.log(fileBuffer);
-  
-    try {
-      // Upload the file to ImageKit
-      imagekit.upload({
-        file :  fileBuffer, //required
-        fileName : fileName,  //required
-        folder : "/survey_headers",
-        
-    }).then(response => {
+    // Upload the file to ImageKit
+    imagekit.upload({
+        file: fileBuffer, //required
+        fileName: fileName,  //required
+        folder: "/survey_headers",
 
-        Surveys.findOneAndUpdate({surveyid: surveyid}, {header: response.url}, {new: true}).then(response => {
-            console.log(response);
+    }).then(async response => {
+
+        //    update survey with image name
+        const survey = await Surveys.findOneAndUpdate({ surveyID: surveyid }, { surveyImage: response.name }, {
+            new: true
+        }).then((survey) => {
+            res.status(200).send(survey);
         }).catch(error => {
             console.log(error);
-        })
+        });
+
 
     }).catch(error => {
         console.log(error);
     });
-        res.status(200).send("Image upload successful");
 
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Image upload failed");
-    }
-  });
+});
 
 
 export default router;

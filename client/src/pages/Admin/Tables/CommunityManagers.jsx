@@ -36,7 +36,22 @@ import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
 import { useState, useEffect,useRef  } from 'react';
 import axios from 'axios';
 
+
+const FormField = ({ label, children }) => {
+  return (
+    <FormControl display="flex" alignItems="center">
+      <FormLabel marginRight="1rem" width="120px">
+        {label}
+      </FormLabel>
+      <Flex flexDirection="column" width="100%" gap="10px">
+        {children}
+      </Flex>
+    </FormControl>
+  );
+};
+
 const CommunityManagers = () => {
+  
   const [communityManagers, setCommunityManagers] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     isOpen: false,
@@ -60,22 +75,22 @@ const CommunityManagers = () => {
   };
 
 
-  //Fetch Community Managers Data
+  //Fetch Community Managers Data    
+  const fetchCommunityManagers = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:3002/api/auth/getmembers'
+        );
+        const data = response.data;
+        setCommunityManagers(data);
+      } catch (error) {
+        console.error('Error fetching community managers:', error);
+      }
+    };
+
     useEffect(() => {
-        fetchCommunityManagers();
-      }, []);
-      
-    const fetchCommunityManagers = async () => {
-        try {
-          const response = await axios.get(
-            'http://localhost:3002/api/auth/getmembers'
-          );
-          const data = response.data;
-          setCommunityManagers(data);
-        } catch (error) {
-          console.error('Error fetching community managers:', error);
-        }
-      };
+      fetchCommunityManagers();
+    }, []);
 
     //Get Total Community Managers
     const getTotalCommunityManagers = () => {
@@ -97,7 +112,7 @@ const CommunityManagers = () => {
     const [editedValues, setEditedValues] = useState({});
 
     const handleEditInputChange = (key, value) => {
-        setEditedValues({ ...editedValues, [key]: value });                   //editedValues is the new state
+      setEditedValues({ ...editedValues, [key]: value });
     };
 
     const closePopup = () => {
@@ -193,21 +208,6 @@ const nicValidation12 = /^[0-9]{12}$/;
         }
     };
 
-    //Custom Form Field Component
-    const FormField = ({ label, children }) => {
-        return (
-          <FormControl display="flex" alignItems="center">
-            <FormLabel marginRight="1rem" width="120px">
-              {label}
-            </FormLabel>
-            <Flex flexDirection="column" width="100%" gap="10px">
-              {children}
-            </Flex>
-          </FormControl>
-        );
-      };
-    
-
     return (
         <>
           <AlertDialog
@@ -262,7 +262,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                 </CardHeader>
                 <hr />
                 <CardBody>
-                    <TableContainer>
+                    <TableContainer w={'100%'}>
                     <Table variant="striped" colorScheme='gray' size={'sm'}>
                         <TableCaption>
                           Total Community Managers: {getTotalCommunityManagers()}
@@ -275,7 +275,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                             <Th>Email</Th>
                             <Th>Phone</Th>
                             <Th>NIC</Th>
-                            <Th>Actions</Th>
+                            <Th mr={'-30px'}>Actions</Th>
                         </Tr>
                         </Thead>
                         <Tbody fontSize={'sm'}>
@@ -304,10 +304,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                                     onClick={() => comEditPopup(manager._id)}
                                 />
                                 <IconButton
-                                    // colorScheme="teal"
-                                    bg={'purple.500'}
-                                    color={'#fff'}
-                                    _hover={{ bg: 'purple.400' }}
+                                    colorScheme="red"
                                     aria-label="Delete"
                                     size="sm"
                                     icon={<DeleteIcon />}
@@ -356,10 +353,10 @@ const nicValidation12 = /^[0-9]{12}$/;
               <HStack justifyContent={'space-between'} mb={'20px'}>
                 <Heading size={'md'}>Update Details</Heading>
                 <IconButton
-                  colorScheme="purple"
+                  colorScheme="gray"
                   borderRadius={'10px'}
                   // bg={'gray.200'}
-                  color={'#fff'}
+                  color={'gray'}
                   aria-label="Call Segun"
                   size="sm"
                   icon={<CloseIcon />}
@@ -384,7 +381,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerFirstName"
-                        value={editedValues.ManagerFirstName || selectedManager.ManagerFirstName}
+                        placeholder={editedValues.ManagerFirstName}
+                        value={editedValues.ManagerFirstName !== undefined ? editedValues.ManagerFirstName : selectedManager.ManagerFirstName}
                         onChange={e => handleEditInputChange('ManagerFirstName', e.target.value)}
                       />
                     </FormField>
@@ -392,7 +390,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerLastName"
-                        value={editedValues.ManagerLastName || selectedManager.ManagerLastName}
+                        placeholder={editedValues.ManagerLastName}
+                        value={editedValues.ManagerLastName !== undefined ? editedValues.ManagerLastName : selectedManager.ManagerLastName}
                         onChange={e => handleEditInputChange('ManagerLastName', e.target.value)}
                       />
                     </FormField>
@@ -401,14 +400,14 @@ const nicValidation12 = /^[0-9]{12}$/;
                         type="text"
                         placeholder="Line 1"
                         name="ManagerAddLine1"
-                        value={editedValues.ManagerAddLine1 || selectedManager.ManagerAddLine1}
+                        value={editedValues.ManagerAddLine1 !== undefined ? editedValues.ManagerAddLine1 : selectedManager.ManagerAddLine1}
                         onChange={e => handleEditInputChange('ManagerAddLine1', e.target.value)}
                       />
                       <Input
                         type="text"
                         placeholder="Line 2"
                         name="ManagerAddLine2"
-                        value={editedValues.ManagerAddLine2 || selectedManager.ManagerAddLine2}
+                        value={editedValues.ManagerAddLine2 !== undefined ? editedValues.ManagerAddLine2 : selectedManager.ManagerAddLine2}
                         onChange={e => handleEditInputChange('ManagerAddLine2', e.target.value)}
                       />
                     </FormField>
@@ -416,7 +415,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerDistrict"
-                        value={editedValues.ManagerDistrict || selectedManager.ManagerDistrict}
+                        placeholder={editedValues.ManagerDistrict}
+                        value={editedValues.ManagerDistrict !== undefined ? editedValues.ManagerDistrict : selectedManager.ManagerDistrict}
                         onChange={e => handleEditInputChange('ManagerDistrict', e.target.value)}
                       />
                     </FormField>
@@ -424,7 +424,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="email"
                         name="ManagerEmail"
-                        value={editedValues.ManagerEmail || selectedManager.ManagerEmail}
+                        placeholder={editedValues.ManagerEmail}
+                        value={editedValues.ManagerEmail !== undefined ? editedValues.ManagerEmail : selectedManager.ManagerEmail}
                         onChange={e => handleEditInputChange('ManagerEmail', e.target.value)}
                       />
                     </FormField>
@@ -432,7 +433,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="tel"
                         name="ManagerPhone"
-                        value={editedValues.ManagerPhone || selectedManager.ManagerPhone}
+                        placeholder={editedValues.ManagerPhone}
+                        value={editedValues.ManagerPhone !== undefined ? editedValues.ManagerPhone : selectedManager.ManagerPhone}
                         onChange={e => handleEditInputChange('ManagerPhone', e.target.value)}
                       />
                     </FormField>
@@ -440,7 +442,8 @@ const nicValidation12 = /^[0-9]{12}$/;
                       <Input
                         type="text"
                         name="ManagerNic"
-                        value={editedValues.ManagerNic || selectedManager.ManagerNic}
+                        placeholder={editedValues.ManagerNic}
+                        value={editedValues.ManagerNic !== undefined ? editedValues.ManagerNic : selectedManager.ManagerNic}
                         onChange={e => handleEditInputChange('ManagerNic', e.target.value)}
                       />
                     </FormField>
@@ -451,7 +454,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                   name="submit"
                   align={'right'}
                   width={'100px'}
-                  colorScheme="green"
+                  colorScheme="purple"
                   type="submit"
                 >
                   Update

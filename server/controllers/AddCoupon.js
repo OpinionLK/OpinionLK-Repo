@@ -19,9 +19,8 @@ export const GetCoupons = async (_, res) => {
 export const CreateCoupon = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
-    }else {
-        console.log(req.file);
     }
+
     var imagekit = new ImageKit({
         publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
         privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -29,53 +28,67 @@ export const CreateCoupon = async (req, res) => {
     });
 
     const imageFile = req.file;
-    const imageUploadRes = imagekit.upload({
-        file: imageFile.buffer.toString("base64"),
-        fileName: imageFile.originalname,
-        folder: "/couponImages",
-        transformation:[
-            {
-                "height": "300",
-                "width": "300"
-            }
-        ],
-    });
-
-    const coupon = req.body;
-    if (
-        !coupon.CouponName ||
-        !coupon.CouponCode ||
-        !coupon.Description ||
-        !coupon.StartDate ||
-        !coupon.Points ||
-        !coupon.EndDate ||
-        !coupon.Status ||
-        !coupon.Count ||
-        !coupon.CompanyName
-    ) {
-        return res.status(400).json({ message: 'Please fill all the fields' });
-    }
-    const newCoupon = new Coupons({
-        CouponName: coupon.CouponName,
-        CouponCode: coupon.CouponCode,
-        Description: coupon.Description,
-        StartDate: coupon.StartDate,
-        Points : coupon.Points ,
-        EndDate: coupon.EndDate,
-        Status: coupon.Status,
-        Count: coupon.Count,
-        CompanyName: coupon.CompanyName,
-        CouponImage: imageUploadRes.url,
-    });
 
     try {
+        const imageUploadRes = await new Promise((resolve, reject) => {
+            imagekit.upload({
+                file: imageFile.buffer.toString("base64"),
+                fileName: imageFile.originalname,
+                folder: "/couponImages",
+                transformation: [
+                    {
+                        "height": "300",
+                        "width": "300"
+                    }
+                ]
+            }, (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        const coupon = req.body;
+        if (
+            !coupon.CouponName ||
+            !coupon.CouponCode ||
+            !coupon.Description ||
+            !coupon.StartDate ||
+            !coupon.Points ||
+            !coupon.EndDate ||
+            !coupon.Status ||
+            !coupon.Count ||
+            !coupon.CompanyName
+        ) {
+            return res.status(400).json({ message: 'Please fill all the fields' });
+        }
+
+        const newCoupon = new Coupons({
+            CouponName: coupon.CouponName,
+            CouponCode: coupon.CouponCode,
+            Description: coupon.Description,
+            StartDate: coupon.StartDate,
+            Points: coupon.Points,
+            EndDate: coupon.EndDate,
+            Status: coupon.Status,
+            Count: coupon.Count,
+            CompanyName: coupon.CompanyName,
+            CouponImage: imageUploadRes.url,
+        });
+
+        console.log(imageUploadRes.url);
+
         await newCoupon.save();
+
         res.status(201).json(newCoupon);
-    }
-    catch (error) {
+    } catch (error) {
+        console.error("Error creating coupon:", error);
         res.status(409).json({ message: error.message });
     }
 };
+
 
 export const UpdateCoupon = async (req,res) => {
     try{
