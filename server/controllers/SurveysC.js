@@ -248,30 +248,105 @@ export const ChangeSurveyState = async (req, res) => {
         const commanager = await ComManagerModel.find({ _id: id });
 
         console.log(survey[0].creatorID);
-        // if (survey[0].creatorID !== id || !commanager) {
-        //     return res.status(401).json({ error: 'Unauthorized' });
-        // }
+
 
         const { surveyid } = req.params;
         const { state } = req.body;
-        console.log('Survey id ' + surveyid);
-        console.log('Survey state ' + state);
 
-        const resp = await Surveys.updateOne(
-            { surveyID: surveyid },
-            { $set: { approvalStatus: state } }
-        );
+        if (state === 'pending') {
+            const { estCost, duration, endCriteria, userTag } = req.body;
+            if (endCriteria === 'duration')
+                console.log('duration');
+            if (endCriteria === 'responses') {
+                console.log('responses');
+                const { response } = req.body;
+                console.log(response);
+            }
+            const resp = await Surveys.updateOne(
+                { surveyID: surveyid },
+                { $set: { approvalStatus: 'pending', estimatedCost: estCost, duration: duration, endCriteria: endCriteria, userTags: userTag } }
+            );
+            if (resp.Modified > 0) {
+                res.status(404).json({ message: "Survey not found." });
+            } else {
+                res.status(200).json({
+                    message: "Survey state changed successfully.",
+                    data: resp
 
-
-        if (resp.Modified > 0) {
-            res.status(404).json({ message: "Survey not found." });
-        } else {
-            res.status(200).json({
-                message: "Survey state changed successfully.",
-                data: resp
-
-            });
+                });
+            }
         }
+        if (state === 'approved') {
+            const resp = await Surveys.updateOne(
+                { surveyID: surveyid },
+                { $set: { approvalStatus: 'approved' } }
+            );
+            if (resp.Modified > 0) {
+                res.status(404).json({ message: "Survey not found." });
+            } else {
+                res.status(200).json({
+                    message: "Survey state changed successfully.",
+                    data: resp
+
+                });
+            }
+        }
+        if (state === 'rejected') {
+            const { rejectionComment } = req.body;
+            const resp = await Surveys.updateOne(
+                { surveyID: surveyid },
+                { $set: { approvalStatus: 'rejected', rejectionComment: rejectionComment } }
+            );
+            if (resp.Modified > 0) {
+                res.status(404).json({ message: "Survey not found." });
+            } else {
+                res.status(200).json({
+                    message: "Survey state changed successfully.",
+                    data: resp
+
+                });
+            }
+        }
+        if (state === 'suspend') {
+            const resp = await Surveys.updateOne(
+                { surveyID: surveyid },
+                { $set: { approvalStatus: 'suspend' } }
+            );
+            if (resp.Modified > 0) {
+                res.status(404).json({ message: "Survey not found." });
+            } else {
+                res.status(200).json({
+                    message: "Survey state changed successfully.",
+                    data: resp
+
+                });
+            }
+        }
+
+        if (state === 'active') {
+            // get survey duration from db and set expiration date from time of activation
+            const duration = await Surveys.find({ surveyID: surveyid }, { duration: 1, _id: 0 });
+            console.log(duration);
+            const expiration_date = Date.now() + duration * 86400000;
+            console.log(expiration_date);
+            const resp = await Surveys.updateOne(
+                { surveyID: surveyid },
+                { $set: { approvalStatus: 'active', expiration_date: expiration_date } }
+            );
+            if (resp.Modified > 0) {
+                res.status(404).json({ message: "Survey not found." });
+            } else {
+                res.status(200).json({
+                    message: "Survey state changed successfully.",
+                    data: resp
+
+                });
+            }
+        }
+
+
+
+       
     }
     catch (error) {
         res.status(500).json({ message: "An error occurred." });
