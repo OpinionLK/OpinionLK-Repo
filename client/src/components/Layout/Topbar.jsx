@@ -99,6 +99,7 @@ const Topbar = () => {
                                 _hover={{
                                     textDecoration: 'none',
                                     bgColor: '#eae9ff',
+                                    cursor: 'pointer',
                                 }}
                                 _active={{
                                     bgColor: '#c0bdef',
@@ -112,6 +113,7 @@ const Topbar = () => {
                                     <Text py={1} pb={3}>{user.email}</Text>
                                     <Divider />
                                 </span>
+
                                 <MenuGroup title='Profile'>
                                     <MenuItem>My Account</MenuItem>
                                     <MenuItem onClick={() => {
