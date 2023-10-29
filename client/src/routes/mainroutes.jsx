@@ -10,8 +10,6 @@ import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
 // import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
-
-
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
 import adminRoutes from './adminRoutes';

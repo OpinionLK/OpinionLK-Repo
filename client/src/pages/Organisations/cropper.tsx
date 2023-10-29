@@ -18,12 +18,9 @@ import {
     ModalBody,
     useDisclosure
 } from '@chakra-ui/react'
-
 import { useDropzone } from 'react-dropzone';
-
 import 'react-image-crop/dist/ReactCrop.css'
 import axios from 'axios'
-import { set } from 'mongoose';
 
 const baseStyle = {
     flex: 1,

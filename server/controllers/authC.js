@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import { Clients } from '../models/Client.js';
 import ComManager from '../models/ComManagerModel.js';
 import Admin from '../models/Admin.js';
+import nodemailer from 'nodemailer';
 
 // Sign up user
 export const SignUp = async (req, res) => {
@@ -11,6 +12,48 @@ export const SignUp = async (req, res) => {
     console.log('Received signup request:', req.body);
     // Check if the user already exists
     const { firstName, lastName, email, password } = req.body;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
+      },
+      tls: {
+          rejectUnauthorized: false
+        }
+    });
+
+    const mailOptions = {
+      from:{
+          name: 'Opinion.lk',
+          address: process.env.USER
+      },
+      to: email, 
+      subject: "Welcome to OpinionLK",
+      text: `Hello ${firstName} ${lastName},\n\nWelcome to OpinionLK! We're thrilled to have you on board. It's time to connect with us and join the OpinionLK community.`,
+      html: `<p>Hello ${firstName} ${lastName},</p><p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='https://opinionlk.me'>log into your account </a> and join the OpinionLK community.</p>`,
+      // attachments: [
+      //     {
+      //       filename: 'simple.png',
+      //       path: './simple.png',
+      //       contentType: 'image/png'
+      //     }
+      //   ]
+      }
+
+      const sendMail = async (transporter,mailOptions) => {
+          try {
+              const info = await transporter.sendMail(mailOptions);
+              console.log(info);
+              res.status(200).json({"message": "Email sent successfully"}); // "Email sent successfully"
+          } catch (error) {
+              console.log(error);
+              res.status(500).json({"message": "Email sent failed"}); // "Email sent failed"
+          }
+      }
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ error: 'User already exists' });
@@ -30,6 +73,7 @@ export const SignUp = async (req, res) => {
         expiresIn: '1h'
       }
     );
+    sendMail(transporter,mailOptions);
     res.status(200).json({ email, token });
   }
 
