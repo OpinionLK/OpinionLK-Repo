@@ -2,6 +2,11 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "tsConfig": "tsconfig.app.json",
+  "aot": true,
+  "assets": [
+    "src/web.config"
+],
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.8.0",

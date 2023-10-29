@@ -1,25 +1,17 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Text,
     Stack,
     Box,
     Heading,
-    Button,
     Image,
     Flex,
     Spacer,
-    HStack,
     Tag,
     TagLabel,
-    TagRightIcon,
     Wrap,
 } from '@chakra-ui/react'
-
 // import { NavLink } from "react-router-dom";
-import sampleCard from '../../images/sample-card.png'
 import SurveyPopup from './SurveyPopup'
 
 const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) => {

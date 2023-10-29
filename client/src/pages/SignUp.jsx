@@ -30,6 +30,7 @@ import { ArrowBackIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import signupImage from '../assets/images/client_signup.jpg';
+import config from '../config';
 import tcImage from '../assets/images/landing/logo-Dark.svg';
 
 
@@ -51,7 +52,7 @@ const SignUp = () => {
 
 
     try {
-      const json = await axios.post('http://localhost:3002/api/auth/signup', {
+      const json = await axios.post(`${config.backendUrl}/api/auth/signup`, {
         firstName,
         lastName,
         email,
