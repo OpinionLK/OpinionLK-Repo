@@ -1,4 +1,20 @@
 # OpinionLK-Repo
 
+## Appendix
+To update Swagger UI, run the following command:
 
-Run npm run swagger-autogen to update Swagger UI
+```
+npm run swagger-autogen
+```
+
+Setting up .env file
+
+```
+npm install dotenv
+```
+
+Setting up Email server 
+
+```
+npm install nodemailer
+```
