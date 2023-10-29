@@ -259,6 +259,19 @@ const nicValidation12 = /^[0-9]{12}$/;
                         // value ={filterText}
                         />
                     </Box>
+                    <Box 
+                      colorScheme={'purple'} 
+                      ml={'auto'} 
+                      size={'sm'}
+                      bg={'purple.400'}
+                      fontSize={'14px'}
+                      fontWeight={'bold'}
+                      color={'whiteAlpha.900'}
+                      borderRadius={5}
+                      p={2}
+                    >
+                      Total Community Managers: {getTotalCommunityManagers()}
+                    </Box>
                 </CardHeader>
                 <hr />
                 <CardBody>

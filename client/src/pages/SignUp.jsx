@@ -115,7 +115,9 @@ const SignUp = () => {
         <Stack spacing={8} width={'80%'}>
           <Flex id='back' width={'100%'}>
             <Link to="/">
-              <ArrowBackIcon /> <u>Return to Home</u>
+            <Button fontWeight={500}>
+              <ArrowBackIcon /> Return to Home
+              </Button>
             </Link>
           </Flex>
           <Stack id='SignUpHeader' align={'left'}>
@@ -205,10 +207,10 @@ const SignUp = () => {
             </form>
             <Stack id='footer' pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'blue.400'} to="/login">Login</Link>
+                Already a user? <Link color={'blue.400'} to="/login"><u>Login</u> <ExternalLinkIcon mx='2px' /></Link>
               </Text>
               <Text align={'center'}>
-                <Link color={'blue.400'} to="/client/signup">Sign up as a Client</Link>
+                <Link color={'blue.400'} to="/client/signup">Sign up as a <u>Client</u> <ExternalLinkIcon mx='2px' /></Link>
               </Text>
             </Stack>
           </Stack>
@@ -252,7 +254,6 @@ const SignUp = () => {
         </Stack>
       </Flex >
       {/* ================================================== terms and condition popup ====================================== */}
-
       <Modal
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
@@ -265,7 +266,7 @@ const SignUp = () => {
           content: {
             width: '50%',
             minHeight: 'fit-content',
-            height: '50%',
+            height: '65%',
             margin: 'auto',
             marginTop: '5%',
             borderRadius: '0px',
@@ -360,7 +361,6 @@ const SignUp = () => {
           Close
         </Button>
       </Modal>
-
     </Stack >
   );
 };

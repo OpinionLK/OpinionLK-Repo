@@ -71,13 +71,14 @@ const Dashboard = ({ sidebarLinks }) => {
                 height={'80vh'}
                 position={'fixed'}
                 overflow={'auto'}
+                mt={'20px'}
                 p={'20px'}
                 transition={'0.3s'}
                 // display={'flex'}
                 // flexDir={'column'}
                 // gap={'20px'}
                 backgroundColor={'brand.dashboardBackground'}
-                zIndex={'0'}
+                zIndex={0}
                 left={navOpen ? '100px' : '274px'}
                 top={'80px'}
             >

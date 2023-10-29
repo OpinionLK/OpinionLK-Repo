@@ -23,8 +23,6 @@ const SurveyHistory = () => {
 
     const [surveyHistory, setSurveyHistory] = useState([]);
 
-
-
     //Fetch survey history
     const fetchSurveyHistory = async () => {
         try {

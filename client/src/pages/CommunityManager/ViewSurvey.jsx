@@ -86,7 +86,7 @@ const ViewSurvey = () => {
 
     return (
         <>
-            <Flex flexDirection={'column'} gap={'20px'} mb={'20px'}>
+            <Flex mt={-5} flexDirection={'column'} gap={'20px'} mb={'20px'}>
                 <Card
                     backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                     backgroundSize={'cover'}
