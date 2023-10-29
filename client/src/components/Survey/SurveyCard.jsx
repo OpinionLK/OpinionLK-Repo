@@ -11,6 +11,7 @@ import {
     TagLabel,
     Wrap,
 } from '@chakra-ui/react'
+// import { NavLink } from "react-router-dom";
 import SurveyPopup from './SurveyPopup'
 
 const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) => {
