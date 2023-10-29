@@ -1,3 +1,4 @@
+import { Int32 } from "mongodb";
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
@@ -34,6 +35,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             enum: ["user", "admin"],
             default: "user"
+        },
+        points: {
+            type: Number,
+            default: 0
         },
     }, {
         timestamps: true,

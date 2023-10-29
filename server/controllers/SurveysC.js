@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-import { Surveys, Mood, Choice, Text } from '../models/Surveys.js';
-
+import Surveys from '../models/Surveys.js';
+import ComManagerModel from '../models/ComManagerModel.js';
+import User from '../models/User.js';
 
 function generateCustomId(length = 8) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -33,35 +34,10 @@ export const getAllSurveys = async (req, res) => {
 }
 
 
-export const checkEditPrivilege = async (req, res) => {
-    const { surveyid } = req.params;
-    const token = req.headers.authorization.split(' ')[1];
 
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
+export const getSurveysByCreator = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
 
-    // verify token
-    const { _id } = jwt.verify(token, 'test');
-
-    try {
-        const survey = await Surveys.find({ surveyID: surveyid });
-        console.log(survey.creatorID);
-        console.log(_id);
-        if (survey.creatorID !== id) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        res.status(200).json({ message: "Authorized" });
-    }
-    catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-
-
-
-}
-
-export const getSurveysByUser = async (req, res) => {
 
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
@@ -82,7 +58,75 @@ export const getSurveysByUser = async (req, res) => {
     }
 }
 
+export const createResponse = async (req, res) => {
+    try {
+      const { surveyid, response } = req.body;
+      const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+        
+        // console.log(surveyid);
+        
+      const responseID = generateCustomId();
+  
+      const newResponse = {
+        responseID: responseID,
+        userID: id,
+        responses: response.responses,
+      };
+      console.log(newResponse);
+
+      // Add the new response to the survey document in the database as an object in the responses array
+      const resp = await Surveys.updateOne(
+        { surveyID: surveyid },
+        { $push: { responses: newResponse } },
+        { new: true }
+      );
+  
+      res.status(200).json({
+        message: 'Response added successfully.',
+        resp: resp,
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Error adding response.', error: error.message });
+    }
+}
+
+export const addSurveyPoints = async (req, res) => {
+    // add points to a user's points where userID = id
+    // points is an integer
+    try{
+        const { points } = req.body;
+        
+        const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        const resp = await User.updateOne(
+            { _id: id },
+            { $inc: { points: points } },
+            // { new: true }
+        );
+
+        res.status(200).json({
+            message: 'Points added successfully.',
+            resp: resp,
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding points.', error: error.message });
+    }
+}
+
 export const createSurvey = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
 
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
@@ -111,39 +155,25 @@ export const createSurvey = async (req, res) => {
     }
 }
 
-export const getSurveytoEdit = async (req, res) => {
+export const getSurveyBySurveyId = async (req, res) => {
+
     const { surveyid } = req.params;
     try {
-        const token = req.headers.authorization.split(' ')[1];
-
-
-        if (!token) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        // verify token
-        const { id } = jwt.verify(token, 'test');
-
-        try {
-            const survey = await Surveys.find({ surveyID: surveyid });
-            console.log(survey[0].creatorID);
-            console.log(id);
-            // console.log(token);
-            if (survey[0].creatorID !== id) {
-                console.log(survey);
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
-            console.log(survey);
-            res.status(200).json(survey);
-        }
-        catch (error) {
-            res.status(404).json({ message: error.message });
-        }
-    } catch (error) {
+        const survey = await Surveys.findOne({ surveyID: surveyid });
+        res.status(200).json(survey);
+    }
+    catch (error) {
         res.status(404).json({ message: error.message });
     }
+
+
 }
 
+
+
 export const addQuestion = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
     const { surveyid } = req.params;
     console.log(req.body);
     const { data } = req.body;
@@ -169,45 +199,22 @@ export const addQuestion = async (req, res) => {
     }
 
     data.questionID = generateCustomId();
-
     console.log(surveyid);
 
-
-
-    // switch (data.responseType) {
-    //     case 'shorttext':
-    //         QuestionSchema = new Text(data);
-    //         break;
-    //     case 'longtext':
-    //         QuestionSchema = new Text(data);
-    //         break;
-    //     case 'singlechoice':
-    //         QuestionSchema = new Choice(data);
-    //         break;
-    //     case 'multiplechoice':
-    //         QuestionSchema = new Choice(data);
-    //         break;
-    //     case 'mood':
-    //         QuestionSchema = new Mood(data);
-    //         console.log(QuestionSchema);
-    //         break;
-    //     default:
-    //         console.log("Invalid response type");
-    //         QuestionSchema = new Text(data);
-    //         break;
-    // }
 
     try {
 
         const resp = await Surveys.updateOne(
             { surveyID: surveyid },
-            { $push: { questions: data } },
-            { new: true }
+            { $push: { questions: data } }
         );
-        console.log(resp);
+
+        const updated = await Surveys.find({ surveyID: surveyid });
+
+
         res.status(200).json({
             message: "Question added successfully.",
-            resp: resp
+            resp: updated
         });
     }
     catch (error) {
@@ -215,8 +222,61 @@ export const addQuestion = async (req, res) => {
     }
 }
 
+export const ChangeSurveyState = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
+    // AUTHORISE USER
+
+    try {
+
+        const token = req.headers.authorization.split(' ')[1];
+        console.log(token);
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // verify token
+
+        const { id } = jwt.verify(token, 'test');
+
+        // check if user is creator of survey
+
+        const survey = await Surveys.find({ surveyID: req.params.surveyid });
+        console.log(survey[0].creatorID);
+        if (survey[0].creatorID !== id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const { surveyid } = req.params;
+        const { state } = req.body;
+        console.log('Survey id ' + surveyid);
+        console.log('Survey state ' + state);
+
+        const resp = await Surveys.updateOne(
+            { surveyID: surveyid },
+            { $set: { approvalStatus: state } }
+        );
+
+
+        if (resp.Modified > 0) {
+            res.status(404).json({ message: "Survey not found." });
+        } else {
+            res.status(200).json({
+                message: "Survey state changed successfully.",
+                data: resp
+
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: "An error occurred." });
+    }
+}
+
 
 export const deleteQuestion = async (req, res) => {
+     // #swagger.tags = ['Organisation', 'Community Manager']
+
     const { surveyid } = req.params;
     const { questionid } = req.body;
     console.log(surveyid);
@@ -245,3 +305,220 @@ export const deleteQuestion = async (req, res) => {
 }
 
 
+
+
+export const getSurveytoEdit = async (req, res) => {
+
+    // #swagger.description = 'Gets survey to edit, checks edit privileges'
+     // #swagger.tags = ['Organisation', 'Community Manager']
+    const { surveyid } = req.params;
+    try {
+
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (!token) {
+            console.log('no token');
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+
+        try {
+            const survey = await Surveys.find({ surveyID: surveyid });
+            const commanager = await ComManagerModel.find({ _id: id });
+
+            if (survey[0].creatorID == id || commanager)  {
+                console.log(survey);
+
+                return res.status(200).json(survey);
+            }else{
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+        }
+        catch (error) {t
+            res.status(404).json({ message: error.message });
+        }
+    } catch (error) {
+        console.log('something went wrong');
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const editQuestion = async (req, res) => {
+
+    const token = req.headers.authorization.split(' ')[1];
+
+    const questionID = req.params.questionid;
+    const surveyid = req.params.surveyid;
+    const data = req.body.data;
+
+    console.log(questionID);
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+
+    try {
+        const survey = await Surveys.find({ surveyID: surveyid });
+        // console.log(survey[0].creatorID);
+        // console.log(id);
+        // console.log(token);
+        if (survey[0].creatorID !== id) {
+            console.log(survey);
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        console.log(data);
+        // update the question in the survey
+
+        let updatedSurvey = null;
+        // get the response type from question id
+
+        const responseType = survey[0].questions.filter((question) => question.questionID === questionID)[0].responseType;
+
+        console.log("A " + responseType);
+        console.log("B " + data.responseType);
+
+        if (data.responseType === responseType) {
+            if (data.responseType === 'shorttext' || data.responseType === 'longtext') {
+                console.log('shorttext editing');
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.textPlaceholder": data.textPlaceholder,
+                            "questions.$.question": data.question,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+
+            if (data.responseType === 'singlechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'multiplechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'mood') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            console.log(updatedSurvey);
+
+        } else {
+            if (data.responseType === 'shorttext' || data.responseType === 'longtext') {
+
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.items": 1,
+                        },
+                        $set: {
+                            "questions.$.textPlaceholder": data.placeholder,
+                            "questions.$.question": data.question,
+                            "questions.$.responseType": data.responseType,
+                        },
+                    },
+                    { new: true }
+                );
+            }
+
+            if (data.responseType === 'singlechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'multiplechoice') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            if (data.responseType === 'mood') {
+                updatedSurvey = await Surveys.findOneAndUpdate(
+                    { surveyID: surveyid, "questions.questionID": questionID },
+                    {
+                        $unset: {
+                            "questions.$.textPlaceholder": 1,
+                        },
+                        $set: {
+                            "questions.$.question": data.question,
+                            "questions.$.items": data.items,
+                            "questions.$.responseType": data.responseType,
+                        }
+                    },
+                    { new: true }
+                );
+            }
+            // console.log(updatedSurvey);
+        }
+        res.status(200).json(updatedSurvey);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+export const getQuestionToEdit = async (req, res) => {
+    const { surveyid, questionid } = req.params;
+    try {
+        // get question from survey
+        const survey = await Surveys.find({ surveyID: surveyid });
+        const question = survey[0].questions.filter((question) => question.questionID === questionid);
+        res.status(200).json(question);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}

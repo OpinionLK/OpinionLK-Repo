@@ -14,7 +14,7 @@ const StatRow = () => {
     const TopStatCardGrid = {
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
-        '&::-webkit-scrollbar': {
+        '&::WebkitScrollbar': {
             width: '0px',
             background: 'transparent',
             display: 'none',
@@ -30,8 +30,8 @@ const StatRow = () => {
             <StatCard/>
             <StatCard/>
             <StatCard/>
-            <StatCard/>
-            <StatCard/>
+            {/* <StatCard/>
+            <StatCard/> */}
         </Grid>
     )
 }

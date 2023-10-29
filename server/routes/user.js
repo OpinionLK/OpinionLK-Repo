@@ -7,10 +7,17 @@ import {
     userData
 } from '../controllers/UserC.js';
 
+import{
+    getAllCoupons,
+    getMyCoupons,
+} from '../controllers/Coupons.js'
+
 const router = express.Router();
 
 router.get('/allsurveys', getAllSurveys);
 router.get('/userdata', userData);
+router.get('/getAllCoupons', getAllCoupons);
+router.get('/getMyCoupons', getMyCoupons);
 
 
-export default router;
+export default router; 

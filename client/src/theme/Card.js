@@ -8,7 +8,7 @@ const baseStyle = definePartsStyle({
   // define the part you're going to style
   container: {
     // backgroundColor: '#e7e7e7',
-    borderRadius: '15px',
+
   },
   header: {
     // paddingBottom: '2px',

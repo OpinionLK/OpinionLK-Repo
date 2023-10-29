@@ -1,9 +1,11 @@
-import { 
+import {
     Grid,
     Box,
     GridItem,
+    Wrap,
  } from '@chakra-ui/react'
-import React from 'react'
+ import React, { useEffect, useState } from 'react'
+ import axios from 'axios'
 import StatRow from '../../components/Stats/StatRow'
 // import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 // import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
@@ -11,6 +13,7 @@ import StatRow from '../../components/Stats/StatRow'
 import StatCard from '../../components/Stats/Organization/DiscoverCard';
 import CouponBoard from '../../components/Surveyee/PopularCoupons';
 import SurveyRow from '../../components/Survey/SurveyRow';
+import SurveyCard from '../../components/Survey/SurveyCard';
 
 // import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Serydashboard = () => {
@@ -22,10 +25,28 @@ const Serydashboard = () => {
         paddingBottom: '20px',
     }
 
+    const [surveys, setSurveys] = useState([])
+
+  useEffect(() => {
+    // fetch surveys
+    const fetchSurveys = async () => {
+      try {
+        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
+        console.log(response.data)
+        setSurveys(response.data)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchSurveys()
+  }, [])
+
     return (
-        <>
-            <Box style={style}>
-                <StatRow /> {/* This is the row of cards at the top of the page */}
+
+        <Box style={style}>
+
 
                 <Grid templateColumns="repeat(3, 1fr)">
                     <GridItem colSpan={2}>
@@ -39,13 +60,27 @@ const Serydashboard = () => {
                         </Grid>
                     </GridItem>
                     <GridItem colSpan={2} mt={5} mr={5}>
-                        <SurveyRow />
-                    </GridItem>
+                        <SurveyRow 
+                            surveys = {surveys}
+                        />
+                        {/* <Box
+                            width="auto"
+                            px={5}
+                            pb='4'
+                            minW='1000px'
+                        >
+                            <Wrap spacing='30px'>
+                                <SurveyCard />
+                                <SurveyCard />
+                                <SurveyCard />
+                                <SurveyCard />
+                            </Wrap>
+                        </Box> */}
+                </GridItem>
 
-                </Grid>
-                
-            </Box>
-        </>
+            </Grid>
+
+        </Box>
     )
 }
 
