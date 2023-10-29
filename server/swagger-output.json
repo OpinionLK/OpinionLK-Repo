@@ -316,9 +316,9 @@
     "/api/client/clientdata": {
       "get": {
         "tags": [
-          "Organisation"
+          "User"
         ],
-        "description": "Endpoint to get organisation data",
+        "description": "Endpoint to get user data",
         "parameters": [
           {
             "name": "authorization",
@@ -480,7 +480,7 @@
         }
       }
     },
-    "/api/survey/getsurvey/{surveyid}": {
+    "/api/survey/getsurveytoedit/{surveyid}": {
       "get": {
         "tags": [
           "Organisation",
@@ -750,9 +750,26 @@
     "/api/survey/imageUpload": {
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "surveyid": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
