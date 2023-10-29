@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useAuthContext } from '../hooks/useAuthContext'
 import LoginImage from '../assets/images/q.png'
+import config from '../config'
 
 const Login = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
@@ -30,7 +31,7 @@ const Login = () => {
     async function submit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3002/api/auth/login", {
+            const response = await axios.post(`${config.backendUrl}/api/auth/login`, {
                 email, password
             });
             console.log(response);

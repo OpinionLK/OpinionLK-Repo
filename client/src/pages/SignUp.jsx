@@ -27,7 +27,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import signupImage from '../assets/images/client_signup.jpg';
-
+import config from '../config';
 
 const SignUp = () => {
   const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
@@ -46,7 +46,7 @@ const SignUp = () => {
 
 
     try {
-      const json = await axios.post('http://localhost:3002/api/auth/signup', {
+      const json = await axios.post('${config.backendUrl}/api/auth/signup', {
         firstName,
         lastName,
         email,
