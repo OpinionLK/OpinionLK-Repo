@@ -11,4 +11,4 @@ const ViewSurveys = () => {
   )
 }
 
-export default ViewSurveys
+export default ViewSurveys;
