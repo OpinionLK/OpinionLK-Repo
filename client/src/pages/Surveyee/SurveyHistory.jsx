@@ -23,12 +23,22 @@ const SurveyHistory = () => {
 
     const [surveyHistory, setSurveyHistory] = useState([]);
 
+
+
     //Fetch survey history
     const fetchSurveyHistory = async () => {
         try {
-            const res = await axios.get('http://localhost:3002/api/user/surveyHistory');
+            // send security token to backend with the header
+            const token = "test"; // replace with your token
+            const res = await axios.get('http://localhost:3002/api/user/surveyHistory', {
+                headers: { 'Authorization': `Bearer ${token}` },
+                //send user id to backend
+                params: {
+                    _id: '653cbbcdcece5a81436d38e0',
+                }
+            });
             const data = res.data;
-            console.log(data);
+            console.log("Hello this is a test: ",data);
             const updatedSurveyHistory = data.map((survey) => ({
                 surveyName: survey.surveyName,
                 surveyDescription: survey.surveyDescription,
@@ -44,6 +54,12 @@ const SurveyHistory = () => {
     useEffect(() => {
         fetchSurveyHistory();
     }, []);
+
+    //Calculate total surveys
+
+    const totalSurveys = () => {
+        return surveyHistory.length;
+    }
 
 
     return (
@@ -67,7 +83,7 @@ const SurveyHistory = () => {
                 <CardBody>
                 <TableContainer>
                     <Table variant='simple'>
-                        <TableCaption>Total Surveys</TableCaption>
+                        <TableCaption m={'0 auto'} mt={5} bg={'purple.400'} borderRadius={5} color={'whiteAlpha.900'} w={'fit-content'}>Total Surveys: {totalSurveys()}</TableCaption>
                         <Thead>
                         <Tr>
                             <Th>Survey Name</Th>
@@ -78,7 +94,7 @@ const SurveyHistory = () => {
                         </Thead>
                         <Tbody fontSize={14}>
                             {surveyHistory.map((survey) => (
-                                <Tr>
+                                <Tr borderRadius={10} _hover={{cursor: 'pointer', backgroundColor: 'purple.100'}}>
                                     <Td>{survey.surveyName}</Td>
                                     <Td>{survey.surveyDescription}</Td>
                                     <Td>{survey.dateSubmitted}</Td>

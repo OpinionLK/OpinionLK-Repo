@@ -74,11 +74,15 @@ export const createResponse = async (req, res) => {
 
         const responseID = generateCustomId();
 
+        const now = new Date();
+        const nowLocal = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+        const created_date = nowLocal.toISOString().slice(0,19).replace("T", " ");
+
         const newResponse = {
             responseID: responseID,
             userID: id,
             responses: response.responses,
-            created_date: Date.now(),
+            created_date: created_date,
         };
         console.log(newResponse);
 

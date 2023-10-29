@@ -309,7 +309,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                                     size="sm"
                                     icon={<DeleteIcon />}
                                     onClick={() => onDeleteConfirmationOpen(manager._id)}
-                                                                    />
+                                />
                                 </HStack>
                             </Td>
                             </Tr>
