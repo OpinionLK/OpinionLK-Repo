@@ -46,7 +46,7 @@ const SignUp = () => {
 
 
     try {
-      const json = await axios.post('${config.backendUrl}/api/auth/signup', {
+      const json = await axios.post(`${config.backendUrl}/api/auth/signup`, {
         firstName,
         lastName,
         email,
