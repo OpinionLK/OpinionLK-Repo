@@ -1,7 +1,4 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Text,
     Button,
@@ -20,12 +17,11 @@ import {
     Tag,
     TagLabel,
     Wrap, 
-    WrapItem,
 } from '@chakra-ui/react'
 
 // import { NavLink } from "react-router-dom";
 import sampleCard from '../../images/sample-card.png'
-
+// eslint-disable-next-line
 export default function SurveyPopup({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (

@@ -1,26 +1,13 @@
 import React from 'react'
-// import './style.css'
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
     Flex,
     Spacer,
     IconButton
 } from '@chakra-ui/react'
-// import { NavLink } from "react-router-dom";
-import {Line, Pie, Doughnut, Bar} from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import { Bar} from 'react-chartjs-2';
 import { FaChartBar } from 'react-icons/fa'
 
 const state = {

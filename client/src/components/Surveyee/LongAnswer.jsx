@@ -1,32 +1,14 @@
 import useFormContext from "../../hooks/useFormContext"
 import React from 'react'
-
-// import './style.css'
-
 import { 
-    Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
-    Stack,
-    StackDivider,
     Box,
     Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
-    Flex,
-    IconButton,
     Input 
 } from '@chakra-ui/react'
-import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
-
-import BackButton from '../../images/backButton.png'
-
 const LongAnswer = ({question, onChange}) => {
+    // eslint-disable-next-line
     const [value, setValue] = React.useState('1')
+    // eslint-disable-next-line
     const { data, handleChange } = useFormContext()
     return (
 

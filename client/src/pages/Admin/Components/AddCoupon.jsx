@@ -26,11 +26,11 @@ import {
     import Modal from 'react-modal';
     import { FaUpload } from 'react-icons/fa'; 
     import axios from 'axios';
-    import ImageKit from 'imagekit-javascript';
 
 const AddCoupon = () => {
-
+        // eslint-disable-next-line
     const [isSuccess, setIsSuccess] = useState(false);
+        // eslint-disable-next-line
     const [switchValue, setSwitchValue] = useState(false);
     
     const CloseIcon = () => (

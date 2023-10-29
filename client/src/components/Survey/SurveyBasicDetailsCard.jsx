@@ -1,32 +1,9 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
-    Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
     Flex,
-    Spacer,
-    HStack,
-    Tag,
-    TagLabel,
-    TagRightIcon,
 } from '@chakra-ui/react'
-
-// import { NavLink } from "react-router-dom";
-import sampleCard from '../../images/sample-card.png'
-
 const SurveyCard = () => {
     return (
 

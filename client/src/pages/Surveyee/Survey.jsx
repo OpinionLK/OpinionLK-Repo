@@ -6,8 +6,7 @@ import MultipleChoice from "../../components/Surveyee/MultipleChoice";
 import LongAnswer from "../../components/Surveyee/LongAnswer"
 import ShortAnswer from "../../components/Surveyee/ShortAnswer"
 import { useParams, useNavigate  } from 'react-router-dom';
-
-import { Button, Text, Heading } from '@chakra-ui/react'
+import { Button, Heading } from '@chakra-ui/react'
 
 // Your component
 export default function Survey() {
@@ -19,6 +18,7 @@ export default function Survey() {
   const navigate = useNavigate();
 
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 

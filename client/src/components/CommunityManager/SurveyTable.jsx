@@ -23,22 +23,24 @@ import {
     TableContainer,
     Button,
 } from '@chakra-ui/react'
-import axios from 'axios';
 import Status from '../../components/Status.jsx';
 import { useDisclosure } from '@chakra-ui/react';
 
 const SurveyTable = ({ url }) => {
+    // eslint-disable-next-line
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
 
     const [data, setData] = useState(null);
+    // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
     const numRows = 5;
     const history = useNavigate();
-
+// eslint-disable-next-line
     const [survey, setSurvey] = useState(null);
 
     async function onclickhandler(id) {
@@ -74,9 +76,8 @@ const SurveyTable = ({ url }) => {
             setData([]);
             setIsLoading(false);
         });
+        // eslint-disable-next-line
     }, []);
-
-
 
     return (
         <>

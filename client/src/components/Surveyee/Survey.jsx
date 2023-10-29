@@ -1,30 +1,10 @@
 //multipage implementation
 import FormInputs from './FormInputs'
 import useFormContext from "../../hooks/useFormContext"
-
-import { 
-    Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
-    Text,
-    Stack,
-    StackDivider,
-    Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
-    Flex,
-    IconButton,
-    Radio, 
-    RadioGroup,
-} from '@chakra-ui/react'
-import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { Text,Box,Button,Flex,IconButton,} from '@chakra-ui/react'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
 
 const Survey = () => {
-
     const {
         page,
         setPage,
@@ -46,16 +26,13 @@ const Survey = () => {
         e.preventDefault()
         console.log(JSON.stringify(data))
     }
-
-
+    
     const content = (
         <form className="form flex-col" onSubmit={handleSubmit}>
 
             <header className="form-header">
                 <h2>{title[page]}</h2>
             </header>
-
-
             {/* <FormInputs /> */}
 
             <Box
