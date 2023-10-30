@@ -3,11 +3,27 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
+
 import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
     ModalOverlay,
     ModalContent,
+    Stepper,
+    RadioGroup,
+    Stack,
+    Step,
+    StepLabel,
+    StepConnector,
+    StepIcon,
+    StepTitle,
+    StepDescription,
+    StepSeparator,
+    StepStatus,
+    useSteps,
+    StepIndicator,
+    StepNumber,
     useToast,
     ModalHeader,
     Slider,
@@ -23,20 +39,38 @@ import {
     ModalCloseButton,
     Select,
     Icon,
+    HStack,
+    Checkbox,
+    VStack,
+    Radio,
+
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon,
+    ArrowBackIcon,
     DragHandleIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
 import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
+import { set } from 'mongoose';
+import YearPicker from '../../components/organisation/YearPicker.jsx';
 
+const steps = [
+    { title: 'Target Audience', description: '' },
+    { title: 'Duration/Responses', description: '' },
+    { title: 'Confirm', description: '' },
+]
 function InitialFocus({ surveyid }) {
-  
+    const [date, setDate] = useState(new Date());
+
+    const { activeStep } = useSteps({
+        index: 1,
+        count: steps.length,
+    })
     const toast = useToast()
     const {
         // eslint-disable-next-line
@@ -196,16 +230,19 @@ function InitialFocus({ surveyid }) {
         setTotal(baseCost + (costPerResponse * targetResponses) + (perDayCost * duration) + (perQuestionCost * questionCount));
 
     }
+
+    const [endCriteria, setEndCriteria] = useState('duration');
     useEffect(() => {
-        if(questionCount===0){
-            onClose();
-        }
         getSurveyConstraints();
 
     }// eslint-disable-next-line
         , [])
+
+    const [approvalPage, setApprovalPage] = useState(0);
     return (
+
         <>
+
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
             {user.id}
 
@@ -221,109 +258,156 @@ function InitialFocus({ surveyid }) {
                     <ModalHeader>We need a few more details regarding your survey</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>Choose a Target Audience <Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
-                            </Tooltip>
-                            </FormLabel>
-                            <Select placeholder="Select option">
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                            </Select>
+                        {/* <Stepper mb={'20px'} index={activeStep}>
+                            {steps.map((step, index) => (
+                                <Step key={index}>
+                                    <StepIndicator>
+                                        <StepStatus
+                                            complete={<StepIcon />}
+                                            incomplete={<StepNumber />}
+                                            active={<StepNumber />}
+                                        />
+                                    </StepIndicator>
 
-                        </FormControl>
+                                    <Box flexShrink='0'>
+                                        <StepTitle>{step.title}</StepTitle>
+                                        <StepDescription>{step.description}</StepDescription>
+                                    </Box>
 
-                        <FormControl mt={4} p={'30px 30px'}>
-                            <FormLabel>Choose the maximum number of responses you wish to collect</FormLabel>
-                            <Slider
-                                min={100}
-                                value={targetResponses}
-                                max={500}
-                                mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                    SetTargetResponses(val)
-                                    console.log(val)
+                                    <StepSeparator />
+                                </Step>
+                            ))}
+                        </Stepper> */}
 
-                                }}>
-                                <SliderMark value={100} {...labelStyles}>
-                                    100
-                                </SliderMark>
-                                <SliderMark value={200} {...labelStyles}>
-                                    200
-                                </SliderMark>
-                                <SliderMark value={300} {...labelStyles}>
-                                    300
-                                </SliderMark>
-                                <SliderMark value={400} {...labelStyles}>
-                                    400
-                                </SliderMark>
-                                <SliderMark value={500} {...labelStyles}>
-                                    500
-                                </SliderMark>
+                        {approvalPage === 0 ? (
+                            <VStack mt={'20px'} gap={'40px'}>
+                                <FormControl>
+                                    <FormLabel>Choose a target gender<Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
+                                    </Tooltip>
+                                    </FormLabel>
+                                    <Select placeholder="Select option">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="everyone">Everyone</option>
+                                    </Select>
 
 
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </FormControl>
-                        <FormControl mt={4} p={'30px 30px'}>
-                            <FormLabel>Choose the number of days you wish to keep the survey active</FormLabel>
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Choose a target birth year range<Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
+                                    </Tooltip>
+                                    </FormLabel>
 
-                            <Slider
-                                min={1}
-                                value={duration}
-                                max={14}
-                                mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                    setDuration(val)
-                                    console.log(val)
-                                }}>
+                                    <YearPicker />
+
+                                    <Checkbox>Include everyone</Checkbox>
 
 
-                                <SliderMark value={1} {...labelStyles}>
-                                    1
-                                </SliderMark>
-                                <SliderMark value={2} {...labelStyles}>
-                                    2
-                                </SliderMark>
-                                <SliderMark value={3} {...labelStyles}>
-                                    3
-                                </SliderMark>
-                                <SliderMark value={4} {...labelStyles}>
-                                    4
-                                </SliderMark>
-                                <SliderMark value={5} {...labelStyles}>
-                                    5
-                                </SliderMark>
-                                <SliderMark value={6} {...labelStyles}>
-                                    6
-                                </SliderMark>
-                                <SliderMark value={7} {...labelStyles}>
-                                    7
-                                </SliderMark>
-                                <SliderMark value={8} {...labelStyles}>
-                                    8
-                                </SliderMark>
-                                <SliderMark value={9} {...labelStyles}>
-                                    9
-                                </SliderMark>
-                                <SliderMark value={10} {...labelStyles}>
-                                    10
-                                </SliderMark>
-                                <SliderMark value={11} {...labelStyles}>
-                                    11
-                                </SliderMark>
-                                <SliderMark value={12} {...labelStyles}>
-                                    12
-                                </SliderMark>
-                                <SliderMark value={13} {...labelStyles}>
-                                    13
-                                </SliderMark>
-                                <SliderMark value={14} {...labelStyles}>
-                                    14
-                                </SliderMark>
+                                </FormControl>
+                            </VStack>
+                        ) : approvalPage === 1 ? (
+                            <>
+                                <Heading size={'sm'}>Choose how to end the survey</Heading>
+                                <RadioGroup value={endCriteria} onChange={setEndCriteria}>
+                                    <Stack direction="row">
+                                        <Radio value="duration">Duration</Radio>
+                                        <Radio value="responses">Responses</Radio>
+                                    </Stack>
+                                </RadioGroup>
+                                {endCriteria === 'duration' ? (
+                                    <FormControl mt={4} p={'30px 30px'}>
+                                        <FormLabel>Choose the maximum number of responses you wish to collect</FormLabel>
+                                        <Slider
+                                            min={100}
+                                            value={targetResponses}
+                                            max={500}
+                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
+                                                SetTargetResponses(val)
+                                                console.log(val)
+
+                                            }}>
+                                            <SliderMark value={100} {...labelStyles}>
+                                                100
+                                            </SliderMark>
+                                            <SliderMark value={200} {...labelStyles}>
+                                                200
+                                            </SliderMark>
+                                            <SliderMark value={300} {...labelStyles}>
+                                                300
+                                            </SliderMark>
+                                            <SliderMark value={400} {...labelStyles}>
+                                                400
+                                            </SliderMark>
+                                            <SliderMark value={500} {...labelStyles}>
+                                                500
+                                            </SliderMark>
 
 
-                                {/* 
+                                            <SliderTrack>
+                                                <SliderFilledTrack />
+                                            </SliderTrack>
+                                            <SliderThumb />
+                                        </Slider>
+                                    </FormControl>
+                                ) : (
+                                    <FormControl mt={4} p={'30px 30px'}>
+                                        <FormLabel>Choose the number of days you wish to keep the survey active</FormLabel>
+
+                                        <Slider
+                                            min={1}
+                                            value={duration}
+                                            max={14}
+                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
+                                                setDuration(val)
+                                                console.log(val)
+                                            }}>
+
+
+                                            <SliderMark value={1} {...labelStyles}>
+                                                1
+                                            </SliderMark>
+                                            <SliderMark value={2} {...labelStyles}>
+                                                2
+                                            </SliderMark>
+                                            <SliderMark value={3} {...labelStyles}>
+                                                3
+                                            </SliderMark>
+                                            <SliderMark value={4} {...labelStyles}>
+                                                4
+                                            </SliderMark>
+                                            <SliderMark value={5} {...labelStyles}>
+                                                5
+                                            </SliderMark>
+                                            <SliderMark value={6} {...labelStyles}>
+                                                6
+                                            </SliderMark>
+                                            <SliderMark value={7} {...labelStyles}>
+                                                7
+                                            </SliderMark>
+                                            <SliderMark value={8} {...labelStyles}>
+                                                8
+                                            </SliderMark>
+                                            <SliderMark value={9} {...labelStyles}>
+                                                9
+                                            </SliderMark>
+                                            <SliderMark value={10} {...labelStyles}>
+                                                10
+                                            </SliderMark>
+                                            <SliderMark value={11} {...labelStyles}>
+                                                11
+                                            </SliderMark>
+                                            <SliderMark value={12} {...labelStyles}>
+                                                12
+                                            </SliderMark>
+                                            <SliderMark value={13} {...labelStyles}>
+                                                13
+                                            </SliderMark>
+                                            <SliderMark value={14} {...labelStyles}>
+                                                14
+                                            </SliderMark>
+
+
+                                            {/* 
                                 <SliderMark
                                     value={duration}
                                     textAlign='center'
@@ -335,28 +419,50 @@ function InitialFocus({ surveyid }) {
                                 >
                                     {duration}
                                 </SliderMark> */}
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </FormControl>
+                                            <SliderTrack>
+                                                <SliderFilledTrack />
+                                            </SliderTrack>
+                                            <SliderThumb />
+                                        </Slider>
+                                    </FormControl>
+                                )}
 
-                        <Button onClick={() => {
-                            calculate();
-                        }
-                        }>Get Cost</Button>
-                        <Text mt={4}>Estimated Cost: </Text>
-                        <Heading>Rs. {total}.00</Heading>
-                        <Text size={'sm'}>You will be able to make the payment after youre survey has been approved</Text>
-                        <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to modify your survey after you request approval!</Text>
+                                <Button onClick={() => {
+                                    calculate();
+                                }
+                                }>Get Cost</Button>
+                                <Text mt={4}>Estimated Cost: </Text>
+                                <Heading>Rs. {total}.00</Heading>
+                                <Text size={'sm'}>You will be able to make the payment after youre survey has been approved</Text>
+                                <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to modify your survey after you request approval!</Text>
+                            </>
 
+                        ) : null}
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' onClick={setPending}>
-                            Proceed
-                        </Button>
+                        <HStack gap={'10px'}>
+
+                            {approvalPage > 0 ? (
+                                <Button variant={'outline'} mr={3} onClick={() => setApprovalPage(approvalPage - 1)}>
+                                    Back
+                                </Button>
+                            ) : null}
+                            <Button colorScheme='blue' onClick={
+                                () => {
+                                    if (approvalPage < 1) {
+                                        setApprovalPage(approvalPage + 1)
+                                    } else {
+                                        setPending();
+                                    }
+                                }
+                            }>
+                                {approvalPage < 1 ? 'Next' : 'Request Approval'}
+
+                            </Button>
+
+                        </HStack>
+
 
                     </ModalFooter>
                 </ModalContent>
@@ -498,8 +604,8 @@ const EditSurvey = () => {
 
     return (
 
-        <Flex flexDirection={'column'} mt={-5} gap={'20px'}>
-            {/* dim loader */}
+        <Flex flexDirection={'column'} gap={'20px'}>
+            <Link to={'/organisation/survey'}>{<ArrowBackIcon />} Back</Link>
             <Card
                 backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                 backgroundSize={'cover'}
@@ -527,9 +633,10 @@ const EditSurvey = () => {
                                 </Text>
                             </Flex>
                             <Flex gap='10px'>
-                                <Button>Suspend</Button>
-
-                                <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
+                                {/* <Button>Pause Survey</Button> */}
+                                {survey?.approvalStatus === 'draft' | survey?.approvalStatus === 'rejected' && (
+                                    <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
+                                )}
 
                             </Flex>
 
@@ -582,10 +689,10 @@ const EditSurvey = () => {
 
                     {survey?.approvalStatus === 'draft' && (
                         <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Ready to publish your survey?
                             </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
 
                             <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
                         </>
@@ -593,31 +700,31 @@ const EditSurvey = () => {
                     }
                     {survey?.approvalStatus === 'pending' && (
                         <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is pending approval
                             </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you shortly</Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you shortly</Text>
 
                         </>
                     )
                     }
                     {survey?.approvalStatus === 'active' && (
                         <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is live!
                             </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with your    </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with your    </Text>
 
                         </>
                     )
                     }
                     {survey?.approvalStatus === 'rejected' && (
                         <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey was rejected
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                Your survey failed the review
                             </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Please contact the admin for more details</Text>
-
+                            {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+                            <Button p={'20px'}>View Feedback</Button>
                         </>
                     )
                     }
@@ -626,7 +733,7 @@ const EditSurvey = () => {
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey was approved
                             </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to payment to make your survey live
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to payment to make your survey live
                             </Text>
                             <Button>Pay Now</Button>
                         </>

@@ -13,7 +13,9 @@ import {
     Td,
     TableContainer,
     Button,
+    HStack,
 } from '@chakra-ui/react'
+import Status from '../../components/Status.jsx';
 
 const SurveyTable = () => {
     const {
@@ -39,13 +41,13 @@ const SurveyTable = () => {
         )
             .then(response => response.json())
             .then(data => {
-                setData(data);  
+                setData(data);
                 setIsLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-            // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
     return (
         <>
@@ -82,13 +84,9 @@ const SurveyTable = () => {
                                     <Td isNumeric>{survey.questions.length}</Td>
                                     <Td isNumeric>{survey.responses.length}</Td>
                                     <Td>
-                                        {survey.approvalStatus === 'draft' ? (
-                                            <Tag colorScheme="facebook"
-                                                fontWeight={'bold'}>Draft</Tag>) : survey.approvalStatus === 'pending' ? (
-                                                    <Tag colorScheme="orange"
-                                                        fontWeight={'bold'}>Pending</Tag>) : survey.approvalStatus === 'approved' ? (
-                                                            <Tag colorScheme="green"
-                                                                fontWeight={'bold'}>Approved</Tag>) : null}
+                                        <Status status={survey.approvalStatus} />
+
+
                                     </Td>
 
                                 </Tr>)
@@ -106,9 +104,10 @@ const SurveyTable = () => {
 
                 </Table>
             </TableContainer>
-            <Button>Previous</Button>
-
-            <Button>Next</Button>
+            <HStack boxSizing='border-box' m={'20px'} width={'100%'} justifyContent={'flex-end'} mr={'20px'}>
+                <Button>Previous</Button>
+                <Button>Next</Button>
+            </HStack>
         </>
     )
 }

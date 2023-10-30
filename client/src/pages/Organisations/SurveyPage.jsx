@@ -5,11 +5,11 @@ import {
     CardHeader,
     CardBody,
 } from '@chakra-ui/react'
-import {Grid, GridItem} from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 import SurveyTable from '../../components/organisation/SurveyTable';
 
 const SurveyPage = () => {
-   
+
 
     return (
         <Flex width={'100%'} gap={'10px'} flex={'1'} flexDirection={'column'} mt={-5}>
@@ -23,7 +23,7 @@ const SurveyPage = () => {
                             </Heading>
                         </CardHeader>
                         <CardBody>
-        <SurveyTable />
+                            <SurveyTable />
                         </CardBody>
                     </Card>
                 </GridItem>
