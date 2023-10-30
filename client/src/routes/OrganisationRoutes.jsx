@@ -5,6 +5,7 @@ import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 import PaymentBilling from '../pages/Organisations/PaymentBilling';
+import Payments from '../pages/Organisations/Payments';
 import EditSurvey from '../pages/Organisations/EditSurvey';
 import TestComponenets from '../pages/Organisations/TestComponenets';
 
@@ -20,6 +21,7 @@ import {
 import { BsHouseFill } from 'react-icons/bs';
 // import { AiFillEdit } from 'react-icons/ai';
 import { RiSurveyFill } from 'react-icons/ri';
+import Success from '../pages/Organisations/Success';
 
 
 const Links = [
@@ -27,6 +29,10 @@ const Links = [
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
     { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
     { route: '/organisation/paymentbilling', linkName: 'Payments & Billing', icon: RiSurveyFill },
+    { route: '/organisation/payments', linkName: 'Payments', icon: RiSurveyFill },
+    {
+        
+    }
     // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
@@ -82,6 +88,11 @@ const OrganisationRoutes = [
             {
                 path: '/organisation/paymentbilling',
                 element: <PaymentBilling />
+            },
+          
+            {
+                path: '/organisation/paymentbilling/success/:session_id',
+                element: <Success />
             },
         ],
     }

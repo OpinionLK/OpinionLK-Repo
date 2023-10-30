@@ -4,6 +4,7 @@ import clientRoutes from './routes/client.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import paymentRoutes from './routes/payments.js';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
@@ -57,7 +58,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/survey', surveyRoutes);
+app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
 mongoose

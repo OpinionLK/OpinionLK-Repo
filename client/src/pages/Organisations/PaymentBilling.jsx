@@ -12,9 +12,32 @@ import {
 
 
 } from '@chakra-ui/react'
+import { useAuthContext } from '../../hooks/useAuthContext';
+
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 import { AddIcon } from '@chakra-ui/icons'
 
 const PaymentBilling = () => {
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
+    const history = useNavigate();
+
+
+    const addPaymentMethod = async () => {
+        console.log(user.token)
+        const response = await axios.post(`http://localhost:3002/api/payment/create-checkout-session`, {},
+            {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            },
+
+        );
+        console.log(response.data.url);
+        // go to stripe checkout
+        window.location.href = response.data.url;
+
+    }
     return (
         <Box>
             <Flex width={'100%'} gap={'10px'} flex={'1'} flexDirection={'column'}>
@@ -27,7 +50,10 @@ const PaymentBilling = () => {
                             <Text fontSize='sm'>Choose how you pay for your plan</Text>
                         </CardHeader>
                         <CardBody>
-                            <Flex border={'1px solid'} padding={'10px'} borderRadius={'5px'}onClick={()=>{alert('click')}}>
+                            <Flex border={'1px solid'} padding={'10px'} borderRadius={'5px'} onClick={() => {
+                                addPaymentMethod()
+
+                            }}>
 
                                 <Flex justifyContent={'center'} gap={'10px'} alignItems={'center'}>
                                     <Flex border={'1px solid'} padding={'10px'} borderRadius={'5px'}><AddIcon /></Flex>
