@@ -42,13 +42,12 @@ const Myrewards = () => {
             <>
             <CouponCard 
               couponName={coupon.CouponName}
-              couponDescription={coupon.CouponDescription}
+              couponDescription={coupon.Description}
               companyName={coupon.CompanyName}
               // need the image
               couponImage={coupon.CouponImage}
               couponPoints={coupon.Points}
               userPoints={points}
-
             />
             </>
           )
