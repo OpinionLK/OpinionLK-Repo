@@ -36,7 +36,7 @@ const Myrewards = () => {
 
   return (
     <>
-      <Wrap spacing='14px'>
+      <Wrap spacing='14px' mt={-5}>
         {coupons ? coupons.map((coupon) => {
           return(
             <>

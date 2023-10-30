@@ -62,7 +62,7 @@ const SurveyHistory = () => {
 
     return (
         <div>
-            <Card borderRadius={10}>
+            <Card borderRadius={10} mt={-5}>
                 <CardHeader>
                     <HStack>
                     <Heading fontSize={20} mr={10}>Survey History</Heading>
