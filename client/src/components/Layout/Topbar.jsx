@@ -19,7 +19,6 @@ import CreateSurveyModal from '../organisation/CreateSurveyModal'
 import { Icon } from '@iconify/react';
 import userdp from '../../images/topbar/download.jpeg'
 
-
 import { useLogout } from '../../hooks/useLogout';
 
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -79,7 +78,7 @@ const Topbar = () => {
                         </MenuButton>
                         <MenuList>
                             <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'} bg={'whiteAlpha.400'}>
-                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgImage="url('https://ik.imagekit.io/7i3fql4kv7/cardbackgrounds/cardbackground.png?updatedAt=1695643900189')" bgPos="center" bgSize="contain"borderRadius={'15px'}>
+                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgImage={`url(${userData?.profilePicture})`} bgPos="center" bgSize="contain"borderRadius={'15px'}>
                                     <Text fontSize={'2xl'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Opinion Points</Text>
                                     <Flex justifyContent={'space-around'} alignItems={'center'} marginBottom={20}>
                                         <Text fontSize={'md'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Available Balance</Text>
@@ -106,16 +105,11 @@ const Topbar = () => {
                                 }}
                                 src={userdp} />
 
-                            <MenuList>
-                                <span style={{ textAlign: 'center' }}>
-                                    {/* print json as a string */}
-                                    {/* {user && JSON.stringify(user.email)} */}
-                                    <Text py={1} pb={3}>{user.email}</Text>
-                                    <Divider />
-                                </span>
-
+                                <MenuList style={{ padding:'5px 20px 5px 20px'}}>
                                 <MenuGroup title='Profile'>
-                                    <MenuItem>My Account</MenuItem>
+                                    <MenuItem onClick={() => {
+                                         window.location.href='/portal/profile'
+                                    }}>My Account</MenuItem>
                                     <MenuItem onClick={() => {
                                         logout()
                                     }}>Sign Out </MenuItem>
