@@ -10,7 +10,8 @@ import {
     MenuItem,
     Button,
     MenuGroup,
-    MenuDivider
+    MenuDivider,
+    Divider,
 } from '@chakra-ui/react'
 
 import CreateSurveyModal from '../organisation/CreateSurveyModal'
@@ -93,11 +94,12 @@ const Topbar = () => {
 
                     {({ isOpen }) => (
                         <>
-                            <MenuButton as={Avatar} size='md' padding={'5px'}
+                            <MenuButton as={Avatar} size='md' padding={'3px'}
                                 transition={'0.3s'}
                                 _hover={{
                                     textDecoration: 'none',
                                     bgColor: '#eae9ff',
+                                    cursor: 'pointer',
                                 }}
                                 _active={{
                                     bgColor: '#c0bdef',
@@ -107,8 +109,11 @@ const Topbar = () => {
                             <MenuList>
                                 <span style={{ textAlign: 'center' }}>
                                     {/* print json as a string */}
-                                    {user && JSON.stringify(user.email)}
+                                    {/* {user && JSON.stringify(user.email)} */}
+                                    <Text py={1} pb={3}>{user.email}</Text>
+                                    <Divider />
                                 </span>
+
                                 <MenuGroup title='Profile'>
                                     <MenuItem>My Account</MenuItem>
                                     <MenuItem onClick={() => {

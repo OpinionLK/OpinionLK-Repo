@@ -8,7 +8,7 @@ import CouponRequests from './Actions/CouponRequests';
 const AdminActions = () => {
   return (
     <>
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Grid mt={-5} templateColumns="repeat(2, 1fr)" gap={6}>
         <QuickActions />
         <CouponRequests />
       </ Grid>

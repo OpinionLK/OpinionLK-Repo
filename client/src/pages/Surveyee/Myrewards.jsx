@@ -4,7 +4,6 @@ import axios from 'axios'
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 import {
-  Heading,
   Wrap,
   Text,
 } from '@chakra-ui/react'
@@ -28,8 +27,8 @@ const Myrewards = () => {
 
     fetchCoupons()
   }, [])
-
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 

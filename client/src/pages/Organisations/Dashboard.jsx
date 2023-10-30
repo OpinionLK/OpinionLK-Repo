@@ -4,19 +4,11 @@ import StatRow from '../../components/Stats/StatRow'
 import DiscoverCard from '../../components/Stats/Organization/DiscoverCard'
 import SurveyGraphCard from '../../components/Stats/Organization/SurveyGraphCard'
 import ReachCard from '../../components/Stats/Organization/ReachCard'
-import SurveyCard from '../../components/Survey/SurveyCard'
 import SurveyRow from '../../components/Survey/SurveyRow'
 import { 
   Grid, 
   GridItem,
-  Box,
-  SimpleGrid,
-  Card,
-  CardHeader, 
-  Wrap,
-  Flex,
-  Spacer,
-  Button
+  Box
 } from '@chakra-ui/react'
 
 
@@ -25,6 +17,7 @@ const Dashboard = () => {
     <>
         {/* <Heading>MakeSurvey</Heading> */}
         {/* <Makerlayout /> */}
+        <Box mt={-5}>
         <StatRow />
         <Grid templateColumns="repeat(3, 1fr)" gap={0}>
           <GridItem colSpan={2}>
@@ -43,6 +36,7 @@ const Dashboard = () => {
             <ReachCard/>
           </GridItem>
         </Grid>
+        </Box>
 
     </>
   )

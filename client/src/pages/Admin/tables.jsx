@@ -20,7 +20,7 @@ import {
 
     return (
     <>
-      <VStack>
+      <VStack mt={-5}>
         <Box zIndex={20} width={'100%'} height={'fit-content'}>
           <TableSelect />
         </Box>

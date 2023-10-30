@@ -4,7 +4,6 @@ import {
     Box,
     Flex,
     Grid,
-    GridItem,
     Card,
     Text,
     CardHeader,
@@ -39,9 +38,9 @@ const PaymentBilling = () => {
 
     }
     return (
-        <Box>
+        <Box mt={-5}>
             <Flex width={'100%'} gap={'10px'} flex={'1'} flexDirection={'column'}>
-                <Heading as={'h2'} size={'xl'} fontWeight={'semibold'}>Surveys</Heading>
+                {/* <Heading as={'h2'} size={'xl'} fontWeight={'semibold'}>Surveys</Heading> */}
                 <Grid templateColumns='repeat(2, 1fr)' gap={6}>
 
                     <Card w={'100%'}>

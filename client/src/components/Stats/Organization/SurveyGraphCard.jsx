@@ -1,31 +1,35 @@
 import React from 'react'
-
-// import './style.css'
-
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
     Flex,
     Spacer,
     IconButton
 } from '@chakra-ui/react'
-
-// import { NavLink } from "react-router-dom";
-// eslint-disable-next-line
-import {Line, Pie, Doughnut} from 'react-chartjs-2';
-import {Chart, Title} from 'chart.js/auto';
+import {Line} from 'react-chartjs-2';
 import { FaChartBar } from 'react-icons/fa'
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
 
 // sample data
 const state = {

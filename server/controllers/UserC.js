@@ -29,9 +29,6 @@ export const userData = async (req, res) => {
     try {
         const { id } = jwt.verify(token, 'test');
         console.log(id);
-
-
-
         if (!id) {
             return res.status(400).json({ error: 'Server Error' });
         }
@@ -46,4 +43,44 @@ export const userData = async (req, res) => {
     }
 
 };
+
+
+export const surveyHistory = async (req, res) => {
+    try {
+        console.log('Received survey history request', req.query);
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        const token = authHeader.split(' ')[1];
+        console.log('Received client data request:', token);
+
+        const id = req.query._id;
+        let user = await User.findOne({ _id: id });
+        console.log("user details: ",user);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        let surveys = await Surveys.find({ responses: { $elemMatch: { userID: id } } });
+        console.log("surveys: ",surveys);
+
+        // Map the surveys to the correct format
+        let surveyHistory = surveys.map(survey => {
+            const response = survey.responses.find(response => response.userID === id);
+            return {
+                surveyName: survey.surveyName,
+                surveyDescription: survey.surveyDescription,
+                dateSubmitted: response.created_date,
+                reward: survey.points,
+            };
+        });
+        
+        res.status(200).json(surveyHistory);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    
+};
+
 

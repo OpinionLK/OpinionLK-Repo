@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useAuthContext } from '../hooks/useAuthContext'
 import LoginImage from '../assets/images/q.png'
+import config from '../config'
 
 const Login = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
@@ -30,7 +31,7 @@ const Login = () => {
     async function submit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3002/api/auth/login", {
+            const response = await axios.post(`${config.backendUrl}/api/auth/login`, {
                 email, password
             });
             console.log(response);
@@ -89,9 +90,13 @@ const Login = () => {
             <Flex width={isLargerThanLG ? '60%' : '100%'} height={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
 
                 <Stack spacing={8} width={'80%'}>
-                    <Flex width={'100%'}><Link to='/'><ArrowBackIcon /> <u>Return to Home</u>
-
-                    </Link></Flex>
+                    <Flex width={'100%'}>
+                        <Link to="/">
+                            <Button fontWeight={500}>
+                                <ArrowBackIcon /> Return to Home
+                            </Button>
+                        </Link>
+                    </Flex>
                     <Heading>
                         Login
                     </Heading>

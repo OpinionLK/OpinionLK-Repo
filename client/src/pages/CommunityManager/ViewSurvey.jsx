@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
-import Picker from "@emoji-mart/react";
-
 import {
     FormErrorMessage,
     FormLabel,
     FormControl,
     useToast,
     Textarea,
-
-
 } from '@chakra-ui/react'
 
 import Status from '../../components/Status.jsx';
-
 import { useAuthContext } from '../../hooks/useAuthContext.js';
 import { useParams } from 'react-router-dom';
 import {
-    Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton,
-    Tabs, TabList, TabPanels, Tab, TabPanel, Radio, VStack, Tag, HStack
-
+    Card, CardHeader, Heading, Text, Flex, Button, 
+    Tabs, TabList, TabPanels, Tab, TabPanel, Radio, VStack,  HStack
 } from '@chakra-ui/react';
 
-import { useForm, Controller, set, get } from 'react-hook-form';
-
-import MultipleChoice from "../../components/Surveyee/MultipleChoice";
-import LongAnswer from "../../components/Surveyee/LongAnswer"
-import ShortAnswer from "../../components/Surveyee/ShortAnswer"
+import { useForm } from 'react-hook-form';
 import {
     Progress,
     Modal,
@@ -40,33 +29,26 @@ import {
     ModalCloseButton,
     Input,
     RadioGroup,
-    Checkbox,
-    Box
+    Checkbox
 } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
-
-import Survey from '../../components/Surveyee/Survey.jsx';
 import { useNavigate } from 'react-router-dom';
 import {
-    DeleteIcon,
     StarIcon
-
 } from '@chakra-ui/icons'
 
-
-
-
 const ViewSurvey = () => {
-
+// eslint-disable-next-line
     const history = useNavigate();
 
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     const { surveyid } = useParams();
     const [ImgName, setImgName] = useState('default_bg')
     const [survey, setSurvey] = useState();
-
+// eslint-disable-next-line
     const handleContentUpdate = (newContent) => {
         setSurvey(newContent);
         console.log(newContent);
@@ -96,6 +78,7 @@ const ViewSurvey = () => {
     useEffect(() => {
 
         handleSubmit();
+        // eslint-disable-next-line
     }, [])
 
     // const toast = useToast()
@@ -103,7 +86,7 @@ const ViewSurvey = () => {
 
     return (
         <>
-            <Flex flexDirection={'column'} gap={'20px'} mb={'20px'}>
+            <Flex mt={-5} flexDirection={'column'} gap={'20px'} mb={'20px'}>
                 <Card
                     backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                     backgroundSize={'cover'}
@@ -200,8 +183,10 @@ function ReturnFocus({ surveyid, question }) {
     const finalRef = React.useRef(null)
     // get token from context
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
+    // eslint-disable-next-line
     const history = useNavigate();
 
 
@@ -254,8 +239,10 @@ function ReturnFocus({ surveyid, question }) {
     };
 
     const [showField, setShowField] = useState(false);
+    // eslint-disable-next-line
     const [questionFeedback, setQuestionFeedback] = useState('');
     const [proceed, setProceed] = useState(false);
+    // eslint-disable-next-line
     const MoodPreview = ({ items }) => {
 
         return (
@@ -346,6 +333,7 @@ function ReturnFocus({ surveyid, question }) {
 
     async function approve() {
         try {
+            // eslint-disable-next-line
             const response = await axios.put('http://localhost:3002/api/survey/changestatus/' + surveyid,
                 {
                     state: 'approved'

@@ -1,7 +1,5 @@
 import React from 'react'
 import LandingNav from '../components/LandingNav'
-
-import { motion } from "framer-motion"
 import Hero from '../components/Landing/Hero'
 import Features from '../components/Landing/Features'
 
