@@ -9,6 +9,9 @@ import { motion } from 'framer-motion';
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
+import SurveyAnonymous from '../pages/SurveyAnonymous';
+import SurveyAnonComplete from '../pages/SurveyAnonComplete';
+
 // import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
@@ -70,6 +73,14 @@ const router = createBrowserRouter([
     {
         path: '/client/signup',
         element: <ClientSignUp />,
+    },
+    {
+        path: '/surveyAnonymous/:surveyid',
+        element: <SurveyAnonymous />,
+    },
+    {
+        path: '/surveyAnonymous/complete/:points',
+        element: <SurveyAnonComplete/>,
     },
 
     ...SurveyeeRoutes,
