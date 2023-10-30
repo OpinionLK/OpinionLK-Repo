@@ -6,7 +6,7 @@
   "aot": true,
   "assets": [
     "src/web.config"
-],
+  ],
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.8.0",
@@ -52,6 +52,7 @@
     "react-scripts": "5.0.1",
     "remixicon": "^3.5.0",
     "router-dom": "^2.2.11",
+    "stripe": "^14.2.0",
     "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },
