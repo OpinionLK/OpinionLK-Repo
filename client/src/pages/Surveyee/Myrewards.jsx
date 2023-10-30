@@ -32,7 +32,7 @@ const Myrewards = () => {
     user, dispatch, userData
   } = useAuthContext();
 
-  const points = userData.points;
+  const points = userData?.points;
 
   return (
     <>

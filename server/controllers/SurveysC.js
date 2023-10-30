@@ -102,6 +102,35 @@ export const createResponse = async (req, res) => {
     }
 }
 
+export const createAnonResponse = async (req, res) => {
+    try {
+      const { surveyid, response } = req.body;
+        
+      const responseID = generateCustomId();
+  
+      const newResponse = {
+        responseID: responseID,
+        // userID: NULL,
+        responses: response.responses,
+      };
+      console.log(newResponse);
+
+      // Add the new response to the survey document in the database as an object in the responses array
+      const resp = await Surveys.updateOne(
+        { surveyID: surveyid },
+        { $push: { responses: newResponse } },
+        { new: true }
+      );
+  
+      res.status(200).json({
+        message: 'Response added successfully.',
+        resp: resp,
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'Error adding response.', error: error.message });
+    }
+}
+
 export const addSurveyPoints = async (req, res) => {
     // add points to a user's points where userID = id
     // points is an integer
