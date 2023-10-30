@@ -17,8 +17,6 @@ import {
 import CreateSurveyModal from '../organisation/CreateSurveyModal'
 
 import { Icon } from '@iconify/react';
-import userdp from '../../images/topbar/download.jpeg'
-
 
 import { useLogout } from '../../hooks/useLogout';
 
@@ -92,7 +90,8 @@ const Topbar = () => {
                     : null}
                 <Menu>
 
-                    {({ isOpen }) => (
+                {user.type === 'user' ?
+                    // {({ isOpen }) => (
                         <>
                             <MenuButton as={Avatar} size='md' padding={'3px'}
                                 transition={'0.3s'}
@@ -104,7 +103,8 @@ const Topbar = () => {
                                 _active={{
                                     bgColor: '#c0bdef',
                                 }}
-                                src={`url(${userData?.profilePicture})`}/>
+                                src={userData?.profilePicture}
+                            />
 
                                 <MenuList style={{ padding:'5px 20px 5px 20px'}}>
                                 <MenuGroup title='Profile'>
@@ -122,7 +122,8 @@ const Topbar = () => {
                                 </MenuGroup>
                             </MenuList>
                         </>
-                    )}
+                    // )}
+                    :null}
                 </Menu>
 
 
