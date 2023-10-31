@@ -9,6 +9,7 @@ import {
 
 
   function CommunityManagerTables(){
+    // eslint-disable-next-line
     const style = {
         width: '100(%',
         overflow: 'auto',

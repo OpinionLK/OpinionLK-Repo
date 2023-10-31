@@ -1,13 +1,8 @@
 import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
-<<<<<<< HEAD
 import CommunityManagerTables from '../pages/CommunityManager/CommunityManagerTables';
 import CommunityManagerActions from '../pages/CommunityManager/CommunityMangerActions';
-=======
-import ViewSurveys from '../pages/CommunityManager/ViewSurveys';
-import ViewSurvey from '../pages/CommunityManager/ViewSurvey';
->>>>>>> e1eb3583ba9ae51cca997f2190d4481789f87756
 
 import {
     Navigate
@@ -16,13 +11,8 @@ import {
 import {
     motion
 } from 'framer-motion';
-<<<<<<< HEAD
-
-import { BsHouseFill, BsCollectionFill, BsTable, BsFillFileRuledFill} from 'react-icons/bs';
-=======
 // eslint-disable-next-line
-import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
->>>>>>> e1eb3583ba9ae51cca997f2190d4481789f87756
+import { BsHouseFill, BsCollectionFill, BsTable, BsFillFileRuledFill} from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 
 // import { BiSolidEditAlt } from 'react-icons/bi';
@@ -30,13 +20,10 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-<<<<<<< HEAD
     { route: '/ComManager/Tables' ,linkName: 'Tables', icon: BsTable},
     {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
     
-=======
     { route: '/ComManager/allsurveys', linkName: 'Pending Surveys', icon: RiSurveyFill },
->>>>>>> e1eb3583ba9ae51cca997f2190d4481789f87756
 
 ];
 

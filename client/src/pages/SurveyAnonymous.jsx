@@ -49,7 +49,7 @@ export default function Survey() {
     // check the status of the survey. only allow access if it is active, else redirect to an error page
     // eslint-disable-next-line
   }, [surveyid, survey]);
-// eslint-disable-next-line
+
   const onSubmit = async (data) => {
     console.log('Form data:', data);
     

@@ -26,6 +26,7 @@ import { useClipboard } from "@chakra-ui/react";
 import { LinkIcon } from '@chakra-ui/icons'
 
 // import { NavLink } from "react-router-dom";
+// eslint-disable-next-line
 import sampleCard from '../../images/sample-card.png'
 // eslint-disable-next-line
 export default function SurveyPopup({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) {

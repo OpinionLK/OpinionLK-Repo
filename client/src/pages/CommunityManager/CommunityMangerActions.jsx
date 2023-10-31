@@ -1,25 +1,8 @@
-import {
-    Flex,
-    Heading,
-    Stack,
-    useMediaQuery,
-    FormControl,
-    FormLabel,
-    Text,
-    Input,
-    Checkbox,
-    Button,
-    Box,
-    Grid,
-    GridItem,
-  } from '@chakra-ui/react';
-  import Dashboard from '../DashboardLayout';
-  
-  import Sidebar from '../../components/Layout/Sidebar';
-  import Topbar from '../../components/Layout/Topbar';
+
 
 
   function CommunityManagerActions(){
+    // eslint-disable-next-line
     const style = {
         width: '100(%',
         overflow: 'auto',
