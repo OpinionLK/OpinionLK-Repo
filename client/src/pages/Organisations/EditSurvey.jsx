@@ -4,33 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { Link, useParams } from 'react-router-dom';
-
+import InterestTags from '../../components/organisation/InterestTags.jsx';
 
 import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
     ModalOverlay,
     ModalContent,
-    Stepper,
-    RadioGroup,
-    Stack,
-    Step,
-    StepLabel,
-    StepConnector,
-    StepIcon,
-    StepTitle,
-    StepDescription,
-    StepSeparator,
-    StepStatus,
-    useSteps,
-    StepIndicator,
-    StepNumber,
     useToast,
+    useRadioGroup,
+    useRadio,
+    ListIcon,
+    ListItem,
+
+    Box,
     ModalHeader,
-    Slider,
-    SliderTrack,
-    SliderMark,
-    SliderFilledTrack,
-    SliderThumb,
     ModalFooter,
     Tooltip,
     FormControl,
@@ -44,40 +31,48 @@ import {
     VStack,
     Radio,
     Skeleton,
+    calc,
+    List,
 
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
+
+
+    CheckCircleIcon,
     DeleteIcon,
     ArrowBackIcon,
-    DragHandleIcon
+
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
 import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
-import { set } from 'mongoose';
 import YearPicker from '../../components/organisation/YearPicker.jsx';
-
-const steps = [
-    { title: 'Target Audience', description: '' },
-    { title: 'Duration/Responses', description: '' },
-    { title: 'Confirm', description: '' },
-]
+import { set } from 'mongoose';
 
 function InitialFocus({ surveyid }) {
+    const [options, setOptions] = useState([]);
+
+    const { getRootProps, getRadioProps } = useRadioGroup({
+        name: 'plans',
+        defaultValue: 'Starter',
+        onChange: console.log,
+    })
+    const group = getRootProps()
+
     const [date, setDate] = useState(new Date());
     const [gender, setGender] = useState('male');
-    const { activeStep } = useSteps({
-        index: 1,
-        count: steps.length,
-    })
+
     const toast = useToast()
     const {
         // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
+    const [areas, setAreas] = useState([]);
+    const [fromYear, setFromYear] = useState(0);
+    const [toYear, setToYear] = useState(0);
 
     const setPending = async () => {
         try {
@@ -85,11 +80,13 @@ function InitialFocus({ surveyid }) {
             const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
                 {
                     state: 'pending',
-                    estCost: total,
-                    duration: duration,
-                    targetResponses: targetResponses,
-                    endCriteria: 'duration',
-                    userTag: [{ gender: 'male' }, { birthyear1: 1970 }, { birthyear2: 2000 }, { city: 'Colombo' }]
+
+                    userTag: [{
+                        gender: gender,
+                        age1: fromYear,
+                        age2: toYear,
+                        interests: areas
+                    }]
                 },
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
@@ -106,6 +103,10 @@ function InitialFocus({ surveyid }) {
                     duration: 9000,
                     isClosable: true,
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }
+                    , 2000)
             }
 
         } catch (error) {
@@ -175,12 +176,7 @@ function InitialFocus({ surveyid }) {
 
     }
 
-    const [baseCost, setBaseCost] = useState(0);
-    const [costPerResponse, setCostPerResponse] = useState(0);
-    const [perDayCost, setPerDayCost] = useState(0);
-    // eslint-disable-next-line
-    const [maxDuration, setMaxDuration] = useState(0);
-    const [perQuestionCost, setPerQuestionCost] = useState(0);
+
     const [questionCount, setQuestionCount] = useState(0);
 
     const getSurveyConstraints = async () => {
@@ -198,12 +194,8 @@ function InitialFocus({ surveyid }) {
             );
 
             if (response1.status === 200 && response2.status === 200) {
-                setBaseCost(response1.data.surveyBaseCost);
-                setCostPerResponse(response1.data.surveyCostPerResponse);
-                setPerDayCost(response1.data.perDayCost);
-                setMaxDuration(response1.data.maxDuration);
-                setPerQuestionCost(response1.data.perQuestionCost);
-                setQuestionCount(response2.data);
+                console.log(response1.data.surveyPlans)
+                setOptions(response1.data.surveyPlans);
             }
 
         } catch (error) {
@@ -218,18 +210,15 @@ function InitialFocus({ surveyid }) {
     const [duration, setDuration] = useState('7');
     const [targetResponses, SetTargetResponses] = useState('300');
     const labelStyles = {
-
-
+        mt: '2',
         ml: '-2.5',
         fontSize: 'sm',
     }
     const [total, setTotal] = useState(0);
     const calculate = () => {
-        console.log(baseCost);
-        console.log(duration);
-        console.log(targetResponses);
 
-        setTotal(baseCost + (costPerResponse * targetResponses) + (perDayCost * duration) + (perQuestionCost * questionCount));
+
+        // setTotal(baseCost + (costPerResponse * targetResponses) + (perQuestionCost * questionCount));
 
     }
 
@@ -241,7 +230,7 @@ function InitialFocus({ surveyid }) {
         , [])
 
     const [approvalPage, setApprovalPage] = useState(0);
-    const [everyone, setEveryone] = useState(false);
+    const [skipAge, setSkipAge] = useState(false);
     return (
 
         <>
@@ -251,7 +240,8 @@ function InitialFocus({ surveyid }) {
 
             <Modal
                 initialFocusRef={initialRef}
-                size={'xl'}
+                transition={{ duration: 0.3 }}
+                variant='approveModal'
                 finalFocusRef={finalRef}
                 isOpen={isOpen}
                 onClose={onClose}
@@ -289,140 +279,76 @@ function InitialFocus({ surveyid }) {
                                             as={QuestionOutlineIcon} />
                                     </Tooltip>
                                     </FormLabel>
-
-
-
-                                            <YearPicker disabled={everyone} />
+                                    <YearPicker disabled={skipAge} setFromYear={setFromYear} setToYear={setToYear}
+                                    />
 
                                     <Checkbox onChange={(e) => {
-                                        setEveryone(e.target.checked);
+                                        setSkipAge(e.target.checked);
                                     }
                                     }>Include everyone</Checkbox>
 
-
                                 </FormControl>
+                                <Flex>
+                                    <InterestTags selectedOptions={areas} setSelectedOptions={setAreas} />
+                                </Flex>
+
                             </VStack>
                         ) : approvalPage === 1 ? (
                             <>
-                                <Heading size={'sm'}>Choose how to end the survey</Heading>
-                                <RadioGroup value={endCriteria} onChange={setEndCriteria}>
-                                    <Stack direction="row">
-                                        <Radio value="duration">Duration</Radio>
-                                        <Radio value="responses">Responses</Radio>
-                                    </Stack>
-                                </RadioGroup>
-                                {endCriteria === 'duration' ? (
-                                    <FormControl mt={4} p={'30px 30px'}>
-                                        <FormLabel>Choose the maximum number of responses you wish to
-                                            collect</FormLabel>
-                                        <Slider
-                                            min={100}
-                                            value={targetResponses}
-                                            max={500}
-                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                                SetTargetResponses(val)
-                                                console.log(val)
-
-                                            }}>
-                                            <SliderMark value={100} {...labelStyles}>
-                                                100
-                                            </SliderMark>
-                                            <SliderMark value={200} {...labelStyles}>
-                                                200
-                                            </SliderMark>
-                                            <SliderMark value={300} {...labelStyles}>
-                                                300
-                                            </SliderMark>
-                                            <SliderMark value={400} {...labelStyles}>
-                                                400
-                                            </SliderMark>
-                                            <SliderMark value={500} {...labelStyles}>
-                                                500
-                                            </SliderMark>
 
 
-                                            <SliderTrack>
-                                                <SliderFilledTrack />
-                                            </SliderTrack>
-                                            <SliderThumb />
-                                        </Slider>
-                                    </FormControl>
-                                ) : (
-                                    <FormControl mt={4} p={'30px 30px'}>
-                                        <FormLabel>Choose the number of days you wish to keep the survey
-                                            active</FormLabel>
 
-                                        <Slider
-                                            min={1}
-                                            value={duration}
-                                            max={14}
-                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                                setDuration(val)
-                                                console.log(val)
-                                            }}>
+                                <FormControl mt={4}>
+                                    <FormLabel>Choose a Plan for this Survey</FormLabel>
+                                    <HStack {...group} width={'100%'}>
+                                        {options.map((value) => {
+                                            const radio = getRadioProps({ value: value.planID });
+                                            return (
+                                                <RadioCard key={value.planID
+                                                } {...radio}>
+                                                    <VStack alignContent={'left'} gap={'10px'} p={'10px'}>
+                                                        <Flex w={'100%'} justifyContent={'space-between'}>
+
+                                                            <Heading color={'brand.purple'} size={'md'}>
+                                                                {value.name}
+                                                            </Heading>
+                                                            <Text color={'brand.textBlack'} fontWeight={'bold'}>
+                                                                LKR {value.price}.00
+                                                            </Text>
+
+                                                        </Flex>
+                                                        <List spacing={3} >
+                                                            <ListItem fontSize={'sm'}>
+                                                                {value.description}
+                                                            </ListItem>
+                                                            <ListItem fontSize={'sm'}>
+                                                                <ListIcon as={CheckCircleIcon} color='green.500' />
+                                                                Survey will be active for {value.duration} days
+                                                            </ListItem>
+                                                            <ListItem fontSize={'sm'}>
+                                                                <ListIcon as={CheckCircleIcon} color='green.500' />
+                                                                Maximum of {value.maxResponses} responses
+                                                            </ListItem>
+
+                                                        </List>
+                                                    </VStack>
+
+                                                </RadioCard>
+                                            )
+                                        })}
+                                    </HStack>
+                                </FormControl>
 
 
-                                            <SliderMark value={1} {...labelStyles}>
-                                                1
-                                            </SliderMark>
-                                            <SliderMark value={2} {...labelStyles}>
-                                                2
-                                            </SliderMark>
-                                            <SliderMark value={3} {...labelStyles}>
-                                                3
-                                            </SliderMark>
-                                            <SliderMark value={4} {...labelStyles}>
-                                                4
-                                            </SliderMark>
-                                            <SliderMark value={5} {...labelStyles}>
-                                                5
-                                            </SliderMark>
-                                            <SliderMark value={6} {...labelStyles}>
-                                                6
-                                            </SliderMark>
-                                            <SliderMark value={7} {...labelStyles}>
-                                                7
-                                            </SliderMark>
-                                            <SliderMark value={8} {...labelStyles}>
-                                                8
-                                            </SliderMark>
-                                            <SliderMark value={9} {...labelStyles}>
-                                                9
-                                            </SliderMark>
-                                            <SliderMark value={10} {...labelStyles}>
-                                                10
-                                            </SliderMark>
-                                            <SliderMark value={11} {...labelStyles}>
-                                                11
-                                            </SliderMark>
-                                            <SliderMark value={12} {...labelStyles}>
-                                                12
-                                            </SliderMark>
-                                            <SliderMark value={13} {...labelStyles}>
-                                                13
-                                            </SliderMark>
-                                            <SliderMark value={14} {...labelStyles}>
-                                                14
-                                            </SliderMark>
 
-                                            <SliderTrack>
-                                                <SliderFilledTrack />
-                                            </SliderTrack>
-                                            <SliderThumb />
-                                        </Slider>
-                                    </FormControl>
-                                )}
 
-                                <Button onClick={() => {
-                                    calculate();
-                                }
-                                }>Get Cost</Button>
-                                <Text mt={4}>Estimated Cost: </Text>
-                                <Heading>Rs. {total}.00</Heading>
-                                <Text size={'sm'}>You will be able to make the payment after youre survey has been
-                                    approved</Text>
-                                <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to
-                                    modify your survey after you request approval!</Text>
+                                <VStack mt={'20px'} gap={'40px'}>
+
+                                    <Text size={'sm'}>You will be able to make the payment after youre survey has been
+                                        approved</Text>
+                                    <Text size={'sm'} color='red' fontWeight={'bold'}>NOTE: You will not be able to
+                                        modify your survey after you request approval!</Text>
+                                </VStack>
                             </>
 
                         ) : null}
@@ -532,6 +458,41 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
         </>
     )
 }
+function RadioCard(props) {
+    const { getInputProps, getRadioProps } = useRadio(props)
+
+    const input = getInputProps()
+    const checkbox = getRadioProps()
+
+    return (
+        <Box as='label' w={'100%'}>
+            <input {...input} />
+            <Box
+                {...checkbox}
+
+                cursor='pointer'
+                borderWidth='1px'
+                borderRadius='md'
+                boxShadow='md'
+                _checked={{
+                    bg: '#eeedff',
+                    color: 'brand.textBlack',
+                    borderColor: 'brand.darkPurple',
+                }}
+                _focus={{
+                    boxShadow: 'outline',
+                }}
+                px={5}
+                py={3}
+            >
+                {props.children}
+            </Box>
+        </Box>
+    )
+}
+
+
+
 
 const EditSurvey = () => {
     const toast = useToast()
@@ -603,7 +564,7 @@ const EditSurvey = () => {
                 <Card height={'s'}
                     p={'25px 20px'}
                     backgroundColor="rgba(0, 0, 0, 0.2)"
-                    backdropFilter={'blur(5px)'}
+                    // backdropFilter={'blur(5px)'}
                     color={'white'}
                     boxShadow={'none'}
                 >
@@ -625,11 +586,10 @@ const EditSurvey = () => {
                                 </Text>
                             </Flex>
                             <Flex gap='10px'>
-                                {/* <Button>Pause Survey</Button> */}
-                                {survey?.approvalStatus === 'draft' | survey?.approvalStatus === 'rejected' && (
+
+                                {survey?.approvalStatus === 'draft' || survey?.approvalStatus === 'rejected' && (
                                     <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
                                 )}
-
                             </Flex>
 
 
@@ -679,7 +639,7 @@ const EditSurvey = () => {
                     </CardBody>
                 </Card>
                 <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
+                    padding={'30px'} borderRadius={'5px'} justifyContent={'center'} flexDirection={'column'}
                     alignItems={'center'}>
 
 
