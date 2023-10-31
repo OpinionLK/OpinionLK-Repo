@@ -213,7 +213,9 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                           {fields.map((field, index) => (
                             <Flex alignItems={"center"} width={"100%"} gap={"20px"} key={field.id}>
                               <Input {...register(`items.${index}.option`, { required: true })} placeholder={`Option ${index + 1}`} />
-                              {fields.length > 2 && <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
+                              {fields.length > 2 && <IconButton aria-label={
+                                "delete"
+                              } type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
                             </Flex>
                           ))}
                         </VStack>

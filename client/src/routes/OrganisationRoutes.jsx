@@ -5,7 +5,6 @@ import Dashboard from '../pages//Organisations/Dashboard';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import SurveyPage from '../pages/Organisations/SurveyPage';
 import PaymentBilling from '../pages/Organisations/PaymentBilling';
-import Payments from '../pages/Organisations/Payments';
 import EditSurvey from '../pages/Organisations/EditSurvey';
 import TestComponenets from '../pages/Organisations/TestComponenets';
 
@@ -27,7 +26,7 @@ import Success from '../pages/Organisations/Success';
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/survey/1', linkName: 'Surveys', icon: RiSurveyFill },
     { route: '/organisation/paymentbilling', linkName: 'Payments & Billing', icon: RiSurveyFill },
     { route: '/organisation/payments', linkName: 'Payments', icon: RiSurveyFill },
     {
@@ -75,6 +74,10 @@ const OrganisationRoutes = [
             },
             {
                 path: '/organisation/survey',
+                element:<Navigate to="/organisation/survey/1" replace /> ,
+            },
+            {
+                path: '/organisation/survey/:page',
                 element: <SurveyPage />,
             },
             {

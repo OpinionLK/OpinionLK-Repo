@@ -9,6 +9,7 @@ import {
     getQuestionCount,
     createResponse,
     getResponseCount,
+    getSurveysForComManager,
     getQuestionToReview,
     addSurveyPoints,
     insertComment,
@@ -65,7 +66,7 @@ router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
 router.get('/getresponsecount/:surveyid', getResponseCount); //get response count
 router.get('/getplatformdata', getPlatformData);
 router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question count
-
+router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get surveys for community manager
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 
@@ -76,7 +77,7 @@ router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) =
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
     const surveyid = req.params.surveyid;
-console.log(surveyid);
+    console.log(surveyid);
     console.log(fileName);
     // Upload the file to ImageKit
     imagekit.upload({
