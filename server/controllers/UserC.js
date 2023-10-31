@@ -75,21 +75,19 @@ export const updateUserData = async (req, res) => {
 
 
 export const surveyHistory = async (req, res) => {
-    try {
-        console.log('Received survey history request', req.query);
-        const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+
+        const token = req.headers.authorization.split(' ')[1];
+        console.log("token::",token);
+
+        if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        const token = authHeader.split(' ')[1];
-        console.log('Received client data request:', token);
 
-        const id = req.query._id;
-        let user = await User.findOne({ _id: id });
-        console.log("user details: ",user);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
+        const { id } = jwt.verify(token, 'test');
+        console.log("user id::",id);
+        
+    try {
+        // Get all surveys that the user has responded to
         let surveys = await Surveys.find({ responses: { $elemMatch: { userID: id } } });
         console.log("surveys: ",surveys);
 

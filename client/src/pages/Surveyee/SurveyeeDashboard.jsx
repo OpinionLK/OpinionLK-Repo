@@ -58,21 +58,7 @@ const Serydashboard = () => {
                         <SurveyRow 
                             surveys = {surveys}
                         />
-                        {/* <Box
-                            width="auto"
-                            px={5}
-                            pb='4'
-                            minW='1000px'
-                        >
-                            <Wrap spacing='30px'>
-                                <SurveyCard />
-                                <SurveyCard />
-                                <SurveyCard />
-                                <SurveyCard />
-                            </Wrap>
-                        </Box> */}
                 </GridItem>
-
             </Grid>
 
         </Box>

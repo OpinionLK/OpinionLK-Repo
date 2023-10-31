@@ -51,7 +51,11 @@ const UserSchema = new mongoose.Schema(
         postalCode: {
             type: String,
             max: 50
-        }
+        },
+        coupons: {
+            type: Array,
+            default: []
+        },
     }, {
         timestamps: true,
         collection: 'User' // Specify your collection name here

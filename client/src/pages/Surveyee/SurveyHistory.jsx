@@ -15,25 +15,28 @@ import {
     TableContainer,
     HStack,
     Input,
+    Box
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const SurveyHistory = () => {
 
     const [surveyHistory, setSurveyHistory] = useState([]);
+    const {
+        // eslint-disable-next-line
+        user
+    } = useAuthContext();
+
+    const index = 0;
 
     //Fetch survey history
     const fetchSurveyHistory = async () => {
         try {
             // send security token to backend with the header
-            const token = "test"; // replace with your token
             const res = await axios.get('http://localhost:3002/api/user/surveyHistory', {
-                headers: { 'Authorization': `Bearer ${token}` },
-                //send user id to backend
-                params: {
-                    _id: '653cbbcdcece5a81436d38e0',
-                }
+                headers: { 'Authorization': `Bearer ${user.token}` },
             });
             const data = res.data;
             console.log("Hello this is a test: ",data);
@@ -60,9 +63,11 @@ const SurveyHistory = () => {
     }
 
 
+
+
     return (
-        <div>
-            <Card borderRadius={10} mt={-5}>
+        <Box mt={-5} >
+            <Card borderRadius={10}>
                 <CardHeader>
                     <HStack>
                     <Heading fontSize={20} mr={10}>Survey History</Heading>
@@ -92,7 +97,7 @@ const SurveyHistory = () => {
                         </Thead>
                         <Tbody fontSize={14}>
                             {surveyHistory.map((survey) => (
-                                <Tr borderRadius={10} _hover={{cursor: 'pointer', backgroundColor: 'purple.100'}}>
+                                <Tr key={index} borderRadius={10} _hover={{cursor: 'pointer', backgroundColor: 'purple.100'}}>
                                     <Td>{survey.surveyName}</Td>
                                     <Td>{survey.surveyDescription}</Td>
                                     <Td>{survey.dateSubmitted}</Td>
@@ -104,7 +109,7 @@ const SurveyHistory = () => {
                     </TableContainer>
                 </CardBody>
             </Card>
-        </div>
+        </Box>
     )
 }
 
