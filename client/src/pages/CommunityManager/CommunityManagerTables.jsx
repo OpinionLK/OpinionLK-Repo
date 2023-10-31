@@ -22,7 +22,7 @@ import {
 <Box>
             <Box>
             <Box>
-            <Text pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
+            <Text  pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
               Supervisor Revision Requests
             </Text>
             <Box p={5}>
