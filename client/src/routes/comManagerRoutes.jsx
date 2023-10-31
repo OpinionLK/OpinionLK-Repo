@@ -2,6 +2,8 @@ import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
+import CommunityManagerTables from '../pages/CommunityManager/CommunityManagerTables';
+import CommunityManagerActions from '../pages/CommunityManager/CommunityMangerActions';
 
 import {
     Navigate
@@ -11,7 +13,7 @@ import {
     motion
 } from 'framer-motion';
 
-import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
+import { BsHouseFill, BsCollectionFill, BsTable, BsFillFileRuledFill} from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 
 // import { BiSolidEditAlt } from 'react-icons/bi';
@@ -19,6 +21,8 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
+    { route: '/ComManager/Tables' ,linkName: 'Tables', icon: BsTable},
+    {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
     
 
 ];
@@ -58,6 +62,17 @@ const ComManagerRoutes = [
                 element: <CommunityManagerDashBoard />,
             },
             {
+                path: '/ComManager/Tables',
+                element: <CommunityManagerTables/>,
+            },
+            {
+                path: '/ComManager/Actions',
+                element: <CommunityManagerActions/>,
+            },
+
+
+
+            {
                 //path: '/ComManager/allsurveys',
                 //element: <ViewSurveys />,
             },
@@ -71,4 +86,4 @@ const ComManagerRoutes = [
     }
 ]
 
-export default ComManagerRoutes
+export default ComManagerRoutes;
