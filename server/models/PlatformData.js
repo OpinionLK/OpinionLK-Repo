@@ -1,37 +1,16 @@
 import mongoose from "mongoose";
 
 const PlatformDataSchema = new mongoose.Schema({
-    surveyBaseCost: {
-        type: Number,
+    surveyPlans: {
+        type: [mongoose.Schema.Types.Mixed],
         required: true,
-        trim: true,
-        default: 1000
     },
-    surveyCostPerResponse: {
+    pointsPerQuestion: {
         type: Number,
         required: true,
-        trim: true,
-        default: 10
     },
-    perDayCost: {
-        type: Number,
-        required: true,
-        trim: true,
-        default: 7
-    },
-    maxDuration: {
-        type: Number,
-        required: true,
-        trim: true,
-        default: 14
-    },
-    perQuestionCost: {
-        type: Number,
-        required: true,
-        trim: true,
-        default: 20
-    }
-     
+
+
 
 
 })

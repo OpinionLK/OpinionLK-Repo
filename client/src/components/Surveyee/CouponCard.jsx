@@ -13,10 +13,10 @@ import {
 } from '@chakra-ui/react'
 
 import CouponPopup from './CouponPopup'
-import CouponIMG from '../../images/couponimg.png'
+// import CouponIMG from '../../images/couponimg.png'
 import { RiCopperCoinFill } from "react-icons/ri";
 
-const CouponCard = ({couponID, couponName, couponDescription, companyName, couponImage, couponPoints, userPoints}) => {
+const CouponCard = ({couponID, couponName, couponDescription, companyName, couponImage, couponPoints, Count, userPoints}) => {
 
     const percent = (userPoints/couponPoints)*100
 
@@ -30,7 +30,8 @@ const CouponCard = ({couponID, couponName, couponDescription, companyName, coupo
         >
             <Box width='230px'>
                 <Image
-                src={CouponIMG}
+                borderRadius={'10px'}
+                src={couponImage}
                 alt='coupon'
                 
                 />
@@ -41,7 +42,7 @@ const CouponCard = ({couponID, couponName, couponDescription, companyName, coupo
                     <Text size = 'sm' color = '#A3AED0' mt='-2' mb='-1'>
                         {companyName}
                     </Text>
-                    <Text>
+                    <Text fontSize={14}>
                         {couponDescription}
                         Get another cupcake free with the purchase of any of our cupcakes on the standard menu.
                     </Text>

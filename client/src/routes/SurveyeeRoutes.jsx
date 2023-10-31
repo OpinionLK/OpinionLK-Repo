@@ -24,7 +24,7 @@ const Links = [
     { route: '/portal/dashboard', linkName: 'Dashboard', icon: RiDashboardFill },
     { route: '/portal/surveys', linkName: 'Surveys', icon: RiSurveyFill },
     { route: '/portal/profile', linkName: 'Profile', icon: RiFolderUserFill },
-    { route: '/portal/My Rewards', linkName: 'Rewards', icon: RiTicketFill },
+    { route: '/portal/MyRewards', linkName: 'Rewards', icon: RiTicketFill },
     // { route: '/portal/Upgrade', linkName: 'Upgrade', icon: GiUpgrade },
     { route: '/portal/surveyHistory', linkName: 'Survey History', icon: RiHistoryFill }];
 
@@ -72,7 +72,7 @@ const SurveyeeRoutes = [
                 element: <Profile />,
             },
             {
-                path: '/portal/My Rewards',
+                path: '/portal/MyRewards',
                 element: <Myrewards />,
             },
             {

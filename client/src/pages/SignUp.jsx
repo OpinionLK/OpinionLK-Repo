@@ -134,6 +134,7 @@ const SignUp = () => {
             </Text>
           </Stack>
           <Stack spacing={4} gap={'40px'}>
+            
             <form id='SignUpForm' onSubmit={handleSubmit} method="POST">
               <Stack spacing={5}>
                 <HStack>

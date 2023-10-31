@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import Surveys from '../models/Surveys.js';
 import ComManagerModel from '../models/ComManagerModel.js';
 import User from '../models/User.js';
+import Client from "../models/Client.js";
 import PlatformData from '../models/PlatformData.js';
 
 
@@ -28,7 +29,7 @@ console.log(customId);
 
 export const getAllSurveys = async (req, res) => {
     try {
-        const surveys = await Surveys.find().limit(5).sort({ 'created_date': -1 });
+        const surveys = await Surveys.find().sort({ 'created_date': -1 });
         res.status(200).json(surveys);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -38,6 +39,32 @@ export const getAllSurveys = async (req, res) => {
 
 
 export const getSurveysByCreator = async (req, res) => {
+    // #swagger.tags = ['Organisation']
+
+
+    // get token from header
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // verify token
+    const { id } = jwt.verify(token, 'test');
+    // get offset from params
+
+    // const
+    try {
+        const surveys = await Surveys.find({ creatorID: id }).sort({ 'created_date': -1 });
+        // get total number of surveys
+        const total = await Surveys.find({ creatorID: id }).countDocuments();
+        res.status(200).json({ surveys: surveys, total: total });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getSurveysForComManager = async (req, res) => {
     // #swagger.tags = ['Organisation', 'Community Manager']
 
 
@@ -50,14 +77,27 @@ export const getSurveysByCreator = async (req, res) => {
 
     // verify token
     const { id } = jwt.verify(token, 'test');
+    // get offset from params
 
-    // const
+    const { status } = req.params;
     try {
-        const surveys = await Surveys.find({ creatorID: id }).limit(5).sort({ 'created_date': -1 });
-        res.status(200).json(surveys);
+        let surveys = await Surveys.find({approvalStatus:status}).sort({ 'created_date': -1 });
+
+        for (let i = 0; i < surveys.length; i++) {
+            const creator = await Client.find({ _id: surveys[i].creatorID }, { orgName: 1, _id: 0 });
+            let survey = surveys[i].toObject(); // Convert to a plain JavaScript object
+            survey.creatorName = creator[0].orgName;
+            surveys[i] = survey; // Replace the original document with our modified object
+        }
+
+        console.log(surveys);
+
+        const total = await Surveys.find({approvalStatus: status}).countDocuments();
+        res.status(200).json({ surveys: surveys, total: total });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        console.error(error);
     }
+
 }
 
 export const createResponse = async (req, res) => {
@@ -494,7 +534,8 @@ export const getSurveyToReview = async (req, res) => {
         try {
             const survey = await Surveys.find({ surveyID: surveyid });
             const commanager = await ComManagerModel.find({ _id: id });
-
+            const client = await Client.find({ _id: survey[0].creatorID }, { orgName: 1, _id: 0 });
+    console.log(client);
             if (survey[0].creatorID == id || commanager) {
                 const { surveyid } = req.params;
                 let responseCount = await Surveys.aggregate([
@@ -517,6 +558,7 @@ export const getSurveyToReview = async (req, res) => {
                         }
                     }
                 ])
+
                 console.log(responseCount[0].responseCount);
                 console.log(questionCount[0].questionCount);
                 let response = {
@@ -525,10 +567,14 @@ export const getSurveyToReview = async (req, res) => {
                     surveyDescription: survey[0].surveyDescription,
                     surveyImage : survey[0].surveyImage,
                     surveyPoints: survey[0].points,
+                    created_date: survey[0].created_date,
+                    creatorName: client[0].orgName,
+                    creatorID: survey[0].creatorID,
                     surveyStatus: survey[0].approvalStatus,
                     questions: survey[0].questions,
                     questionCount: questionCount[0].questionCount,
                     responseCount: responseCount[0].responseCount,
+                    userTags: survey[0].userTags,
                 }
                 console.log(response);
                 return res.status(200).json(

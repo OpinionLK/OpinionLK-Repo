@@ -182,7 +182,7 @@ export const Login = async (req, res) => {
         return res.status(401).json({ message: 'Invalid password. Please check your email and password.' });
       }
 
-
+      console.log(user);
       const token = jwt.sign(
         { email: user.email, id: user._id, firstName: user.firstName, lastName: user.lastName },
         'test',
