@@ -5,6 +5,7 @@ import { Clients } from '../models/Client.js';
 import ComManager from '../models/ComManagerModel.js';
 import Admin from '../models/Admin.js';
 import nodemailer from 'nodemailer';
+import Surveys from '../models/Surveys.js';
 
 // Sign up user
 export const SignUp = async (req, res) => {
@@ -59,13 +60,34 @@ export const SignUp = async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Add points to the user if the user is signing up after completing a survey
+    const { responseID, surveyID } = req.body;
+    let pointsToAdd = 0;
+
+    if (responseID && surveyID) {
+      // Check if the response exists and get the points
+      const survey = await Surveys.findOne({ surveyID });
+      if (survey) {
+        // console.log('survey: ' + survey)
+        const response = survey.responses.find((r) => r.responseID === responseID);
+        if (response) {
+          pointsToAdd = survey?.points;
+          // console.log('points: ' + survey?.points)
+        }
+      }
+    }else{console.log('wtfffffffff' + surveyID + ' ' + responseID)}
+
+    console.log('pointsToAdd: ' + pointsToAdd)
+
     const result = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      points : pointsToAdd
     });
-
+    console.log('Created user:', result);
     const token = jwt.sign(
       { email: result.email, id: result._id },
       'test',

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate  } from 'react-router-dom';
 
 import TopbarAnon from '../components/Layout/TopbarAnon';
 
@@ -9,7 +9,10 @@ import complete from '../images/complete.png'
 // Your component
 export default function SurveyComplete() {
     const { points } = useParams();
-    console.log('points:' , points)
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(window.location.search);
+    const responseID = searchParams.get('responseID');
+    const surveyID = searchParams.get('surveyID');
 
     const desc = "Thank you for completing the survey, we value your responses!\nIf you were a registered user, you would have earned {points} points for simply filling this survey./nSurvey points can be redeemed to use at our partner stores here in Sri Lanka./nsome partner store logos/nSign up today and add these points to your account!"
     return (
@@ -33,7 +36,7 @@ export default function SurveyComplete() {
                     If you were a registered user, you would have earned {points} points for filling this survey.
                 </Text>
                 <Text color='#A3AED0'>
-                    Survey points can be redeemed to use at our partner stores here in Sri Lanka.
+                    Survey points can be redeemed for coupons to use at our partner stores here in Sri Lanka.
                 </Text>
                 <Text color='#A3AED0'>
                     Sign up today and add these points to your new account!
@@ -51,7 +54,7 @@ export default function SurveyComplete() {
                     bg='#6C63FF' 
                     // w='100px'
                     h='70'
-                    onClick={() => window.location.href = '/client/signup'}
+                    onClick={() => navigate(`/signup?responseID=${responseID}&surveyID=${surveyID}`)}
                 >Sign Up and Earn Points!</Button>
             </Flex>
         </>
