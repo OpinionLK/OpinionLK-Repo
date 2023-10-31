@@ -2,6 +2,11 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "tsConfig": "tsconfig.app.json",
+  "aot": true,
+  "assets": [
+    "src/web.config"
+  ],
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.8.0",
@@ -11,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/dm-sans": "^5.0.5",
     "@fontsource/inter": "^5.0.5",
+    "@stripe/react-stripe-js": "^2.3.1",
     "@tanstack/react-table": "^8.9.3",
     "@testing-library/user-event": "^14.4.3",
     "assert": "^2.1.0",
@@ -43,9 +49,10 @@
     "react-modal": "^3.16.1",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "remixicon": "^3.5.0",
     "router-dom": "^2.2.11",
+    "stripe": "^14.2.0",
     "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },

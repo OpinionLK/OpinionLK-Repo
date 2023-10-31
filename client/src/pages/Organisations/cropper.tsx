@@ -18,9 +18,7 @@ import {
     ModalBody,
     useDisclosure
 } from '@chakra-ui/react'
-
 import { useDropzone } from 'react-dropzone';
-
 import 'react-image-crop/dist/ReactCrop.css'
 import axios from 'axios'
 
@@ -30,7 +28,7 @@ const baseStyle = {
     // flexDirection: 'column',
     alignItems: 'center',
     padding: '10px',
-    height:'200px',
+    height: '200px',
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#eeeeee',
@@ -73,7 +71,7 @@ function centerAspectCrop(
     )
 }
 
-export default function App({ loadImage }) {
+export default function App({ loadImage, surveyId }) {
     const [imgSrc, setImgSrc] = useState('')
     const imgRef = useRef<HTMLImageElement>(null)
     const [crop, setCrop] = useState<Crop>()
@@ -133,16 +131,20 @@ export default function App({ loadImage }) {
 
                 const formData = new FormData();
                 formData.append('image', blob, 'croppedImage.jpg');
+// add survey id to the request
 
+                setIsLoading(true)
                 try {
-                    const response = await axios.post('http://localhost:3002/api/survey/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    const response = await axios.post('http://localhost:3002/api/survey/'+surveyId+'/imageUpload/', formData, { headers: { 'Content-Type': 'multipart/form-data' } }
+                    )
 
 
                     if (response.status === 200) {
                         console.log(response.data)
-                        loadImage(response.data.imageName)
+                        loadImage(response.data.surveyImage)
                         resetFile()
                         onClose()
+                        setIsLoading(false)
                     } else {
                         // Handle error
                     }
@@ -159,6 +161,7 @@ export default function App({ loadImage }) {
         console.log('File dropped!');
     };
 
+    const [isLoading, setIsLoading] = useState(false)
     const resetFile = () => {
         setImgSrc('')
         setShowCropper(false)
@@ -191,18 +194,18 @@ export default function App({ loadImage }) {
                         alignItems={'center'}>
                         {
                             !showCropper ? <Flex flexDirection={'column'}>
-   <div className="Crop-Controls">
-                            <div {...getRootProps({ style })}>
-                                <input {...getInputProps()} />
-                                <p>Drag 'n' drop some files here, or click to select files</p>
-                            </div>
+                                <div className="Crop-Controls">
+                                    <div {...getRootProps({ style })}>
+                                        <input {...getInputProps()} />
+                                        <p>Drag 'n' drop some files here, or click to select files</p>
+                                    </div>
 
 
-                        </div>
+                                </div>
                             </Flex>
                                 : null
                         }
-                     
+
                         {!!imgSrc && (
                             <ReactCrop
                                 crop={crop}
@@ -225,7 +228,7 @@ export default function App({ loadImage }) {
                             <Button colorScheme='red' mr={3} onClick={resetFile}>
                                 Delete
                             </Button>
-                            <Button colorScheme='blue' onClick={sendCroppedImageToBackend}>Set Image</Button>
+                            <Button isLoading={isLoading} colorScheme='blue' onClick={sendCroppedImageToBackend}>Set Image</Button>
                         </ModalFooter> : null
                     }
 

@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        coupons: {
+            type: Array,
+            default: []
+        },
     }, {
         timestamps: true,
         collection: 'User' // Specify your collection name here

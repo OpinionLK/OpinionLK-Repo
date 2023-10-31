@@ -4,7 +4,6 @@ import axios from 'axios'
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 import {
-  Heading,
   Wrap,
   Text,
 } from '@chakra-ui/react'
@@ -28,28 +27,28 @@ const Myrewards = () => {
 
     fetchCoupons()
   }, [])
-
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
-  const points = userData.points;
+  const points = userData?.points;
 
   return (
     <>
-      <Wrap spacing='14px'>
+      <Wrap spacing='14px' mt={-5}>
         {coupons ? coupons.map((coupon) => {
           return(
             <>
             <CouponCard 
               couponName={coupon.CouponName}
-              couponDescription={coupon.CouponDescription}
+              couponDescription={coupon.Description}
               companyName={coupon.CompanyName}
               // need the image
               couponImage={coupon.CouponImage}
               couponPoints={coupon.Points}
+              couponCount={coupon.Count}
               userPoints={points}
-
             />
             </>
           )

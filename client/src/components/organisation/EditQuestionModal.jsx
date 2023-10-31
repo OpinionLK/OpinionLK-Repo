@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, useFieldArray, set } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import {
   Modal,
   RadioGroup,
@@ -18,7 +18,6 @@ import {
   Checkbox,
   Radio,
   MenuList,
-  FormErrorMessage,
   useDisclosure,
   Flex,
   Box,
@@ -33,11 +32,10 @@ import {
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { AnimatePresence, motion } from "framer-motion";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+// eslint-disable-next-line
 function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { surveyid } = useParams();
@@ -72,6 +70,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
         setIsQuestionLoaded(true);
       }
     }
+    // eslint-disable-next-line
   }, [isOpen]);
 
 
@@ -113,6 +112,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
       URL = `http://localhost:3002/api/survey/addQuestion/${surveyid}`;
     }
     try {
+      // eslint-disable-next-line
       const response = await axios.request({
         url: URL,
         method: method, // Use the dynamic method here
@@ -213,7 +213,9 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                           {fields.map((field, index) => (
                             <Flex alignItems={"center"} width={"100%"} gap={"20px"} key={field.id}>
                               <Input {...register(`items.${index}.option`, { required: true })} placeholder={`Option ${index + 1}`} />
-                              {fields.length > 2 && <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
+                              {fields.length > 2 && <IconButton aria-label={
+                                "delete"
+                              } type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
                             </Flex>
                           ))}
                         </VStack>

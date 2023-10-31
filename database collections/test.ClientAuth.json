@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "64dba9a7bbbf7248137d5673"
+  },
+  "email": "kandos@gmail.com",
+  "password": "$2b$12$9KyuGRhlm.D7sH0jingpq.PHOOgu3SAR5VVlkAWHwMKHUvzorXUaq",
+  "createdAt": {
+    "$date": "2023-08-15T16:36:55.177Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-15T16:36:55.177Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64ce91d228efb8bcbec9ea4a"
+  },
+  "firstName": "Test",
+  "lastName": "Client",
+  "email": "client@opinion.lk",
+  "password": "$2b$12$qE.nghDUDThfnC07PpTYLuPTvza5CoWujwRTiNhtzMgleEk2I7ebm",
+  "profilePicture": "",
+  "createdAt": {
+    "$date": "2023-08-05T18:15:46.870Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T18:15:46.870Z"
+  },
+  "__v": 0
+}]

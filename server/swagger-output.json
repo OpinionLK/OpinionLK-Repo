@@ -21,6 +21,26 @@
         }
       }
     },
+    "/api/uploadKeys": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/generateAuth": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/auth/signup": {
       "post": {
         "description": "",
@@ -316,9 +336,9 @@
     "/api/client/clientdata": {
       "get": {
         "tags": [
-          "Organisation"
+          "User"
         ],
-        "description": "Endpoint to get organisation data",
+        "description": "Endpoint to get user data",
         "parameters": [
           {
             "name": "authorization",
@@ -378,11 +398,59 @@
         }
       }
     },
+    "/api/user/getAllCoupons": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user/getMyCoupons": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/user/surveyHistory": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/survey/createResponse": {
       "post": {
-        "tags": [
-          "User"
-        ],
         "description": "",
         "parameters": [
           {
@@ -400,6 +468,41 @@
                   "example": "any"
                 },
                 "response": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/survey/addSurveyPoints": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "points": {
                   "example": "any"
                 }
               }
@@ -480,7 +583,73 @@
         }
       }
     },
-    "/api/survey/getsurvey/{surveyid}": {
+    "/api/survey/getsurveytoedit/{surveyid}": {
+      "get": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
+        "description": "Gets survey to edit, checks edit privileges",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/survey/getquestiontoreview/{surveyid}": {
+      "get": {
+        "tags": [
+          "Organisation",
+          "Community Manager"
+        ],
+        "description": "Gets survey to edit, checks edit privileges",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/survey/getSurveyToReview/{surveyid}": {
       "get": {
         "tags": [
           "Organisation",
@@ -726,6 +895,21 @@
               "properties": {
                 "state": {
                   "example": "any"
+                },
+                "estCost": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "any"
+                },
+                "endCriteria": {
+                  "example": "any"
+                },
+                "userTag": {
+                  "example": "any"
+                },
+                "response": {
+                  "example": "any"
                 }
               }
             }
@@ -747,12 +931,302 @@
         }
       }
     },
-    "/api/survey/imageUpload": {
+    "/api/survey/getresponsecount/{surveyid}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/survey/getplatformdata": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/survey/getQuestionCount/{surveyid}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/survey/insertComment/{surveyid}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "req": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/survey/{surveyid}/imageUpload": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "surveyid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/create-checkout-session": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/payment/success": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/payment/retrieve-checkout-session": {
       "post": {
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/coupons": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/admin/coupons/add": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "CouponName": {
+                  "example": "any"
+                },
+                "CouponCode": {
+                  "example": "any"
+                },
+                "Description": {
+                  "example": "any"
+                },
+                "StartDate": {
+                  "example": "any"
+                },
+                "Points": {
+                  "example": "any"
+                },
+                "EndDate": {
+                  "example": "any"
+                },
+                "Status": {
+                  "example": "any"
+                },
+                "Count": {
+                  "example": "any"
+                },
+                "CompanyName": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/coupons/update/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "CouponName": {
+                  "example": "any"
+                },
+                "CouponCode": {
+                  "example": "any"
+                },
+                "Discount": {
+                  "example": "any"
+                },
+                "Description": {
+                  "example": "any"
+                },
+                "StartDate": {
+                  "example": "any"
+                },
+                "EndDate": {
+                  "example": "any"
+                },
+                "Status": {
+                  "example": "any"
+                },
+                "Count": {
+                  "example": "any"
+                },
+                "CompanyName": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/coupons/delete/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

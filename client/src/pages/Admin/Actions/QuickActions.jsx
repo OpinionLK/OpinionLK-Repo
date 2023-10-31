@@ -4,30 +4,20 @@ import {
     Card,
     CardHeader,
     CardBody,
-    Button,
-    IconButton,
-    FormControl,
-    Input,
-    VStack,
     Box,
     Alert,
     AlertIcon,
-    FormLabel,
-    HStack,
     Stack,
     Divider,
     CardFooter,
   } from '@chakra-ui/react';
   
-  import React, { useEffect, useState } from 'react';
-  import { CloseIcon } from '@chakra-ui/icons';
-  import Modal from 'react-modal';
-  import axios from 'axios';
+  import React, { useState } from 'react'; 
   import AddComManager from './AddComManager'
   import AddCoupon from '../Components/AddCoupon'
   
-  
   const QuickActions = () => {
+    // eslint-disable-next-line
     const [isSuccess, setIsSuccess] = useState(false);
   
     return (

@@ -1,16 +1,11 @@
-import react from 'react';
 import {
-    Box,
     Flex,
     Stack,
-    Divider,
-    Heading,
-    Alert,
-    AlertIcon,
     Card,
     CardHeader,
     CardBody,
     CardFooter,
+    Heading,
 } from '@chakra-ui/react';
 
 import {

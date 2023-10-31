@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "64ce91d228efb8bcbec9ea4a"
+  },
+  "firstName": "Test",
+  "lastName": "Admin",
+  "email": "test@opinion.lk",
+  "password": "12345678",
+  "profilePicture": "",
+  "createdAt": {
+    "$date": "2023-08-05T18:15:46.870Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T18:15:46.870Z"
+  },
+  "__v": 0
+}]

@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 // import Modal from 'react-modal';
 // import { EditIcon, DeleteIcon, CloseIcon } from '@chakra-ui/icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // import axios from 'axios';
 
 const SurveyeeManager = () => {

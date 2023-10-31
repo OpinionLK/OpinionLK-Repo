@@ -19,7 +19,7 @@ import {
 
 
 const AddComManager = () => {
-
+// eslint-disable-next-line
     const [isSuccess, setIsSuccess] = useState(false);
     
     const CloseIcon = () => (
@@ -164,7 +164,7 @@ const AddComManager = () => {
                     borderRadius={'5px'}
                     bg={'purple.500'}
                 >
-                    Search
+                    View
                 </Button>
                 </HStack>
             </Box>

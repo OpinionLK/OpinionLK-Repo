@@ -1,11 +1,8 @@
 import express, { application } from 'express';
-import {
-    getAllSurveys,
-} from '../controllers/SurveysC.js';
+import { getAllSurveys } from '../controllers/SurveysC.js';
+import { userData, surveyHistory } from '../controllers/UserC.js';
+import { redeemCoupon } from '../controllers/Coupons.js';
 
-import {
-    userData
-} from '../controllers/UserC.js';
 
 import{
     getAllCoupons,
@@ -18,6 +15,9 @@ router.get('/allsurveys', getAllSurveys);
 router.get('/userdata', userData);
 router.get('/getAllCoupons', getAllCoupons);
 router.get('/getMyCoupons', getMyCoupons);
+router.get('/surveyHistory', surveyHistory);
+router.post('/redeemCoupon', redeemCoupon);
+// router.get('/updatedUser', userData);
 
 
 export default router; 

@@ -3,53 +3,67 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
     ModalOverlay,
     ModalContent,
-
+    RadioGroup,
+    Stack,
+    useSteps,
     useToast,
     ModalHeader,
     Slider,
     SliderTrack,
     SliderMark,
-
     SliderFilledTrack,
-    Box,
     SliderThumb,
     ModalFooter,
     Tooltip,
     FormControl,
     FormLabel,
-    Input,
     ModalBody,
     ModalCloseButton,
     Select,
     Icon,
-
+    HStack,
+    Checkbox,
+    VStack,
+    Radio,
+    Skeleton,
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon,
-
-    DragHandleIcon
+    ArrowBackIcon,
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
-
 import { useDisclosure } from '@chakra-ui/react';
-
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
-
-
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
+// import { set } from 'mongoose';
+import YearPicker from '../../components/organisation/YearPicker.jsx';
 
+const steps = [
+    { title: 'Target Audience', description: '' },
+    { title: 'Duration/Responses', description: '' },
+    { title: 'Confirm', description: '' },
+]
 
 function InitialFocus({ surveyid }) {
+    // eslint-disable-next-line
+    const [date, setDate] = useState(new Date());
+    const [gender, setGender] = useState('male');
+    // eslint-disable-next-line
+    const { activeStep } = useSteps({
+        index: 1,
+        count: steps.length,
+    })
     const toast = useToast()
-
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
 
@@ -58,8 +72,12 @@ function InitialFocus({ surveyid }) {
             console.log(user.token)
             const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
                 {
-                    state: 'pending'
-
+                    state: 'pending',
+                    estCost: total,
+                    duration: duration,
+                    targetResponses: targetResponses,
+                    endCriteria: 'duration',
+                    userTag: [{ gender: 'male' }, { birthyear1: 1970 }, { birthyear2: 2000 }, { city: 'Colombo' }]
                 },
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
@@ -84,19 +102,138 @@ function InitialFocus({ surveyid }) {
 
 
     }
+    // eslint-disable-next-line
+    const setActive = async () => {
+        try {
+            console.log(user.token)
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
+                {
+                    state: 'active',
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+
+            if (response.status === 200) {
+                onClose();
+                toast({
+                    title: 'Survey is now active',
+                    status: 'success',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+    // eslint-disable-next-line
+    const setSuspend = async () => {
+        try {
+            console.log(user.token)
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
+                {
+                    state: 'active',
+                },
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+
+            if (response.status === 200) {
+                onClose();
+                toast({
+                    title: 'Survey is now suspended',
+                    status: 'info',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
+    const [baseCost, setBaseCost] = useState(0);
+    const [costPerResponse, setCostPerResponse] = useState(0);
+    const [perDayCost, setPerDayCost] = useState(0);
+    // eslint-disable-next-line
+    const [maxDuration, setMaxDuration] = useState(0);
+    const [perQuestionCost, setPerQuestionCost] = useState(0);
+    const [questionCount, setQuestionCount] = useState(0);
+
+    const getSurveyConstraints = async () => {
+        try {
+            console.log(user.token)
+            const response1 = await axios.get(`http://localhost:3002/api/survey/getplatformdata`,
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+            const response2 = await axios.get(`http://localhost:3002/api/survey/getquestioncount/${surveyid}`,
+                {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                },
+            );
+
+            if (response1.status === 200 && response2.status === 200) {
+                setBaseCost(response1.data.surveyBaseCost);
+                setCostPerResponse(response1.data.surveyCostPerResponse);
+                setPerDayCost(response1.data.perDayCost);
+                setMaxDuration(response1.data.maxDuration);
+                setPerQuestionCost(response1.data.perQuestionCost);
+                setQuestionCount(response2.data);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
 
-    const [audience, setAudience] = useState('100');
+    const [duration, setDuration] = useState('7');
+    const [targetResponses, SetTargetResponses] = useState('300');
     const labelStyles = {
-        mt: '2',
+
+
         ml: '-2.5',
         fontSize: 'sm',
     }
+    const [total, setTotal] = useState(0);
+    const calculate = () => {
+        console.log(baseCost);
+        console.log(duration);
+        console.log(targetResponses);
+
+        setTotal(baseCost + (costPerResponse * targetResponses) + (perDayCost * duration) + (perQuestionCost * questionCount));
+
+    }
+
+    const [endCriteria, setEndCriteria] = useState('duration');
+    useEffect(() => {
+        getSurveyConstraints();
+
+    }// eslint-disable-next-line
+        , [])
+
+    const [approvalPage, setApprovalPage] = useState(0);
+    const [everyone, setEveryone] = useState(false);
     return (
+
         <>
+
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
             {user.id}
 
@@ -112,69 +249,196 @@ function InitialFocus({ surveyid }) {
                     <ModalHeader>We need a few more details regarding your survey</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>Choose a Target Audience <Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
-                            </Tooltip>
-                            </FormLabel>
-                            <Select placeholder="Select option">
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                            </Select>
 
-                        </FormControl>
-
-                        <FormControl mt={4} p={'30px 30px'}>
-                            <FormLabel>Choose expected audience count</FormLabel>
-                            <Slider
-                                min={100}
-                                value={audience}
-                                max={500}
-                                mt={'40px'} aria-label='slider-ex-6' onChange={(val) => setAudience(val)}>
-                                <SliderMark value={100} {...labelStyles}>
-                                    100
-                                </SliderMark>
-                                <SliderMark value={200} {...labelStyles}>
-                                    200
-                                </SliderMark>
-                                <SliderMark value={300} {...labelStyles}>
-                                    300
-                                </SliderMark>
-                                <SliderMark value={400} {...labelStyles}>
-                                    400
-                                </SliderMark>
-                                <SliderMark value={500} {...labelStyles}>
-                                    500
-                                </SliderMark>
+                        {approvalPage === 0 ? (
+                            <VStack mt={'20px'} gap={'40px'}>
+                                <FormControl>
+                                    <FormLabel>Choose a target gender <Tooltip placement='auto-start'
+                                        label="A target audience is the catergory of people you wish to present this survey to."
+                                        aria-label='A tooltip'><Icon
+                                            as={QuestionOutlineIcon} />
+                                    </Tooltip>
+                                    </FormLabel>
+                                    <Select placeholder="Select option" onChange={(e) => {
+                                        setGender(e.target.value)
+                                    }} value={gender}
+                                    >
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="everyone">Everyone</option>
+                                    </Select>
 
 
-                                <SliderMark
-                                    value={audience}
-                                    textAlign='center'
-                                    bg='blue.500'
-                                    color='white'
-                                    mt='-10'
-                                    ml='-5'
-                                    w='12'
-                                >
-                                    {audience}
-                                </SliderMark>
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </FormControl>
-                        <Text mt={4}>Estimated Cost: </Text>
-                        <Heading>Rs. {audience * 10}.00</Heading>
-                        <Text size={'sm'}>You will be able to make the payment after youre survey has been approved</Text>
-                        <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to modify your survey after you request approval!</Text>
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Choose a target birth year range <Tooltip placement='auto-start'
+                                        label="A target audience is the catergory of people you wish to present this survey to."
+                                        aria-label='A tooltip'><Icon
+                                            as={QuestionOutlineIcon} />
+                                    </Tooltip>
+                                    </FormLabel>
 
+
+
+                                            <YearPicker disabled={everyone} />
+
+                                    <Checkbox onChange={(e) => {
+                                        setEveryone(e.target.checked);
+                                    }
+                                    }>Include everyone</Checkbox>
+
+
+                                </FormControl>
+                            </VStack>
+                        ) : approvalPage === 1 ? (
+                            <>
+                                <Heading size={'sm'}>Choose how to end the survey</Heading>
+                                <RadioGroup value={endCriteria} onChange={setEndCriteria}>
+                                    <Stack direction="row">
+                                        <Radio value="duration">Duration</Radio>
+                                        <Radio value="responses">Responses</Radio>
+                                    </Stack>
+                                </RadioGroup>
+                                {endCriteria === 'duration' ? (
+                                    <FormControl mt={4} p={'30px 30px'}>
+                                        <FormLabel>Choose the maximum number of responses you wish to
+                                            collect</FormLabel>
+                                        <Slider
+                                            min={100}
+                                            value={targetResponses}
+                                            max={500}
+                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
+                                                SetTargetResponses(val)
+                                                console.log(val)
+
+                                            }}>
+                                            <SliderMark value={100} {...labelStyles}>
+                                                100
+                                            </SliderMark>
+                                            <SliderMark value={200} {...labelStyles}>
+                                                200
+                                            </SliderMark>
+                                            <SliderMark value={300} {...labelStyles}>
+                                                300
+                                            </SliderMark>
+                                            <SliderMark value={400} {...labelStyles}>
+                                                400
+                                            </SliderMark>
+                                            <SliderMark value={500} {...labelStyles}>
+                                                500
+                                            </SliderMark>
+
+
+                                            <SliderTrack>
+                                                <SliderFilledTrack />
+                                            </SliderTrack>
+                                            <SliderThumb />
+                                        </Slider>
+                                    </FormControl>
+                                ) : (
+                                    <FormControl mt={4} p={'30px 30px'}>
+                                        <FormLabel>Choose the number of days you wish to keep the survey
+                                            active</FormLabel>
+
+                                        <Slider
+                                            min={1}
+                                            value={duration}
+                                            max={14}
+                                            mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
+                                                setDuration(val)
+                                                console.log(val)
+                                            }}>
+
+
+                                            <SliderMark value={1} {...labelStyles}>
+                                                1
+                                            </SliderMark>
+                                            <SliderMark value={2} {...labelStyles}>
+                                                2
+                                            </SliderMark>
+                                            <SliderMark value={3} {...labelStyles}>
+                                                3
+                                            </SliderMark>
+                                            <SliderMark value={4} {...labelStyles}>
+                                                4
+                                            </SliderMark>
+                                            <SliderMark value={5} {...labelStyles}>
+                                                5
+                                            </SliderMark>
+                                            <SliderMark value={6} {...labelStyles}>
+                                                6
+                                            </SliderMark>
+                                            <SliderMark value={7} {...labelStyles}>
+                                                7
+                                            </SliderMark>
+                                            <SliderMark value={8} {...labelStyles}>
+                                                8
+                                            </SliderMark>
+                                            <SliderMark value={9} {...labelStyles}>
+                                                9
+                                            </SliderMark>
+                                            <SliderMark value={10} {...labelStyles}>
+                                                10
+                                            </SliderMark>
+                                            <SliderMark value={11} {...labelStyles}>
+                                                11
+                                            </SliderMark>
+                                            <SliderMark value={12} {...labelStyles}>
+                                                12
+                                            </SliderMark>
+                                            <SliderMark value={13} {...labelStyles}>
+                                                13
+                                            </SliderMark>
+                                            <SliderMark value={14} {...labelStyles}>
+                                                14
+                                            </SliderMark>
+
+                                            <SliderTrack>
+                                                <SliderFilledTrack />
+                                            </SliderTrack>
+                                            <SliderThumb />
+                                        </Slider>
+                                    </FormControl>
+                                )}
+
+                                <Button onClick={() => {
+                                    calculate();
+                                }
+                                }>Get Cost</Button>
+                                <Text mt={4}>Estimated Cost: </Text>
+                                <Heading>Rs. {total}.00</Heading>
+                                <Text size={'sm'}>You will be able to make the payment after youre survey has been
+                                    approved</Text>
+                                <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to
+                                    modify your survey after you request approval!</Text>
+                            </>
+
+                        ) : null}
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' onClick={setPending}>
-                            Proceed
-                        </Button>
+                        <HStack gap={'10px'}>
+
+                            {approvalPage > 0 ? (
+                                <Button variant={'outline'} mr={3} onClick={() => setApprovalPage(approvalPage - 1)}>
+                                    Back
+                                </Button>
+                            ) : null}
+                            <Button colorScheme='blue' onClick={
+                                () => {
+                                    if (approvalPage < 1) {
+                                        setApprovalPage(approvalPage + 1)
+                                    } else {
+                                        setPending();
+                                    }
+                                }
+                            }>
+                                {approvalPage < 1 ? 'Next' : 'Request Approval'}
+
+                            </Button>
+
+                        </HStack>
+
 
                     </ModalFooter>
                 </ModalContent>
@@ -186,11 +450,7 @@ function InitialFocus({ surveyid }) {
 const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleSubmit }) => {
 
     const toast = useToast()
-
     const handleDelete = async () => {
-
-
-
         try {
             // Make an HTTP DELETE request to your backend API
             await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
@@ -214,6 +474,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
         }
     };
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: OnDeleteClose } = useDisclosure()
+    // eslint-disable-next-line
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: OnEditClose } = useDisclosure()
 
     return (
@@ -221,7 +482,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
             <Modal isOpen={isDeleteOpen} onClose={OnDeleteClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader>Confirm Delete?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         Cannot be recovered
@@ -236,38 +497,6 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                 </ModalContent>
             </Modal>
 
-
-            {/* <Modal size={'xl'} isOpen={isEditOpen} onClose={OnEditClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Edit</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                                <FormControl id="question">
-                                    <FormLabel>Question</FormLabel>
-                                    <Input type="text" />
-                                </FormControl>
-                                <FormControl id="responseType">
-                                    <FormLabel>Response Type</FormLabel>
-                                    <Select placeholder="Select option">
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                    </Select>
-                                </FormControl>
-
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button variant={'outline'} mr={3} onClick={OnEditClose}>
-                                Cancel
-                            </Button>
-                            <Button colorScheme='whatsapp' onClick={handleDelete}>Save</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal> */}
-
-
-
             <Card cursor="pointer" transition={'0.3s'}>
                 <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
                     alignItems={'center'}><Flex gap={'20px'}>
@@ -275,8 +504,9 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                         <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
                         {
-                            approvalStatus == 'pending' ? null : (
-                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit} mode={'edit'} />
+                            approvalStatus === 'pending' ? null : (
+                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit}
+                                    mode={'edit'} />
                             )
                         }
 
@@ -284,13 +514,9 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                             icon={<DeleteIcon />}
                             onClick={onDeleteOpen} />
 
-                        <IconButton aria-label={'delete'}
-                            icon={<DragHandleIcon />}
-                            onClick={() => alert('Drag Handle')} />
-
                     </Flex>
                 </CardBody>
-            </Card >
+            </Card>
         </>
     )
 }
@@ -341,8 +567,11 @@ const EditSurvey = () => {
             }
         }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { handleSubmit(); }, [])
+
+    useEffect(() => {
+        handleSubmit();
+        // eslint-disable-next-line
+    }, [])
 
     // const toast = useToast()
     const loadImage = (imageName) => {
@@ -352,8 +581,9 @@ const EditSurvey = () => {
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
+            <Link to={'/organisation/survey'}>{<ArrowBackIcon />} Back</Link>
             <Card
-                backgroundImage={'url("http://localhost:3002/api/survey/images/' + ImgName + '")'}
+                backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                 backgroundSize={'cover'}
                 backgroundColor={'gray'}
                 backgroundPosition={'center'}
@@ -371,17 +601,22 @@ const EditSurvey = () => {
                             <Flex gap='10px' flexDir={'column'}>
 
                                 <Heading>
-                                    {survey?.surveyName}
+                                    {survey?.surveyName ? survey?.surveyName : (
+                                        <Skeleton height={'50px'} width={'400px'} />
+
+                                    )}
                                 </Heading>
                                 <Text>
-                                    {survey?.surveyDescription}
-
+                                    {survey?.surveyDescription ? survey?.surveyDescription : (
+                                        <Skeleton height={'20px'} width={'200px'} />
+                                    )}
                                 </Text>
                             </Flex>
                             <Flex gap='10px'>
-                                <Button>Suspend</Button>
-                                <Button>Delete</Button>
-                                <Cropper loadImage={loadImage} />
+                                {/* <Button>Pause Survey</Button> */}
+                                {survey?.approvalStatus === 'draft' | survey?.approvalStatus === 'rejected' && (
+                                    <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
+                                )}
 
                             </Flex>
 
@@ -397,8 +632,9 @@ const EditSurvey = () => {
                     <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
-                            {survey?.approvalStatus == 'draft' ? (
-                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit} mode={'add'} />
+                            {survey?.approvalStatus === 'draft' ? (
+                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit}
+                                    mode={'add'} />
                             ) : null}
 
                         </Flex>
@@ -416,7 +652,9 @@ const EditSurvey = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, transition: { duration: 0.3 } }}
                                         >
-                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} handleSubmit={handleSubmit} question={question}
+                                            <QuestionCard surveyid={survey.surveyID}
+                                                approvalStatus={survey.approvalStatus}
+                                                handleSubmit={handleSubmit} question={question}
                                                 refreshdata={handleSubmit} />
                                         </motion.div>
 
@@ -428,22 +666,70 @@ const EditSurvey = () => {
                         </Flex>
                     </CardBody>
                 </Card>
-                {survey?.approvalStatus == 'pending' ? null : (
-                    <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                        padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
-                        alignItems={'center'}>
-
-                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                            Ready to publish your survey?
-                        </Text>
-                        <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
-
-                        <InitialFocus surveyid={survey?.surveyID} />
+                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
+                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
+                    alignItems={'center'}>
 
 
-                    </Card>
-                )
-                }
+                    {survey?.approvalStatus === 'draft' && (
+                        <>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                Ready to publish your survey?
+                            </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
+                                approval</Text>
+
+                            <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
+                        </>
+                    )
+                    }
+                    {survey?.approvalStatus === 'pending' && (
+                        <>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                Your survey is pending approval
+                            </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
+                                shortly</Text>
+
+                        </>
+                    )
+                    }
+                    {survey?.approvalStatus === 'active' && (
+                        <>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                Your survey is live!
+                            </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
+                                your </Text>
+
+                        </>
+                    )
+                    }
+                    {survey?.approvalStatus === 'rejected' && (
+                        <>
+                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                Your survey failed the review
+                            </Text>
+                            {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+                            <Button p={'20px'}>View Feedback</Button>
+                        </>
+                    )
+                    }
+                    {survey?.approvalStatus === 'approved' && (
+                        <>
+                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                                Your survey was approved
+                            </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
+                                payment to make your survey live
+                            </Text>
+                            <Button>Pay Now</Button>
+                        </>
+                    )
+                    }
+
+
+                </Card>
 
             </Flex>
         </Flex>

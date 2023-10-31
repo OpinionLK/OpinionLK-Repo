@@ -46,8 +46,24 @@ const editModal = definePartsStyle({
     },
   },
 })
+const reviewModal = definePartsStyle({
+
+  dialog: {
+    borderRadius: 'xl',
+
+    minHeight: '60vh',
+    maxWidth: '60vw',
+    // bg: `purple.100`,
+
+    // Let's also provide dark mode alternatives
+    _dark: {
+      bg: `purple.600`,
+      color: 'white',
+    },
+  },
+})
 
 export const modalTheme = defineMultiStyleConfig({
-  variants: { purple, editModal },
+  variants: { purple, editModal ,reviewModal},
   baseStyle,
 })

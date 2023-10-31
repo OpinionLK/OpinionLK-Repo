@@ -1,7 +1,8 @@
 import express, { application } from 'express';
 import {
     SignUp,
-    Login
+    Login,
+    sendmail
 } from '../controllers/authC.js';
 
 import{
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.post('/signup', SignUp);
 router.post('/login', Login);
+router.post('/sendEmail', sendmail);
 
 router.get('/getmembers', Getmembers);
 router.post('/savemember', Savemember);

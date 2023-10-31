@@ -1,22 +1,11 @@
 import {
-    Flex,
-    Heading,
-    Stack,
-    useMediaQuery,
-    FormControl,
-    FormLabel,
     Text,
-    Input,
-    Checkbox,
-    Button,
     Box,
-    Grid,
-    GridItem,
   } from '@chakra-ui/react';
-  import Dashboard from '../DashboardLayout';
   
-  import Sidebar from '../../components/Layout/Sidebar';
-  import Topbar from '../../components/Layout/Topbar';
+
+  import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
+  import SurveyTable from '../../components/CommunityManager/SurveyTable';
 
 
   function CommunityManagerTables(){
@@ -29,11 +18,28 @@ import {
 
       return(
         <>
-            <h1>This is Community manager Table page</h1>
+  
+<Box>
+            <Box>
+            <Box>
+            <Text pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
+              Supervisor Revision Requests
+            </Text>
+            <Box p={5}>
+              <AcceptRequestTable />
+            </Box>
+          </Box>
+            </Box>
 
 
+            <Box d='flex' flexDir={'r'}>
+              <Text pt={15} color={'black'} fontSize={'2xl'}> Survey Table</Text>
+              <Box p={5}>
+                <SurveyTable></SurveyTable>
+              </Box>
+            </Box>
 
-
+</Box>
 
 
         </>

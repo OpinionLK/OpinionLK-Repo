@@ -1,6 +1,7 @@
 import Landing from '../pages/Landing';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
+import ResetPass from '../pages/passwordReset';
 
 import ClientLogin from '../pages/ClientLogin';
 import ClientSignUp from '../pages/ClientSignUp';
@@ -9,9 +10,10 @@ import { motion } from 'framer-motion';
 import ErrorPage from '../pages/ErrorPage';
 import Loading from '../pages/Loading';
 
+import SurveyAnonymous from '../pages/SurveyAnonymous';
+import SurveyAnonComplete from '../pages/SurveyAnonComplete';
+
 // import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
-
-
 import OrganisationRoutes from './OrganisationRoutes';
 import SurveyeeRoutes from './SurveyeeRoutes';
 import adminRoutes from './adminRoutes';
@@ -72,6 +74,18 @@ const router = createBrowserRouter([
     {
         path: '/client/signup',
         element: <ClientSignUp />,
+    },
+    {
+        path: '/reset',
+        element: <ResetPass />,
+    },
+    {
+        path: '/surveyAnonymous/:surveyid',
+        element: <SurveyAnonymous />,
+    },
+    {
+        path: '/surveyAnonymous/complete/:points',
+        element: <SurveyAnonComplete/>,
     },
 
     ...SurveyeeRoutes,

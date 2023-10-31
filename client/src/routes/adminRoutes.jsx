@@ -21,7 +21,7 @@ const Links = [
     { route: '/admin/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
     { route: '/admin/tables', linkName: 'Tables', icon: BsTable },
     { route: '/admin/actions', linkName: 'Actions', icon: BsCollectionFill },
-    { route: '/admin/profile', linkName: 'Profile', icon: BsCollectionFill}
+    // { route: '/admin/profile', linkName: 'Profile', icon: BsCollectionFill}
 
 ];
 

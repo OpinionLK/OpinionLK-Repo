@@ -1,27 +1,37 @@
 import React from 'react'
-// import './style.css'
 import { 
     Card, 
-    CardHeader, 
-    CardBody, 
-    CardFooter, 
     Text,
-    Stack,
-    StackDivider,
     Box,
-    Heading,
-    Divider,
-    ButtonGroup,
-    Button,
-    Image,
     Flex,
     Spacer,
     IconButton
 } from '@chakra-ui/react'
-// import { NavLink } from "react-router-dom";
-import {Line, Pie, Doughnut, Bar} from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import { Bar} from 'react-chartjs-2';
 import { FaChartBar } from 'react-icons/fa'
+
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
 const state = {
     labels: ['19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th'],
@@ -89,7 +99,7 @@ const StatCard = () => {
 
                     <IconButton aria-label='Add to friends' icon={<FaChartBar/>} borderRadius={50} color='#4318FF' backgroundColor={'#F4F7FE'}/>
                 </Flex>
-
+                <Box>
                 <Bar
                     data={state}
                     options={{
@@ -125,6 +135,7 @@ const StatCard = () => {
                         }
                     }}
                 />
+                </Box>
             </Box>
         </Card>
 
