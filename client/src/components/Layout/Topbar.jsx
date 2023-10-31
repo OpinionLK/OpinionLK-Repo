@@ -77,7 +77,7 @@ const Topbar = () => {
                         </MenuButton>
                         <MenuList>
                             <Flex height={'300px'} w={'500px'} justifyContent={'center'} alignItems={'center'} bg={'whiteAlpha.400'}>
-                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgImage="url('https://ik.imagekit.io/7i3fql4kv7/cardbackgrounds/cardbackground.png?updatedAt=1695643900189')" bgPos="center" bgSize="contain"borderRadius={'15px'}>
+                                <Box height={'90%'} w={'90%'} boxShadow='2xl' bgImage="url('https://ik.imagekit.io/7i3fql4kv7/cardbackgrounds/cardbackground.png?updatedAt=1695643900189')" bgPos="center" bgSize="contain" borderRadius={'15px'}>
                                     <Text fontSize={'2xl'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Opinion Points</Text>
                                     <Flex justifyContent={'space-around'} alignItems={'center'} marginBottom={20}>
                                         <Text fontSize={'md'} color={'#FFF'} fontWeight={'bold'} textAlign={'center'}>Available Balance</Text>
@@ -90,40 +90,40 @@ const Topbar = () => {
                     : null}
                 <Menu>
 
-                {user.type === 'user' ?
-                    // {({ isOpen }) => (
-                        <>
-                            <MenuButton as={Avatar} size='md' padding={'3px'}
-                                transition={'0.3s'}
-                                _hover={{
-                                    textDecoration: 'none',
-                                    bgColor: '#eae9ff',
-                                    cursor: 'pointer',
-                                }}
-                                _active={{
-                                    bgColor: '#c0bdef',
-                                }}
-                                src={userData?.profilePicture}
-                            />
 
-                                <MenuList style={{ padding:'5px 20px 5px 20px'}}>
-                                <MenuGroup title='Profile'>
-                                    <MenuItem onClick={() => {
-                                         window.location.href='/portal/profile'
-                                    }}>My Account</MenuItem>
-                                    <MenuItem onClick={() => {
-                                        logout()
-                                    }}>Sign Out </MenuItem>
-                                </MenuGroup>
-                                <MenuDivider />
-                                <MenuGroup title='Help'>
 
-                                    <MenuItem>FAQ</MenuItem>
-                                </MenuGroup>
-                            </MenuList>
-                        </>
-                    // )}
-                    :null}
+                    <>
+                        <MenuButton as={Avatar} size='md' padding={'3px'}
+                            transition={'0.3s'}
+                            _hover={{
+                                textDecoration: 'none',
+                                bgColor: '#eae9ff',
+                                cursor: 'pointer',
+                            }}
+                            _active={{
+                                bgColor: '#c0bdef',
+                            }}
+                            src={userData?.profilePicture}
+                        />
+
+                        <MenuList style={{ padding: '5px 20px 5px 20px' }}>
+                            <MenuGroup title='Profile'>
+                                <MenuItem onClick={() => {
+                                    window.location.href = '/portal/profile'
+                                }}>My Account</MenuItem>
+                                <MenuItem onClick={() => {
+                                    logout()
+                                }}>Sign Out </MenuItem>
+                            </MenuGroup>
+                            <MenuDivider />
+                            <MenuGroup title='Help'>
+
+                                <MenuItem>FAQ</MenuItem>
+                            </MenuGroup>
+                        </MenuList>
+                    </>
+
+
                 </Menu>
 
 
