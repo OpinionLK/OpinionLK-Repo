@@ -124,6 +124,7 @@ export const createAnonResponse = async (req, res) => {
   
       res.status(200).json({
         message: 'Response added successfully.',
+        responseID: responseID,
         resp: resp,
       });
     } catch (error) {

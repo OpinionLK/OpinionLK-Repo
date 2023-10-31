@@ -61,33 +61,13 @@ export default function Survey() {
           surveyid,
           response,
         },
-        // {
-        //   headers: {
-        //     'Authorization': `Bearer ${user.token}`
-        //   },
-        // }
       );
       console.log('Response added successfully:', responseFromServer.data);
+
+      const responseID = responseFromServer.data.responseID;
       
+      navigate(`/surveyAnonymous/complete/${survey.points}?responseID=${responseID}&surveyID=${surveyid}`);
       
-      // if (responseFromServer.status === 200) {
-      //   // Call addSurveyPoints
-      //   const pointsResponse = await axios.post(
-      //     `http://localhost:3002/api/survey/addSurveyPoints`,
-      //     {
-      //       points,
-      //     },
-      //     {
-      //       headers: {
-      //         'Authorization': `Bearer ${user.token}`
-      //       },
-      //     }
-      //   );
-  
-      //   console.log('Survey points added successfully:', pointsResponse.data);
-      // }
-      
-      navigate(`/surveyAnonymous/complete/${survey.points}`);
     } catch (error) {
       console.error('Error adding response:', error);
     }

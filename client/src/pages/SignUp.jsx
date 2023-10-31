@@ -50,13 +50,17 @@ const SignUp = () => {
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
 
+    const responseID = new URLSearchParams(window.location.search).get('responseID');
+    const surveyID = new URLSearchParams(window.location.search).get('surveyID');
 
     try {
       const json = await axios.post(`${config.backendUrl}/api/auth/signup`, {
         firstName,
         lastName,
         email,
-        password
+        password,
+        responseID,
+        surveyID,
       });
       console.log('User created successfully');
       setUserCreated(true);
