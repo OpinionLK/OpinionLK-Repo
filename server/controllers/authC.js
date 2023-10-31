@@ -199,3 +199,51 @@ export const Login = async (req, res) => {
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 };
+
+//send email to user
+export const sendmail = async (req, res) => {
+  try {
+    // Check if the user already exists
+    const {  email } = req.body;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
+      },
+      tls: {
+          rejectUnauthorized: false
+        }
+    });
+
+    const mailOptions = {
+      from:{
+          name: 'Opinion.lk',
+          address: process.env.USER
+      },
+      to: email, 
+      subject: "Welcome to OpinionLK",
+      text: `Dear user,\n\nWelcome to OpinionLK! We're thrilled to have you on board. It's time to connect with us and join the OpinionLK community.`,
+      html: `<p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='http://localhost:3000/forgotPass'>log into your account </a> and reset the password.</p>`,
+      // attachments: [
+      //     {
+      //       filename: 'simple.png',
+      //       path: './simple.png',
+      //       contentType: 'image/png'
+      //     }
+      //   ]
+      }
+
+      sendmail(transporter,mailOptions);
+      res.status(200).json({"message": "Email sent successfully"}); // "Email sent successfully"
+  }
+  
+    catch (error) {
+      console.error('Error signing up:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  }
+

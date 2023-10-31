@@ -5,25 +5,13 @@ import Cropper from './cropper.tsx'
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { Link, useParams } from 'react-router-dom';
 
-
 import {
     Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
     ModalOverlay,
     ModalContent,
-    Stepper,
     RadioGroup,
     Stack,
-    Step,
-    StepLabel,
-    StepConnector,
-    StepIcon,
-    StepTitle,
-    StepDescription,
-    StepSeparator,
-    StepStatus,
     useSteps,
-    StepIndicator,
-    StepNumber,
     useToast,
     ModalHeader,
     Slider,
@@ -44,20 +32,18 @@ import {
     VStack,
     Radio,
     Skeleton,
-
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
     DeleteIcon,
     ArrowBackIcon,
-    DragHandleIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
 import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
-import { set } from 'mongoose';
+// import { set } from 'mongoose';
 import YearPicker from '../../components/organisation/YearPicker.jsx';
 
 const steps = [
@@ -67,8 +53,10 @@ const steps = [
 ]
 
 function InitialFocus({ surveyid }) {
+    // eslint-disable-next-line
     const [date, setDate] = useState(new Date());
     const [gender, setGender] = useState('male');
+    // eslint-disable-next-line
     const { activeStep } = useSteps({
         index: 1,
         count: steps.length,
@@ -580,9 +568,9 @@ const EditSurvey = () => {
         }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         handleSubmit();
+        // eslint-disable-next-line
     }, [])
 
     // const toast = useToast()

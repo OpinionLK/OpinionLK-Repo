@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "64cbdfb13659b3bb827f6e54"
+  },
+  "firstName": "Rashmi",
+  "lastName": "gunawardana",
+  "email": "hansika@gmail.com",
+  "password": "$2b$12$/AbKRPJ.nn2XSrYu0i7amu7Mp00hcxlqWjl4rfO6Io.wT35/7Djzy",
+  "createdAt": {
+    "$date": "2023-08-03T17:11:13.374Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T17:11:13.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64cbf620388683310b3132bc"
+  },
+  "firstName": "deepal",
+  "lastName": "gunawardana",
+  "email": "deepal12345@gmail.com",
+  "password": "$2b$12$ZxnUmWJTeqxxd1Ac37jiKudQ2FGtoQ45OJJr7QXrJ5oMFaTYrc0A.",
+  "createdAt": {
+    "$date": "2023-08-03T18:46:56.333Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T18:46:56.333Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64ce784f1dd2090a6cc5051d"
+  },
+  "firstName": "Rashmi",
+  "lastName": "Gune",
+  "email": "kamala@gmail.com",
+  "password": "$2b$12$qE.nghDUDThfnC07PpTYLuPTvza5CoWujwRTiNhtzMgleEk2I7ebm",
+  "profilePicture": "",
+  "createdAt": {
+    "$date": "2023-08-05T16:26:55.606Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T16:26:55.606Z"
+  },
+  "__v": 0,
+  "role": "admin"
+},
+{
+  "_id": {
+    "$oid": "64dbda4c4abf1d01fd688550"
+  },
+  "firstName": "Kivi",
+  "lastName": "Gunawardana",
+  "email": "rashmi123@gmail.com",
+  "password": "$2b$12$VElFRROuqa8fLPAlWYi.nOfm25.6LdKcdI5UEn6vEwAMkFy3EHsPe",
+  "profilePicture": "",
+  "createdAt": {
+    "$date": "2023-08-15T20:04:28.893Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-15T20:04:28.893Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64cc966669eddc455bc7965e"
+  },
+  "firstName": "Nisura",
+  "lastName": "Indisa",
+  "email": "nisura@outlook.com",
+  "password": "$2b$12$d1V8U78IV.t7Xo48dF0lGOq7roJct1CUg/TYdinVjB5UAQ0RcfhNS",
+  "createdAt": {
+    "$date": "2023-08-04T06:10:46.642Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-04T06:10:46.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6506016548bdecf5df015952"
+  },
+  "firstName": "Ravindu",
+  "lastName": "Sasanka",
+  "email": "ravzeex0@gmail.com",
+  "password": "$2b$12$kmpRA5ZlI93pc9W4juDqGejTy3io3.1x3xY4zQAaePLREm1Kv7XQ.",
+  "profilePicture": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2023-09-16T19:26:29.972Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-16T19:26:29.972Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651170ea4781cb0d116dcf17"
+  },
+  "firstName": "Anjali",
+  "lastName": "Rodrigo",
+  "email": "anjalikrodrigo@gmail.com",
+  "password": "$2b$12$17wnCBElh9a88FBYOKqO0uuUfCHhbtJFWwAwd7AISKlkZQESzyS4K",
+  "profilePicture": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2023-09-25T11:37:14.395Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-25T11:37:14.395Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65130e327ee16d9f23e6a4a8"
+  },
+  "firstName": "Kivi",
+  "lastName": "Amarakoon",
+  "email": "kiviamarakoon@gmail.com",
+  "password": "$2b$12$bAQKdIetwvRutyK1t6gLCuKfkxtSrVykBRkpq5ZRn1M6SVoVdB4AS",
+  "profilePicture": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2023-09-26T17:00:34.443Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-26T17:00:34.443Z"
+  },
+  "__v": 0
+}]

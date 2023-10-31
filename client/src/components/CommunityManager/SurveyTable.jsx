@@ -178,21 +178,17 @@ import {
     Thead,
     Tbody,
     Tr,
-    Tag,
     Th,
     Td,
     TableContainer,
     InputGroup,
     InputLeftElement,
     Input,
-
-
     Button,
     HStack,
     Text,
     Flex,
     Heading,
-    Avatar,
 } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom';
 import Status from '../../components/Status.jsx';
