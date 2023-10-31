@@ -15,7 +15,7 @@ import {
     useRadio,
     ListIcon,
     ListItem,
-
+    Tabs, TabList, TabPanels, Tab, TabPanel,
     Box,
     ModalHeader,
     ModalFooter,
@@ -28,6 +28,11 @@ import {
     Icon,
     HStack,
     Checkbox,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
     VStack,
     Radio,
     Skeleton,
@@ -54,11 +59,11 @@ import { set } from 'mongoose';
 
 function InitialFocus({ surveyid }) {
     const [options, setOptions] = useState([]);
-
+    const [planID, setPlanID] = useState('');
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: 'plans',
         defaultValue: 'Starter',
-        onChange: console.log,
+        onChange: setPlanID,
     })
     const group = getRootProps()
 
@@ -82,6 +87,7 @@ function InitialFocus({ surveyid }) {
                     state: 'pending',
 
                     userTag: [{
+                        planID: planID,
                         gender: gender,
                         age1: fromYear,
                         age2: toYear,
@@ -300,6 +306,7 @@ function InitialFocus({ surveyid }) {
 
                                 <FormControl mt={4}>
                                     <FormLabel>Choose a Plan for this Survey</FormLabel>
+
                                     <HStack {...group} width={'100%'}>
                                         {options.map((value) => {
                                             const radio = getRadioProps({ value: value.planID });
@@ -598,112 +605,182 @@ const EditSurvey = () => {
                 </Card>
             </Card>
 
-            <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
+            <Tabs variant='enclosed' w={'100%'}>
+                <TabList>
+                    <Tab>Overview</Tab>
+                    <Tab>Responses ({survey?.responses.length})</Tab>
 
-                <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
-                    <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
-                        <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
-                        <Flex gap={'10px'}>
-                            {survey?.approvalStatus === 'draft' ? (
-                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit}
-                                    mode={'add'} />
-                            ) : null}
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
 
-                        </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
-                            <AnimatePresence>
+                        <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
+                            <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
+                                <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
+                                    <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
+                                    <Flex gap={'10px'}>
+                                        {survey?.approvalStatus === 'draft' ? (
+                                            <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit}
+                                                mode={'add'} />
+                                        ) : null}
 
-                                {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
+                                    </Flex>
+                                </CardHeader>
+                                <CardBody>
+                                    <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
+                                        <AnimatePresence>
 
-                                    survey?.questions.map(question => (
-                                        <motion.div
-                                            key={question.questionID}
-                                            initial={{ opacity: 0, y: -50 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                                        >
-                                            <QuestionCard surveyid={survey.surveyID}
-                                                approvalStatus={survey.approvalStatus}
-                                                handleSubmit={handleSubmit} question={question}
-                                                refreshdata={handleSubmit} />
-                                        </motion.div>
+                                            {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
 
-                                    ))
+                                                survey?.questions.map(question => (
+                                                    <motion.div
+                                                        key={question.questionID}
+                                                        initial={{ opacity: 0, y: -50 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                                                    >
+                                                        <QuestionCard surveyid={survey.surveyID}
+                                                            approvalStatus={survey.approvalStatus}
+                                                            handleSubmit={handleSubmit} question={question}
+                                                            refreshdata={handleSubmit} />
+                                                    </motion.div>
 
+                                                ))
+
+                                            }
+                                        </AnimatePresence>
+
+                                    </Flex>
+                                </CardBody>
+                            </Card>
+                            <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
+                                padding={'30px'} borderRadius={'5px'} justifyContent={'center'} flexDirection={'column'}
+                                alignItems={'center'}>
+
+
+                                {survey?.approvalStatus === 'draft' && (
+                                    <>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                            Ready to publish your survey?
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
+                                            approval</Text>
+
+                                        <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
+                                    </>
+                                )
                                 }
-                            </AnimatePresence>
+                                {survey?.approvalStatus === 'pending' && (
+                                    <>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                            Your survey is pending approval
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
+                                            shortly</Text>
+
+                                    </>
+                                )
+                                }
+                                {survey?.approvalStatus === 'active' && (
+                                    <>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                            Your survey is live!
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
+                                            your </Text>
+
+                                    </>
+                                )
+                                }
+                                {survey?.approvalStatus === 'rejected' && (
+                                    <>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                            Your survey failed the review
+                                        </Text>
+                                        {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+                                        <Button p={'20px'}>View Feedback</Button>
+                                    </>
+                                )
+                                }
+                                {survey?.approvalStatus === 'approved' && (
+                                    <>
+                                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                                            Your survey was approved
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
+                                            payment to make your survey live
+                                        </Text>
+                                        <Button>Pay Now</Button>
+                                    </>
+                                )
+                                }
+
+
+                            </Card>
+
 
                         </Flex>
-                    </CardBody>
-                </Card>
-                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                    padding={'30px'} borderRadius={'5px'} justifyContent={'center'} flexDirection={'column'}
-                    alignItems={'center'}>
+                    </TabPanel>
+                    <TabPanel>
+                        {
+                            survey?.responses.length === 0 ? <Text>No responses yet</Text> : null
+                        }
+                        <Accordion allowToggle>
+                            {
+                                survey?.responses.length === 0 ? (
+                                    <Text>No responses yet</Text>
+                                ) : (
+                                    survey?.responses
+                                        .sort((a, b) => b.created_date - a.created_date) // Sort in descending order
+                                        .map((response, index) => (
+                                            <AccordionItem key={index}>
+                                                <h2>
+                                                    <AccordionButton>
+                                                        <Box as="span" flex='1' textAlign='left'>
+                                                            <Flex justifyContent={'space-between'} pr={'10px'}>
+                                                                <HStack>
+                                                                    <Text fontWeight={'bold'} >{index + 1}</Text>
+                                                                    <Text> Response ID : {response.responseID}</Text>
+                                                                </HStack>
+                                                                <Text>Date Submitted : {response.created_date}</Text>
+                                                            </Flex>
+                                                        </Box>
+                                                        <AccordionIcon />
+                                                    </AccordionButton>
+                                                </h2>
+                                                <AccordionPanel pb={4}>
+                                                    <Flex flexDir={'column'} width={'100%'} gap={'10px'}>
 
+                                                        {survey?.questions.map((question, index) => (
 
-                    {survey?.approvalStatus === 'draft' && (
-                        <>
-                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                Ready to publish your survey?
-                            </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
-                                approval</Text>
+                                                            <Card key={index} p={'10px'}>
+                                                                <CardHeader>
 
-                            <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'pending' && (
-                        <>
-                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                Your survey is pending approval
-                            </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
-                                shortly</Text>
+                                                                    <HStack>
+                                                                        <Text fontWeight={'bold'}>{index + 1}. </Text>
+                                                                        <Text fontWeight={'bold'}>{question.question}</Text>
+                                                                    </HStack>
 
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'active' && (
-                        <>
-                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                Your survey is live!
-                            </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
-                                your </Text>
+                                                                </CardHeader>
+                                                                <CardBody>
+                                                                    <Text>
+                                                                        {response?.responses[question.questionID]}
+                                                                    </Text>
+                                                                </CardBody>
+                                                            </Card>
 
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'rejected' && (
-                        <>
-                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                Your survey failed the review
-                            </Text>
-                            {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
-                            <Button p={'20px'}>View Feedback</Button>
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'approved' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey was approved
-                            </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
-                                payment to make your survey live
-                            </Text>
-                            <Button>Pay Now</Button>
-                        </>
-                    )
-                    }
+                                                        ))}
+                                                    </Flex>
+                                                </AccordionPanel>
+                                            </AccordionItem>
+                                        ))
+                                )
+                            }
 
-
-                </Card>
-
-            </Flex>
+                        </Accordion>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Flex>
 
     )

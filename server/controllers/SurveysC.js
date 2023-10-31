@@ -462,6 +462,10 @@ export const getSurveytoEdit = async (req, res) => {
                 }
             ])
 
+            // sort responses by date descending
+            survey[0].responses.sort((a, b) => b.created_date - a.created_date);
+            console.log(survey[0].responses);
+            
 
             console.log(questionCount[0].questionCount);
             // add question count to survey object
