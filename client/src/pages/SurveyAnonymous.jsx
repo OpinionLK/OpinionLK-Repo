@@ -7,8 +7,7 @@ import LongAnswer from "../components/Surveyee/LongAnswer"
 import ShortAnswer from "../components/Surveyee/ShortAnswer"
 import SurveyDetails from "../components/Surveyee/SurveyDetails"
 import { useParams, useNavigate  } from 'react-router-dom';
-
-import { Button, Text, Heading, Box, Center, Link } from '@chakra-ui/react'
+import { Button, Text,Box, Center, Link } from '@chakra-ui/react'
 import TopbarAnon from '../components/Layout/TopbarAnon';
 
 // Your component
@@ -21,6 +20,7 @@ export default function Survey() {
   const navigate = useNavigate();
 
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
@@ -47,12 +47,14 @@ export default function Survey() {
     }
 
     // check the status of the survey. only allow access if it is active, else redirect to an error page
+    // eslint-disable-next-line
   }, [surveyid, survey]);
-
+// eslint-disable-next-line
   const onSubmit = async (data) => {
     console.log('Form data:', data);
     
     try {
+      // eslint-disable-next-line
       const points = survey.points;
       const response = data; // Use the form data as the response   
       

@@ -7,18 +7,12 @@ import {
     useToast,
     Textarea,
     Table,
-    Thead,
     Tbody,
-    Tfoot,
     Tr,
-    Th,
     Td,
-    TableCaption,
     TableContainer,
     Tag, Skeleton
-
 } from '@chakra-ui/react'
-
 import Status from '../../components/Status.jsx';
 import {useAuthContext} from '../../hooks/useAuthContext.js';
 import {useParams} from 'react-router-dom';
@@ -618,4 +612,4 @@ export const variants = {
     }
 };
 
-export default ViewSurvey
+export default ViewSurvey;

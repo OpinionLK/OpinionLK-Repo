@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "64f6aec99e082c3cbf9970fe"
+  },
+  "orgName": "Maliban Corp",
+  "orgAddressLine1": "P.O.Box - 389, Galle Road",
+  "orgAddressLine2": "Ratmalana. Sri Lanka",
+  "orgCity": "Colombo",
+  "orgState": "Western",
+  "orgZip": "10234",
+  "orgPhone": "0111231234",
+  "orgEmail": "maliban@gmail.com",
+  "orgWebsite": "maliban.lk",
+  "firstName": "Maliban",
+  "lastName": "Mudalali",
+  "position": "Founder",
+  "department": "Exec",
+  "phone": "0771231234",
+  "nic": "98123123V",
+  "email": "maliban@gmail.com",
+  "password": "$2b$12$dT9Ul7eoQKysj4f1OxYY0uCYzrxMMUrLL8Mjl1ZuI01aglck8piKW",
+  "confirmPassword": "$2b$12$/IYC7gyahMFDw.jpFNu.zuCe2GP1Rd7UzToWM/2rHwW4PsYq/tiAG",
+  "createdAt": {
+    "$date": "2023-09-05T04:30:01.906Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-05T04:30:01.906Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65110d94fc30e89f93fba701"
+  },
+  "orgName": "SpaceX",
+  "orgAddressLine1": "Main Streat",
+  "orgAddressLine2": "Pettah",
+  "orgCity": "Colombo 10",
+  "orgState": "Western",
+  "orgZip": "20035",
+  "orgPhone": "0112345678",
+  "orgEmail": "spacex@gmail.com",
+  "orgWebsite": "www.spacex.com",
+  "firstName": "Elon",
+  "lastName": "Mask",
+  "position": "CEO",
+  "department": "Management",
+  "phone": "0712345678",
+  "nic": "123456789V",
+  "email": "elon@spacex.com",
+  "password": "$2b$12$9dlFCP5SXlib/107yi3/UeNW5kJH/U9P7v69qLxnB4Zn7XI8r3LW2",
+  "confirmPassword": "$2b$12$hnoR082Zlc/aYk6wQEvbxOY9XskSU6jXOfYRotIXd4WVERwzanDNe",
+  "createdAt": {
+    "$date": "2023-09-25T04:33:24.031Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-25T04:33:24.031Z"
+  },
+  "__v": 0
+}]

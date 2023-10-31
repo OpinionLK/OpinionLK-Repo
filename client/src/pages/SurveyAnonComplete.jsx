@@ -1,19 +1,17 @@
 import { useParams, useNavigate  } from 'react-router-dom';
-
 import TopbarAnon from '../components/Layout/TopbarAnon';
-
 import { Button, Text, Heading, Flex, Image } from '@chakra-ui/react'
-
 import complete from '../images/complete.png'
 
 // Your component
+// eslint-disable-next-line
 export default function SurveyComplete() {
     const { points } = useParams();
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(window.location.search);
     const responseID = searchParams.get('responseID');
     const surveyID = searchParams.get('surveyID');
-
+// eslint-disable-next-line
     const desc = "Thank you for completing the survey, we value your responses!\nIf you were a registered user, you would have earned {points} points for simply filling this survey./nSurvey points can be redeemed to use at our partner stores here in Sri Lanka./nsome partner store logos/nSign up today and add these points to your account!"
     return (
         <>

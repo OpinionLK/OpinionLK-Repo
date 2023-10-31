@@ -49,7 +49,7 @@
     "react-modal": "^3.16.1",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "remixicon": "^3.5.0",
     "router-dom": "^2.2.11",
     "stripe": "^14.2.0",
