@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { Box, Text, Image, Flex, Button, Card, CardHeader, Grid, Divider, VStack, Modal } from "@chakra-ui/react";
+import { Box, Text, Image, Flex, Button, Card, CardHeader, Grid, Divider, VStack, Modal, HStack } from "@chakra-ui/react";
 import { ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 const CouponBoard = () => {
 
@@ -25,28 +26,48 @@ const CouponBoard = () => {
   
       fetchCoupons()
     }, [])
+
     const {
       // eslint-disable-next-line
       user, dispatch, userData
     } = useAuthContext();
     const points = userData?.points;
 
+    const [selectedCoupon, setSelectedCoupon] = useState(null)
+
+    // modal for redeeming coupon
     const [isOpen, setIsOpen] = useState(false)
     const onClose = () => setIsOpen(false)
-    const onOpen = () => setIsOpen(true)
+    const onOpen = (_id) => {
+        setSelectedCoupon(_id)
+        console.log('id: ', _id)      
+        setIsOpen(true)
+    }
 
+    // modal for not enough points
     const [isOpenN, setIsOpenN] = useState(false)
     const onCloseN = () => setIsOpenN(false)
     const onOpenN = () => setIsOpenN(true)
 
-    const redeeemCoupon = async () => {
+    const redeeemCoupon = async (_id) => {
+
         try{
-            const response = await axios.post('http://localhost:3002/api/user/redeemCoupon', {couponID: coupons[0].CouponID, userID: userData.UserID})
+            console.log('id in redeem comp: ', _id)
+            const response = await axios.post('http://localhost:3002/api/user/redeemCoupon', 
+            { _id }, 
+            { headers: { 'Authorization': `Bearer ${user.token}` } }
+        )
             console.log(response.data)
             onClose()
+            window.location.reload();
+        //     const updatedUser = await axios.get('http://localhost:3002/api/user/updatedUser', 
+        //     { headers: { 'Authorization': `Bearer ${user.token}` } }
+        // )
+        //     dispatch({ type: 'SET_USER', payload: updatedUser.data })
+
         }
         catch(err){
-            console.log(err)
+            console.log('Coupon redeem was not successful: ',err)
         }
     }
 
@@ -54,8 +75,11 @@ const CouponBoard = () => {
         <>
             <Card minW={'560px'} borderRadius={'20px'}>
                 <CardHeader>
+                    <HStack display={'flex'} justifyContent={'space-between'}>
                     <Text fontSize="xl" fontWeight="bold">Popular Coupons</Text>
-                    <Text fontSize="md" color={'gray.500'}>{couponCount} coupons available</Text>
+                    <Link to="/portal/MyRewards" style={{ textDecoration: 'none' }}>View All</Link>
+                    {/* <Text fontSize="md" color={'gray.500'}>{couponCount} coupons available</Text> */}
+                    </HStack>
                 </CardHeader>
                 <Divider color={'gray.300'} />
                 <Grid templateRows="repeat(6, 1fr)" py={3}>
@@ -67,15 +91,16 @@ const CouponBoard = () => {
                                 <Flex bg={''} mx={5} my={3}>
                                     <Flex direction={'row'}>
                                     <Image borderRadius={10} w={'80px'} height={'80px'} src={coupon.CouponImage} alt="coupon" />
-                                    <Box pl={'10px'} pt={'15px'}>
+                                    <Box px={'10px'} py={'10px'}>
                                         <Text fontSize="md" fontWeight="bold">{coupon.CouponName}</Text>
                                         <Text fontSize="sm">{coupon.Description}</Text>
                                     </Box>
                                     </Flex>
                                     <Flex direction={'column'} ml={'auto'} mr={0} justifyContent={'center'}>
                                         <VStack>
+                                            <Button alignSelf={'center'} size={'sm'} justifyContent={'flex-end'} colorScheme="gray">{coupon.Count} Left</Button>
                                             {showRedeem ? 
-                                            <Button id="redeem" alignSelf={'center'} justifyContent={'flex-end'} onClick={onOpen} colorScheme="purple">Redeem</Button> :
+                                            <Button id="redeem" size={'sm'} alignSelf={'center'} justifyContent={'flex-end'} onClick={() => onOpen(coupon._id)} colorScheme="purple">Redeem</Button> :
                                             <Button id="points" alignSelf={'center'} justifyContent={'flex-end'} onClick={onOpenN} colorScheme="gray">{points}/{coupon.Points}</Button> }
                                         </VStack>
                                     </Flex>
@@ -103,7 +128,7 @@ const CouponBoard = () => {
                     <Button colorScheme='gray' mr={3} onClick={onClose}>
                     Close
                     </Button>
-                    <Button colorScheme="purple" onClick={redeeemCoupon} >Yes Redeem</Button>
+                    <Button colorScheme="purple" onClick={() => redeeemCoupon(selectedCoupon)} >Yes, Redeem</Button>
                 </ModalFooter>
                 </ModalContent>
             </Modal>

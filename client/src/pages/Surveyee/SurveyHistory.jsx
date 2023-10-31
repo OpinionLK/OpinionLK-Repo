@@ -15,6 +15,7 @@ import {
     TableContainer,
     HStack,
     Input,
+    Box
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -32,8 +33,6 @@ const SurveyHistory = () => {
 
     //Fetch survey history
     const fetchSurveyHistory = async () => {
-        const token = sessionStorage.getItem('token');
-        console.log("Hello this is a test: ",token);
         try {
             // send security token to backend with the header
             const res = await axios.get('http://localhost:3002/api/user/surveyHistory', {
@@ -67,7 +66,7 @@ const SurveyHistory = () => {
 
 
     return (
-        <div>
+        <Box mt={-5} >
             <Card borderRadius={10}>
                 <CardHeader>
                     <HStack>
@@ -110,7 +109,7 @@ const SurveyHistory = () => {
                     </TableContainer>
                 </CardBody>
             </Card>
-        </div>
+        </Box>
     )
 }
 

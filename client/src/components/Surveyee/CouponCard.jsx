@@ -16,7 +16,7 @@ import CouponPopup from './CouponPopup'
 // import CouponIMG from '../../images/couponimg.png'
 import { RiCopperCoinFill } from "react-icons/ri";
 
-const CouponCard = ({couponID, couponName, couponDescription, companyName, couponImage, couponPoints, userPoints}) => {
+const CouponCard = ({couponID, couponName, couponDescription, companyName, couponImage, couponPoints, Count, userPoints}) => {
 
     const percent = (userPoints/couponPoints)*100
 

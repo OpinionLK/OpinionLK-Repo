@@ -47,6 +47,7 @@ const Myrewards = () => {
               // need the image
               couponImage={coupon.CouponImage}
               couponPoints={coupon.Points}
+              couponCount={coupon.Count}
               userPoints={points}
             />
             </>
