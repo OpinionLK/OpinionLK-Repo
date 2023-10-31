@@ -44,6 +44,35 @@ export const userData = async (req, res) => {
 
 };
 
+export const updateUserData = async (req, res) => {
+    const { id } = jwt.verify(token, 'test');
+        console.log(id);
+        if (!id) {
+            return res.status(400).json({ error: 'Server Error' });
+        }
+    const { firstname, lastname, email, city, town, postalCode, mkt, notifications } = req.body;
+
+  try {
+
+    user.firstName = firstname;
+    user.lastName = lastname;
+    user.email = email;
+    user.city = city;
+    user.town = town;
+    user.postal = postalCode; 
+    user.mkt = mkt;
+    user.notifications = notifications;
+
+    await user.save();
+
+    res.json({ message: 'Profile updated successfully' });
+  } catch (err) {
+    console.error(err);
+    console.log("error here");
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
 
 export const surveyHistory = async (req, res) => {
     try {

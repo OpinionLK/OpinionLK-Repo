@@ -40,6 +40,18 @@ const UserSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        city: {
+            type: String,
+            max: 50
+        },
+        town: {
+            type: String,
+            max: 50
+        },
+        postalCode: {
+            type: String,
+            max: 50
+        }
     }, {
         timestamps: true,
         collection: 'User' // Specify your collection name here
