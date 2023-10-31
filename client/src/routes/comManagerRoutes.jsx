@@ -20,7 +20,7 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/ComManager/allsurveys', linkName: 'All Surveys', icon: RiSurveyFill },
+    { route: '/ComManager/allsurveys', linkName: 'Pending Surveys', icon: RiSurveyFill },
 
 ];
 
