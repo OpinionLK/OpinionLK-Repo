@@ -43,6 +43,7 @@ import {
     Checkbox,
     VStack,
     Radio,
+    Skeleton,
 
 } from '@chakra-ui/react';
 
@@ -64,9 +65,10 @@ const steps = [
     { title: 'Duration/Responses', description: '' },
     { title: 'Confirm', description: '' },
 ]
+
 function InitialFocus({ surveyid }) {
     const [date, setDate] = useState(new Date());
-
+    const [gender, setGender] = useState('male');
     const { activeStep } = useSteps({
         index: 1,
         count: steps.length,
@@ -239,6 +241,7 @@ function InitialFocus({ surveyid }) {
         , [])
 
     const [approvalPage, setApprovalPage] = useState(0);
+    const [everyone, setEveryone] = useState(false);
     return (
 
         <>
@@ -258,34 +261,20 @@ function InitialFocus({ surveyid }) {
                     <ModalHeader>We need a few more details regarding your survey</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        {/* <Stepper mb={'20px'} index={activeStep}>
-                            {steps.map((step, index) => (
-                                <Step key={index}>
-                                    <StepIndicator>
-                                        <StepStatus
-                                            complete={<StepIcon />}
-                                            incomplete={<StepNumber />}
-                                            active={<StepNumber />}
-                                        />
-                                    </StepIndicator>
-
-                                    <Box flexShrink='0'>
-                                        <StepTitle>{step.title}</StepTitle>
-                                        <StepDescription>{step.description}</StepDescription>
-                                    </Box>
-
-                                    <StepSeparator />
-                                </Step>
-                            ))}
-                        </Stepper> */}
 
                         {approvalPage === 0 ? (
                             <VStack mt={'20px'} gap={'40px'}>
                                 <FormControl>
-                                    <FormLabel>Choose a target gender<Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
+                                    <FormLabel>Choose a target gender <Tooltip placement='auto-start'
+                                        label="A target audience is the catergory of people you wish to present this survey to."
+                                        aria-label='A tooltip'><Icon
+                                            as={QuestionOutlineIcon} />
                                     </Tooltip>
                                     </FormLabel>
-                                    <Select placeholder="Select option">
+                                    <Select placeholder="Select option" onChange={(e) => {
+                                        setGender(e.target.value)
+                                    }} value={gender}
+                                    >
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="everyone">Everyone</option>
@@ -294,13 +283,21 @@ function InitialFocus({ surveyid }) {
 
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Choose a target birth year range<Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
+                                    <FormLabel>Choose a target birth year range <Tooltip placement='auto-start'
+                                        label="A target audience is the catergory of people you wish to present this survey to."
+                                        aria-label='A tooltip'><Icon
+                                            as={QuestionOutlineIcon} />
                                     </Tooltip>
                                     </FormLabel>
 
-                                    <YearPicker />
 
-                                    <Checkbox>Include everyone</Checkbox>
+
+                                            <YearPicker disabled={everyone} />
+
+                                    <Checkbox onChange={(e) => {
+                                        setEveryone(e.target.checked);
+                                    }
+                                    }>Include everyone</Checkbox>
 
 
                                 </FormControl>
@@ -316,7 +313,8 @@ function InitialFocus({ surveyid }) {
                                 </RadioGroup>
                                 {endCriteria === 'duration' ? (
                                     <FormControl mt={4} p={'30px 30px'}>
-                                        <FormLabel>Choose the maximum number of responses you wish to collect</FormLabel>
+                                        <FormLabel>Choose the maximum number of responses you wish to
+                                            collect</FormLabel>
                                         <Slider
                                             min={100}
                                             value={targetResponses}
@@ -351,7 +349,8 @@ function InitialFocus({ surveyid }) {
                                     </FormControl>
                                 ) : (
                                     <FormControl mt={4} p={'30px 30px'}>
-                                        <FormLabel>Choose the number of days you wish to keep the survey active</FormLabel>
+                                        <FormLabel>Choose the number of days you wish to keep the survey
+                                            active</FormLabel>
 
                                         <Slider
                                             min={1}
@@ -406,19 +405,6 @@ function InitialFocus({ surveyid }) {
                                                 14
                                             </SliderMark>
 
-
-                                            {/* 
-                                <SliderMark
-                                    value={duration}
-                                    textAlign='center'
-                                    bg='blue.500'
-                                    color='white'
-                                    mt='-10'
-                                    ml='-5'
-                                    w='12'
-                                >
-                                    {duration}
-                                </SliderMark> */}
                                             <SliderTrack>
                                                 <SliderFilledTrack />
                                             </SliderTrack>
@@ -433,8 +419,10 @@ function InitialFocus({ surveyid }) {
                                 }>Get Cost</Button>
                                 <Text mt={4}>Estimated Cost: </Text>
                                 <Heading>Rs. {total}.00</Heading>
-                                <Text size={'sm'}>You will be able to make the payment after youre survey has been approved</Text>
-                                <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to modify your survey after you request approval!</Text>
+                                <Text size={'sm'}>You will be able to make the payment after youre survey has been
+                                    approved</Text>
+                                <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to
+                                    modify your survey after you request approval!</Text>
                             </>
 
                         ) : null}
@@ -506,7 +494,7 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
             <Modal isOpen={isDeleteOpen} onClose={OnDeleteClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader>Confirm Delete?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         Cannot be recovered
@@ -529,7 +517,8 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                             fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
                         {
                             approvalStatus === 'pending' ? null : (
-                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit} mode={'edit'} />
+                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit}
+                                    mode={'edit'} />
                             )
                         }
 
@@ -537,13 +526,9 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                             icon={<DeleteIcon />}
                             onClick={onDeleteOpen} />
 
-                        <IconButton aria-label={'delete'}
-                            icon={<DragHandleIcon />}
-                            onClick={() => alert('Drag Handle')} />
-
                     </Flex>
                 </CardBody>
-            </Card >
+            </Card>
         </>
     )
 }
@@ -594,8 +579,11 @@ const EditSurvey = () => {
             }
         }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { handleSubmit(); }, [])
+    useEffect(() => {
+        handleSubmit();
+    }, [])
 
     // const toast = useToast()
     const loadImage = (imageName) => {
@@ -625,11 +613,15 @@ const EditSurvey = () => {
                             <Flex gap='10px' flexDir={'column'}>
 
                                 <Heading>
-                                    {survey?.surveyName}
+                                    {survey?.surveyName ? survey?.surveyName : (
+                                        <Skeleton height={'50px'} width={'400px'} />
+
+                                    )}
                                 </Heading>
                                 <Text>
-                                    {survey?.surveyDescription}
-
+                                    {survey?.surveyDescription ? survey?.surveyDescription : (
+                                        <Skeleton height={'20px'} width={'200px'} />
+                                    )}
                                 </Text>
                             </Flex>
                             <Flex gap='10px'>
@@ -653,7 +645,8 @@ const EditSurvey = () => {
                         <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
                         <Flex gap={'10px'}>
                             {survey?.approvalStatus === 'draft' ? (
-                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit} mode={'add'} />
+                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit}
+                                    mode={'add'} />
                             ) : null}
 
                         </Flex>
@@ -671,7 +664,9 @@ const EditSurvey = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, transition: { duration: 0.3 } }}
                                         >
-                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} handleSubmit={handleSubmit} question={question}
+                                            <QuestionCard surveyid={survey.surveyID}
+                                                approvalStatus={survey.approvalStatus}
+                                                handleSubmit={handleSubmit} question={question}
                                                 refreshdata={handleSubmit} />
                                         </motion.div>
 
@@ -687,12 +682,14 @@ const EditSurvey = () => {
                     padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
                     alignItems={'center'}>
 
+
                     {survey?.approvalStatus === 'draft' && (
                         <>
                             <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Ready to publish your survey?
                             </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
+                                approval</Text>
 
                             <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
                         </>
@@ -703,7 +700,8 @@ const EditSurvey = () => {
                             <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is pending approval
                             </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you shortly</Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
+                                shortly</Text>
 
                         </>
                     )
@@ -713,7 +711,8 @@ const EditSurvey = () => {
                             <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
                                 Your survey is live!
                             </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with your    </Text>
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
+                                your </Text>
 
                         </>
                     )
@@ -733,13 +732,13 @@ const EditSurvey = () => {
                             <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
                                 Your survey was approved
                             </Text>
-                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to payment to make your survey live
+                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
+                                payment to make your survey live
                             </Text>
                             <Button>Pay Now</Button>
                         </>
                     )
                     }
-
 
 
                 </Card>
