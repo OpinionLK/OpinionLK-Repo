@@ -2,34 +2,22 @@ import { Heading, Spinner } from '@chakra-ui/react'
 import React from 'react'
 import { useEffect } from 'react';
 import {
-    Box,
     Flex,
-    Grid,
-    GridItem,
-    Card,
-    Text,
-    CardHeader,
-
-    CardBody,
-
-
 } from '@chakra-ui/react'
 import { useAuthContext } from '../../hooks/useAuthContext';
-
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import { AddIcon } from '@chakra-ui/icons'
 import { useParams } from 'react-router-dom';
 
 const Success = () => {
     const {
+         // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     // get the session id from the url
     const { session_id } = useParams();
     const getSession = async () => {
         console.log(session_id);
-
+ // eslint-disable-next-line
         const response = await axios.get(`http://localhost:3002/api/payment/success?session_id=${session_id}`, {
             headers: { 'Authorization': `Bearer ${user.token}` },
         }).then((response) => {
@@ -38,12 +26,13 @@ const Success = () => {
             console.log(error);
         });
     }
-    useEffect(async () => {
-        getSession();
-
-
-    }, []);
-
+    useEffect(() => {
+        (async () => {
+          await getSession();
+        })();
+         // eslint-disable-next-line
+      }, []);
+      
     return (
         //    show please wait
         <Flex height={'50%'} flexDirection={'column'} width={'100%'} justifyContent={'space-around'} alignItems={'center'}>
@@ -53,8 +42,5 @@ const Success = () => {
             </Flex>
         </Flex>
     )
-
-
 }
-
 export default Success
