@@ -81,7 +81,7 @@ export default function Survey() {
   return (
     <>
       <TopbarAnon />
-      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} />
+      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} tags={survey.userTags} />
       <Center mt='5' flexDirection='column'>
         <Box w='60%'>
         {/* <Text size='md' color={'#2B3674'} mb='5'></Text> */}
@@ -136,7 +136,7 @@ export default function Survey() {
                     )}
                 />
                 )}
-                {/* Add support for other question types as needed */}
+                {/* Add support for other question types */}
             </div>
             ))}
             <Button type="submit" ml='5' colorScheme='purple' borderRadius='50px' bg='#6C63FF' w='150px' h='50'>Submit</Button>

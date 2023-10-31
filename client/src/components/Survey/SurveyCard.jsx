@@ -15,6 +15,11 @@ import {
 import SurveyPopup from './SurveyPopup'
 
 const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) => {
+    
+    if(!surveyImage){
+        surveyImage = "default_bg"
+    }
+
     return (
 
         <Box maxW='300px' width={'auto'} borderRadius={15} borderColor={'#fff'} p='4' bgColor='white'>
@@ -26,7 +31,8 @@ const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID,
             >
                 <Image
                 // src={sampleCard}
-                src={'http://localhost:3002/api/survey/images/' + {surveyImage}} alt={surveyName}
+                    src={`https://ik.imagekit.io/7i3fql4kv7/survey_headers/${surveyImage}`} 
+                    alt={surveyName}
                 />
             </Box>  
 
