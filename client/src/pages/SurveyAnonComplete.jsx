@@ -22,6 +22,7 @@ export default function SurveyComplete() {
                 justifyContent='center'
                 height='100%'
                 mt='200'
+                bgColor='#f5f7fe'
             >
                 <Heading color='#1B2559'>
                     Survey Complete!
