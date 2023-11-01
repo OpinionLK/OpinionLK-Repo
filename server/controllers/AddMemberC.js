@@ -1,10 +1,6 @@
 import ComManager from "../models/ComManagerModel.js";
+import nodemailer from 'nodemailer';
 import crypto from "crypto";
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-
-dotenv.config();
 
 export const Getmembers = async (req, res) => {
      // #swagger.tags = ['Community Manager']
@@ -29,12 +25,14 @@ export const Savemember = async (req, res) => {
     password: comPassword,
   }
 
-  const existingMember = await ComManager.findOne({ email: member.email });
-  if (existingMember) {
-    res.status(400).json({ error: 'A member with this email already exists' });
-    return;
+  // Check if the user with the same email already exists in ComManager
+  let user = await ComManager.findOne({ email: member.email });
+
+  if (user) {
+    return res.status(400).json({ error: 'User already exists' });
   }
- 
+
+  // Create the nodemailer transporter
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
@@ -45,51 +43,45 @@ export const Savemember = async (req, res) => {
       pass: process.env.PASSWORD,
     },
     tls: {
-        rejectUnauthorized: false
-      }
+      rejectUnauthorized: false
+    }
   });
- 
+
   const mailOptions = {
-    from:{
-        name: 'Opinion.lk',
-        address: process.env.USER
+    from: {
+      name: 'Opinion.lk',
+      address: process.env.USER
     },
-    to: member.email,
+    to: req.body.ManagerEmail,
     subject: "Welcome to OpinionLK",
-    text: `Hello ${member.ManagerFirstName} ${member.ManagerLastName},\n\nWelcome to OpinionLK! We're thrilled to have you on board. It's time to connect with us and join the OpinionLK community as a community manager. Your password is ${comPassword}`,
-    html: `<p>Hello ${member.ManagerFirstName} ${member.ManagerLastName},</p><p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='https://opinionlk.me'>log into your account </a> and join the OpinionLK community as a community manager.</p>`,
+    text: `Hello ${req.body.ManagerFirstName} ${req.body.ManagerLastName},\n\nWelcome to OpinionLK! We're thrilled to have you on board. It's time to connect with us and join the OpinionLK community.`,
+    html: `<p>Hello ${req.body.ManagerFirstName} ${req.body.ManagerLastName},</p><p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='https://opinionlk.me'>log into your account </a> and join the OpinionLK community.</p>`,
   }
 
-        // attachments: [
-      //     {
-      //       filename: 'simple.png',
-      //       path: './simple.png',
-      //       contentType: 'image/png'
-      //     }
-      //   ]
- 
-  const sendMail = async (transporter,mailOptions) => {
-      try {
-          const info = await transporter.sendMail(mailOptions);
-          console.log(info);
-      } catch (error) {
-          console.log(error);
-      }
+await ComManager.create(member)
+  .then((data) => {
+    console.log("Saved Successfully...");
+    sendMail(transporter, mailOptions);
+    res.status(201).send(data);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.send({ error: err, msg: "Something went wrong!" });
+  });
+};
+// Define the sendMail function
+const sendMail = async (transporter, mailOptions) => {
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(info);
+    return {"message": "Email sent successfully"};
+  } catch (error) {
+    console.log(error);
+    return {"message": "Email sent failed"};
   }
- 
-  await ComManager.create(member)
-    .then((data) => {
-      console.log("Saved Successfully...");
-      sendMail(transporter,mailOptions);
-      res.status(201).send(data);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send({ error: err, msg: "Something went wrong!" });
-    });
- };
- 
+};
 
+ 
 // Import necessary modules and models
 
 export const Updatemember = async (req, res) => {
