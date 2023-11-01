@@ -4,7 +4,6 @@ import axios from 'axios'
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 import {
-  Wrap,
   Text,
   Grid,
 } from '@chakra-ui/react'

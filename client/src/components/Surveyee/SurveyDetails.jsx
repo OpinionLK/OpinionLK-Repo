@@ -1,17 +1,11 @@
-import useFormContext from "../../hooks/useFormContext"
-import React from 'react'
-
+        // eslint-disable-next-line
+import React, { useState } from 'react'
 import { 
     Box,
     Heading,
-    Divider,
-    Text
+    Text,
 } from '@chakra-ui/react'
-import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
-
-import BackButton from '../../images/backButton.png'
-
-const SurveyDetails = ({surveyName, surveyDescription, tags}) => {
+const SurveyDetails = ({surveyName, surveyDescription}) => {
     return (
 
         <Box
@@ -30,7 +24,6 @@ const SurveyDetails = ({surveyName, surveyDescription, tags}) => {
         >
             <Heading size='lg' color={'#2B3674'} mb='5' ml='5'>{surveyName}</Heading>
             <Text size='md' color={'#2B3674'} mb='5' ml='5'>{surveyDescription}</Text>
-            
         </Box>
 
     )

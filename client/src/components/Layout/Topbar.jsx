@@ -11,7 +11,6 @@ import {
     Button,
     MenuGroup,
     MenuDivider,
-    Divider,
 } from '@chakra-ui/react'
 
 import CreateSurveyModal from '../organisation/CreateSurveyModal'

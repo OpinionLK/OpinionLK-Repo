@@ -11,6 +11,7 @@ const surveySchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed],
     required: false,
   },
+  cost: { type: Number, required: false },
   created_date: { type: Date, default: Date.now },
   expiration_date: { type: Date, required: false },
   creatorID: { type: String, required: true },
@@ -21,9 +22,10 @@ const surveySchema = new mongoose.Schema({
   endCriteria: { type: String },
   duration: { type: Number },
   targetResponses: { type: Number },
+  planID: { type: String , required: false},
   estimatedCost: { type: Number },
   userTags: { type: [mongoose.Schema.Types.Mixed], required: false },
-  tags: [{ type: String }],
+
   comments: [{
     commentID: { type: String },
     comment: { type: String },

@@ -54,6 +54,7 @@ const SurveyHistory = () => {
 
     useEffect(() => {
         fetchSurveyHistory();
+        // eslint-disable-next-line
     }, []);
 
     //Calculate total surveys

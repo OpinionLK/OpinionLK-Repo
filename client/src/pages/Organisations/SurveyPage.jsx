@@ -1,16 +1,9 @@
-import {
-    Flex,
-    Heading,
-    Card,
-    CardHeader,
-    CardBody,
+import { Flex,Card, CardBody,
 } from '@chakra-ui/react'
 import { Grid, GridItem } from '@chakra-ui/react'
 import SurveyTable from '../../components/organisation/SurveyTable';
 
 const SurveyPage = () => {
-
-
     return (
         <Flex width={'100%'} gap={'10px'} flex={'1'} flexDirection={'column'} mt={-5}>
 

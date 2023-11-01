@@ -278,13 +278,13 @@ const MobileNavItem = ({ label, children, href }) => {
 
 
 const NAV_ITEMS = [
-    {
-        label: 'Features',
-        href: '#',
+    // {
+    //     label: 'Features',
+    //     href: '#',
 
-    },
-    {
-        label: 'Pricing Plans',
-        href: '#',
-    }
+    // },
+    // {
+    //     label: 'Pricing Plans',
+    //     href: '#',
+    // }
 ];

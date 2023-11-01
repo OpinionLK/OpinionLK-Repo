@@ -9,6 +9,7 @@ const CouponBoard = () => {
 
     const [coupons, setCoupons] = useState([])
     // total coupon count
+    // eslint-disable-next-line
     const [couponCount, setCouponCount] = useState(0)
 
     useEffect(() => {

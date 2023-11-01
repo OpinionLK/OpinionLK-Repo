@@ -1,16 +1,23 @@
-import React,{useEffect}from 'react'
+import React,
+{
+  useEffect
+}
+  from 'react'
 import {
   Flex,
   Text,
   useMediaQuery,
   Stack,
+  Box,
   Heading,
+  Divider,
   CardFooter,
   Tag,
   ButtonGroup,
   Button,
   Image,
   Card,
+  CardHeader,
   CardBody
 } from '@chakra-ui/react'
 
@@ -112,14 +119,14 @@ const Hero = () => {
         >
           Get Rewarded, One Survey at a Time!
         </Text>
-        <Stack direction='row' spacing={4}>
+        {/* <Stack direction='row' spacing={4}>
           <Button size='lg' colorScheme='purple'>
             Get Started
           </Button>
           <Button size='lg' colorScheme='green'>
 
             Learn More          </Button>
-        </Stack>
+        </Stack> */}
 
       </Flex>
       <motion.div 

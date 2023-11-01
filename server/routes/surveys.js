@@ -2,6 +2,7 @@ import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
+    getMySurveys,
     getSurveysByCreator,
     getSurveyToReview,
     getQuestionCount,
@@ -21,6 +22,11 @@ import {
     getQuestionToEdit,
     editQuestion,
     deleteQuestion,
+    getApprovedSurveys,
+    // getCountWithApprovalStatus,
+    getCountWithStatus,
+
+
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
 
@@ -50,6 +56,7 @@ router.post('/addSurveyPoints', addSurveyPoints); //add points to user
 router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
 router.get('/all', getAllSurveys); //get all surveys
+router.get('/getmysurveys', getMySurveys); //get surveys relevant to the user
 
 
 router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
@@ -67,7 +74,8 @@ router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question coun
 router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get surveys for community manager
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
-
+router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
+router.get('/getCountwithStatus',getCountWithStatus);//get count with approval status for commanager
 
 
 router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {

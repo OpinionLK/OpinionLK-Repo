@@ -12,6 +12,9 @@ import {
   // Checkbox,
   // Button,
   Box,
+  Card,
+  Image,
+  Center,
   // Grid,
   // GridItem,
 } from '@chakra-ui/react';
@@ -36,6 +39,16 @@ function CommunityManagerDashBoard() {
     <>
       <Box style={style}>
         <Box d="flex" flexDir={'r'}>
+          <Box>
+     
+                
+
+
+          </Box>
+
+
+
+
           <Flex direction={'row'} justifyContent={"space-around"}>
             <Box pl={1}>
               <StatViewCard str={'Total Survey'} num={'335'} />
@@ -56,6 +69,9 @@ function CommunityManagerDashBoard() {
               <StatViewCard str={'Customer Help'} num={'38'} />
             </Box>
           </Flex>
+
+
+
           <Box>
             <Text pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
               Supervisor Revision Requests
@@ -76,9 +92,9 @@ function CommunityManagerDashBoard() {
                 <Text pt={15} pb={15} color={'black'} fontSize="2xl">
                   Survey Management
                 </Text>
-                <SurveyManagementGrph/>
-                
+                <SurveyManagementGrph />
               </Box>
+
             </Flex>
           </Box>
         </Box>

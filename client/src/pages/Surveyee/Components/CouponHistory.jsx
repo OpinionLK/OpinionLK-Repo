@@ -1,10 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import axios from 'axios';
-
-
 import {
-    Grid,
     Box,
     Card,
     Heading,
@@ -12,13 +9,11 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
     CardHeader,
     TableCaption,
-    TableContainer,
     CardBody,
     HStack,
     Input,
@@ -59,6 +54,7 @@ const CouponHistory = () => {
 
     useEffect(() => {
         fetchCouponHistory();
+                // eslint-disable-next-line
     } , []);
 
     const totalCoupons = () => {

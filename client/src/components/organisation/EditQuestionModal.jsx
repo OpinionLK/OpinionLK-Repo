@@ -77,7 +77,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
   // get the quesetion data upon opening the modal
   const getQuestion = async () => {
     try {
-      const response = await axios.get(`http://localhost:3002/api/client/getQuestion/${surveyid}/${questionID}`);
+      const response = await axios.get(`http://localhost:3002/api/survey/getQuestion/${surveyid}/${questionID}`);
       const responseData = response.data[0];
       setValue("question", responseData.question);
       setValue("responseType", responseData.responseType);
@@ -106,7 +106,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
     let method = 'POST';
 
     if (mode === "edit") {
-      URL = `http://localhost:3002/api/client/editQuestion/${surveyid}/${questionID}`;
+      URL = `http://localhost:3002/api/survey/editQuestion/${surveyid}/${questionID}`;
       method = 'PUT';
     } else {
       URL = `http://localhost:3002/api/survey/addQuestion/${surveyid}`;

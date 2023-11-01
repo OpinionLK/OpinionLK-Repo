@@ -44,9 +44,11 @@ const CouponCard = ({couponID, couponName, couponDescription, companyName, coupo
     const onClose = () => setShowPopup(false)
 
     const onOpenN = () => setShowPoints(true)
+            // eslint-disable-next-line
     const onCloseN = () => setShowPoints(false)
 
     const onOpenD = () => setShowDetails(true)
+            // eslint-disable-next-line
     const onCloseD = () => setShowDetails(false)
 
     // const percent = (userPoints/couponPoints)*100;

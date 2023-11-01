@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import { useAuthContext } from '../../hooks/useAuthContext'
 import {
-    Skeleton,
     Table,
     Thead,
     Tbody,
@@ -33,7 +32,7 @@ const SurveyTable = () => {
         user, dispatch, userData
     } = useAuthContext();
     const { page = 1 } = useParams();
-
+// eslint-disable-next-line
     const [data, setData] = useState(null);
     // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +79,6 @@ const SurveyTable = () => {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-
         // eslint-disable-next-line
     }, [page, searchTerm]);
     return (
@@ -115,55 +113,44 @@ const SurveyTable = () => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {searchResults ? (searchResults.length > 0 ? pageData.map((survey) => {
-                            return (
-                                <Tr _hover={{
-                                    bg: 'gray.100', cursor: 'pointer'
-                                }}
-                                    _active={{
-                                        bg: 'gray.200',
-                                    }}
-                                    key={survey.surveyID}
+    {(!searchResults || searchResults.length === 0) ? (
+        <Tr>
+            <Td textAlign={'center'} colSpan={5}>No surveys found</Td>
+        </Tr>
+    ) : pageData.map((survey) => {
+        return (
+            <Tr _hover={{
+                bg: 'gray.100', cursor: 'pointer'
+            }}
+                _active={{
+                    bg: 'gray.200',
+                }}
+                key={survey.surveyID}
 
-                                    onClick={() => {
-                                        onclickhandler(survey.surveyID)
-                                    }}
-                                >
+                onClick={() => {
+                    onclickhandler(survey.surveyID)
+                }}
+            >
 
-                                    <Td  width={'35%'}>{survey.surveyName}</Td>
-                                    <Td width={'20%'}> {new Date(survey.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Td>
+                <Td  width={'35%'}>{survey.surveyName}</Td>
+                <Td width={'20%'}> {new Date(survey.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Td>
 
-                                    <Td isNumeric>{survey.questions.length}</Td>
-                                    <Td isNumeric>{survey.responses.length}</Td>
-                                    <Td>
-                                        <Status status={survey.approvalStatus} />
+                <Td isNumeric>{survey.questions.length}</Td>
+                <Td isNumeric>{survey.responses.length}</Td>
+                <Td>
+                    <Status status={survey.approvalStatus} />
+                </Td>
 
-
-                                    </Td>
-
-                                </Tr>)
-                        }) : (
-                            <Tr>
-                                <Td textAlign={'center'} colSpan={5}>No surveys found</Td>
-                            </Tr>
-                        )) : ([...Array(numRows)].map((_, i) => (<Tr key={i}>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-
-                        </Tr>)))}
-
-                    </Tbody>
+            </Tr>)
+    })}
+</Tbody>
 
                 </Table>
             </TableContainer>
             {!searchTerm ? (
                 <HStack boxSizing='border-box' p={'20px'} pr={'0px'} width={'100%'} justifyContent={'space-between'} mr={'20px'}>
 
-                    <Text fontWeight={'bold'} fontSize={'md'}>Page {page} of {totalPages}</Text>
+                    <Text fontWeight={'bold'} fontSize={'md'}>Page {page} of {totalPages === 0 ? 1 : totalPages}</Text>
                     <HStack spacing={'10px'}>
                         <Button
                             colorScheme={page > 1 ? 'blue' : 'gray'}

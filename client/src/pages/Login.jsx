@@ -57,9 +57,6 @@ const Login = () => {
                 else {
                     history("/portal", { state: { id: email } });
                 }
-
-
-
             } else if (response.status === 401) {
                 // User does not exist
                 alert("User has not signed up");
@@ -124,7 +121,7 @@ const Login = () => {
                                     align={'start'}
                                     justify={'space-between'}>
                                     <Checkbox>Remember me</Checkbox>
-                                    <Link color={'blue.400'}>Forgot password?</Link>
+                                    <Link color={'blue.400'} to="/reset">Forgot password?</Link>
                                 </Stack>
                                 <Button
                                     alignSelf={'flex-end'}
