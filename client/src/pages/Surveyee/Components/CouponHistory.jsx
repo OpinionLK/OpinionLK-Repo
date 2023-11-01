@@ -4,15 +4,16 @@ import {
     Grid,
     Box,
     Card,
+    Heading,
+    Divider,
 } from '@chakra-ui/react';
 
 const CouponHistory = () => {
     return (
-        <><Box mt={-5} >
+        <><Box>
             <Card borderRadius={10}>
-                <Grid mt={-5} templateColumns="repeat(3, 1fr)" gap={6}>
-                    <h1> Coupon History </h1>
-                </ Grid>
+                <Heading size={'md'}>Coupon History</Heading>
+                <Divider />
             </Card>
         </Box>
         </>

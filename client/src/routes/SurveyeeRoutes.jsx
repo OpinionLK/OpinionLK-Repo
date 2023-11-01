@@ -26,7 +26,7 @@ const Links = [
     { route: '/portal/profile', linkName: 'Profile', icon: RiFolderUserFill },
     { route: '/portal/MyRewards', linkName: 'Rewards', icon: RiTicketFill },
     // { route: '/portal/Upgrade', linkName: 'Upgrade', icon: GiUpgrade },
-    { route: '/portal/History', linkName: 'Survey History', icon: RiHistoryFill }];
+    { route: '/portal/History', linkName: 'History', icon: RiHistoryFill }];
 
 //   const { user } = useAuthContext()
 const SurveyeeRoutes = [

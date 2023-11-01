@@ -63,7 +63,7 @@ const SurveyHistory = () => {
     }
 
     return (
-        <Box mt={-5} >
+        <Box>
             <Card borderRadius={10}>
                 <CardHeader>
                     <HStack>
