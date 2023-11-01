@@ -1,7 +1,7 @@
 // config.js
 
 const config = {
-    // backendUrl: "http://opinionlkback.live/",
+    // backendUrl: "http://opinionlkback.live",
     backendUrl: "http://localhost:3002",
   };
   

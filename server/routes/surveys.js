@@ -22,8 +22,6 @@ import {
     editQuestion,
     deleteQuestion,
     getApprovedSurveys,
-
-
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
 
@@ -71,7 +69,6 @@ router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get su
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
-
 
 
 router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {
