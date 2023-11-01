@@ -3,12 +3,10 @@ import {
     Box,
   } from '@chakra-ui/react';
   
-
-  //import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
-  import SurveyTable from '../../components/CommunityManager/SurveyTable';
   import SurveyList from '../../components/CommunityManager/ViewAllSurveys';
 
-  function CommunityManagerTables(){
+
+  function AllSurveyList(){
     // eslint-disable-next-line
     const style = {
         width: '100(%',
@@ -24,21 +22,14 @@ import {
             <Box>
             <Box>
             <Text  pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
-              Supervisor Revision Requests
+              Surveys All 
             </Text>
             <Box p={5}>
-              <SurveyList></SurveyList>
+              <SurveyList/>
             </Box>
           </Box>
             </Box>
 
-
-            <Box d='flex' flexDir={'r'}>
-              <Text pt={15} color={'black'} fontSize={'2xl'}> Survey Table</Text>
-              <Box p={5}>
-                <SurveyTable></SurveyTable>
-              </Box>
-            </Box>
 
 </Box>
 
@@ -47,4 +38,4 @@ import {
       );
 
   }
-  export default CommunityManagerTables;
+  export default AllSurveyList;

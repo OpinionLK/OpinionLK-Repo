@@ -23,6 +23,7 @@ import {
     getQuestionToEdit,
     editQuestion,
     deleteQuestion,
+    getApprovedSurveys,
 
 
 } from '../controllers/SurveysC.js';
@@ -71,6 +72,7 @@ router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question coun
 router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get surveys for community manager
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
+router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
 
 
 

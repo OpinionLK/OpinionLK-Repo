@@ -29,17 +29,32 @@ console.log(customId);
 
 export const getAllSurveys = async (req, res) => {
     try {
-        const surveys = await Surveys.find().sort({ 'created_date': -1 });
+        const surveys = await Surveys.find();
         res.status(200).json(surveys);
+        console.log(res.data);
     } catch (error) {
+        console.log("there is error fetchin data");
         res.status(404).json({ message: error.message });
     }
 }
 
 
+//get approved survey list from db
+export const getApprovedSurveys=async(req,res) =>{
+
+    try{
+        const pendingsurveys=await Surveys.find({approvalStatus:"approved"});
+        res.status(200).json(pendingsurveys);
+        console.log(res.data);
+    }catch{
+        console.log("there is error fetchin data");
+        res.status(404).json({ message: error.message });
+    }
+}
+
 
 export const getSurveysByCreator = async (req, res) => {
-    // #swagger.tags = ['Organisation']
+   
 
 
     // get token from header
