@@ -14,7 +14,6 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    InputGroup,
     InputLeftElement,
     Input,
     Button,
