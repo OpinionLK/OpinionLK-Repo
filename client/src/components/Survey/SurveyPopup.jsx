@@ -1,7 +1,11 @@
 import React from 'react'
 import { 
+    Alert,
+    AlertIcon,
     Text,
     Button,
+    ButtonGroup,
+    IconButton,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -18,12 +22,22 @@ import {
     TagLabel,
     Wrap, 
 } from '@chakra-ui/react'
+import { useClipboard } from "@chakra-ui/react";
+import { LinkIcon } from '@chakra-ui/icons'
 
 // import { NavLink } from "react-router-dom";
+// eslint-disable-next-line
 import sampleCard from '../../images/sample-card.png'
 // eslint-disable-next-line
 export default function SurveyPopup({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const textToCopy = `http://localhost:3000/surveyAnonymous/${surveyID}`; // Replace with your text
+    const { onCopy, hasCopied } = useClipboard(textToCopy);
+
+    if(!surveyImage){
+        surveyImage = "default_bg"
+    }
+
     return (
         <>
             <Button variant='solid' colorScheme='blue' borderRadius={'full'} fontSize={12} fontWeight={'light'} bg='#11047A' onClick={onOpen}>Survey Details</Button>
@@ -73,8 +87,13 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                             borderRadius='lg'
                         >
                             <Image
-                            src={sampleCard}
-                            // src={'http://localhost:3002/api/survey/images/' + {surveyImage}} alt={surveyName}
+                                // src={sampleCard}
+                                src={`https://ik.imagekit.io/7i3fql4kv7/survey_headers/${surveyImage}`} 
+                                alt={surveyName}
+                                objectFit="cover"
+                                height={'100%'}
+                                imageFit="cover"
+                                
                             />
                         </Box> 
                     </Flex>
@@ -128,17 +147,37 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                     
                 </ModalBody>
                 <ModalFooter>
-                    <Button 
-                        variant='solid' 
-                        colorScheme='blue' 
-                        borderRadius={'full'} 
-                        fontSize={12} 
-                        fontWeight={'light'} 
-                        bg='#11047A' 
-                        onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + surveyID + '/fill'}}
-                    >
-                        Take Survey
-                    </Button>                    
+                    <ButtonGroup spacing={4}>
+                    <Alert status="success" width='150px' visibility={hasCopied ? 'visible' : 'hidden'}>
+                        <AlertIcon />
+                        copied
+                    </Alert>
+                        <IconButton
+                            isRound={true}
+                            variant='outline'
+                            colorScheme='purple'
+                            aria-label='Done'
+                            fontSize='20px'
+                            borderColor='#11047A'
+                            icon={<LinkIcon />}
+                            onClick={onCopy}
+                        >
+                            {hasCopied ? "Copied" : "Copy"}
+                        </IconButton>
+                        
+                        <Button 
+                            variant='solid' 
+                            colorScheme='blue' 
+                            borderRadius={'full'} 
+                            fontSize={12} 
+                            fontWeight={'light'} 
+                            bg='#11047A' 
+                            minwidth='102px'
+                            onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + surveyID + '/fill'}}
+                        >
+                            Take Survey
+                        </Button>
+                    </ButtonGroup>                  
                 </ModalFooter>
                 </ModalContent>
             </Modal>

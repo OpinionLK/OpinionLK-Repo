@@ -7,8 +7,7 @@ import LongAnswer from "../components/Surveyee/LongAnswer"
 import ShortAnswer from "../components/Surveyee/ShortAnswer"
 import SurveyDetails from "../components/Surveyee/SurveyDetails"
 import { useParams, useNavigate  } from 'react-router-dom';
-
-import { Button, Text, Heading, Box, Center, Link } from '@chakra-ui/react'
+import { Button, Text,Box, Center, Link } from '@chakra-ui/react'
 import TopbarAnon from '../components/Layout/TopbarAnon';
 
 // Your component
@@ -21,6 +20,7 @@ export default function Survey() {
   const navigate = useNavigate();
 
   const {
+    // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
@@ -47,12 +47,14 @@ export default function Survey() {
     }
 
     // check the status of the survey. only allow access if it is active, else redirect to an error page
+    // eslint-disable-next-line
   }, [surveyid, survey]);
 
   const onSubmit = async (data) => {
     console.log('Form data:', data);
     
     try {
+      // eslint-disable-next-line
       const points = survey.points;
       const response = data; // Use the form data as the response   
       
@@ -61,33 +63,13 @@ export default function Survey() {
           surveyid,
           response,
         },
-        // {
-        //   headers: {
-        //     'Authorization': `Bearer ${user.token}`
-        //   },
-        // }
       );
       console.log('Response added successfully:', responseFromServer.data);
+
+      const responseID = responseFromServer.data.responseID;
       
+      navigate(`/surveyAnonymous/complete/${survey.points}?responseID=${responseID}&surveyID=${surveyid}`);
       
-      // if (responseFromServer.status === 200) {
-      //   // Call addSurveyPoints
-      //   const pointsResponse = await axios.post(
-      //     `http://localhost:3002/api/survey/addSurveyPoints`,
-      //     {
-      //       points,
-      //     },
-      //     {
-      //       headers: {
-      //         'Authorization': `Bearer ${user.token}`
-      //       },
-      //     }
-      //   );
-  
-      //   console.log('Survey points added successfully:', pointsResponse.data);
-      // }
-      
-      navigate(`/surveyAnonymous/complete/${survey.points}`);
     } catch (error) {
       console.error('Error adding response:', error);
     }
@@ -101,7 +83,7 @@ export default function Survey() {
   return (
     <>
       <TopbarAnon />
-      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} />
+      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} tags={survey.userTags} />
       <Center mt='5' flexDirection='column'>
         <Box w='60%'>
         {/* <Text size='md' color={'#2B3674'} mb='5'></Text> */}
@@ -156,7 +138,7 @@ export default function Survey() {
                     )}
                 />
                 )}
-                {/* Add support for other question types as needed */}
+                {/* Add support for other question types */}
             </div>
             ))}
             <Button type="submit" ml='5' colorScheme='purple' borderRadius='50px' bg='#6C63FF' w='150px' h='50'>Submit</Button>

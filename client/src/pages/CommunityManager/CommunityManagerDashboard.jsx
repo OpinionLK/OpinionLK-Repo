@@ -22,7 +22,7 @@ import {
 import StatViewCard from '../../components/CommunityManager/StatViewCard';
 import AcceptRequestTable from '../../components/CommunityManager/AcceptRequestTable';
 import TaskSummaryTable from '../../components/CommunityManager/TaskSummaryTable';
-import SurveyManagementGrph from '../../components/CommunityManager/SurveyManagementGraph';
+//import SurveyManagementGrph from '../../components/CommunityManager/SurveyManagementGraph';
 
 function CommunityManagerDashBoard() {
   const style = {
@@ -76,7 +76,7 @@ function CommunityManagerDashBoard() {
                 <Text pt={15} pb={15} color={'black'} fontSize="2xl">
                   Survey Management
                 </Text>
-                <SurveyManagementGrph/>
+            
                 
               </Box>
             </Flex>

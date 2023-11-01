@@ -8,19 +8,18 @@ import {
     Text,
     CardHeader,
     CardBody,
-
-
 } from '@chakra-ui/react'
 import { useAuthContext } from '../../hooks/useAuthContext';
-
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { AddIcon } from '@chakra-ui/icons'
 
 const PaymentBilling = () => {
     const {
+         // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
+     // eslint-disable-next-line
     const history = useNavigate();
 
 

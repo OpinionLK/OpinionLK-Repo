@@ -2,31 +2,17 @@ import React from 'react';
 import {
     Box,
     Flex,
-    Text,
-    Avatar,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
     Button,
-    MenuGroup,
-    MenuDivider,
     Image
 } from '@chakra-ui/react'
-
-import CreateSurveyModal from '../organisation/CreateSurveyModal'
-
-import { Icon } from '@iconify/react';
-import userdp from '../../images/topbar/download.jpeg'
 import topbarLogo from '../../images/logonav.png'
-
-
 import { useLogout } from '../../hooks/useLogout';
-
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Topbar = () => {
+     // eslint-disable-next-line
     const { user, userData } = useAuthContext()
+     // eslint-disable-next-line
     const logout = useLogout()
     return (
         <Box

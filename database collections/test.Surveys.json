@@ -1,0 +1,1461 @@
+[{
+  "_id": {
+    "$oid": "64fc1997de10f09700632923"
+  },
+  "surveyID": "056npeUPlmboj6zm",
+  "surveyName": "Employee Satisfaction Survey",
+  "surveyDescription": "We value your feedback. Please take a moment to complete this survey and help us improve our workplace.",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "frefrefrefer",
+      "question": "frefefre",
+      "questionID": "Bob538dOlmk7iswp"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-09T07:03:11.655Z"
+  },
+  "responses": [],
+  "comments": [],
+  "__v": 0,
+  "updatedAt": {
+    "$date": "2023-09-15T06:17:03.185Z"
+  },
+  "points": 54
+},
+{
+  "_id": {
+    "$oid": "64fc1a71de10f09700632925"
+  },
+  "surveyID": "7Cz4mpXuPlmboj6z",
+  "surveyName": "Customer Feedback Survey",
+  "surveyDescription": "We value your feedback. Please take a moment to complete this survey and help us improve our services.",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "r23",
+      "question": "r32",
+      "questionID": "PEbmJQMKlmjwjsas"
+    },
+    {
+      "responseType": "mood",
+      "items": [
+        {
+          "option": "1",
+          "emoji": "grinning"
+        },
+        {
+          "option": "23r",
+          "emoji": "scream"
+        },
+        {
+          "option": "3",
+          "emoji": "sleeping"
+        },
+        {
+          "option": "4",
+          "emoji": "nauseated_face"
+        }
+      ],
+      "question": "fwef",
+      "questionID": "pLh75LkAlmjwlkg1"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-09T07:03:11.655Z"
+  },
+  "responses": [],
+  "comments": [],
+  "__v": 0,
+  "updatedAt": {
+    "$date": "2023-09-15T06:34:03.951Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "64fc1abede10f09700632927"
+  },
+  "surveyID": "4Lq8tpXzPlmboj6z",
+  "surveyName": "Product Satisfaction Survey",
+  "surveyDescription": "We value your feedback on our products. Please take a moment to share your thoughts with us.",
+  "questions": [
+    {
+      "responseType": "multiplechoice",
+      "items": [
+        {
+          "option": "Very Satisfied"
+        },
+        {
+          "option": "Satisfied"
+        },
+        {
+          "option": "Neutral"
+        },
+        {
+          "option": "Dissatisfied"
+        }
+      ],
+      "question": "How satisfied are you with our product?",
+      "questionID": "4Lq8tpXzQYuzYbJP"
+    },
+    {
+      "responseType": "shorttext",
+      "question": "What features or improvements would you like to see in our product?",
+      "questionID": "4Lq8tpXzYhQcj6b7"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-09T07:03:11.655Z"
+  },
+  "responses": [],
+  "comments": [],
+  "__v": 0,
+  "updatedAt": {
+    "$date": "2023-09-15T07:57:58.953Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "64fc1accde10f09700632929"
+  },
+  "surveyID": "2Dz1tpUzPlmboj6z",
+  "surveyName": "Event Feedback Survey",
+  "surveyDescription": "We appreciate your feedback on the recent event. Please take a moment to provide your insights.",
+  "questions": [
+    {
+      "responseType": "multiplechoice",
+      "items": [
+        {
+          "option": "Excellent"
+        },
+        {
+          "option": "Good"
+        },
+        {
+          "option": "Average"
+        },
+        {
+          "option": "Fair"
+        },
+        {
+          "option": "Poor"
+        }
+      ],
+      "question": "How would you rate the event overall?",
+      "questionID": "2Dz1tpUzQYuzYbJP"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-09T07:03:11.655Z"
+  },
+  "responses": [],
+  "comments": [],
+  "__v": 0,
+  "updatedAt": {
+    "$date": "2023-09-15T08:15:30.914Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6503fa06b070588f746c4d8c"
+  },
+  "surveyID": "RGhH4E2llmk80a01",
+  "surveyName": "New Survey",
+  "surveyDescription": "Hello Wordl",
+  "questions": [
+    {
+      "responseType": "longtext",
+      "textPlaceholder": "Enter something here",
+      "question": "This question",
+      "questionID": "I6EIqfk4lmk80ql2"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-15T06:30:30.831Z"
+  },
+  "responses": [],
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-09-15T06:30:30.844Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-15T06:31:07.955Z"
+  },
+  "__v": 0,
+  "points": 55
+},
+{
+  "_id": {
+    "$oid": "6504309c7ea95e1b729c53e1"
+  },
+  "surveyID": "Z50UzWZtlmkgbs92",
+  "surveyName": "test",
+  "surveyDescription": "test",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "rghgrsg",
+      "question": "tetwet",
+      "questionID": "poRvPouAlmkgc9r2"
+    }
+  ],
+  "creatorID": "64f6aec99e082c3cbf9970fe",
+  "approvalStatus": "pending",
+  "responses": [],
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-15T10:23:24.617Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-09-15T10:23:24.623Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-15T10:24:04.306Z"
+  },
+  "__v": 0,
+  "points": 51
+},
+{
+  "_id": {
+    "$oid": "64d5e9c3f45bf94d3a5dd976"
+  },
+  "survey-id": 1,
+  "surveyName": "Employee Engagement",
+  "surveyDescription": "A survey to gather feedback on employee engagement.",
+  "questions": [
+    "How satisfied are you with your current role?",
+    "Do you feel your opinions are valued?",
+    "Are there any improvements you'd like to suggest?"
+  ],
+  "created_date": {
+    "$date": "2023-08-01T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-09-01T00:00:00.000Z"
+  },
+  "creatorID": "user123",
+  "approvalStatus": "approved",
+  "approvedBy": "admin456",
+  "responses": [
+    {
+      "user": "employee1",
+      "answers": [
+        "Very satisfied",
+        "Yes, most of the time",
+        "Better communication in team meetings"
+      ]
+    },
+    {
+      "user": "employee2",
+      "answers": [
+        "Satisfied",
+        "Sometimes",
+        "More growth opportunities"
+      ]
+    }
+  ],
+  "tags": [
+    "employee engagement",
+    "feedback",
+    "workplace"
+  ],
+  "comments": [
+    {
+      "user": "admin456",
+      "text": "Survey approved and ready for distribution."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d5e9c3f45bf94d3a5dd977"
+  },
+  "survey-id": 2,
+  "surveyName": "Product Feedback",
+  "surveyDescription": "Gather feedback on our latest product release.",
+  "questions": [
+    "Did you find the new features useful?",
+    "Any features you'd like to see improved?",
+    "How likely are you to recommend this product?"
+  ],
+  "created_date": {
+    "$date": "2023-07-15T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-15T00:00:00.000Z"
+  },
+  "creatorID": "user789",
+  "approvalStatus": "pending",
+  "tags": [
+    "product feedback",
+    "user experience",
+    "features"
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd978"
+  },
+  "survey-id": 3,
+  "surveyName": "Customer Satisfaction",
+  "surveyDescription": "Collect feedback on the recent customer service experience.",
+  "questions": [
+    "Rate your overall satisfaction with our service.",
+    "Was the response time satisfactory?",
+    "Any suggestions for improvement?"
+  ],
+  "created_date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-20T00:00:00.000Z"
+  },
+  "creatorID": "user234",
+  "approvalStatus": "approved",
+  "approvedBy": "admin789",
+  "responses": [
+    {
+      "user": "customer1",
+      "answers": [
+        "Very satisfied",
+        "Yes, response was quick",
+        "Offer more self-service options"
+      ]
+    },
+    {
+      "user": "customer2",
+      "answers": [
+        "Satisfied",
+        "Response time could be better",
+        "Better online help resources"
+      ]
+    }
+  ],
+  "tags": [
+    "customer satisfaction",
+    "service feedback"
+  ],
+  "comments": [
+    {
+      "user": "admin789",
+      "text": "Approved for distribution to customers."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd979"
+  },
+  "survey-id": 4,
+  "surveyName": "Website Usability",
+  "surveyDescription": "Gauge user experience and usability of our website.",
+  "questions": [
+    "Was the navigation intuitive?",
+    "Did you find the information you were looking for?",
+    "Any features you'd like to see added?"
+  ],
+  "created_date": {
+    "$date": "2023-07-10T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-10T00:00:00.000Z"
+  },
+  "creatorID": "user567",
+  "approvalStatus": "approved",
+  "approvedBy": "admin234",
+  "responses": [
+    {
+      "user": "user1",
+      "answers": [
+        "Yes, very intuitive",
+        "Yes, most of it",
+        "Integration with user accounts"
+      ]
+    },
+    {
+      "user": "user2",
+      "answers": [
+        "Mostly",
+        "No, had some trouble",
+        "Better search functionality"
+      ]
+    }
+  ],
+  "tags": [
+    "website usability",
+    "user experience",
+    "navigation"
+  ],
+  "comments": [
+    {
+      "user": "admin234",
+      "text": "Approved and ready to gather user feedback."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97a"
+  },
+  "survey-id": 5,
+  "surveyName": "Training Effectiveness",
+  "surveyDescription": "Evaluate the effectiveness of the recent training program.",
+  "questions": [
+    "Did the training materials meet your expectations?",
+    "Was the trainer knowledgeable and engaging?",
+    "Any suggestions for future training sessions?"
+  ],
+  "created_date": {
+    "$date": "2023-07-05T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-05T00:00:00.000Z"
+  },
+  "creatorID": "user890",
+  "approvalStatus": "approved",
+  "approvedBy": "admin567",
+  "responses": [
+    {
+      "user": "trainee1",
+      "answers": [
+        "Yes, exceeded expectations",
+        "Very knowledgeable and engaging",
+        "More hands-on exercises"
+      ]
+    },
+    {
+      "user": "trainee2",
+      "answers": [
+        "Met expectations",
+        "Knowledgeable, but not very engaging",
+        "Include more real-world examples"
+      ]
+    }
+  ],
+  "tags": [
+    "training effectiveness",
+    "employee development",
+    "training materials"
+  ],
+  "comments": [
+    {
+      "user": "admin567",
+      "text": "Approved for distribution to trainees."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97b"
+  },
+  "survey-id": 6,
+  "surveyName": "Product Usage",
+  "surveyDescription": "Understand how customers are using our product.",
+  "questions": [
+    "How often do you use our product?",
+    "Which features do you use the most?",
+    "Any challenges you've encountered while using the product?"
+  ],
+  "created_date": {
+    "$date": "2023-07-02T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-02T00:00:00.000Z"
+  },
+  "creatorID": "user123",
+  "approvalStatus": "approved",
+  "approvedBy": "admin456",
+  "responses": [
+    {
+      "user": "customerA",
+      "answers": [
+        "Daily",
+        "Reporting and analytics",
+        "Integration with other tools"
+      ]
+    },
+    {
+      "user": "customerB",
+      "answers": [
+        "Weekly",
+        "Communication features",
+        "Improvement in mobile app"
+      ]
+    }
+  ],
+  "tags": [
+    "product usage",
+    "customer feedback",
+    "feature utilization"
+  ],
+  "comments": [
+    {
+      "user": "admin456",
+      "text": "Approved for insights into product usage."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97c"
+  },
+  "survey-id": 7,
+  "surveyName": "Event Feedback",
+  "surveyDescription": "Collect feedback from participants of our recent conference.",
+  "questions": [
+    "Did you find the sessions informative?",
+    "Was the event well-organized?",
+    "Suggestions for future events?"
+  ],
+  "created_date": {
+    "$date": "2023-06-25T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-25T00:00:00.000Z"
+  },
+  "creatorID": "user456",
+  "approvalStatus": "approved",
+  "approvedBy": "admin789",
+  "responses": [
+    {
+      "user": "participant1",
+      "answers": [
+        "Yes, very informative",
+        "Overall, yes",
+        "Include more interactive workshops"
+      ]
+    },
+    {
+      "user": "participant2",
+      "answers": [
+        "Informative, but some sessions could be better",
+        "Yes, it was well-organized",
+        "Extend the networking breaks"
+      ]
+    }
+  ],
+  "tags": [
+    "event feedback",
+    "conference experience",
+    "session content"
+  ],
+  "comments": [
+    {
+      "user": "admin789",
+      "text": "Approved for gathering insights from event participants."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97d"
+  },
+  "survey-id": 8,
+  "surveyName": "Health and Wellness",
+  "surveyDescription": "Gather information about employee health and wellness preferences.",
+  "questions": [
+    "Do you engage in regular physical activity?",
+    "Are wellness programs important to you?",
+    "Any specific wellness initiatives you'd like to see?"
+  ],
+  "created_date": {
+    "$date": "2023-06-20T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "creatorID": "user567",
+  "approvalStatus": "approved",
+  "approvedBy": "admin234",
+  "responses": [
+    {
+      "user": "employeeX",
+      "answers": [
+        "Yes, I exercise regularly",
+        "Yes, they contribute to a healthy workplace",
+        "Yoga or meditation sessions"
+      ]
+    },
+    {
+      "user": "employeeY",
+      "answers": [
+        "Not as often as I'd like",
+        "Yes, but they could be improved",
+        "Nutrition workshops"
+      ]
+    }
+  ],
+  "tags": [
+    "health and wellness",
+    "employee health",
+    "wellness programs"
+  ],
+  "comments": [
+    {
+      "user": "admin234",
+      "text": "Approved for gathering employee wellness preferences."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97e"
+  },
+  "survey-id": 9,
+  "surveyName": "Remote Work Experience",
+  "surveyDescription": "Collect feedback on the remote work arrangement.",
+  "questions": [
+    "Do you feel productive while working remotely?",
+    "Are communication tools effective?",
+    "Suggestions for improving remote work?"
+  ],
+  "created_date": {
+    "$date": "2023-06-15T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-15T00:00:00.000Z"
+  },
+  "creatorID": "user890",
+  "approvalStatus": "approved",
+  "approvedBy": "admin567",
+  "responses": [
+    {
+      "user": "employeeA",
+      "answers": [
+        "Yes, I find it productive",
+        "Mostly effective, but occasional glitches",
+        "Regular virtual team building"
+      ]
+    },
+    {
+      "user": "employeeB",
+      "answers": [
+        "Mixed productivity",
+        "Effective, but can be overwhelming",
+        "Provide ergonomic equipment"
+      ]
+    }
+  ],
+  "tags": [
+    "remote work experience",
+    "telecommuting",
+    "communication tools"
+  ],
+  "comments": [
+    {
+      "user": "admin567",
+      "text": "Approved for gaining insights into remote work satisfaction."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d635acf45bf94d3a5dd97f"
+  },
+  "survey-id": 10,
+  "surveyName": "Diversity and Inclusion",
+  "surveyDescription": "Gather opinions on the company's diversity and inclusion efforts.",
+  "questions": [
+    "Do you feel the company values diversity?",
+    "Have you witnessed instances of inclusivity?",
+    "Suggestions for promoting diversity?"
+  ],
+  "created_date": {
+    "$date": "2023-06-10T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-10T00:00:00.000Z"
+  },
+  "creatorID": "user123",
+  "approvalStatus": "approved",
+  "approvedBy": "admin456",
+  "responses": [
+    {
+      "user": "employeeC",
+      "answers": [
+        "Yes, diversity is emphasized",
+        "Yes, in team discussions",
+        "Inclusive training programs"
+      ]
+    },
+    {
+      "user": "employeeD",
+      "answers": [
+        "To some extent",
+        "Not frequently",
+        "Diverse recruitment panels"
+      ]
+    }
+  ],
+  "tags": [
+    "diversity and inclusion",
+    "workplace culture",
+    "equal opportunities"
+  ],
+  "comments": [
+    {
+      "user": "admin456",
+      "text": "Approved for understanding employee perspectives on diversity."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd980"
+  },
+  "survey-id": 3,
+  "surveyName": "Customer Satisfaction",
+  "surveyDescription": "Collect feedback on the recent customer service experience.",
+  "questions": [
+    "Rate your overall satisfaction with our service.",
+    "Was the response time satisfactory?",
+    "Any suggestions for improvement?"
+  ],
+  "created_date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-20T00:00:00.000Z"
+  },
+  "creatorID": "user234",
+  "approvalStatus": "approved",
+  "approvedBy": "admin789",
+  "responses": [
+    {
+      "user": "customer1",
+      "answers": [
+        "Very satisfied",
+        "Yes, response was quick",
+        "Offer more self-service options"
+      ]
+    },
+    {
+      "user": "customer2",
+      "answers": [
+        "Satisfied",
+        "Response time could be better",
+        "Better online help resources"
+      ]
+    }
+  ],
+  "tags": [
+    "customer satisfaction",
+    "service feedback"
+  ],
+  "comments": [
+    {
+      "user": "admin789",
+      "text": "Approved for distribution to customers."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd981"
+  },
+  "survey-id": 4,
+  "surveyName": "Website Usability",
+  "surveyDescription": "Gauge user experience and usability of our website.",
+  "questions": [
+    "Was the navigation intuitive?",
+    "Did you find the information you were looking for?",
+    "Any features you'd like to see added?"
+  ],
+  "created_date": {
+    "$date": "2023-07-10T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-10T00:00:00.000Z"
+  },
+  "creatorID": "user567",
+  "approvalStatus": "approved",
+  "approvedBy": "admin234",
+  "responses": [
+    {
+      "user": "user1",
+      "answers": [
+        "Yes, very intuitive",
+        "Yes, most of it",
+        "Integration with user accounts"
+      ]
+    },
+    {
+      "user": "user2",
+      "answers": [
+        "Mostly",
+        "No, had some trouble",
+        "Better search functionality"
+      ]
+    }
+  ],
+  "tags": [
+    "website usability",
+    "user experience",
+    "navigation"
+  ],
+  "comments": [
+    {
+      "user": "admin234",
+      "text": "Approved and ready to gather user feedback."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd982"
+  },
+  "survey-id": 5,
+  "surveyName": "Training Effectiveness",
+  "surveyDescription": "Evaluate the effectiveness of the recent training program.",
+  "questions": [
+    "Did the training materials meet your expectations?",
+    "Was the trainer knowledgeable and engaging?",
+    "Any suggestions for future training sessions?"
+  ],
+  "created_date": {
+    "$date": "2023-07-05T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-05T00:00:00.000Z"
+  },
+  "creatorID": "user890",
+  "approvalStatus": "approved",
+  "approvedBy": "admin567",
+  "responses": [
+    {
+      "user": "trainee1",
+      "answers": [
+        "Yes, exceeded expectations",
+        "Very knowledgeable and engaging",
+        "More hands-on exercises"
+      ]
+    },
+    {
+      "user": "trainee2",
+      "answers": [
+        "Met expectations",
+        "Knowledgeable, but not very engaging",
+        "Include more real-world examples"
+      ]
+    }
+  ],
+  "tags": [
+    "training effectiveness",
+    "employee development",
+    "training materials"
+  ],
+  "comments": [
+    {
+      "user": "admin567",
+      "text": "Approved for distribution to trainees."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd983"
+  },
+  "survey-id": 6,
+  "surveyName": "Product Usage",
+  "surveyDescription": "Understand how customers are using our product.",
+  "questions": [
+    "How often do you use our product?",
+    "Which features do you use the most?",
+    "Any challenges you've encountered while using the product?"
+  ],
+  "created_date": {
+    "$date": "2023-07-02T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-08-02T00:00:00.000Z"
+  },
+  "creatorID": "user123",
+  "approvalStatus": "approved",
+  "approvedBy": "admin456",
+  "responses": [
+    {
+      "user": "customerA",
+      "answers": [
+        "Daily",
+        "Reporting and analytics",
+        "Integration with other tools"
+      ]
+    },
+    {
+      "user": "customerB",
+      "answers": [
+        "Weekly",
+        "Communication features",
+        "Improvement in mobile app"
+      ]
+    }
+  ],
+  "tags": [
+    "product usage",
+    "customer feedback",
+    "feature utilization"
+  ],
+  "comments": [
+    {
+      "user": "admin456",
+      "text": "Approved for insights into product usage."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd984"
+  },
+  "survey-id": 7,
+  "surveyName": "Event Feedback",
+  "surveyDescription": "Collect feedback from participants of our recent conference.",
+  "questions": [
+    "Did you find the sessions informative?",
+    "Was the event well-organized?",
+    "Suggestions for future events?"
+  ],
+  "created_date": {
+    "$date": "2023-06-25T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-25T00:00:00.000Z"
+  },
+  "creatorID": "user456",
+  "approvalStatus": "approved",
+  "approvedBy": "admin789",
+  "responses": [
+    {
+      "user": "participant1",
+      "answers": [
+        "Yes, very informative",
+        "Overall, yes",
+        "Include more interactive workshops"
+      ]
+    },
+    {
+      "user": "participant2",
+      "answers": [
+        "Informative, but some sessions could be better",
+        "Yes, it was well-organized",
+        "Extend the networking breaks"
+      ]
+    }
+  ],
+  "tags": [
+    "event feedback",
+    "conference experience",
+    "session content"
+  ],
+  "comments": [
+    {
+      "user": "admin789",
+      "text": "Approved for gathering insights from event participants."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd985"
+  },
+  "survey-id": 8,
+  "surveyName": "Health and Wellness",
+  "surveyDescription": "Gather information about employee health and wellness preferences.",
+  "questions": [
+    "Do you engage in regular physical activity?",
+    "Are wellness programs important to you?",
+    "Any specific wellness initiatives you'd like to see?"
+  ],
+  "created_date": {
+    "$date": "2023-06-20T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "creatorID": "user567",
+  "approvalStatus": "approved",
+  "approvedBy": "admin234",
+  "responses": [
+    {
+      "user": "employeeX",
+      "answers": [
+        "Yes, I exercise regularly",
+        "Yes, they contribute to a healthy workplace",
+        "Yoga or meditation sessions"
+      ]
+    },
+    {
+      "user": "employeeY",
+      "answers": [
+        "Not as often as I'd like",
+        "Yes, but they could be improved",
+        "Nutrition workshops"
+      ]
+    }
+  ],
+  "tags": [
+    "health and wellness",
+    "employee health",
+    "wellness programs"
+  ],
+  "comments": [
+    {
+      "user": "admin234",
+      "text": "Approved for gathering employee wellness preferences."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd986"
+  },
+  "survey-id": 9,
+  "surveyName": "Remote Work Experience",
+  "surveyDescription": "Collect feedback on the remote work arrangement.",
+  "questions": [
+    "Do you feel productive while working remotely?",
+    "Are communication tools effective?",
+    "Suggestions for improving remote work?"
+  ],
+  "created_date": {
+    "$date": "2023-06-15T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-15T00:00:00.000Z"
+  },
+  "creatorID": "user890",
+  "approvalStatus": "approved",
+  "approvedBy": "admin567",
+  "responses": [
+    {
+      "user": "employeeA",
+      "answers": [
+        "Yes, I find it productive",
+        "Mostly effective, but occasional glitches",
+        "Regular virtual team building"
+      ]
+    },
+    {
+      "user": "employeeB",
+      "answers": [
+        "Mixed productivity",
+        "Effective, but can be overwhelming",
+        "Provide ergonomic equipment"
+      ]
+    }
+  ],
+  "tags": [
+    "remote work experience",
+    "telecommuting",
+    "communication tools"
+  ],
+  "comments": [
+    {
+      "user": "admin567",
+      "text": "Approved for gaining insights into remote work satisfaction."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd987"
+  },
+  "survey-id": 10,
+  "surveyName": "Diversity and Inclusion",
+  "surveyDescription": "Gather opinions on the company's diversity and inclusion efforts.",
+  "questions": [
+    "Do you feel the company values diversity?",
+    "Have you witnessed instances of inclusivity?",
+    "Suggestions for promoting diversity?"
+  ],
+  "created_date": {
+    "$date": "2023-06-10T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-07-10T00:00:00.000Z"
+  },
+  "creatorID": "user123",
+  "approvalStatus": "approved",
+  "approvedBy": "admin456",
+  "responses": [
+    {
+      "user": "employeeC",
+      "answers": [
+        "Yes, diversity is emphasized",
+        "Yes, in team discussions",
+        "Inclusive training programs"
+      ]
+    },
+    {
+      "user": "employeeD",
+      "answers": [
+        "To some extent",
+        "Not frequently",
+        "Diverse recruitment panels"
+      ]
+    }
+  ],
+  "tags": [
+    "diversity and inclusion",
+    "workplace culture",
+    "equal opportunities"
+  ],
+  "comments": [
+    {
+      "user": "admin456",
+      "text": "Approved for understanding employee perspectives on diversity."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "64d63628f45bf94d3a5dd988"
+  },
+  "survey-id": 11,
+  "surveyName": "Environmental Awareness",
+  "surveyDescription": "Gather insights on employees' environmental awareness and sustainability practices.",
+  "questions": [
+    "Are you aware of the company's sustainability initiatives?",
+    "Do you actively participate in recycling programs?",
+    "Any suggestions for reducing our environmental footprint?"
+  ],
+  "created_date": {
+    "$date": "2023-08-05T00:00:00.000Z"
+  },
+  "expiration_date": {
+    "$date": "2023-09-05T00:00:00.000Z"
+  },
+  "creatorID": "user234",
+  "approvalStatus": "pending",
+  "tags": [
+    "environmental awareness",
+    "sustainability practices",
+    "recycling"
+  ]
+},
+{
+  "_id": {
+    "$oid": "64dc6247ad695e52191ea254"
+  },
+  "surveyName": "new survey12234",
+  "surveyDescription": 123,
+  "created_date": {
+    "$date": "2023-08-16T05:44:39.957Z"
+  },
+  "creatorID": "64dba9a7bbbf7248137d5673",
+  "approvalStatus": "draft",
+  "surveyID": "8HhM4R01lldb5rf8",
+  "createdAt": {
+    "$date": "2023-08-16T05:44:39.959Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T05:44:51.929Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651312607ee16d9f23e6a4c3"
+  },
+  "surveyID": "FZmv9mH6ln0kzuml",
+  "surveyName": "quick",
+  "surveyDescription": "testing",
+  "questions": [],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "draft",
+  "responses": [],
+  "tags": [],
+  "created_date": {
+    "$date": "2023-09-26T17:18:24.717Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-09-26T17:18:24.718Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-26T17:18:24.718Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "653ca935fde14fac9d35a156"
+  },
+  "surveyID": "yqsFt76Ylo9nqo88",
+  "surveyName": "Test Survey",
+  "surveyDescription": "Testing survey",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "Your name",
+      "question": "what is your name?",
+      "questionID": "4QUZk2NUlo9nrp55"
+    },
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "Your address",
+      "question": "what is your address?",
+      "questionID": "mKVVURZNlo9nsefo"
+    },
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "Your mobile number",
+      "question": "what is your mobile number?",
+      "questionID": "TJwkUPJvlo9nt2ap"
+    }
+  ],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "pending",
+  "responses": [
+    {
+      "responseID": "OqTrgNedlobeepgg",
+      "userID": "653cbbcdcece5a81436d38e0",
+      "responses": {
+        "4QUZk2NUlo9nrp55": "jsbdvjbw",
+        "mKVVURZNlo9nsefo": "knskdjvnkj",
+        "TJwkUPJvlo9nt2ap": "kkjnkjnvkj"
+      },
+      "created_date": "2023-10-29 17:09:10"
+    },
+    {
+      "responseID": "e55HRG1klocrporu",
+      "userID": "653f65b1b2f1574409b6c91e",
+      "responses": {
+        "4QUZk2NUlo9nrp55": "ksjdnvkj",
+        "mKVVURZNlo9nsefo": "kjsnkdskvb",
+        "TJwkUPJvlo9nt2ap": "knksjnvksjv"
+      },
+      "created_date": "2023-10-30 16:09:24"
+    }
+  ],
+  "tags": [],
+  "created_date": {
+    "$date": "2023-10-28T06:24:53.290Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-10-28T06:24:53.292Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-30T10:39:24.330Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "653cac51fde14fac9d35a172"
+  },
+  "surveyID": "QkGePqirlo9o7qto",
+  "surveyName": "test2",
+  "surveyDescription": "test2222\n",
+  "questions": [],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "draft",
+  "responses": [],
+  "tags": [],
+  "created_date": {
+    "$date": "2023-10-28T06:38:09.804Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-10-28T06:38:09.805Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-28T06:38:09.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "653cac54fde14fac9d35a174"
+  },
+  "surveyID": "XqquOaWllo9o7so9",
+  "surveyName": "test2",
+  "surveyDescription": "test2222\n",
+  "questions": [],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "draft",
+  "responses": [],
+  "tags": [],
+  "created_date": {
+    "$date": "2023-10-28T06:38:12.201Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-10-28T06:38:12.202Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-28T06:38:12.202Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "653cba6ecece5a81436d38c4"
+  },
+  "surveyID": "9B6V3WkKlo9qd6lx",
+  "surveyName": "testing",
+  "surveyDescription": "testing",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "name",
+      "question": "name?",
+      "questionID": "U8EuNPtnlo9qdtvt"
+    },
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "Address",
+      "question": "Address",
+      "questionID": "ZZWStP1flo9qe8oe"
+    },
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "tele",
+      "question": "tele",
+      "questionID": "Jy4anBcylo9qejgn"
+    }
+  ],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "pending",
+  "responses": [
+    {
+      "responseID": "NwBUtqSMlobdyp04",
+      "userID": "653cbbcdcece5a81436d38e0",
+      "responses": {
+        "U8EuNPtnlo9qdtvt": "ksnvfkjn",
+        "ZZWStP1flo9qe8oe": "kjnkjnkj",
+        "Jy4anBcylo9qejgn": "nkjnkjn"
+      },
+      "created_date": "2023-10-29 16:56:43"
+    }
+  ],
+  "tags": [],
+  "points": 0,
+  "created_date": {
+    "$date": "2023-10-28T07:38:22.775Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-10-28T07:38:22.778Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-29T11:26:43.735Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "653ed930b0f7eba5a5fa287e"
+  },
+  "surveyID": "n07vh5jJloc139sj",
+  "surveyName": "New Survey",
+  "surveyImage": "croppedImage_d-3ZaBsbt.jpg",
+  "surveyDescription": "This is a dummy survey\n",
+  "questions": [
+    {
+      "responseType": "shorttext",
+      "textPlaceholder": "fslkf",
+      "question": "q1",
+      "questionID": "kDRFUomAloc191ah"
+    },
+    {
+      "responseType": "longtext",
+      "textPlaceholder": "knskjf",
+      "question": "skjnskj",
+      "questionID": "yCmgjWSnloc199s7"
+    },
+    {
+      "responseType": "mood",
+      "textPlaceholder": "",
+      "items": [
+        {
+          "option": "kjasc",
+          "emoji": "smiley"
+        },
+        {
+          "option": "ksdnvk",
+          "emoji": "scream"
+        },
+        {
+          "option": "sknvskjvn",
+          "emoji": "sleeping"
+        },
+        {
+          "option": "kdfnvksjvn",
+          "emoji": "nauseated_face"
+        }
+      ],
+      "question": "sdnsd",
+      "questionID": "24fTNz5Nloc1adgd"
+    }
+  ],
+  "creatorID": "65110d94fc30e89f93fba701",
+  "approvalStatus": "approved",
+  "responses": [
+    {
+      "responseID": "I59X0lmSloc1db2y",
+      "userID": "653cbbcdcece5a81436d38e0",
+      "responses": {
+        "kDRFUomAloc191ah": "nckjsndc",
+        "yCmgjWSnloc199s7": "lknkn"
+      },
+      "created_date": "2023-10-30 03:51:56"
+    },
+    {
+      "responseID": "LC747Foslocncizd",
+      "userID": "653f65b1b2f1574409b6c91e",
+      "responses": {
+        "kDRFUomAloc191ah": "ksnvkjn",
+        "yCmgjWSnloc199s7": "knfkvjsn"
+      },
+      "created_date": "2023-10-30 14:07:11"
+    }
+  ],
+  "userTags": [
+    {
+      "gender": "male"
+    },
+    {
+      "birthyear1": 1970
+    },
+    {
+      "birthyear2": 2000
+    },
+    {
+      "city": "Colombo"
+    }
+  ],
+  "tags": [],
+  "points": 0,
+  "created_date": {
+    "$date": "2023-10-29T22:14:08.467Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2023-10-29T22:14:08.468Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-30T08:37:11.834Z"
+  },
+  "__v": 0,
+  "duration": 7,
+  "endCriteria": "duration",
+  "estimatedCost": 0
+}]

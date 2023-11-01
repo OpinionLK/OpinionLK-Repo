@@ -1,8 +1,8 @@
 import DashBoard from '../pages/DashboardLayout';
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
-import ViewSurveys from '../pages/CommunityManager/ViewSurveys';
-import ViewSurvey from '../pages/CommunityManager/ViewSurvey';
+import CommunityManagerTables from '../pages/CommunityManager/CommunityManagerTables';
+import CommunityManagerActions from '../pages/CommunityManager/CommunityMangerActions';
 
 import {
     Navigate
@@ -12,7 +12,7 @@ import {
     motion
 } from 'framer-motion';
 // eslint-disable-next-line
-import { BsHouseFill, BsCollectionFill, BsTable } from 'react-icons/bs';
+import { BsHouseFill, BsCollectionFill, BsTable, BsFillFileRuledFill} from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 
 // import { BiSolidEditAlt } from 'react-icons/bi';
@@ -20,7 +20,10 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/ComManager/allsurveys', linkName: 'All Surveys', icon: RiSurveyFill },
+    { route: '/ComManager/Tables' ,linkName: 'Tables', icon: BsTable},
+    {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
+    
+    { route: '/ComManager/allsurveys', linkName: 'Pending Surveys', icon: RiSurveyFill },
 
 ];
 
@@ -59,12 +62,23 @@ const ComManagerRoutes = [
                 element: <CommunityManagerDashBoard />,
             },
             {
-                path: '/ComManager/allsurveys',
-                element: <ViewSurveys />,
+                path: '/ComManager/Tables',
+                element: <CommunityManagerTables/>,
             },
             {
-                path: '/ComManager/viewsurvey/:surveyid',
-                element: <ViewSurvey />,
+                path: '/ComManager/Actions',
+                element: <CommunityManagerActions/>,
+            },
+
+
+
+            {
+                //path: '/ComManager/allsurveys',
+                //element: <ViewSurveys />,
+            },
+            {
+               // path: '/ComManager/viewsurvey/:surveyid',
+                //element: <ViewSurvey />,
             },
 
 
@@ -72,4 +86,4 @@ const ComManagerRoutes = [
     }
 ]
 
-export default ComManagerRoutes
+export default ComManagerRoutes;

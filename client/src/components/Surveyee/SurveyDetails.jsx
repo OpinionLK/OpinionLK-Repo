@@ -1,17 +1,10 @@
-import useFormContext from "../../hooks/useFormContext"
 import React from 'react'
-
 import { 
     Box,
     Heading,
-    Divider,
     Text
 } from '@chakra-ui/react'
-import { PhoneIcon, AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
-
-import BackButton from '../../images/backButton.png'
-
-const SurveyDetails = ({surveyName, surveyDescription, tags}) => {
+const SurveyDetails = ({surveyName, surveyDescription}) => {
     return (
 
         <Box

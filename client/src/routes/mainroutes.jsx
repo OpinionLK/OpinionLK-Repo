@@ -1,6 +1,7 @@
 import Landing from '../pages/Landing';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
+import ResetPass from '../pages/passwordReset';
 
 import ClientLogin from '../pages/ClientLogin';
 import ClientSignUp from '../pages/ClientSignUp';
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
     {
         path: '/client/signup',
         element: <ClientSignUp />,
+    },
+    {
+        path: '/reset',
+        element: <ResetPass />,
     },
     {
         path: '/surveyAnonymous/:surveyid',
