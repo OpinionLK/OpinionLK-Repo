@@ -88,7 +88,6 @@ export default function CouponPopup ({ couponID, couponName, couponDescription, 
                         {couponDescription}
                     </Text>
                 </ModalBody>
-                {/* <ModalFooter> */}
                     <Flex
                         position={'relative'}
                         bottom='1'
@@ -103,16 +102,12 @@ export default function CouponPopup ({ couponID, couponName, couponDescription, 
                         <Button 
                             variant='solid' 
                             colorScheme='purple' 
-                            borderRadius={'full'} 
                             fontSize={12} 
-                            // fontWeight={'light'} 
-                            bg='#583EFF' 
-                            onClick={()=>{window.location.href = 'http://localhost:3000/portal/survey/' + couponID + '/fill'}}
+                            // onClick={() => onOpen(coupon._id)}
                         >
                             Redeem Coupon
                         </Button>  
                     </Flex>                 
-                {/* </ModalFooter> */}
                 </ModalContent>
             </Modal>
         </>

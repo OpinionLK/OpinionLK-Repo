@@ -6,6 +6,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import {
   Wrap,
   Text,
+  Grid,
 } from '@chakra-ui/react'
 
 import CouponCard from '../../components/Surveyee/CouponCard'
@@ -36,15 +37,14 @@ const Myrewards = () => {
 
   return (
     <>
-      <Wrap spacing='14px' mt={-5}>
-        {coupons ? coupons.map((coupon) => {
+      <Grid templateColumns="repeat(3, 1fr)" gap={6} mt={-5}>
+      {coupons ? coupons.map((coupon) => {
           return(
             <>
             <CouponCard 
               couponName={coupon.CouponName}
               couponDescription={coupon.Description}
               companyName={coupon.CompanyName}
-              // need the image
               couponImage={coupon.CouponImage}
               couponPoints={coupon.Points}
               couponCount={coupon.Count}
@@ -53,7 +53,7 @@ const Myrewards = () => {
             </>
           )
         }) : <Text>No Coupons Available</Text>}
-      </Wrap>
+      </Grid>
     </>
   )
 }

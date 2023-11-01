@@ -29,17 +29,32 @@ console.log(customId);
 
 export const getAllSurveys = async (req, res) => {
     try {
-        const surveys = await Surveys.find().sort({ 'created_date': -1 });
+        const surveys = await Surveys.find();
         res.status(200).json(surveys);
+        console.log(res.data);
     } catch (error) {
+        console.log("there is error fetchin data");
         res.status(404).json({ message: error.message });
     }
 }
 
 
+//get approved survey list from db
+export const getApprovedSurveys=async(req,res) =>{
+
+    try{
+        const pendingsurveys=await Surveys.find({approvalStatus:"approved"});
+        res.status(200).json(pendingsurveys);
+        console.log(res.data);
+    }catch{
+        console.log("there is error fetchin data");
+        res.status(404).json({ message: error.message });
+    }
+}
+
 
 export const getSurveysByCreator = async (req, res) => {
-    // #swagger.tags = ['Organisation']
+   
 
 
     // get token from header
@@ -144,13 +159,19 @@ export const createResponse = async (req, res) => {
 
 export const createAnonResponse = async (req, res) => {
     try {
-      const { surveyid, response } = req.body;
-        
+      const { surveyid, response, userTags, preQResponse } = req.body;
+      //   compare the values in userTags to that of preQResponse, calculate a relevancy average and add it to a const flag
+        // console.log(userTags);
+        // console.log(preQResponse);
+        const similarity = calculateSimilarity(userTags, preQResponse);
+
       const responseID = generateCustomId();
   
       const newResponse = {
         responseID: responseID,
         // userID: NULL,
+        similarity: similarity,
+        preQResponses: preQResponse,
         responses: response.responses,
       };
       console.log(newResponse);
@@ -171,6 +192,46 @@ export const createAnonResponse = async (req, res) => {
       res.status(500).json({ message: 'Error adding response.', error: error.message });
     }
 }
+
+function calculateSimilarity(userTags, preQResponse) {
+    let score = 0;
+    let count = 0;
+    // should technically convert everything to uppercase just to sure...
+  
+    for (const key in userTags) {
+        if (key === "age2") {
+            // Ignore the "age2" key
+            continue;
+          }
+        if (key in preQResponse) {
+            if (key === "age1") {
+            const age1 = parseInt(userTags.age1);
+            const age2 = parseInt(userTags.age2);
+            const userAge = parseInt(preQResponse.age1);
+            if (userAge >= age1 && userAge <= age2) {
+                score++;
+            }
+            } else if (key === "interests") {
+            // Special case for 'interests' array
+            for (const interest of userTags.interests) {
+                if (preQResponse[interest] === "Yes") {
+                score++;
+                }
+            }
+            } else if (userTags[key] === preQResponse[key]) {
+            // Regular key comparison
+            score++;
+            }
+            count++;
+        }else{
+            count++;
+        }
+    }
+  
+    // Calculate the similarity score
+    const similarityScore = count > 0 ? score / count : 0;
+    return similarityScore;
+  }
 
 export const addSurveyPoints = async (req, res) => {
     // add points to a user's points where userID = id

@@ -13,15 +13,14 @@ import {
     FormLabel,
     VStack,
     Box,
+    useToast,
     } from '@chakra-ui/react';
     import Modal from 'react-modal';
     import axios from 'axios';
 
 
 const AddComManager = () => {
-// eslint-disable-next-line
-    const [isSuccess, setIsSuccess] = useState(false);
-    
+// eslint-disable-next-line    
     const CloseIcon = () => (
         <svg
             width="24"
@@ -51,6 +50,14 @@ const AddComManager = () => {
       };
 
         const [isOpen, setIsOpen] = useState(false);
+        const toast = useToast();
+        function showToast(status) {
+          toast({
+              title: `${status} `,
+              status: status,
+              isClosable: true,
+          });
+      }
         const openPopup = () => {
           setIsOpen(true);
         };
@@ -131,13 +138,29 @@ const AddComManager = () => {
                     ManagerNic,
                   });
                   console.log('User created successfully');
-                  setIsSuccess(true);
                   closePopup(true);
+                  showToast('success');
+                  const emailSent = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      resolve();
+                    }, 2000);
+                  });
+                  toast.promise(emailSent, {
+                    success: { title: 'Email Sent', description: `Sending Inivitation to ${ManagerFirstName}`  },
+                    error: { title: 'Promise rejected', description: 'Something wrong' },
+                    loading: { title: 'Sending Email', description: 'Please wait' },
+                  });
+                  
+
                 } catch (error) {
                   console.error('Error adding manager:', error);
+                  showToast('error');
                   // Handle error here if necessary
                 }
               };
+
+              
+
 
       return (
         <>
@@ -149,22 +172,11 @@ const AddComManager = () => {
             <HStack gap={'12px'} justifyItems={'flex-end'}>
                 <Button
                     onClick={openPopup}
-                    colorScheme="green"
-                    height={'30px'}
-                    width={'90px'}
-                    borderRadius={'5px'}
-                    bg={'green.500'}
-                >
-                    Add
-                </Button>
-                <Button
                     colorScheme="purple"
                     height={'30px'}
                     width={'90px'}
-                    borderRadius={'5px'}
-                    bg={'purple.500'}
                 >
-                    View
+                    Add
                 </Button>
                 </HStack>
             </Box>
@@ -278,23 +290,23 @@ const AddComManager = () => {
                   {/*submit button*/}
                   <Flex justifyContent={'flex-end'} width={'100%'} gap={'10px'}>
                     <Button
-                      name="submit"
-                      align={'right'}
-                      width={'100px'}
-                      colorScheme="green"
-                      type="Submit"
-                    >
-                      Add
-                    </Button>
-                    <Button
                       name="cancel"
                       align={'right'}
                       width={'100px'}
-                      colorScheme="red"
+                      colorScheme="gray"
                       type="cancel"
                       onClick={closePopup}
                     >
                       Cancel
+                    </Button>
+                    <Button
+                      name="submit"
+                      align={'right'}
+                      width={'100px'}
+                      colorScheme="purple"
+                      type="Submit"
+                    >
+                      Add
                     </Button>
                   </Flex>
                 </Flex>

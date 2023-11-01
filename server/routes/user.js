@@ -1,6 +1,6 @@
 import express, { application } from 'express';
 import { getAllSurveys } from '../controllers/SurveysC.js';
-import { userData, surveyHistory } from '../controllers/UserC.js';
+import { userData, surveyHistory, couponHistory } from '../controllers/UserC.js';
 import { redeemCoupon } from '../controllers/Coupons.js';
 
 
@@ -17,6 +17,7 @@ router.get('/getAllCoupons', getAllCoupons);
 router.get('/getMyCoupons', getMyCoupons);
 router.get('/surveyHistory', surveyHistory);
 router.post('/redeemCoupon', redeemCoupon);
+router.get('/couponHistory', couponHistory);
 // router.get('/updatedUser', userData);
 
 

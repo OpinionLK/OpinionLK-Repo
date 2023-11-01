@@ -9,10 +9,6 @@ const PlatformDataSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-
-
-
-
 })
 
 const PlatformData = mongoose.model("PlatformData", PlatformDataSchema);
