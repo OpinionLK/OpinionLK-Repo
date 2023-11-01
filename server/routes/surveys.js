@@ -2,6 +2,7 @@ import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
+    getMySurveys,
     getSurveysByCreator,
     getSurveyToReview,
     getQuestionCount,
@@ -53,6 +54,7 @@ router.post('/addSurveyPoints', addSurveyPoints); //add points to user
 router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
 router.get('/all', getAllSurveys); //get all surveys
+router.get('/getmysurveys', getMySurveys); //get surveys relevant to the user
 
 
 router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
