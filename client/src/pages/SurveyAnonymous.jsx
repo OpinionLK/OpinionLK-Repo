@@ -6,8 +6,9 @@ import MultipleChoice from "../components/Surveyee/MultipleChoice";
 import LongAnswer from "../components/Surveyee/LongAnswer"
 import ShortAnswer from "../components/Surveyee/ShortAnswer"
 import SurveyDetails from "../components/Surveyee/SurveyDetails"
+import PreQ from "../components/Surveyee/PreQ"
 import { useParams, useNavigate  } from 'react-router-dom';
-import { Button, Text,Box, Center, Link } from '@chakra-ui/react'
+import { Button, Text,Box, Center, Link, Heading } from '@chakra-ui/react'
 import TopbarAnon from '../components/Layout/TopbarAnon';
 
 // Your component
@@ -18,13 +19,17 @@ export default function Survey() {
   const [survey, setSurvey] = useState(null);
   const { handleSubmit, control } = useForm();
   const navigate = useNavigate();
+  
+  const [preQResponse, setPreQResponse] = useState({});
+  const updatePreQResponse = (newData) => {
+    setPreQResponse(newData);
+  };
 
   const {
     // eslint-disable-next-line
     user, dispatch, userData
   } = useAuthContext();
 
-  // console.log('HELOOO:', user);
 
   useEffect(() => {
     // check if user is logged in
@@ -57,11 +62,14 @@ export default function Survey() {
       // eslint-disable-next-line
       const points = survey.points;
       const response = data; // Use the form data as the response   
+      console.log('PreQResponse:', preQResponse);
       
       const responseFromServer = await axios.post(`http://localhost:3002/api/survey/createAnonResponse`, 
         {
           surveyid,
           response,
+          userTags: survey.userTags,
+          preQResponse: preQResponse,
         },
       );
       console.log('Response added successfully:', responseFromServer.data);
@@ -83,9 +91,18 @@ export default function Survey() {
   return (
     <>
       <TopbarAnon />
-      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} tags={survey.userTags} />
+      <SurveyDetails surveyName={survey.surveyName} surveyDescription={survey.surveyDescription} />
+      
+      
       <Center mt='5' flexDirection='column'>
+        <Box width='60%'>
+          <Heading size='md' color={'#2B3674'} mb='3' ml='10'>Pre-Questionnaire</Heading>
+          <PreQ userTags={survey.userTags} updatePreQResponse={updatePreQResponse} preQResponse={preQResponse} />
+
+        </Box>
+
         <Box w='60%'>
+        <Heading size='md' color={'#2B3674'} mt='5' ml='10'>Main Questionnaire</Heading>
         {/* <Text size='md' color={'#2B3674'} mb='5'></Text> */}
         {/* <Heading size='lg' color={'#2B3674'} mb='5' ml='5'>
         {survey.surveyName}
@@ -144,7 +161,7 @@ export default function Survey() {
             <Button type="submit" ml='5' colorScheme='purple' borderRadius='50px' bg='#6C63FF' w='150px' h='50'>Submit</Button>
         </form>
         </Box>
-            <Text mt='10' ml='6' color='#A3AED0' bottom='0'>
+            <Text mt='10' mb='5' color='#A3AED0' bottom='0'>
               <Link href='http://localhost:3000/' color='#6C63FF'>Join</Link> 
               {' '}OpinionLK to get rewarded for you answers!</Text>
       </Center>

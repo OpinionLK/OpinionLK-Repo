@@ -144,13 +144,15 @@ export const createResponse = async (req, res) => {
 
 export const createAnonResponse = async (req, res) => {
     try {
-      const { surveyid, response } = req.body;
+      const { surveyid, response, userTags, preQResponse } = req.body;
         
       const responseID = generateCustomId();
   
       const newResponse = {
         responseID: responseID,
         // userID: NULL,
+        // flag: 1,
+        preQResponses: preQResponse,
         responses: response.responses,
       };
       console.log(newResponse);

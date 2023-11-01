@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
     Box,
     Heading,
-    Text
+    Text,
 } from '@chakra-ui/react'
 const SurveyDetails = ({surveyName, surveyDescription}) => {
     return (
@@ -23,7 +23,6 @@ const SurveyDetails = ({surveyName, surveyDescription}) => {
         >
             <Heading size='lg' color={'#2B3674'} mb='5' ml='5'>{surveyName}</Heading>
             <Text size='md' color={'#2B3674'} mb='5' ml='5'>{surveyDescription}</Text>
-            
         </Box>
 
     )

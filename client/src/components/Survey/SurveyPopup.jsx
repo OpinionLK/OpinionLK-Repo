@@ -40,7 +40,7 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
 
     return (
         <>
-            <Button variant='solid' colorScheme='blue' borderRadius={'full'} fontSize={12} fontWeight={'light'} bg='#11047A' onClick={onOpen}>Survey Details</Button>
+            <Button variant='solid' colorScheme='purple' borderRadius={'full'} fontSize={12} fontWeight={'light'} bg='#11047A' onClick={onOpen}>Survey Details</Button>
             <Modal
                 isCentered
                 onClose={onClose}
@@ -167,7 +167,7 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                         
                         <Button 
                             variant='solid' 
-                            colorScheme='blue' 
+                            colorScheme='purple' 
                             borderRadius={'full'} 
                             fontSize={12} 
                             fontWeight={'light'} 
