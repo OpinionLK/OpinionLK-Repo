@@ -207,13 +207,13 @@ function InitialFocus({ surveyid }) {
         , [])
 
     const [approvalPage, setApprovalPage] = useState(0);
-    const [skipAge, setSkipAge] = useState(false);
+
     return (
 
         <>
 
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
-            {user.id}
+
 
             <Modal
                 initialFocusRef={initialRef}
@@ -237,7 +237,7 @@ function InitialFocus({ surveyid }) {
                                         as={QuestionOutlineIcon} />
                                 </Tooltip>
                                 </FormLabel>
-                                <Select placeholder="Select option" onChange={(e) => {
+                                <Select onChange={(e) => {
                                     setGender(e.target.value)
                                 }} value={gender}
                                 >
@@ -255,12 +255,10 @@ function InitialFocus({ surveyid }) {
                                         as={QuestionOutlineIcon} />
                                 </Tooltip>
                                 </FormLabel>
-                                <YearPicker disabled={skipAge} setFromYear={setFromYear} setToYear={setToYear}
+                                <YearPicker setFromYear={setFromYear} setToYear={setToYear}
                                 />
 
-                                <Checkbox onChange={(e) => {
-                                    setSkipAge(e.target.checked);
-                                }}>Include everyone</Checkbox>
+                              
 
                             </FormControl>
                             <Flex>
@@ -532,13 +530,13 @@ const EditSurvey = () => {
 
                             <Flex gap='10px' flexDir={'column'}>
 
-                                <Heading>
+                                <Heading textShadow={'0px 0px 25px black'}>
                                     {survey?.surveyName ? survey?.surveyName : (
                                         <Skeleton height={'50px'} width={'400px'} />
 
                                     )}
                                 </Heading>
-                                <Text>
+                                <Text textShadow={'0px 0px 25px black'}>
                                     {survey?.surveyDescription ? survey?.surveyDescription : (
                                         <Skeleton height={'20px'} width={'200px'} />)}
                                 </Text>

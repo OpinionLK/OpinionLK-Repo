@@ -9,7 +9,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure, Button, FormControl, FormLabel, Input,
-  Textarea
+  Textarea,
+  useToast
 
 } from '@chakra-ui/react'
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -18,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const CreateSurveyModal = () => {
+  // toast
+  const toast = useToast();
   const history = useNavigate();
 
   const { user } = useAuthContext()
@@ -37,15 +40,22 @@ const CreateSurveyModal = () => {
         surveyName: name,
         surveyDescription: description
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${user.token}`
+        {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
         }
-      }
       );
 
       console.log(response.data);
-      alert('Survey created!');
+      // Show success toast
+      toast({
+        title: 'Survey created.',
+        description: 'We\'ve created your survey for you.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
       onClose();
       // Clear input fields
       setName('');
@@ -54,7 +64,13 @@ const CreateSurveyModal = () => {
     } catch (error) {
       console.error('Error creating survey:', error);
       // Handle error and show user-friendly message
-      alert('Error creating survey. Please try again.');
+      toast({
+        title: 'An error occurred.',
+        description: 'Unable to create survey.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   }
 

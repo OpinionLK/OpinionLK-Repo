@@ -25,7 +25,7 @@ const surveySchema = new mongoose.Schema({
   planID: { type: String , required: false},
   estimatedCost: { type: Number },
   userTags: { type: [mongoose.Schema.Types.Mixed], required: false },
-  tags: [{ type: String }],
+
   comments: [{
     commentID: { type: String },
     comment: { type: String },

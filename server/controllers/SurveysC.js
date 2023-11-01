@@ -38,6 +38,17 @@ export const getAllSurveys = async (req, res) => {
     }
 }
 
+export const getMySurveys = async (req, res) => {
+    try {
+        const surveys = await Surveys.find();
+        res.status(200).json(surveys);
+        console.log(res.data);
+    } catch (error) {
+        console.log("there is error fetchin data");
+        res.status(404).json({ message: error.message });
+    }
+}
+
 
 //get approved survey list from db
 export const getApprovedSurveys=async(req,res) =>{
@@ -52,11 +63,33 @@ export const getApprovedSurveys=async(req,res) =>{
     }
 }
 
+//get count with approval status
+export const getCountWithStatus =async (req, res) => {
+    try {
+      const result = await survey.aggregate([
+        {
+          $group: {
+            _id: '$approvalStatus',
+            count: { $sum: 1 }
+          }
+        }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(404).json({ error: 'An error occurred' });
+    }
+  };
+
+
+
+
+
+
+
 
 export const getSurveysByCreator = async (req, res) => {
    
-
-
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
 
