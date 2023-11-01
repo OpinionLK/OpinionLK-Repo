@@ -19,6 +19,15 @@ import {
     Box,
     ModalHeader,
     ModalFooter,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
     Tooltip,
     FormControl,
     FormLabel,
@@ -38,6 +47,7 @@ import {
     Skeleton,
     calc,
     List,
+    Textarea,
 
 } from '@chakra-ui/react';
 
@@ -63,12 +73,15 @@ function InitialFocus({ surveyid }) {
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: 'plans',
         defaultValue: 'Starter',
-        onChange: setPlanID,
+        onChange: (value) => {
+            setPlanID(value);
+        }
+
     })
     const group = getRootProps()
 
     const [date, setDate] = useState(new Date());
-    const [gender, setGender] = useState('male');
+    const [gender, setGender] = useState('');
 
     const toast = useToast()
     const {
@@ -85,14 +98,14 @@ function InitialFocus({ surveyid }) {
             const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
                 {
                     state: 'pending',
+                    planID: planID,
 
-                    userTag: [{
-                        planID: planID,
+                    userTags: {
                         gender: gender,
                         age1: fromYear,
                         age2: toYear,
                         interests: areas
-                    }]
+                    }
                 },
                 {
                     headers: { 'Authorization': `Bearer ${user.token}` },
@@ -151,36 +164,7 @@ function InitialFocus({ surveyid }) {
 
 
     }
-    // eslint-disable-next-line
-    const setSuspend = async () => {
-        try {
-            console.log(user.token)
-            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
-                {
-                    state: 'active',
-                },
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
 
-            if (response.status === 200) {
-                onClose();
-                toast({
-                    title: 'Survey is now suspended',
-                    status: 'info',
-                    position: 'bottom-right',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
-
-
-    }
 
 
     const [questionCount, setQuestionCount] = useState(0);
@@ -273,7 +257,7 @@ function InitialFocus({ surveyid }) {
                                     >
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
-                                        <option value="everyone">Everyone</option>
+                                        <option value="">Everyone</option>
                                     </Select>
 
 
@@ -395,22 +379,30 @@ function InitialFocus({ surveyid }) {
 const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleSubmit }) => {
 
     const toast = useToast()
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
+            const response = await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
-            });
+            }, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            }).then((response) => {
 
-            OnDeleteClose();
-            refreshdata();
-            toast({
-                title: 'Question Deleted',
+                OnDeleteClose();
+                refreshdata();
+                toast({
+                    title: 'Question Deleted',
 
-                status: 'warning',
-                position: 'bottom-right',
-                duration: 9000,
-                isClosable: true,
+                    status: 'warning',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }).catch((error) => {
+                console.log(error)
             })
 
 
@@ -454,10 +446,14 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
                                     mode={'edit'} />
                             )
                         }
+                        {
+                            approvalStatus === 'draft' || approvalStatus === 'rejected' ? (
+                                <IconButton aria-label={'delete'}
+                                    icon={<DeleteIcon />}
+                                    onClick={onDeleteOpen} />
+                            ) : null
+                        }
 
-                        <IconButton aria-label={'delete'}
-                            icon={<DeleteIcon />}
-                            onClick={onDeleteOpen} />
 
                     </Flex>
                 </CardBody>
@@ -594,9 +590,9 @@ const EditSurvey = () => {
                             </Flex>
                             <Flex gap='10px'>
 
-                                {survey?.approvalStatus === 'draft' || survey?.approvalStatus === 'rejected' && (
+                                {survey?.approvalStatus === 'draft' || survey?.approvalStatus === 'rejected' ? (
                                     <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
-                                )}
+                                ) : null}
                             </Flex>
 
 
@@ -608,7 +604,10 @@ const EditSurvey = () => {
             <Tabs variant='enclosed' w={'100%'}>
                 <TabList>
                     <Tab>Overview</Tab>
-                    <Tab>Responses ({survey?.responses.length})</Tab>
+                    {
+                        survey?.approvalStatus === 'active' && (
+                            <Tab>Responses ({survey?.responses.length})</Tab>)
+                    }
 
                 </TabList>
                 <TabPanels>
@@ -656,64 +655,84 @@ const EditSurvey = () => {
                             <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
                                 padding={'30px'} borderRadius={'5px'} justifyContent={'center'} flexDirection={'column'}
                                 alignItems={'center'}>
+                                <VStack gap={'10px'}>
 
 
-                                {survey?.approvalStatus === 'draft' && (
-                                    <>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                            Ready to publish your survey?
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
-                                            approval</Text>
+                                    {survey?.approvalStatus === 'draft' && (
+                                        <>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                                Ready to publish your survey?
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request for
+                                                approval</Text>
 
-                                        <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
-                                    </>
-                                )
-                                }
-                                {survey?.approvalStatus === 'pending' && (
-                                    <>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                            Your survey is pending approval
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
-                                            shortly</Text>
+                                            <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
+                                        </>
+                                    )
+                                    }
+                                    {survey?.approvalStatus === 'pending' && (
+                                        <>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                                Your survey is pending approval
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you
+                                                shortly</Text>
 
-                                    </>
-                                )
-                                }
-                                {survey?.approvalStatus === 'active' && (
-                                    <>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                            Your survey is live!
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
-                                            your </Text>
+                                        </>
+                                    )
+                                    }
+                                    {survey?.approvalStatus === 'active' && (
+                                        <>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                                Your survey is live!
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with
+                                                your </Text>
 
-                                    </>
-                                )
-                                }
-                                {survey?.approvalStatus === 'rejected' && (
-                                    <>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
-                                            Your survey failed the review
-                                        </Text>
-                                        {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
-                                        <Button p={'20px'}>View Feedback</Button>
-                                    </>
-                                )
-                                }
-                                {survey?.approvalStatus === 'approved' && (
-                                    <>
-                                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                            Your survey was approved
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
-                                            payment to make your survey live
-                                        </Text>
-                                        <Button>Pay Now</Button>
-                                    </>
-                                )
-                                }
+                                        </>
+                                    )
+                                    }
+                                    {survey?.approvalStatus === 'rejected' && (
+                                        <VStack gap='20px'>
+
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'} fontWeight={'bold'}>
+                                                Your survey failed the review
+                                            </Text>
+                                            {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+
+                                            <Popover placement='left'>
+                                                <PopoverTrigger>
+                                                    <Button>View Feedback</Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverCloseButton />
+                                                    <PopoverHeader>Feedback</PopoverHeader>
+                                                    <PopoverBody>
+
+                                                        <Textarea value={survey?.comments[0].comment} isReadOnly rows={'10'} />
+
+                                                    </PopoverBody>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </VStack >
+                                    )
+                                    }
+                                    {survey?.approvalStatus === 'approved' && (
+                                        <>
+                                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                                                Your survey was approved
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to
+                                                payment to make your survey live
+                                            </Text>
+                                            <Button>Pay Now</Button>
+                                        </>
+                                    )
+                                    }
+
+
+                                </VStack>
 
 
                             </Card>
@@ -728,7 +747,7 @@ const EditSurvey = () => {
                         <Accordion allowToggle>
                             {
                                 survey?.responses.length === 0 ? (
-                                    <Text>No responses yet</Text>
+                                    null
                                 ) : (
                                     survey?.responses
                                         .sort((a, b) => b.created_date - a.created_date) // Sort in descending order
