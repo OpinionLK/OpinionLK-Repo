@@ -14,8 +14,6 @@ import {
     InputGroup,
     InputLeftElement,
     Input,
-    InputLeftElement,
-    Input,
     Button,
     HStack,
     Text,
