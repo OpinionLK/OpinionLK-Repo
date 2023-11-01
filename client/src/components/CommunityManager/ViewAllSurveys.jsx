@@ -14,14 +14,20 @@ import {
   Heading,
   InputGroup,
   InputLeftElement,
+  Card,
 } from "@chakra-ui/react";
 
 import {
-    SearchIcon
+  SearchIcon
 } from '@chakra-ui/icons';
 
 
 import Pagination from "./Pagination";
+
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(dateString).toLocaleDateString('en-US', options);
+}
 
 function AllSurveyList() {
   const [surveys, setSurveys] = useState([]);
@@ -68,41 +74,44 @@ function AllSurveyList() {
   return (
     <div>
 
-<Flex mb={'20px'} width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+      <Flex mb={'20px'} width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
 
-<Heading size={'md'}>
-    List of Surveys
-</Heading>
+        <Heading size={'md'}>
+          List of Surveys
+        </Heading>
 
-<InputGroup width={'40%'}>
-    <InputLeftElement
-        pointerEvents="none"
-        children={<SearchIcon color="gray.300" />}
-    />
-    <Input type="text" placeholder="Search" onChange={handleSearch} value={searchTerm} />
-</InputGroup>
-</Flex>
-
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Name</Th>
-            <Th>Description</Th>
-            <Th>Approval Status</Th>
-            <Th>Created Date</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {currentSurveys.map((survey) => (
-            <Tr key={survey.surveyId}>
-              <Td>{survey.surveyName}</Td>
-              <Td>{survey.surveyDescription}</Td>
-              <Td>{survey.approvalStatus}</Td>
-              <Td>{survey.created_date}</Td>
+        <InputGroup width={'40%'}>
+          <InputLeftElement
+            pointerEvents="none"
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input type="text" placeholder="Search" onChange={handleSearch} value={searchTerm} />
+        </InputGroup>
+      </Flex>
+      <Card align={"center"} pt={5} borderRadius={10}>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Name</Th>
+              <Th>Description</Th>
+              <Th>Question Count</Th>
+              <Th>Approval Status</Th>
+              <Th>Created Date</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {currentSurveys.map((survey) => (
+              <Tr key={survey.surveyId}>
+                <Td>{survey.surveyName}</Td>
+                <Td>{survey.surveyDescription}</Td>
+                <Td>{survey.questions.length}</Td>
+                <Td>{survey.approvalStatus}</Td>
+                <Td>{formatDate(survey.created_date)}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Card>
       <Center pt={10} pb={10}>
         <Pagination
           currentPage={currentPage}
