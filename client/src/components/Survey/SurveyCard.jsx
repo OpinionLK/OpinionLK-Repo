@@ -33,6 +33,10 @@ const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID,
                 // src={sampleCard}
                     src={`https://ik.imagekit.io/7i3fql4kv7/survey_headers/${surveyImage}`} 
                     alt={surveyName}
+                    objectFit="cover"
+                    height={'100%'}
+                    imageFit="cover"
+                    width="100%"
                 />
             </Box>  
 

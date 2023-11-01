@@ -90,6 +90,10 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                                 // src={sampleCard}
                                 src={`https://ik.imagekit.io/7i3fql4kv7/survey_headers/${surveyImage}`} 
                                 alt={surveyName}
+                                objectFit="cover"
+                                height={'100%'}
+                                imageFit="cover"
+                                
                             />
                         </Box> 
                     </Flex>
