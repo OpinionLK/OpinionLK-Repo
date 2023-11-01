@@ -33,7 +33,7 @@ const CouponCard = ({couponID, couponName, couponDescription, companyName, coupo
     const [showDetails, setShowDetails] = useState(false)
 
     useEffect(() => {
-        if (500 >= couponPoints) {
+        if (userPoints >= couponPoints) {
             setShowRedeem(true);
         } else {
             setShowRedeem(false);

@@ -5,7 +5,6 @@ import {
     useMediaQuery
 } from '@chakra-ui/react'
 
-
 import StatCard from './StatCard';
 
 

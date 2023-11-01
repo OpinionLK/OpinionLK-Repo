@@ -10,7 +10,7 @@ import {
 
 import totalSurveysIcon from '../../images/totalSurveys-icon.png'
 
-const StatCard = () => {
+const StatCard = ({statName, stat}) => {
 
     return (
 
@@ -37,9 +37,9 @@ const StatCard = () => {
  
             <CardBody>
                 <Text fontSize={'xs'} color={'#A3AED0'}>
-                    Total Surveys
+                    {statName} 
                 </Text>
-                <Heading size='md' color={'#2B3674'}>123</Heading>
+                <Heading size='md' color={'#2B3674'}>{stat}</Heading>
             </CardBody>
         </Card>
 
