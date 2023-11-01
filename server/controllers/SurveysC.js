@@ -63,11 +63,33 @@ export const getApprovedSurveys=async(req,res) =>{
     }
 }
 
+//get count with approval status
+export const getCountWithStatus =async (req, res) => {
+    try {
+      const result = await survey.aggregate([
+        {
+          $group: {
+            _id: '$approvalStatus',
+            count: { $sum: 1 }
+          }
+        }
+      ]);
+  
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(404).json({ error: 'An error occurred' });
+    }
+  };
+
+
+
+
+
+
+
 
 export const getSurveysByCreator = async (req, res) => {
    
-
-
     // get token from header
     const token = req.headers.authorization.split(' ')[1];
 

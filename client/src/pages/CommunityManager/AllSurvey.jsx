@@ -1,6 +1,8 @@
 import {
     Text,
     Box,
+    Flex,
+    Image,
   } from '@chakra-ui/react';
   
   import SurveyList from '../../components/CommunityManager/ViewAllSurveys';
@@ -20,6 +22,9 @@ import {
   
 <Box>
             <Box>
+            <Box>
+                
+            </Box>
             <Box>
             <Text  pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
               Surveys All 

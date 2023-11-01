@@ -16,7 +16,6 @@ import {
     Button,
     IconButton,
     Modal,
-
     ModalOverlay,
     ModalContent,
     useToast,
@@ -37,11 +36,7 @@ import {
     PopoverContent,
     PopoverHeader,
     PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
     PopoverCloseButton,
-    PopoverAnchor,
-    Tooltip,
     FormControl,
     FormLabel,
     ModalBody,
@@ -56,29 +51,22 @@ import {
     AccordionPanel,
     AccordionIcon,
     VStack,
-    Radio,
     Skeleton,
-    calc,
     List,
     Textarea,
     Divider,
-
+    Tooltip,
+    PopoverArrow
 } from '@chakra-ui/react';
-
 import { useNavigate } from 'react-router-dom';
 import {
-
-
-    CheckCircleIcon, DeleteIcon, ArrowBackIcon,
-    QuestionIcon, AddIcon
-
+    CheckCircleIcon, DeleteIcon, ArrowBackIcon
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
 import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
 import YearPicker from '../../components/organisation/YearPicker.jsx';
-import { set } from 'mongoose';
 
 function InitialFocus({ surveyid }) {
     const [options, setOptions] = useState([]);
@@ -91,7 +79,7 @@ function InitialFocus({ surveyid }) {
 
     })
     const group = getRootProps()
-
+         // eslint-disable-next-line
     const [date, setDate] = useState(new Date());
     const [gender, setGender] = useState('');
 
@@ -167,7 +155,7 @@ function InitialFocus({ surveyid }) {
 
     }
 
-
+    // eslint-disable-next-line
     const [questionCount, setQuestionCount] = useState(0);
 
     const getSurveyConstraints = async () => {
@@ -193,20 +181,24 @@ function InitialFocus({ surveyid }) {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-
+// eslint-disable-next-line
     const [duration, setDuration] = useState('7');
+    // eslint-disable-next-line
     const [targetResponses, SetTargetResponses] = useState('300');
+    // eslint-disable-next-line
     const labelStyles = {
         mt: '2', ml: '-2.5', fontSize: 'sm',
     }
+    // eslint-disable-next-line
     const [total, setTotal] = useState(0);
+    // eslint-disable-next-line
     const calculate = () => {
 
 
         // setTotal(baseCost + (costPerResponse * targetResponses) + (perQuestionCost * questionCount));
 
     }
-
+// eslint-disable-next-line
     const [endCriteria, setEndCriteria] = useState('duration');
     useEffect(() => {
         getSurveyConstraints();
@@ -215,13 +207,13 @@ function InitialFocus({ surveyid }) {
         , [])
 
     const [approvalPage, setApprovalPage] = useState(0);
-    const [skipAge, setSkipAge] = useState(false);
+
     return (
 
         <>
 
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
-            {user.id}
+
 
             <Modal
                 initialFocusRef={initialRef}
@@ -245,7 +237,7 @@ function InitialFocus({ surveyid }) {
                                         as={QuestionOutlineIcon} />
                                 </Tooltip>
                                 </FormLabel>
-                                <Select placeholder="Select option" onChange={(e) => {
+                                <Select onChange={(e) => {
                                     setGender(e.target.value)
                                 }} value={gender}
                                 >
@@ -263,12 +255,10 @@ function InitialFocus({ surveyid }) {
                                         as={QuestionOutlineIcon} />
                                 </Tooltip>
                                 </FormLabel>
-                                <YearPicker disabled={skipAge} setFromYear={setFromYear} setToYear={setToYear}
+                                <YearPicker setFromYear={setFromYear} setToYear={setToYear}
                                 />
 
-                                <Checkbox onChange={(e) => {
-                                    setSkipAge(e.target.checked);
-                                }}>Include everyone</Checkbox>
+                              
 
                             </FormControl>
                             <Flex>
@@ -361,11 +351,13 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
 
     const toast = useToast()
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
+            // eslint-disable-next-line
             const response = await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
             }, {
@@ -538,13 +530,13 @@ const EditSurvey = () => {
 
                             <Flex gap='10px' flexDir={'column'}>
 
-                                <Heading>
+                                <Heading textShadow={'0px 0px 25px black'}>
                                     {survey?.surveyName ? survey?.surveyName : (
                                         <Skeleton height={'50px'} width={'400px'} />
 
                                     )}
                                 </Heading>
-                                <Text>
+                                <Text textShadow={'0px 0px 25px black'}>
                                     {survey?.surveyDescription ? survey?.surveyDescription : (
                                         <Skeleton height={'20px'} width={'200px'} />)}
                                 </Text>
@@ -782,10 +774,12 @@ function PaymentModal(
 ) {
     const toast = useToast()
     const {
+        // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const payNow = () => {
+        // eslint-disable-next-line
         const response = axios.post('http://localhost:3002/api/payment/do-payment', {
             surveyid: survey?.surveyID,
         }, {

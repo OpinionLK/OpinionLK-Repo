@@ -119,14 +119,14 @@ const Hero = () => {
         >
           Get Rewarded, One Survey at a Time!
         </Text>
-        <Stack direction='row' spacing={4}>
+        {/* <Stack direction='row' spacing={4}>
           <Button size='lg' colorScheme='purple'>
             Get Started
           </Button>
           <Button size='lg' colorScheme='green'>
 
             Learn More          </Button>
-        </Stack>
+        </Stack> */}
 
       </Flex>
       <motion.div 
