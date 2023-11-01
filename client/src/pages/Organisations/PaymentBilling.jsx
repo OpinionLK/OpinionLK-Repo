@@ -42,6 +42,7 @@ const PaymentBilling = () => {
 
     const getPaymentMethods = async () => {
         console.log(user.token)
+                 // eslint-disable-next-line
         const response = await axios.post(`http://localhost:3002/api/payment/retrieve-payment`, {},
             {
                 headers: { 'Authorization': `Bearer ${user.token}` },
@@ -52,10 +53,10 @@ const PaymentBilling = () => {
             setPaymentMethods(response.data)
         }
         );
-
-
     }
+    // eslint-disable-next-line
     const getBillingHistory = async () => {
+        // eslint-disable-next-line
         const response = await axios.post(`http://localhost:3002/api/payment/get-payment-history`, {}, {
             headers: { 'Authorization': `Bearer ${user.token}` },
         },
@@ -71,6 +72,7 @@ const PaymentBilling = () => {
     useEffect(() => {
         getPaymentMethods()
         // getBillingHistory()
+        // eslint-disable-next-line
     }, [])
     return (
         <Box mt={-5}>
@@ -95,7 +97,16 @@ const PaymentBilling = () => {
                                                 <HStack>
 
                                                     <Flex padding={'10px'} borderRadius={'5px'}>
-                                                        <img src={paymentMethod.card.brand === 'visa' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png'} width={'50px'} height={'50px'} />
+                                                    <img
+                                                            src={
+                                                                paymentMethod.card.brand === 'visa'
+                                                                ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png'
+                                                                : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png'
+                                                            }
+                                                            width={'50px'}
+                                                            height={'50px'}
+                                                            alt="" // Empty alt attribute for decorative images
+                                                            />
                                                     </Flex>
                                                     <VStack alignItems={'flex-start'}>
                                                         <Text fontWeight={'bold'}>
