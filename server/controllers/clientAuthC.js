@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Clients } from '../models/Client.js';
+import Stripe from 'stripe';
+
 
 // Sign up client
 export const ClientSignUp = async (req, res) => {
-     // #swagger.tags = ['Organisation']
-      // #swagger.description = 'Endpoint to sign up organisation'
+  // #swagger.tags = ['Organisation']
+  // #swagger.description = 'Endpoint to sign up organisation'
 
   try {
     console.log('Received client signup request:', req.body);
@@ -19,6 +21,24 @@ export const ClientSignUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 12);
+
+    const stripe = new Stripe('sk_test_51MgsSNG4way0COrgMgTXf6vLRTWjpv268ocCKpt6oN9FEBultO9XCYycHA25UpGNsIrW3GXH8LIXeNs2Cht08nGg00DC6i0sX0');
+
+    const customer = await stripe.customers.create({
+      email: email,
+      name: firstName + ' ' + lastName,
+      phone: phone,
+      description: 'Client',
+      address: {
+        line1: orgAddressLine1,
+        line2: orgAddressLine2,
+        city: orgCity,
+        state: orgState,
+        postal_code: orgZip,
+        country: 'LK',
+      },
+    });
+    console.log(customer);
     const result = await Clients.create({
       orgName,
       orgAddressLine1,
@@ -37,8 +57,15 @@ export const ClientSignUp = async (req, res) => {
       nic,
       email,
       password: hashedPassword,
-      confirmPassword: hashedConfirmPassword
+      confirmPassword: hashedConfirmPassword,
+      stripeCustomerId: customer.id,
     });
+
+
+
+
+
+
 
     const token = jwt.sign(
       { email: result.email, id: result._id },
@@ -66,7 +93,7 @@ export const ClientData = async (req, res) => {
 
   // Check if the authorization header is missing or not in the expected format
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -74,30 +101,30 @@ export const ClientData = async (req, res) => {
 
   // check if token is verified
   if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
   // verify token
 
   try {
-      const { id } = jwt.verify(token, 'test');
-      console.log(id);
+    const { id } = jwt.verify(token, 'test');
+    console.log(id);
 
-      if (!id) {
-          return res.status(400).json({ error: 'Server Error' });
-      }
-      let user = await Clients.findOne({ _id: id });
+    if (!id) {
+      return res.status(400).json({ error: 'Server Error' });
+    }
+    let user = await Clients.findOne({ _id: id });
 
-      res.status(200).json({
-          id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email
-      });
+    res.status(200).json({
+      id: user._id, firstname: user.firstName, lastname: user.lastName, email: user.email
+    });
   } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
-          return res.status(401).json({ error: 'Unauthorized' });
-      }else{
-        console.log(error)
-        return res.status(401).json(error);
-      }
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    } else {
+      console.log(error)
+      return res.status(401).json(error);
+    }
   }
 
 };
