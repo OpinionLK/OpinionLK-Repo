@@ -1,18 +1,14 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import {
-    Box,
     Flex,
-    Grid,
-    Card,
     VStack,
     Text,
-    CardHeader,
-    CardBody,
     Button,
     HStack,
 } from '@chakra-ui/react'
 import { useAuthContext } from '../../hooks/useAuthContext';
+        // eslint-disable-next-line
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import{
@@ -22,11 +18,13 @@ import{
 
 const CardView = () => {
     const {
+                // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
     const [paymentMethods, setPaymentMethods] = useState([])
     const getPaymentMethods = async () => {
         console.log(user.token)
+                // eslint-disable-next-line
         const response = await axios.post(`http://localhost:3002/api/payment/retrieve-payment`, {},
             {
                 headers: { 'Authorization': `Bearer ${user.token}` },
@@ -42,6 +40,7 @@ const CardView = () => {
 
     useEffect(() => {
         getPaymentMethods()
+                // eslint-disable-next-line
     }, [])
     return (
         <>
@@ -56,7 +55,16 @@ const CardView = () => {
                                 <HStack>
 
                                     <Flex padding={'10px'} borderRadius={'5px'}>
-                                        <img src={paymentMethod.card.brand === 'visa' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png'} width={'50px'} height={'50px'} />
+                                            <img
+                                                    src={
+                                                        paymentMethod.card.brand === 'visa'
+                                                        ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png'
+                                                        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png'
+                                                    }
+                                                    width={'50px'}
+                                                    height={'50px'}
+                                                    alt="Visa or Mastercard Logo"
+                                                    />
                                     </Flex>
                                     <VStack alignItems={'flex-start'}>
                                         <Text fontWeight={'bold'}>

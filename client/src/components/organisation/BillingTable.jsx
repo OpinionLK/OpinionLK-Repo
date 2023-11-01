@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
@@ -10,24 +8,19 @@ import {
     Thead,
     Tbody,
     Tr,
-    Tag,
     Th,
     Td,
     TableContainer,
     InputGroup,
     InputLeftElement,
     Input,
-
-
     Button,
     HStack,
     Text,
     Flex,
     Heading,
-    Avatar,
 } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom';
-import Status from '../../components/Status.jsx';
 import {
     SearchIcon
 } from '@chakra-ui/icons'
@@ -47,7 +40,7 @@ const SurveyTable = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [pageData, setPageData] = useState(null);
     const history = useNavigate();
-
+        // eslint-disable-next-line
     function onclickhandler(id) {
         history("/commanager/viewsurvey/" + id)
     }
@@ -57,6 +50,7 @@ const SurveyTable = () => {
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
+            // eslint-disable-next-line
     const [searchResults, setSearchResults] = useState(null);
 
 
@@ -83,7 +77,7 @@ const SurveyTable = () => {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-
+        // eslint-disable-next-line
     }, [page, searchTerm]);
     return (
         <>

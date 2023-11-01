@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Tag, TagLabel, Flex, TagCloseButton, VStack, Heading } from '@chakra-ui/react';
+import React, { } from 'react';
+import { Tag, TagLabel, Flex, VStack, Heading } from '@chakra-ui/react';
 
 const options = ['Music', 'Movies', 'Sports', 'Travel', 'Cooking', 'Reading', 'Gaming', 'Art', 'Fashion', 'Fitness', 'Photography', 'Dance', 'Politics', 'Technology', 'Science', 'History', 'Nature', 'Animals', 'Food', 'Cars', 'Business', 'Education', 'Health', 'Lifestyle', 'Beauty', 'DIY', 'Home', 'Gardening', 'Parenting', 'Relationships', 'Spirituality', 'Religion', 'Culture', 'Languages', 'News', 'Entertainment', 'Comedy', 'Finance', 'Shopping', 'Social Media', 'Other'];
 
