@@ -8,15 +8,15 @@ import {
     Thead,
     Tbody,
     Tr,
-    Tag,
     Th,
     Td,
     TableContainer,
     InputGroup,
     InputLeftElement,
     Input,
-
-
+    InputGroup,
+    InputLeftElement,
+    Input,
     Button,
     HStack,
     Text,
@@ -56,7 +56,6 @@ const SurveyTable = () => {
     };
     const [searchResults, setSearchResults] = useState(null);
 
-
     useEffect(() => {
         fetch('http://localhost:3002/api/survey/getbyUserId/',
             {
@@ -66,17 +65,19 @@ const SurveyTable = () => {
         )
             .then(response => response.json())
             .then(data => {
-                setData(data.surveys);
-                setTotalPages(Math.ceil(data.total / numRows));
-                if (data.surveys.length > 0) {
-                    const filteredData = data.surveys.filter(survey =>
-                        survey.surveyName.toLowerCase().includes(searchTerm.toLowerCase())
-                    );
-                    setSearchResults(filteredData);
-
-                    setPageData(filteredData.slice((page - 1) * numRows, page * numRows));
+                if (data.surveys) {
+                    setData(data.surveys);
+                    setTotalPages(Math.ceil(data.total / numRows));
+            
+                    if (data.surveys.length > 0) {
+                        const filteredData = data.surveys.filter(survey =>
+                            survey.surveyName.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                        setSearchResults(filteredData);
+            
+                        setPageData(filteredData.slice((page - 1) * numRows, page * numRows));
+                    }
                 }
-
                 setIsLoading(false);
             })
             .catch(error => {

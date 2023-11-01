@@ -1,7 +1,5 @@
 import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
-
-
 import {
     getAllSurveys,
     getSurveysByCreator,
@@ -23,8 +21,6 @@ import {
     getQuestionToEdit,
     editQuestion,
     deleteQuestion,
-
-
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
 
