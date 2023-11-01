@@ -39,12 +39,12 @@ const ComManagerSchema = new mongoose.Schema(
             required: true,
 
         },
-        ManagerEmail: {
-            type: String,
-            required: true,
+        // ManagerEmail: {
+        //     type: String,
+        //     required: true,
 
 
-        },
+        // },
         ManagerPhone: {
             type: Number,
             required: true,
