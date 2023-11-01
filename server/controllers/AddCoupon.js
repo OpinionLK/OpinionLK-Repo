@@ -1,10 +1,8 @@
 import Coupons from '../models/Coupons.js';
 import ImageKit from "imagekit";
 import dotenv from 'dotenv';
-import upload from '../middleware/upload.js';
-import multer from 'multer';
-import axios from 'axios';
-
+// import upload from '../middleware/upload.js';
+// import multer from 'multer';
 
 dotenv.config();
 export const GetCoupons = async (_, res) => {

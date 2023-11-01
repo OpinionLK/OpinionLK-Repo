@@ -53,8 +53,24 @@ export const redeemCoupon = async (req, res) => {
             }
             user.points -= coupon.Points;
             coupon.Count--;
+            // save the redeemed date
+
+            const now = new Date();
+            const nowLocal = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+            const created_date = nowLocal.toISOString().slice(0,19).replace("T", " ");
+
             await coupon.save();
-            user.coupons.push(_id);
+            user.coupons.push({
+                CouponID: _id,
+                CouponName: coupon.CouponName,
+                CouponCode: coupon.CouponCode,
+                Description: coupon.Description,
+                StartDate: coupon.StartDate,
+                EndDate: coupon.EndDate,
+                Points: coupon.Points,
+                CompanyName: coupon.CompanyName,
+                CouponRedeemedDate: created_date,
+            });
             await user.save();
             return res.status(200).json({ message: 'Coupon redeemed successfully' });
         }
