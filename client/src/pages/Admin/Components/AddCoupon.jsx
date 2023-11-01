@@ -29,6 +29,7 @@ import {
     import axios from 'axios';
 
 const AddCoupon = () => {
+          // eslint-disable-next-line
     const [switchValue, setSwitchValue] = useState(false);
     
     const CloseIcon = () => (
