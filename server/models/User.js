@@ -27,6 +27,23 @@ const UserSchema = new mongoose.Schema(
             min: 6,
             max: 20
         },
+        gender: {
+            type: String,
+            required: false,
+            min: 6,
+            max: 20
+        },
+        city: {
+            type: String,
+            required: false,
+            min: 6,
+            max: 20
+        },
+        birthyear: {
+            type: Number,
+            required: false,
+            default: 0
+        },
         profilePicture: {
             type: String,
             default: ""
