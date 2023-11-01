@@ -234,7 +234,7 @@ export const AprovalStatus = async (req, res) => {
   }
 };
 
- export const Clientsignups = async (req, res) => {
+export const Clientsignups = async (req, res) => {
   try {
     const currentDate = DateTime.local(); // Current date and time
     const thirtyDaysAgo = currentDate.minus({ days: 30 }); // 30 days ago
@@ -243,10 +243,13 @@ export const AprovalStatus = async (req, res) => {
     const clientSignups = await Clients.find({
       createdAt: { $gte: thirtyDaysAgo.toJSDate() }
     });
-    console.log('clientSignups:', clientSignups);
+
     // Prepare data for the line graph
-    const labels = []; // Labels for the X-axis (e.g., dates)
-    const clientData = []; // User count data for the Y-axis
+    const labels = [];
+    const clientData = [];
+
+    // Initialize an object to count client signups for each day
+    const clientCountByDate = {};
 
     // Count user signups for each day within the last 30 days
     for (let i = 0; i < 30; i++) {
@@ -256,8 +259,16 @@ export const AprovalStatus = async (req, res) => {
         const createdAt = DateTime.fromJSDate(client.createdAt);
         return createdAt >= date && createdAt < nextDate;
       });
+
+      // Store the count in the object
+      clientCountByDate[date.toFormat('yyyy-MM-dd')] = clientsOnDay.length;
+    }
+
+    // Extract labels and data from the object
+    for (let i = 0; i < 30; i++) {
+      const date = thirtyDaysAgo.plus({ days: i });
       labels.push(date.toLocaleString(DateTime.DATE_SHORT));
-      clientData.push(clientsOnDay.length);
+      clientData.push(clientCountByDate[date.toFormat('yyyy-MM-dd')]);
     }
 
     // Prepare the response object
@@ -281,4 +292,5 @@ export const AprovalStatus = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};
+
