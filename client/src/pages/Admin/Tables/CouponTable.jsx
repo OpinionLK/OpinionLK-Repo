@@ -109,6 +109,7 @@ const CouponTable = () => {
                 <Card borderRadius={'20px'} width={'100%'}>
                 <CardHeader  display={'flex'} flexDirection={'row'}>
                     <Heading color={'purple.900'}  size={'md'}>Coupons</Heading>
+                    {/* <Button colorScheme={'purple'} ml={'auto'} size={'sm'}>Total Coupons: {getTotalCoupons()}</Button> */}
                     <Box>
                       <Input
                         type='search'
@@ -123,6 +124,19 @@ const CouponTable = () => {
                         // onChange={(e) => setFilterText(e.target.value)}
                         // value ={filterText}
                         />
+                    </Box>
+                    <Box 
+                      colorScheme={'purple'} 
+                      ml={'auto'} 
+                      size={'sm'}
+                      bg={'purple.400'}
+                      fontSize={'14px'}
+                      fontWeight={'bold'}
+                      color={'whiteAlpha.900'}
+                      borderRadius={5}
+                      p={2}
+                    >
+                        Total Coupons: {getTotalCoupons()}
                     </Box>
                 </CardHeader>
                 <hr></hr>
@@ -177,7 +191,7 @@ const CouponTable = () => {
                         </Tbody>
                     </Table>
                     </TableContainer>
-                </CardBody>selectedCoupon
+                </CardBody>
                 </Card>
             </Stack>
             </Flex>

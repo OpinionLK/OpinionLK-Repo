@@ -1,14 +1,14 @@
 import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
-
-
 import {
     getAllSurveys,
     getSurveysByCreator,
     getSurveyToReview,
     getQuestionCount,
     createResponse,
+    createAnonResponse,
     getResponseCount,
+    getSurveysForComManager,
     getQuestionToReview,
     addSurveyPoints,
     insertComment,
@@ -21,6 +21,7 @@ import {
     getQuestionToEdit,
     editQuestion,
     deleteQuestion,
+    getApprovedSurveys,
 
 
 } from '../controllers/SurveysC.js';
@@ -47,6 +48,7 @@ const router = express.Router();
 // router.use(requireAuth)
 
 router.post('/createResponse', createResponse); //create a survey response
+router.post('/createAnonResponse', createAnonResponse); //create an anonymous survey response
 router.post('/addSurveyPoints', addSurveyPoints); //add points to user
 router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
@@ -65,9 +67,10 @@ router.put('/changestatus/:surveyid', ChangeSurveyState); //change survey status
 router.get('/getresponsecount/:surveyid', getResponseCount); //get response count
 router.get('/getplatformdata', getPlatformData);
 router.get('/getQuestionCount/:surveyid', getQuestionCount); //get question count
-
+router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get surveys for community manager
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
+router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
 
 
 
@@ -76,7 +79,7 @@ router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) =
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
     const surveyid = req.params.surveyid;
-console.log(surveyid);
+    console.log(surveyid);
     console.log(fileName);
     // Upload the file to ImageKit
     imagekit.upload({

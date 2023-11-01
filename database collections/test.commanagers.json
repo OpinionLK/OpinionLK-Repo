@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "64dbccf44abf1d01fd6884ee"
+  },
+  "ManagerFirstName": "Rashmi",
+  "ManagerLastName": "Gunawardana",
+  "ManagerAddLine1": "Temple Road",
+  "ManagerAddLine2": "Bellapitiya",
+  "ManagerDistrict": "Western",
+  "ManagerEmail": "nirashagunawardana9@gmail.com",
+  "ManagerPhone": 773539941,
+  "ManagerNic": "997431448V",
+  "__v": 0,
+  "email": "commanager@gmail.com",
+  "password": "12345678"
+},
+{
+  "_id": {
+    "$oid": "65101c4364ff295908a53f37"
+  },
+  "ManagerFirstName": "Kivi",
+  "ManagerLastName": "Amarakoon",
+  "ManagerAddLine1": "Uyanwatta",
+  "ManagerAddLine2": "Matara",
+  "ManagerDistrict": "Matara",
+  "ManagerEmail": "com@opinion.lk",
+  "ManagerPhone": 712356988,
+  "ManagerNic": "123456987V",
+  "__v": 0,
+  "email": "com@opinion.lk",
+  "password": "12345678"
+}]

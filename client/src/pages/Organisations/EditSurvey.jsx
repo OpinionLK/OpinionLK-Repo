@@ -3,19 +3,44 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from './cropper.tsx'
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import InterestTags from '../../components/organisation/InterestTags.jsx';
+import CardView from './CardView.jsx';
 import {
-    Card, CardBody, CardHeader, Heading, Text, Flex, Button, IconButton, Modal,
+    Card,
+    CardBody,
+    CardHeader,
+    Heading,
+    Text,
+    Flex,
+    Button,
+    IconButton,
+    Modal,
+
     ModalOverlay,
     ModalContent,
     useToast,
+    useRadioGroup,
+    useRadio,
+    ListIcon,
+    ListItem,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+    Box,
     ModalHeader,
-    Slider,
-    SliderTrack,
-    SliderMark,
-    SliderFilledTrack,
-    SliderThumb,
     ModalFooter,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
     Tooltip,
     FormControl,
     FormLabel,
@@ -23,42 +48,75 @@ import {
     ModalCloseButton,
     Select,
     Icon,
+    HStack,
+    Checkbox,
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+    VStack,
+    Radio,
+    Skeleton,
+    calc,
+    List,
+    Textarea,
+    Divider,
+
 } from '@chakra-ui/react';
 
 import { useNavigate } from 'react-router-dom';
 import {
-    DeleteIcon,
-    DragHandleIcon
+
+
+    CheckCircleIcon, DeleteIcon, ArrowBackIcon,
+    QuestionIcon, AddIcon
+
 } from '@chakra-ui/icons'
 import createsurveybg from '../../assets/images/createsurveybg.png'
 import { useDisclosure } from '@chakra-ui/react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import EditQuestionModal from '../../components/organisation/EditQuestionModal.jsx'
+import YearPicker from '../../components/organisation/YearPicker.jsx';
+import { set } from 'mongoose';
 
 function InitialFocus({ surveyid }) {
-  
+    const [options, setOptions] = useState([]);
+    const [planID, setPlanID] = useState('41t81v4b');
+    const { getRootProps, getRadioProps } = useRadioGroup({
+        name: 'plans', defaultValue: planID
+        , onChange: (value) => {
+            setPlanID(value);
+        }
+
+    })
+    const group = getRootProps()
+
+    const [date, setDate] = useState(new Date());
+    const [gender, setGender] = useState('');
+
     const toast = useToast()
     const {
         // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
+    const [areas, setAreas] = useState([]);
+    const [fromYear, setFromYear] = useState(0);
+    const [toYear, setToYear] = useState(0);
 
     const setPending = async () => {
         try {
             console.log(user.token)
-            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
-                {
-                    state: 'pending',
-                    estCost: total,
-                    duration: duration,
-                    targetResponses: targetResponses,
-                    endCriteria: 'duration',
-                    userTag: [{ gender: 'male' }, { birthyear1: 1970 }, { birthyear2: 2000 }, { city: 'Colombo' }]
-                },
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`, {
+                state: 'pending',
+                planID: planID,
+
+                userTags: {
+                    gender: gender, age1: fromYear, age2: toYear, interests: areas
+                }
+            }, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            },);
 
             if (response.status === 200) {
                 onClose();
@@ -70,6 +128,9 @@ function InitialFocus({ surveyid }) {
                     duration: 9000,
                     isClosable: true,
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000)
             }
 
         } catch (error) {
@@ -82,14 +143,11 @@ function InitialFocus({ surveyid }) {
     const setActive = async () => {
         try {
             console.log(user.token)
-            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
-                {
-                    state: 'active',
-                },
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
+            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`, {
+                state: 'active',
+            }, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            },);
 
             if (response.status === 200) {
                 onClose();
@@ -108,66 +166,23 @@ function InitialFocus({ surveyid }) {
 
 
     }
-    // eslint-disable-next-line
-    const setSuspend = async () => {
-        try {
-            console.log(user.token)
-            const response = await axios.put(`http://localhost:3002/api/survey/changestatus/${surveyid}`,
-                {
-                    state: 'active',
-                },
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
-
-            if (response.status === 200) {
-                onClose();
-                toast({
-                    title: 'Survey is now suspended',
-                    status: 'info',
-                    position: 'bottom-right',
-                    duration: 9000,
-                    isClosable: true,
-                })
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
 
 
-    }
-
-    const [baseCost, setBaseCost] = useState(0);
-    const [costPerResponse, setCostPerResponse] = useState(0);
-    const [perDayCost, setPerDayCost] = useState(0);
-    // eslint-disable-next-line
-    const [maxDuration, setMaxDuration] = useState(0);
-    const [perQuestionCost, setPerQuestionCost] = useState(0);
     const [questionCount, setQuestionCount] = useState(0);
 
     const getSurveyConstraints = async () => {
         try {
             console.log(user.token)
-            const response1 = await axios.get(`http://localhost:3002/api/survey/getplatformdata`,
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
-            const response2 = await axios.get(`http://localhost:3002/api/survey/getquestioncount/${surveyid}`,
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                },
-            );
+            const response1 = await axios.get(`http://localhost:3002/api/survey/getplatformdata`, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            },);
+            const response2 = await axios.get(`http://localhost:3002/api/survey/getquestioncount/${surveyid}`, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            },);
 
             if (response1.status === 200 && response2.status === 200) {
-                setBaseCost(response1.data.surveyBaseCost);
-                setCostPerResponse(response1.data.surveyCostPerResponse);
-                setPerDayCost(response1.data.perDayCost);
-                setMaxDuration(response1.data.maxDuration);
-                setPerQuestionCost(response1.data.perQuestionCost);
-                setQuestionCount(response2.data);
+                console.log(response1.data.surveyPlans)
+                setOptions(response1.data.surveyPlans);
             }
 
         } catch (error) {
@@ -182,36 +197,36 @@ function InitialFocus({ surveyid }) {
     const [duration, setDuration] = useState('7');
     const [targetResponses, SetTargetResponses] = useState('300');
     const labelStyles = {
-
-
-        ml: '-2.5',
-        fontSize: 'sm',
+        mt: '2', ml: '-2.5', fontSize: 'sm',
     }
     const [total, setTotal] = useState(0);
     const calculate = () => {
-        console.log(baseCost);
-        console.log(duration);
-        console.log(targetResponses);
 
-        setTotal(baseCost + (costPerResponse * targetResponses) + (perDayCost * duration) + (perQuestionCost * questionCount));
+
+        // setTotal(baseCost + (costPerResponse * targetResponses) + (perQuestionCost * questionCount));
 
     }
+
+    const [endCriteria, setEndCriteria] = useState('duration');
     useEffect(() => {
-        if(questionCount===0){
-            onClose();
-        }
         getSurveyConstraints();
 
     }// eslint-disable-next-line
         , [])
+
+    const [approvalPage, setApprovalPage] = useState(0);
+    const [skipAge, setSkipAge] = useState(false);
     return (
+
         <>
+
             <Button size={'lg'} width={'90%'} colorScheme='brand' onClick={onOpen}>Request for Approval</Button>
             {user.id}
 
             <Modal
                 initialFocusRef={initialRef}
-                size={'xl'}
+                transition={{ duration: 0.3 }}
+                variant='approveModal'
                 finalFocusRef={finalRef}
                 isOpen={isOpen}
                 onClose={onClose}
@@ -221,169 +236,151 @@ function InitialFocus({ surveyid }) {
                     <ModalHeader>We need a few more details regarding your survey</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>Choose a Target Audience <Tooltip placement='auto-start' label="A target audience is the catergory of people you wish to present this survey to." aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
-                            </Tooltip>
-                            </FormLabel>
-                            <Select placeholder="Select option">
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                            </Select>
 
-                        </FormControl>
-
-                        <FormControl mt={4} p={'30px 30px'}>
-                            <FormLabel>Choose the maximum number of responses you wish to collect</FormLabel>
-                            <Slider
-                                min={100}
-                                value={targetResponses}
-                                max={500}
-                                mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                    SetTargetResponses(val)
-                                    console.log(val)
-
-                                }}>
-                                <SliderMark value={100} {...labelStyles}>
-                                    100
-                                </SliderMark>
-                                <SliderMark value={200} {...labelStyles}>
-                                    200
-                                </SliderMark>
-                                <SliderMark value={300} {...labelStyles}>
-                                    300
-                                </SliderMark>
-                                <SliderMark value={400} {...labelStyles}>
-                                    400
-                                </SliderMark>
-                                <SliderMark value={500} {...labelStyles}>
-                                    500
-                                </SliderMark>
-
-
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </FormControl>
-                        <FormControl mt={4} p={'30px 30px'}>
-                            <FormLabel>Choose the number of days you wish to keep the survey active</FormLabel>
-
-                            <Slider
-                                min={1}
-                                value={duration}
-                                max={14}
-                                mt={'40px'} aria-label='slider-ex-6' onChange={(val) => {
-                                    setDuration(val)
-                                    console.log(val)
-                                }}>
-
-
-                                <SliderMark value={1} {...labelStyles}>
-                                    1
-                                </SliderMark>
-                                <SliderMark value={2} {...labelStyles}>
-                                    2
-                                </SliderMark>
-                                <SliderMark value={3} {...labelStyles}>
-                                    3
-                                </SliderMark>
-                                <SliderMark value={4} {...labelStyles}>
-                                    4
-                                </SliderMark>
-                                <SliderMark value={5} {...labelStyles}>
-                                    5
-                                </SliderMark>
-                                <SliderMark value={6} {...labelStyles}>
-                                    6
-                                </SliderMark>
-                                <SliderMark value={7} {...labelStyles}>
-                                    7
-                                </SliderMark>
-                                <SliderMark value={8} {...labelStyles}>
-                                    8
-                                </SliderMark>
-                                <SliderMark value={9} {...labelStyles}>
-                                    9
-                                </SliderMark>
-                                <SliderMark value={10} {...labelStyles}>
-                                    10
-                                </SliderMark>
-                                <SliderMark value={11} {...labelStyles}>
-                                    11
-                                </SliderMark>
-                                <SliderMark value={12} {...labelStyles}>
-                                    12
-                                </SliderMark>
-                                <SliderMark value={13} {...labelStyles}>
-                                    13
-                                </SliderMark>
-                                <SliderMark value={14} {...labelStyles}>
-                                    14
-                                </SliderMark>
-
-
-                                {/* 
-                                <SliderMark
-                                    value={duration}
-                                    textAlign='center'
-                                    bg='blue.500'
-                                    color='white'
-                                    mt='-10'
-                                    ml='-5'
-                                    w='12'
+                        {approvalPage === 0 ? (<VStack mt={'20px'} gap={'40px'}>
+                            <FormControl>
+                                <FormLabel>Choose a target gender <Tooltip placement='auto-start'
+                                    label="A target audience is the catergory of people you wish to present this survey to."
+                                    aria-label='A tooltip'><Icon
+                                        as={QuestionOutlineIcon} />
+                                </Tooltip>
+                                </FormLabel>
+                                <Select placeholder="Select option" onChange={(e) => {
+                                    setGender(e.target.value)
+                                }} value={gender}
                                 >
-                                    {duration}
-                                </SliderMark> */}
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </FormControl>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="">Everyone</option>
+                                </Select>
 
-                        <Button onClick={() => {
-                            calculate();
-                        }
-                        }>Get Cost</Button>
-                        <Text mt={4}>Estimated Cost: </Text>
-                        <Heading>Rs. {total}.00</Heading>
-                        <Text size={'sm'}>You will be able to make the payment after youre survey has been approved</Text>
-                        <Text size={'sm'} color='orange' fontWeight={'bold'}>NOTE: You will not be able to modify your survey after you request approval!</Text>
 
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Choose a target birth year range <Tooltip placement='auto-start'
+                                    label="A target audience is the catergory of people you wish to present this survey to."
+                                    aria-label='A tooltip'><Icon
+                                        as={QuestionOutlineIcon} />
+                                </Tooltip>
+                                </FormLabel>
+                                <YearPicker disabled={skipAge} setFromYear={setFromYear} setToYear={setToYear}
+                                />
+
+                                <Checkbox onChange={(e) => {
+                                    setSkipAge(e.target.checked);
+                                }}>Include everyone</Checkbox>
+
+                            </FormControl>
+                            <Flex>
+                                <InterestTags selectedOptions={areas} setSelectedOptions={setAreas} />
+                            </Flex>
+
+                        </VStack>) : approvalPage === 1 ? (<>
+
+
+                            <FormControl mt={4}>
+                                <FormLabel>Choose a Plan for this Survey</FormLabel>
+
+                                <HStack {...group} width={'100%'}>
+                                    {options.map((value) => {
+                                        const radio = getRadioProps({ value: value.planID });
+                                        return (<RadioCard key={value.planID} {...radio}>
+                                            <VStack alignContent={'left'} gap={'10px'} p={'10px'}>
+                                                <Flex w={'100%'} justifyContent={'space-between'}>
+
+                                                    <Heading color={'brand.purple'} size={'md'}>
+                                                        {value.name}
+                                                    </Heading>
+                                                    <Text color={'brand.textBlack'} fontWeight={'bold'}>
+                                                        LKR {value.price}.00
+                                                    </Text>
+
+                                                </Flex>
+                                                <List spacing={3}>
+                                                    <ListItem fontSize={'sm'}>
+                                                        {value.description}
+                                                    </ListItem>
+                                                    <ListItem fontSize={'sm'}>
+                                                        <ListIcon as={CheckCircleIcon} color='green.500' />
+                                                        Survey will be active for {value.duration} days
+                                                    </ListItem>
+                                                    <ListItem fontSize={'sm'}>
+                                                        <ListIcon as={CheckCircleIcon} color='green.500' />
+                                                        Maximum of {value.maxResponses} responses
+                                                    </ListItem>
+
+                                                </List>
+                                            </VStack>
+
+                                        </RadioCard>)
+                                    })}
+                                </HStack>
+                            </FormControl>
+
+
+                            <VStack mt={'20px'} gap={'40px'}>
+
+                                <Text size={'sm'}>You will be able to make the payment after youre survey has been
+                                    approved</Text>
+                                <Text size={'sm'} color='red' fontWeight={'bold'}>NOTE: You will not be able to
+                                    modify your survey after you request approval!</Text>
+                            </VStack>
+                        </>
+
+                        ) : null}
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' onClick={setPending}>
-                            Proceed
-                        </Button>
+                        <HStack gap={'10px'}>
+
+                            {approvalPage > 0 ? (
+                                <Button variant={'outline'} mr={3} onClick={() => setApprovalPage(approvalPage - 1)}>
+                                    Back
+                                </Button>) : null}
+                            <Button colorScheme='blue' onClick={() => {
+                                if (approvalPage < 1) {
+                                    setApprovalPage(approvalPage + 1)
+                                } else {
+                                    setPending();
+                                }
+                            }}>
+                                {approvalPage < 1 ? 'Next' : 'Request Approval'}
+
+                            </Button>
+
+                        </HStack>
+
 
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </>
-    )
+        </>)
 }
 
 const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleSubmit }) => {
 
     const toast = useToast()
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
     const handleDelete = async () => {
         try {
             // Make an HTTP DELETE request to your backend API
-            await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
+            const response = await axios.put(`http://localhost:3002/api/survey/deleteQuestion/${surveyid}`, {
                 questionid: question.questionID
-            });
+            }, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            }).then((response) => {
 
-            OnDeleteClose();
-            refreshdata();
-            toast({
-                title: 'Question Deleted',
+                OnDeleteClose();
+                refreshdata();
+                toast({
+                    title: 'Question Deleted',
 
-                status: 'warning',
-                position: 'bottom-right',
-                duration: 9000,
-                isClosable: true,
+                    status: 'warning', position: 'bottom-right', duration: 9000, isClosable: true,
+                })
+            }).catch((error) => {
+                console.log(error)
             })
 
 
@@ -395,52 +392,74 @@ const QuestionCard = ({ surveyid, question, approvalStatus, refreshdata, handleS
     // eslint-disable-next-line
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: OnEditClose } = useDisclosure()
 
-    return (
-        <>
-            <Modal isOpen={isDeleteOpen} onClose={OnDeleteClose} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        Cannot be recovered
-                    </ModalBody>
+    return (<>
+        <Modal isOpen={isDeleteOpen} onClose={OnDeleteClose} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Confirm Delete?</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                    Cannot be recovered
+                </ModalBody>
 
-                    <ModalFooter>
-                        <Button variant={'outline'} mr={3} onClick={OnDeleteClose}>
-                            Close
-                        </Button>
-                        <Button colorScheme='red' onClick={handleDelete}>Delete</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+                <ModalFooter>
+                    <Button variant={'outline'} mr={3} onClick={OnDeleteClose}>
+                        Close
+                    </Button>
+                    <Button colorScheme='red' onClick={handleDelete}>Delete</Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
 
-            <Card cursor="pointer" transition={'0.3s'}>
-                <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
-                    alignItems={'center'}><Flex gap={'20px'}>
-                        {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
-                        <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
-                            fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
-                        {
-                            approvalStatus === 'pending' ? null : (
-                                <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit} mode={'edit'} />
-                            )
-                        }
+        <Card cursor="pointer" transition={'0.3s'}>
+            <CardBody borderRadius={'20px'} display={'flex'} justifyContent={'space-between'}
+                alignItems={'center'}><Flex gap={'20px'}>
+                    {/* <Text fontWeight={'bold'} color={'brand.textDarkPurple'}></Text> */}
+                    <Text>{question.question}</Text></Flex><Flex gap={'20px'} alignItems={'center'}><Text
+                        fontWeight={'bold'}>{question ? question.responseType.toUpperCase() : null}</Text>
+                    {approvalStatus === 'pending' ? null : (
+                        <EditQuestionModal questionID={question.questionID} refreshdata={handleSubmit}
+                            mode={'edit'} />)}
+                    {approvalStatus === 'draft' || approvalStatus === 'rejected' ? (<IconButton aria-label={'delete'}
+                        icon={<DeleteIcon />}
+                        onClick={onDeleteOpen} />) : null}
 
-                        <IconButton aria-label={'delete'}
-                            icon={<DeleteIcon />}
-                            onClick={onDeleteOpen} />
 
-                        <IconButton aria-label={'delete'}
-                            icon={<DragHandleIcon />}
-                            onClick={() => alert('Drag Handle')} />
-
-                    </Flex>
-                </CardBody>
-            </Card >
-        </>
-    )
+                </Flex>
+            </CardBody>
+        </Card>
+    </>)
 }
+
+function RadioCard(props) {
+    const { getInputProps, getRadioProps } = useRadio(props)
+
+    const input = getInputProps()
+    const checkbox = getRadioProps()
+
+    return (<Box as='label' w={'100%'}>
+        <input {...input} />
+        <Box
+            {...checkbox}
+
+            cursor='pointer'
+            borderWidth='1px'
+            borderRadius='md'
+            boxShadow='md'
+            _checked={{
+                bg: '#eeedff', color: 'brand.textBlack', borderColor: 'brand.darkPurple',
+            }}
+            _focus={{
+                boxShadow: 'outline',
+            }}
+            px={5}
+            py={3}
+        >
+            {props.children}
+        </Box>
+    </Box>)
+}
+
 
 const EditSurvey = () => {
     const toast = useToast()
@@ -471,11 +490,9 @@ const EditSurvey = () => {
     async function handleSubmit() {
 
         try {
-            const response = await axios.get('http://localhost:3002/api/survey/getsurveytoedit/' + surveyid,
-                {
-                    headers: { 'Authorization': `Bearer ${user.token}` },
-                }
-            );
+            const response = await axios.get('http://localhost:3002/api/survey/getsurveytoedit/' + surveyid, {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            });
             console.log(response.data[0])
             setSurvey(response.data[0]);
             setImgName(response.data[0].surveyImage);
@@ -488,8 +505,11 @@ const EditSurvey = () => {
             }
         }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { handleSubmit(); }, [])
+
+    useEffect(() => {
+        handleSubmit();
+        // eslint-disable-next-line
+    }, [])
 
     // const toast = useToast()
     const loadImage = (imageName) => {
@@ -499,7 +519,7 @@ const EditSurvey = () => {
     return (
 
         <Flex flexDirection={'column'} gap={'20px'}>
-            {/* dim loader */}
+            <Link to={'/organisation/survey'}>{<ArrowBackIcon />} Back</Link>
             <Card
                 backgroundImage={'url("https://ik.imagekit.io/7i3fql4kv7/survey_headers/' + ImgName + '")'}
                 backgroundSize={'cover'}
@@ -509,7 +529,7 @@ const EditSurvey = () => {
                 <Card height={'s'}
                     p={'25px 20px'}
                     backgroundColor="rgba(0, 0, 0, 0.2)"
-                    backdropFilter={'blur(5px)'}
+                    // backdropFilter={'blur(5px)'}
                     color={'white'}
                     boxShadow={'none'}
                 >
@@ -519,18 +539,20 @@ const EditSurvey = () => {
                             <Flex gap='10px' flexDir={'column'}>
 
                                 <Heading>
-                                    {survey?.surveyName}
+                                    {survey?.surveyName ? survey?.surveyName : (
+                                        <Skeleton height={'50px'} width={'400px'} />
+
+                                    )}
                                 </Heading>
                                 <Text>
-                                    {survey?.surveyDescription}
-
+                                    {survey?.surveyDescription ? survey?.surveyDescription : (
+                                        <Skeleton height={'20px'} width={'200px'} />)}
                                 </Text>
                             </Flex>
                             <Flex gap='10px'>
-                                <Button>Suspend</Button>
 
-                                <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />
-
+                                {survey?.approvalStatus === 'draft' || survey?.approvalStatus === 'rejected' ? (
+                                    <Cropper loadImage={loadImage} surveyId={survey?.surveyID} />) : null}
                             </Flex>
 
 
@@ -539,105 +561,202 @@ const EditSurvey = () => {
                 </Card>
             </Card>
 
-            <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
+            <Tabs variant='enclosed' w={'100%'}>
+                <TabList>
+                    <Tab>Overview</Tab>
+                    {survey?.approvalStatus === 'active' && (<Tab>Responses ({survey?.responses.length})</Tab>)}
 
-                <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
-                    <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
-                        <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
-                        <Flex gap={'10px'}>
-                            {survey?.approvalStatus === 'draft' ? (
-                                <EditQuestionModal onUpdateContent={handleContentUpdate} refreshdata={handleSubmit} mode={'add'} />
-                            ) : null}
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+
+                        <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
+                            <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
+                                <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
+                                    <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
+                                    <Flex gap={'10px'}>
+                                        {survey?.approvalStatus === 'draft' ? (
+                                            <EditQuestionModal onUpdateContent={handleContentUpdate}
+                                                refreshdata={handleSubmit}
+                                                mode={'add'} />) : null}
+
+                                    </Flex>
+                                </CardHeader>
+                                <CardBody>
+                                    <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
+                                        <AnimatePresence>
+
+                                            {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
+
+                                                survey?.questions.map(question => (<motion.div
+                                                    key={question.questionID}
+                                                    initial={{ opacity: 0, y: -50 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                                                >
+                                                    <QuestionCard surveyid={survey.surveyID}
+                                                        approvalStatus={survey.approvalStatus}
+                                                        handleSubmit={handleSubmit} question={question}
+                                                        refreshdata={handleSubmit} />
+                                                </motion.div>
+
+                                                ))
+
+                                            }
+                                        </AnimatePresence>
+
+                                    </Flex>
+                                </CardBody>
+                            </Card>
+                            <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'}
+                                backgroundSize={'cover'}
+                                padding={'30px'} borderRadius={'5px'} justifyContent={'center'}
+                                flexDirection={'column'}
+                                alignItems={'center'}>
+                                <VStack gap={'10px'}>
+
+
+                                    {survey?.approvalStatus === 'draft' && (<>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                            fontWeight={'bold'}>
+                                            Ready to publish your survey?
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request
+                                            for
+                                            approval</Text>
+
+                                        <InitialFocus surveyid={survey?.surveyID}
+                                            questionCount={survey?.questionCount} />
+                                    </>)}
+                                    {survey?.approvalStatus === 'pending' && (<>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                            fontWeight={'bold'}>
+                                            Your survey is pending approval
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will
+                                            get back to you
+                                            shortly</Text>
+
+                                    </>)}
+                                    {survey?.approvalStatus === 'active' && (<>
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                            fontWeight={'bold'}>
+                                            Your survey is live!
+                                        </Text>
+                                    </>)}
+                                    {survey?.approvalStatus === 'rejected' && (<VStack gap='20px'>
+
+                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                            fontWeight={'bold'}>
+                                            Your survey failed the review
+                                        </Text>
+                                        {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+
+                                        <Popover placement='left'>
+                                            <PopoverTrigger>
+                                                <Button>View Feedback</Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverCloseButton />
+                                                <PopoverHeader>Feedback</PopoverHeader>
+                                                <PopoverBody>
+
+                                                    <Textarea value={survey?.comments[0].comment} isReadOnly
+                                                        rows={'10'} />
+
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <Button onClick={() => {
+                                            alert('clicked')
+                                        }}>Request Approval</Button>
+                                    </VStack>)}
+                                    {survey?.approvalStatus === 'approved' && (<>
+                                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                                            Your survey was approved
+                                        </Text>
+                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can
+                                            now
+                                            proceed to
+                                            payment to make your survey live
+                                        </Text>
+                                        <PaymentModal survey={
+                                            survey
+
+                                        } />
+                                        {/* <Button
+                                            
+                                        >Pay Now</Button> */}
+
+                                    </>
+                                    )}
+
+
+                                </VStack>
+
+
+                            </Card>
+
 
                         </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        <Flex width={'100%'} flexDirection={'column'} gap={'20px'}>
-                            <AnimatePresence>
+                    </TabPanel>
+                    <TabPanel>
+                        {survey?.responses.length === 0 ? <Text>No responses yet</Text> : null}
+                        <Accordion allowToggle>
+                            {survey?.responses.length === 0 ? (null) : (survey?.responses
+                                .sort((a, b) => b.created_date - a.created_date) // Sort in descending order
+                                .map((response, index) => (<AccordionItem key={index}>
+                                    <h2>
+                                        <AccordionButton>
+                                            <Box as="span" flex='1' textAlign='left'>
+                                                <Flex justifyContent={'space-between'}
+                                                    pr={'10px'}>
+                                                    <HStack>
+                                                        <Text
+                                                            fontWeight={'bold'}>{index + 1}</Text>
+                                                        <Text> Response ID
+                                                            : {response.responseID}</Text>
+                                                    </HStack>
+                                                    <Text>Date Submitted
+                                                        : {response.created_date}</Text>
+                                                </Flex>
+                                            </Box>
+                                            <AccordionIcon />
+                                        </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4}>
+                                        <Flex flexDir={'column'} width={'100%'} gap={'10px'}>
 
-                                {survey?.questions.length === 0 ? <Text>No questions added yet</Text> :
+                                            {survey?.questions.map((question, index) => (
 
-                                    survey?.questions.map(question => (
-                                        <motion.div
-                                            key={question.questionID}
-                                            initial={{ opacity: 0, y: -50 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                                        >
-                                            <QuestionCard surveyid={survey.surveyID} approvalStatus={survey.approvalStatus} handleSubmit={handleSubmit} question={question}
-                                                refreshdata={handleSubmit} />
-                                        </motion.div>
+                                                <Card key={index} p={'10px'}>
+                                                    <CardHeader>
 
-                                    ))
+                                                        <HStack>
+                                                            <Text
+                                                                fontWeight={'bold'}>{index + 1}. </Text>
+                                                            <Text
+                                                                fontWeight={'bold'}>{question.question}</Text>
+                                                        </HStack>
 
-                                }
-                            </AnimatePresence>
+                                                    </CardHeader>
+                                                    <CardBody>
+                                                        <Text>
+                                                            {response?.responses[question.questionID]}
+                                                        </Text>
+                                                    </CardBody>
+                                                </Card>
 
-                        </Flex>
-                    </CardBody>
-                </Card>
-                <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'} backgroundSize={'cover'}
-                    padding={'30px'} borderRadius={'10px'} justifyContent={'center'} flexDirection={'column'}
-                    alignItems={'center'}>
+                                            ))}
+                                        </Flex>
+                                    </AccordionPanel>
+                                </AccordionItem>)))}
 
-                    {survey?.approvalStatus === 'draft' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Ready to publish your survey?
-                            </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Request for approval</Text>
-
-                            <InitialFocus surveyid={survey?.surveyID} questionCount={survey?.questionCount} />
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'pending' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey is pending approval
-                            </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>We will get back to you shortly</Text>
-
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'active' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey is live!
-                            </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Share the link with your    </Text>
-
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'rejected' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey was rejected
-                            </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>Please contact the admin for more details</Text>
-
-                        </>
-                    )
-                    }
-                    {survey?.approvalStatus === 'approved' && (
-                        <>
-                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                Your survey was approved
-                            </Text>
-                            <Text pb={'20px'} color={'white'} fontWeight={'normal'}>You can now proceed to payment to make your survey live
-                            </Text>
-                            <Button>Pay Now</Button>
-                        </>
-                    )
-                    }
-
-
-
-                </Card>
-
-            </Flex>
+                        </Accordion>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Flex>
 
     )
@@ -645,12 +764,103 @@ const EditSurvey = () => {
 
 export const variants = {
     show: {
-        opacity: 1, y: 0, transition: {
-            ease: 'easeOut', duration: 0.3
+        opacity: 1, y:
+            0, transition:
+        {
+            ease: 'easeOut', duration:
+                0.3
         }
-    }, hide: {
-        y: -20, opacity: 0
+    }
+    ,
+    hide: {
+        y: -20, opacity:
+            0
     }
 };
+function PaymentModal(
+    { survey }
+) {
+    const toast = useToast()
+    const {
+        user, dispatch, userData
+    } = useAuthContext();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const payNow = () => {
+        const response = axios.post('http://localhost:3002/api/payment/do-payment', {
+            surveyid: survey?.surveyID,
+        }, {
+            headers: { 'Authorization': `Bearer ${user.token}` },
+        }).then((response) => {
+            if (response.status === 200) {
+                onClose();
+                toast({
+                    title: 'Payment Successful',
+                    status: 'success',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000)
+            } else {
+                toast({
+                    title: 'Payment Failed',
+                    status: 'error',
+                    position: 'bottom-right',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+
+    return (
+        <>
+            <Button onClick={onOpen}>Pay Now</Button>
+
+            <Modal onClose={onClose} isOpen={isOpen} isCentered size={'xl'}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Payment</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {/* checkout ui */}
+                        <Flex flexDirection={'column'}>
+                            <Heading size={'sm'}>
+                                {survey?.surveyName}
+                            </Heading>
+                            <HStack p={'10px 0px'} justifyContent={'space-between'} w={'100%'} alignItems={'flex-start'}>
+                                <Text>Cost</Text>
+                                <Text>LKR {survey?.cost}</Text>
+                            </HStack>
+                            <Divider />
+                            <VStack p={'10px 0px'} w={'100%'} alignItems={'flex-start'}>
+                                <Text fontWeight={'bold'}>
+                                    Payment Method
+                                </Text>
+                                <CardView />
+                            </VStack>
+                        </Flex>
+
+
+                    </ModalBody>
+                    <ModalFooter gap={'10px'} flexDirection={'column'}>
+
+                        <Button width={'100%'} colorScheme='messenger' onClick={
+                            () => {
+                                payNow()
+                            }
+                        }>Proceed</Button>
+                        <Button width={'100%'} variant={'outline'} onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
 
 export default EditSurvey

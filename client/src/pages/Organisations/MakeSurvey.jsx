@@ -1,15 +1,14 @@
 import React from 'react'
 import Makerlayout from '../../components/survey-maker/Layout'
-import { Heading } from '@chakra-ui/react'
+import { Heading, Box } from '@chakra-ui/react'
 
 const MakeSurvey = () => {
   return (
     <>
-      <Heading size={'md'}>Add a Question to </Heading>
-  
+      <Box>
+        <Heading size={'md'}>Add a Question to </Heading>
         <Makerlayout />
-
-
+      </Box>
       </>
   )
 }

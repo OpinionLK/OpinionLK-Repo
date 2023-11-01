@@ -15,7 +15,7 @@ import SurveyRow from '../../components/Survey/SurveyRow';
 // import logo from '../../images/topbar/scaled-logo-icon.svg'
 const Serydashboard = () => {
 
-    const style = {
+    const style = { 
         width: '100%',
         overflow: 'auto',
         height: '100%',
@@ -42,9 +42,7 @@ const Serydashboard = () => {
 
     return (
 
-        <Box style={style}>
-
-
+        <Box style={style} mt={-10}>
                 <Grid templateColumns="repeat(3, 1fr)">
                     <GridItem colSpan={2}>
                         <Grid templateColumns="repeat(1, 1fr)">
@@ -60,21 +58,7 @@ const Serydashboard = () => {
                         <SurveyRow 
                             surveys = {surveys}
                         />
-                        {/* <Box
-                            width="auto"
-                            px={5}
-                            pb='4'
-                            minW='1000px'
-                        >
-                            <Wrap spacing='30px'>
-                                <SurveyCard />
-                                <SurveyCard />
-                                <SurveyCard />
-                                <SurveyCard />
-                            </Wrap>
-                        </Box> */}
                 </GridItem>
-
             </Grid>
 
         </Box>

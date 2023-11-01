@@ -46,30 +46,30 @@ export const userData = async (req, res) => {
 
 
 export const surveyHistory = async (req, res) => {
-    try {
-        // const authHeader = req.headers.authorization;
-        // if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        //     return res.status(401).json({ error: 'Unauthorized' });
-        // }
-        // const token = authHeader.split(' ')[1];
-        // const { id } = jwt.verify(token, 'test');
- 
-        const id = req.query.id;
-        let user = await User.findOne({ _id: id });
-        console.log(user);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        let surveys = await Surveys.find({ responses: { $elemMatch: { userID: user._id } } });
 
-        // Map the surveys to the desired format
+        const token = req.headers.authorization.split(' ')[1];
+        console.log("token::",token);
+
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const { id } = jwt.verify(token, 'test');
+        console.log("user id::",id);
+        
+    try {
+        // Get all surveys that the user has responded to
+        let surveys = await Surveys.find({ responses: { $elemMatch: { userID: id } } });
+        console.log("surveys: ",surveys);
+
+        // Map the surveys to the correct format
         let surveyHistory = surveys.map(survey => {
-            const response = survey.responses.find(response => response.userID === user._id);
+            const response = survey.responses.find(response => response.userID === id);
             return {
                 surveyName: survey.surveyName,
                 surveyDescription: survey.surveyDescription,
-                dateSubmitted: response.dateSubmitted,
-                reward: response.reward,
+                dateSubmitted: response.created_date,
+                reward: survey.points,
             };
         });
         
@@ -78,6 +78,47 @@ export const surveyHistory = async (req, res) => {
     catch (error) {
         console.log(error);
     }
+    
 };
 
+export const couponHistory = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log("token::",token);
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { id } = jwt.verify(token, 'test');
+    console.log("user id:::",id);
+
+    try {
+        let user = await User.findOne({ _id: id });
+        console.log("user: ",user);
+        try {
+            // get coupons from the user who redeemed the coupon
+            // let redeemedCoupon = await User.find( coupons )
+            // console.log("coupons: ",redeemedCoupon);
+
+            // Map the coupons to the correct format
+            let couponHistory = user.coupons.map(coupons => {
+                return {
+                    couponName: coupons.CouponName,
+                    couponDescription: coupons.Description,
+                    couponPoints: coupons.Points,
+                    dateSubmitted: coupons.CouponRedeemedDate,
+                };
+            });
+
+            res.status(200).json(couponHistory);
+        }
+
+        catch (error) {
+            console.log(error);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 

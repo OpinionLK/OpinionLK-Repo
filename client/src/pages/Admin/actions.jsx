@@ -3,14 +3,18 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import QuickActions from './Actions/QuickActions';
-import CouponRequests from './Actions/CouponRequests';
+// import CouponRequests from './Actions/CouponRequests';
+import SurveySettings from './Actions/SurveySettings';
+import CouponSettings from './Actions/CouponSettings';
 
 const AdminActions = () => {
   return (
     <>
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Grid mt={-5} templateColumns="repeat(3, 1fr)" gap={6}>
         <QuickActions />
-        <CouponRequests />
+        <SurveySettings />
+        <CouponSettings />
+        {/* <CouponRequests /> */}
       </ Grid>
     </>
   );

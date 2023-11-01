@@ -1,0 +1,210 @@
+[{
+  "_id": {
+    "$oid": "65119a9c83f2d4a951deea0e"
+  },
+  "CouponName": "Amazon Prime Day Deal",
+  "CouponCode": "PRIME2023",
+  "Discount": 50,
+  "Description": "Exclusive Prime Day deal: Save 20% on select items!",
+  "StartDate": {
+    "$date": "2023-07-10T00:00:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-07-11T23:59:59.999Z"
+  },
+  "Status": "Active",
+  "count": 100,
+  "CompanyName": "Amazon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6512d6e69a9aa61e6510a6bf"
+  },
+  "CouponName": "Apple iPhone Upgrade",
+  "CouponCode": "IPHONE23",
+  "Discount": 10,
+  "Description": "Upgrade to the latest iPhone and save 10% with this coupon!",
+  "StartDate": {
+    "$date": "2023-09-01T00:00:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-09-30T23:59:59.999Z"
+  },
+  "Status": "Active",
+  "count": 50,
+  "CompanyName": "Apple",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6512d7269a9aa61e6510a6c1"
+  },
+  "CouponName": "Nike Summer Sale",
+  "CouponCode": "NIKE2023",
+  "Discount": 25,
+  "Description": "Shop the Nike Summer Sale and get 25% off select styles!",
+  "StartDate": {
+    "$date": "2023-06-20T00:00:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-07-10T23:59:59.999Z"
+  },
+  "Status": "Active",
+  "count": 80,
+  "CompanyName": "Nike",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6512d73a9a9aa61e6510a6c3"
+  },
+  "CouponName": "Starbucks Coffee Rewards",
+  "CouponCode": "COFFEE22",
+  "Discount": 5,
+  "Description": "Earn 5% cashback on all coffee purchases at Starbucks!",
+  "StartDate": {
+    "$date": "2023-07-01T00:00:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-07-31T23:59:59.999Z"
+  },
+  "Status": "Active",
+  "count": 200,
+  "CompanyName": "Starbucks",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6512d74b9a9aa61e6510a6c5"
+  },
+  "CouponName": "Microsoft Office Sale",
+  "CouponCode": "OFFICE365",
+  "Discount": 30,
+  "Description": "Get 30% off Microsoft Office 365 subscriptions!",
+  "StartDate": {
+    "$date": "2023-08-05T00:00:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-09-05T23:59:59.999Z"
+  },
+  "Status": "Active",
+  "count": 150,
+  "CompanyName": "Microsoft",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6514f6be67bbd9a8f98133b5"
+  },
+  "CouponName": "Amazon Prime Day Deal",
+  "CouponCode": "PRIME2023",
+  "Description": "Exclusive Prime Day deal: Save 20% on select items!",
+  "StartDate": {
+    "$date": "2023-09-28T03:44:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-09-30T03:44:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 15,
+  "Points": "2000",
+  "CompanyName": "Amazon",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517aaae175bf59cc83cc756"
+  },
+  "CouponName": "lmlkmllmk",
+  "CouponCode": "jnijnijn",
+  "Description": "jbjnijn",
+  "StartDate": {
+    "$date": "2023-09-30T04:57:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-10-05T04:57:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 7,
+  "Points": "465",
+  "CompanyName": "jhuib",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517efb02b4a5c822ba00a2c"
+  },
+  "CouponName": "coming soon",
+  "CouponCode": "55",
+  "Description": "coming soon",
+  "StartDate": {
+    "$date": "2023-09-30T09:51:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-10-06T09:51:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 6,
+  "Points": "100",
+  "CompanyName": "hello world",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517f26671d5c401338e6c8c"
+  },
+  "CouponName": "ijsriuhu",
+  "CouponCode": "uhbuhbuh",
+  "Description": "huhuyhu",
+  "StartDate": {
+    "$date": "2023-10-07T09:58:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-10-21T09:59:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 6,
+  "Points": "654",
+  "CompanyName": "54jhb",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517f42271d5c401338e6c8e"
+  },
+  "CouponName": "lsmvlkk",
+  "CouponCode": "bnjbjhbjh",
+  "Description": "nkjnj",
+  "StartDate": {
+    "$date": "2023-09-30T10:10:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-10-21T10:10:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 654,
+  "Points": "654654",
+  "CompanyName": "jbjhb",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517f5a1ca20573ebad9cc33"
+  },
+  "CouponImage": "https://ik.imagekit.io/7i3fql4kv7/couponImages/1675006567434_QqBPa5OQb.jpeg",
+  "CouponName": "skndvkjni",
+  "CouponCode": "buhbuhbu",
+  "Description": "kjniji",
+  "StartDate": {
+    "$date": "2023-09-30T10:16:00.000Z"
+  },
+  "EndDate": {
+    "$date": "2023-10-14T10:16:00.000Z"
+  },
+  "Status": "Inactive",
+  "Count": 7,
+  "Points": "546",
+  "CompanyName": "sgs5rg",
+  "__v": 0
+}]

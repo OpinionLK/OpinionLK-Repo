@@ -7,7 +7,8 @@ import ReachCard from '../../components/Stats/Organization/ReachCard'
 import SurveyRow from '../../components/Survey/SurveyRow'
 import { 
   Grid, 
-  GridItem
+  GridItem,
+  Box
 } from '@chakra-ui/react'
 
 
@@ -16,6 +17,7 @@ const Dashboard = () => {
     <>
         {/* <Heading>MakeSurvey</Heading> */}
         {/* <Makerlayout /> */}
+        <Box mt={-5}>
         <StatRow />
         <Grid templateColumns="repeat(3, 1fr)" gap={0}>
           <GridItem colSpan={2}>
@@ -34,6 +36,7 @@ const Dashboard = () => {
             <ReachCard/>
           </GridItem>
         </Grid>
+        </Box>
 
     </>
   )

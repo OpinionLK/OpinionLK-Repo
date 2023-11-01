@@ -5,24 +5,24 @@ import {
 
 const status = (status) => {
     let color = 'gray'
-    if(status?.status === 'active'){
+    if (status?.status === 'active') {
         color = 'blue'
     }
-    else if(status?.status === 'approved'){
+    else if (status?.status === 'approved') {
         color = 'green'
     }
-    else if(status?.status === 'rejected'){
+    else if (status?.status === 'rejected') {
         color = 'red'
     }
-    else if(status?.status === 'pending'){
+    else if (status?.status === 'pending') {
         color = 'orange'
     }
-    else{
+    else {
         color = 'gray'
     }
     console.log(status)
     return (
-        <Tag fontWeight={'bold'} colorScheme={color} variant="solid"
+        <Tag textAlign={'center'} justifyContent={'center'} width={'100px'} fontWeight={'bold'} colorScheme={color} variant="solid"
         >{status.status?.toUpperCase()}</Tag>
     )
 }

@@ -4,15 +4,13 @@ import clientRoutes from './routes/client.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import paymentRoutes from './routes/payments.js';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
 import morgan from 'morgan';
 import ImageKit from "imagekit";
-
-// import swaggerAutogen from 'swagger-autogen';
 import PlatformData from './models/PlatformData.js';
-
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger-output.json' assert { type: "json" };
 
@@ -57,7 +55,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/survey', surveyRoutes);
+app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
 mongoose
@@ -80,11 +80,35 @@ if (pd.length === 0) {
   console.log('creating platform data');
   try {
     const platformData = new PlatformData({
-      surveyBaseCost: 1000,
-      surveyCostPerResponse: 10,
-      perDayCost: 7,
-      maxDuration: 14,
-      perQuestionCost: 20,
+      surveyPlans: [
+       
+        {
+          name: 'Starter',
+          price: 1500,
+          duration: 7,
+          maxResponses: 100,
+          description: 'Affordable for individuals and small businesses',
+          active: true
+        },
+        {
+          name: 'Premium',
+          price: 2000,
+          duration: 14,
+          maxResponses: 200,
+          description: 'Reasonably priced for small to medium-sized businesses',
+          active: true
+        },
+        {
+          name: 'Enterprise',
+          price: 2600,
+          duration: 30,
+          maxResponses: 500,
+          description: 'Suitable for larger businesses and organizations',
+          active: true
+        }
+      ],
+      pointsPerQuestion: 20,
+
     });
     await platformData.save();
   } catch (error) {

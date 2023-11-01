@@ -8,7 +8,6 @@ import PaymentBilling from '../pages/Organisations/PaymentBilling';
 import EditSurvey from '../pages/Organisations/EditSurvey';
 import TestComponenets from '../pages/Organisations/TestComponenets';
 
-
 import {
     motion
 } from 'framer-motion';
@@ -22,11 +21,16 @@ import { BsHouseFill } from 'react-icons/bs';
 import { RiSurveyFill } from 'react-icons/ri';
 
 
+
 const Links = [
 
     { route: '/organisation/home', linkName: 'Home', icon: BsHouseFill },
-    { route: '/organisation/survey', linkName: 'Surveys', icon: RiSurveyFill },
+    { route: '/organisation/survey/1', linkName: 'Surveys', icon: RiSurveyFill },
     { route: '/organisation/paymentbilling', linkName: 'Payments & Billing', icon: RiSurveyFill },
+
+    {
+        
+    }
     // { route: '/organisation/make-survey', linkName: 'Make Survey', icon: AiFillEdit },
 
 ];
@@ -69,6 +73,10 @@ const OrganisationRoutes = [
             },
             {
                 path: '/organisation/survey',
+                element:<Navigate to="/organisation/survey/1" replace /> ,
+            },
+            {
+                path: '/organisation/survey/:page',
                 element: <SurveyPage />,
             },
             {
@@ -83,6 +91,12 @@ const OrganisationRoutes = [
                 path: '/organisation/paymentbilling',
                 element: <PaymentBilling />
             },
+            {
+                path: '/organisation/paymentbilling/:page',
+                element: <PaymentBilling />
+            },
+          
+           
         ],
     }
 ]

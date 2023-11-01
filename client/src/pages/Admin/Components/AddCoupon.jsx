@@ -22,15 +22,14 @@ import {
     Image,
     Textarea,
     Icon,
+    useToast
     } from '@chakra-ui/react';
     import Modal from 'react-modal';
     import { FaUpload } from 'react-icons/fa'; 
     import axios from 'axios';
 
 const AddCoupon = () => {
-        // eslint-disable-next-line
-    const [isSuccess, setIsSuccess] = useState(false);
-        // eslint-disable-next-line
+          // eslint-disable-next-line
     const [switchValue, setSwitchValue] = useState(false);
     
     const CloseIcon = () => (
@@ -63,6 +62,10 @@ const AddCoupon = () => {
 
       const [isOpen, setIsOpen] = useState(false);
       const [imageUrl, setImageUrl] = useState('');
+      const toast = useToast()
+      const addCoupon = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(200), 5000)
+      });
 
       const openPopup = () => {
         setIsOpen(true);
@@ -84,19 +87,37 @@ const AddCoupon = () => {
         };
         
         try {
+          toast.promise(addCoupon, {
+            success: { title: 'Coupon added successfully', description: 'Coupons are available in the coupons table' },
+            error: { title: 'Error adding coupon', description: 'Something wrong' },
+            loading: { title: 'Adding new Coupon', description: 'Please wait' },
+          })
           axios
             .post('http://localhost:3002/api/admin/coupons/add', data, config)
             .then((res) => {
               console.log(res.data);
-              setIsSuccess(true);
               closePopup();
             })
             .catch((err) => {
               console.log(err);
+              toast({
+                title: "Error",
+                description: "Something went wrong! Please try again later",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              })
             });
         }
         catch (err) {
           console.log(err);
+          toast({
+            title: "Error",
+            description: "Something went wrong! Please try again later",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          })
         }
       };
 
@@ -117,15 +138,13 @@ const AddCoupon = () => {
             <HStack gap={'12px'} justifyItems={'flex-end'}>
                 <Button
                     onClick={openPopup}
-                    colorScheme="green"
+                    colorScheme="purple"
                     height={'30px'}
                     width={'90px'}
-                    borderRadius={'5px'}
-                    bg={'green.500'}
                 >
                     Add
                 </Button>
-                <Button
+                {/* <Button
                     colorScheme="purple"
                     height={'30px'}
                     width={'90px'}
@@ -133,7 +152,7 @@ const AddCoupon = () => {
                     bg={'purple.500'}
                 >
                     View
-                </Button>
+                </Button> */}
                 </HStack>
             </Box>
         </Box>

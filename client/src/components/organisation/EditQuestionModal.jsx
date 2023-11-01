@@ -77,7 +77,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
   // get the quesetion data upon opening the modal
   const getQuestion = async () => {
     try {
-      const response = await axios.get(`http://localhost:3002/api/client/getQuestion/${surveyid}/${questionID}`);
+      const response = await axios.get(`http://localhost:3002/api/survey/getQuestion/${surveyid}/${questionID}`);
       const responseData = response.data[0];
       setValue("question", responseData.question);
       setValue("responseType", responseData.responseType);
@@ -106,7 +106,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
     let method = 'POST';
 
     if (mode === "edit") {
-      URL = `http://localhost:3002/api/client/editQuestion/${surveyid}/${questionID}`;
+      URL = `http://localhost:3002/api/survey/editQuestion/${surveyid}/${questionID}`;
       method = 'PUT';
     } else {
       URL = `http://localhost:3002/api/survey/addQuestion/${surveyid}`;
@@ -213,7 +213,9 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                           {fields.map((field, index) => (
                             <Flex alignItems={"center"} width={"100%"} gap={"20px"} key={field.id}>
                               <Input {...register(`items.${index}.option`, { required: true })} placeholder={`Option ${index + 1}`} />
-                              {fields.length > 2 && <IconButton type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
+                              {fields.length > 2 && <IconButton aria-label={
+                                "delete"
+                              } type="button" onClick={() => remove(index)} icon={<DeleteIcon />} />}
                             </Flex>
                           ))}
                         </VStack>

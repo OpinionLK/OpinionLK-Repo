@@ -152,7 +152,7 @@ const CommunityManagers = () => {
           //   return;
           // }
        // eslint-disable-next-line
- const ManagerEmail = editedValues.ManagerEmail;
+ const ManagerEmail = editedValues.email;
         //   if (ManagerEmail.length < 3 && ManagerEmail.includes('@')) {
         //     alert('Email should be at least 3 characters long and should contain @');
         //     return;
@@ -259,6 +259,19 @@ const nicValidation12 = /^[0-9]{12}$/;
                         // value ={filterText}
                         />
                     </Box>
+                    <Box 
+                      colorScheme={'purple'} 
+                      ml={'auto'} 
+                      size={'sm'}
+                      bg={'purple.400'}
+                      fontSize={'14px'}
+                      fontWeight={'bold'}
+                      color={'whiteAlpha.900'}
+                      borderRadius={5}
+                      p={2}
+                    >
+                      Total Community Managers: {getTotalCommunityManagers()}
+                    </Box>
                 </CardHeader>
                 <hr />
                 <CardBody>
@@ -288,7 +301,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                                 {manager.ManagerAddLine1},{manager.ManagerAddLine2}
                             </Td>
                             <Td>{manager.ManagerDistrict}</Td>
-                            <Td>{manager.ManagerEmail}</Td>
+                            <Td>{manager.email}</Td>
                             <Td>{manager.ManagerPhone}</Td>
                             <Td>{manager.ManagerNic}</Td>
                             <Td>
@@ -309,7 +322,7 @@ const nicValidation12 = /^[0-9]{12}$/;
                                     size="sm"
                                     icon={<DeleteIcon />}
                                     onClick={() => onDeleteConfirmationOpen(manager._id)}
-                                                                    />
+                                />
                                 </HStack>
                             </Td>
                             </Tr>

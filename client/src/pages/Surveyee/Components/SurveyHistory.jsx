@@ -15,20 +15,31 @@ import {
     TableContainer,
     HStack,
     Input,
+    Box
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const SurveyHistory = () => {
 
     const [surveyHistory, setSurveyHistory] = useState([]);
+    const {
+        // eslint-disable-next-line
+        user
+    } = useAuthContext();
+
+    const index = 0;
 
     //Fetch survey history
     const fetchSurveyHistory = async () => {
         try {
-            const res = await axios.get('http://localhost:3002/api/user/surveyHistory');
+            // send security token to backend with the header
+            const res = await axios.get('http://localhost:3002/api/user/surveyHistory', {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            });
             const data = res.data;
-            console.log(data);
+            console.log("Hello this is a test: ",data);
             const updatedSurveyHistory = data.map((survey) => ({
                 surveyName: survey.surveyName,
                 surveyDescription: survey.surveyDescription,
@@ -43,11 +54,17 @@ const SurveyHistory = () => {
 
     useEffect(() => {
         fetchSurveyHistory();
+        // eslint-disable-next-line
     }, []);
 
+    //Calculate total surveys
+
+    const totalSurveys = () => {
+        return surveyHistory.length;
+    }
 
     return (
-        <div>
+        <Box>
             <Card borderRadius={10}>
                 <CardHeader>
                     <HStack>
@@ -67,7 +84,7 @@ const SurveyHistory = () => {
                 <CardBody>
                 <TableContainer>
                     <Table variant='simple'>
-                        <TableCaption>Total Surveys</TableCaption>
+                        <TableCaption m={'0 auto'} mt={5} bg={'purple.400'} borderRadius={5} color={'whiteAlpha.900'} w={'fit-content'}>Total Surveys: {totalSurveys()}</TableCaption>
                         <Thead>
                         <Tr>
                             <Th>Survey Name</Th>
@@ -78,7 +95,7 @@ const SurveyHistory = () => {
                         </Thead>
                         <Tbody fontSize={14}>
                             {surveyHistory.map((survey) => (
-                                <Tr>
+                                <Tr key={index} borderRadius={10} _hover={{cursor: 'pointer', backgroundColor: 'purple.100'}}>
                                     <Td>{survey.surveyName}</Td>
                                     <Td>{survey.surveyDescription}</Td>
                                     <Td>{survey.dateSubmitted}</Td>
@@ -90,7 +107,7 @@ const SurveyHistory = () => {
                     </TableContainer>
                 </CardBody>
             </Card>
-        </div>
+        </Box>
     )
 }
 

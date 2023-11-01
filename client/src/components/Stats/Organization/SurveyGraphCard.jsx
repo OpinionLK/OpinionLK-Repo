@@ -9,6 +9,27 @@ import {
 } from '@chakra-ui/react'
 import {Line} from 'react-chartjs-2';
 import { FaChartBar } from 'react-icons/fa'
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+  
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
 
 // sample data
 const state = {
