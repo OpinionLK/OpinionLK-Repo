@@ -1,8 +1,10 @@
 import ComManager from "../models/ComManagerModel.js";
-import nodemailer from 'nodemailer';
-import { Clients } from '../models/Client.js';
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+
+dotenv.config();
 
 export const Getmembers = async (req, res) => {
      // #swagger.tags = ['Community Manager']
@@ -58,55 +60,6 @@ export const Savemember = async (req, res) => {
     html: `<p>Hello ${member.ManagerFirstName} ${member.ManagerLastName},</p><p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='https://opinionlk.me'>log into your account </a> and join the OpinionLK community as a community manager.</p>`,
   }
 
-<<<<<<< Updated upstream
-  // Create the nodemailer transporter
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-
-  const mailOptions = {
-    from: {
-      name: 'Opinion.lk',
-      address: process.env.USER
-    },
-    to: req.body.ManagerEmail,
-    subject: "Welcome to OpinionLK",
-    text: `Hello ${req.body.ManagerFirstName} ${req.body.ManagerLastName},\n\nWelcome to OpinionLK! We're thrilled to have you on board. It's time to connect with us and join the OpinionLK community.`,
-    html: `<p>Hello ${req.body.ManagerFirstName} ${req.body.ManagerLastName},</p><p>Welcome to OpinionLK! We're thrilled to have you on board. It's time to <a href='https://opinionlk.me'>log into your account </a> and join the OpinionLK community.</p>`,
-  }
-
-  // Define the sendMail function
-  const sendMail = async (transporter, mailOptions) => {
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log(info);
-      return {"message": "Email sent successfully"};
-    } catch (error) {
-      console.log(error);
-      return {"message": "Email sent failed"};
-    }
-  }
-
-  // Check if the user with the same email already exists in ComManager
-  let user = await ComManager.findOne({ ManagerEmail: req.body.ManagerEmail });
-
-  if (user) {
-    return res.status(400).json({ error: 'User already exists' });
-  }
-
-  // Create a new ComManager entry
-  ComManager.create(member)
-=======
         // attachments: [
       //     {
       //       filename: 'simple.png',
@@ -125,21 +78,14 @@ export const Savemember = async (req, res) => {
   }
  
   await ComManager.create(member)
->>>>>>> Stashed changes
     .then((data) => {
-      const emailResult = sendMail(transporter, mailOptions);
-
-      if (emailResult.message === "Email sent successfully") {
-        console.log("Saved Successfully...");
+      console.log("Saved Successfully...");
       sendMail(transporter,mailOptions);
-        res.status(201).send(data);
-      } else {
-        res.status(500).json({ error: "Failed to send confirmation email" });
-      }
+      res.status(201).send(data);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send({ error: err, msg: "Something went wrong!" });
+      res.send({ error: err, msg: "Something went wrong!" });
     });
  };
  
@@ -176,6 +122,7 @@ export const Updatemember = async (req, res) => {
     res.status(500).json({ error: "Something went wrong!" });
   }
 };
+
 
 export const Deletemember = (req, res) => {
   const { id } = req.params;

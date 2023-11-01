@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuthContext } from '../../hooks/useAuthContext';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const SurveyHistory = () => {
 
@@ -61,9 +61,6 @@ const SurveyHistory = () => {
     const totalSurveys = () => {
         return surveyHistory.length;
     }
-
-
-
 
     return (
         <Box mt={-5} >

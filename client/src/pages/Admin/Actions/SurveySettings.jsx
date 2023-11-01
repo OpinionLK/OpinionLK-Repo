@@ -17,8 +17,6 @@ import {
     Switch,
     Button,
     Textarea,
-    Wrap,
-    WrapItem,
     useToast
  } from '@chakra-ui/react';
 import axios from 'axios';
