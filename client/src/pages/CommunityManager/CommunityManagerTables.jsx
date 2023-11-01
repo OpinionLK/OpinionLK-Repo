@@ -21,18 +21,6 @@ import {
         <>
   
 <Box>
-            <Box>
-            <Box>
-            <Text  pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
-              Supervisor Revision Requests
-            </Text>
-            <Box p={5}>
-              <SurveyList></SurveyList>
-            </Box>
-          </Box>
-            </Box>
-
-
             <Box d='flex' flexDir={'r'}>
               <Text pt={15} color={'black'} fontSize={'2xl'}> Survey Table</Text>
               <Box p={5}>

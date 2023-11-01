@@ -22,6 +22,8 @@ import {
     editQuestion,
     deleteQuestion,
     getApprovedSurveys,
+    getCountWithApprovalStatus,
+    getCountWithStatus,
 
 
 } from '../controllers/SurveysC.js';
@@ -71,7 +73,7 @@ router.get('/getSurveyForComManager/:status', getSurveysForComManager); //get su
 router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
-
+router.get('/getCountwithStatus',getCountWithStatus);//get count with approval status for commanager
 
 
 router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {
