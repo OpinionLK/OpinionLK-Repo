@@ -4,16 +4,13 @@ import {
     Card,
     CardHeader,
     CardBody,
-    Box,
-    Alert,
-    AlertIcon,
     Stack,
     Divider,
     CardFooter,
   } from '@chakra-ui/react';
   
   import React, { useState } from 'react'; 
-  import AddComManager from './AddComManager'
+  import AddComManager from '../Components/AddComManager'
   import AddCoupon from '../Components/AddCoupon'
   
   const QuickActions = () => {
@@ -39,7 +36,7 @@ import {
 
                 </CardBody>
                 <CardFooter>
-                  {isSuccess && (
+                  {/* {isSuccess && (
                     <Box color="green.500" mt={2} mb={2} width="50%">
                       <Alert
                         status="success"
@@ -51,7 +48,7 @@ import {
                         User created successfully.
                       </Alert>
                     </Box>
-                  )}
+                  )} */}
                 </CardFooter>
               </Card>
             </Stack>

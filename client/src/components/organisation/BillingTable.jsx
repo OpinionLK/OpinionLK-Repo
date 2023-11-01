@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import { useAuthContext } from '../../hooks/useAuthContext'
 import {
+    Skeleton,
     Table,
     Thead,
     Tbody,
@@ -10,8 +11,8 @@ import {
     Th,
     Td,
     TableContainer,
-    InputLeftElement,
     InputGroup,
+    InputLeftElement,
     Input,
     Button,
     HStack,
@@ -20,7 +21,6 @@ import {
     Heading,
 } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom';
-import Status from '../../components/Status.jsx';
 import {
     SearchIcon
 } from '@chakra-ui/icons'
@@ -32,17 +32,17 @@ const SurveyTable = () => {
         user, dispatch, userData
     } = useAuthContext();
     const { page = 1 } = useParams();
-// eslint-disable-next-line
+
     const [data, setData] = useState(null);
     // eslint-disable-next-line
     const [isLoading, setIsLoading] = useState(true);
-    const numRows = 10;
+    const numRows = 7;
     const [totalPages, setTotalPages] = useState(0);
     const [pageData, setPageData] = useState(null);
     const history = useNavigate();
-
+        // eslint-disable-next-line
     function onclickhandler(id) {
-        history("/organisation/survey/" + id + "/edit")
+        history("/commanager/viewsurvey/" + id)
     }
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -50,10 +50,12 @@ const SurveyTable = () => {
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
+            // eslint-disable-next-line
     const [searchResults, setSearchResults] = useState(null);
 
+
     useEffect(() => {
-        fetch('http://localhost:3002/api/survey/getbyUserId/',
+        fetch('http://localhost:3002/api/payment/get-payment-history',
             {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${user.token}` },
@@ -61,18 +63,14 @@ const SurveyTable = () => {
         )
             .then(response => response.json())
             .then(data => {
-                if (data.surveys) {
-                    setData(data.surveys);
-                    setTotalPages(Math.ceil(data.total / numRows));
-            
-                    if (data.surveys.length > 0) {
-                        const filteredData = data.surveys.filter(survey =>
-                            survey.surveyName.toLowerCase().includes(searchTerm.toLowerCase())
-                        );
-                        setSearchResults(filteredData);
-            
-                        setPageData(filteredData.slice((page - 1) * numRows, page * numRows));
-                    }
+                console.log(data.paymentHistory);
+                setData(data.paymentHistory);
+                setTotalPages(Math.ceil(data.paymentHistory.length / numRows));
+                if (data.paymentHistory.length) {
+                    const filteredData = data.paymentHistory
+
+
+                    setPageData(filteredData.slice((page - 1) * numRows, page * numRows));
                 }
                 setIsLoading(false);
             })
@@ -87,7 +85,7 @@ const SurveyTable = () => {
             <Flex mb={'20px'} width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
 
                 <Heading size={'md'}>
-                    Your Surveys
+                    Billing History
                 </Heading>
 
                 <InputGroup width={'40%'}>
@@ -107,57 +105,62 @@ const SurveyTable = () => {
                         <Tr>
                             <Th>Survey Name</Th>
                             <Th>Date Created</Th>
-                            <Th># of Questions</Th>
-                            <Th># of Responses</Th>
+                            <Th>Amount</Th>
                             <Th>Status</Th>
+
                         </Tr>
                     </Thead>
                     <Tbody>
-    {(!searchResults || searchResults.length === 0) ? (
-        <Tr>
-            <Td textAlign={'center'} colSpan={5}>No surveys found</Td>
-        </Tr>
-    ) : pageData.map((survey) => {
-        return (
-            <Tr _hover={{
-                bg: 'gray.100', cursor: 'pointer'
-            }}
-                _active={{
-                    bg: 'gray.200',
-                }}
-                key={survey.surveyID}
+                        {!isLoading ? (pageData ? pageData.map((historyItem, index) => {
+                            return (
+                                <Tr _hover={{
+                                    bg: 'gray.100', cursor: 'pointer'
+                                }}
+                                    _active={{
+                                        bg: 'gray.200',
+                                    }}
+                                    key={index}
 
-                onClick={() => {
-                    onclickhandler(survey.surveyID)
-                }}
-            >
 
-                <Td  width={'35%'}>{survey.surveyName}</Td>
-                <Td width={'20%'}> {new Date(survey.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Td>
+                                >
 
-                <Td isNumeric>{survey.questions.length}</Td>
-                <Td isNumeric>{survey.responses.length}</Td>
-                <Td>
-                    <Status status={survey.approvalStatus} />
-                </Td>
+                                    <Td width={'35%'}>{historyItem.description}</Td>
+                                    <Td width={'20%'}>Rs {historyItem.amount / 100}</Td>
+                                    <Td width={'20%'}> {new Date(historyItem.created * 1000).toLocaleDateString()}</Td>
+                                    <Td width={'20%'}>{historyItem.status.toUpperCase()}</Td>
 
-            </Tr>)
-    })}
-</Tbody>
+
+                                </Tr>)
+                        }) : (
+                            <Tr>
+                                <Td textAlign={'center'} colSpan={6}>No surveys found</Td>
+                            </Tr>
+                        )) : ([...Array(numRows)].map((_, i) => (<Tr key={i}>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+                            <Td><Skeleton height={'20px'}></Skeleton></Td>
+
+                        </Tr>)))}
+
+                    </Tbody>
 
                 </Table>
             </TableContainer>
             {!searchTerm ? (
                 <HStack boxSizing='border-box' p={'20px'} pr={'0px'} width={'100%'} justifyContent={'space-between'} mr={'20px'}>
 
-                    <Text fontWeight={'bold'} fontSize={'md'}>Page {page} of {totalPages === 0 ? 1 : totalPages}</Text>
+                    <Text fontWeight={'bold'} fontSize={'md'}>Page {page} of {totalPages} Showing {pageData ? pageData.length : 0} of {data ? data.length : 0} results
+                    </Text>
                     <HStack spacing={'10px'}>
                         <Button
                             colorScheme={page > 1 ? 'blue' : 'gray'}
                             onClick={
                                 () => {
                                     if (page > 1)
-                                        history("/organisation/survey/" + (parseInt(page) - 1))
+                                        history("/organisation/paymentbilling/" + (parseInt(page) - 1))
                                 }
                             }
                         >Previous</Button>
@@ -165,7 +168,7 @@ const SurveyTable = () => {
                             onClick={
                                 () => {
                                     if (page < totalPages)
-                                        history("/organisation/survey/" + (parseInt(page) + 1))
+                                        history("/organisation/paymentbilling/" + (parseInt(page) + 1))
                                 }
                             }>Next</Button>
                     </HStack>

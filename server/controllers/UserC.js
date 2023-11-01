@@ -81,4 +81,44 @@ export const surveyHistory = async (req, res) => {
     
 };
 
+export const couponHistory = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log("token::",token);
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { id } = jwt.verify(token, 'test');
+    console.log("user id:::",id);
+
+    try {
+        let user = await User.findOne({ _id: id });
+        console.log("user: ",user);
+        try {
+            // get coupons from the user who redeemed the coupon
+            // let redeemedCoupon = await User.find( coupons )
+            // console.log("coupons: ",redeemedCoupon);
+
+            // Map the coupons to the correct format
+            let couponHistory = user.coupons.map(coupons => {
+                return {
+                    couponName: coupons.CouponName,
+                    couponDescription: coupons.Description,
+                    couponPoints: coupons.Points,
+                    dateSubmitted: coupons.CouponRedeemedDate,
+                };
+            });
+
+            res.status(200).json(couponHistory);
+        }
+
+        catch (error) {
+            console.log(error);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 

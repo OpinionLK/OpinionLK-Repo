@@ -7,11 +7,14 @@ import {
     Grid,
     GridItem,
     Image,
+    VStack,
     Heading
 } from '@chakra-ui/react'
 
 import coin from '../../images/coin.png'
-
+import rewards from '../../images/rewards.png'
+import points from '../../images/points.png'
+import mobilereward from '../../images/mobilereward.png'
 const Features = () => {
     const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
 
@@ -23,14 +26,6 @@ const Features = () => {
 
     return (
         <>
-            {/* {isLargerThanLG ? (
-                <>
-                    <Image src={Clip} alt="clip" position="absolute" top="20%" right="25%" zIndex="-1" />
-                    <Image src={Check} alt="check" position="absolute" top="40%" left="20%" zIndex="-1" />
-                    <Image src={Clip2} alt="clip2" position="absolute" bottom="10%" right="40%" zIndex="-1" />
-                </>
-            ) : null} */}
-
             <Flex
 
                 alignItems="flex-start"
@@ -43,112 +38,22 @@ const Features = () => {
 
                 color={'brand.textBlack'}
 
-                flexDirection={isLargerThanLG ? 'column' : 'column'}
+                flexDirection={isLargerThanLG ? 'row' : 'column'}
             >
-                <Heading m={'40px 0px'} color={'brand.textDarkPurple'}>Why OpinionLK?</Heading>
 
-                <Grid
+                <Image src={isLargerThanLG ? rewards : mobilereward
 
-                    h='80vh'
-                    templateRows='repeat(2, 1fr)'
-                    templateColumns={isLargerThanLG ? 'repeat(4, 1fr)' : 'repeat(1, 1fr)'}
-                    gap={4}
-                >
-                    <GridItem colSpan={2} bg='#D3D0FB' sx={gridStyles}>
-                        <Grid
-                            display={'grid'}
-                            padding={'20px'}
-                            alignItems={'center'}
-                            justifyContent={'center'}
-                            templateRows='repeat(1, 1fr)'
-                            templateColumns='repeat(3, 1fr)'
-                            gap={4}
-                        >
-                            <GridItem colSpan={2} >
-                                <Stack gap={'10px'} direction={'column'}>
-                                    <Heading as={'h3'} size={'lg'}>Rewards</Heading>
-                                    <Text>
-                                        Participants have the opportunity to earn tangible rewards for their time and effort. Whether it's gift cards, discounts, or exclusive offers, we ensure that survey completion is worth their while.
-                                    </Text>
-                                </Stack>
-                            </GridItem>
-                            <GridItem colSpan={1}>
-                                <Image src={coin}></Image>
-                            </GridItem>
-                        </Grid>
-                    </GridItem>
-                    <GridItem colSpan={2} bg='#C5ECE7' sx={gridStyles}>
-                        <Grid
-                            display={'grid'}
-                            padding={'20px'}
-                            alignItems={'center'}
-                            justifyContent={'center'}
-                            templateRows='repeat(1, 1fr)'
-                            templateColumns='repeat(3, 1fr)'
-                            gap={4}
-                        >
-                            <GridItem colSpan={2} >
-                                <Stack gap={'10px'} direction={'column'}>
-                                    <Heading as={'h3'} size={'lg'}>Tailored Surveys</Heading>
-                                    <Text>
-                                        Say goodbye to generic questionnaires and hello to tailored surveys designed to meet your unique interests and preferences. No more sifting through irrelevant or repetitive questions.
-                                    </Text>
-                                </Stack>
-                            </GridItem>
-                            <GridItem colSpan={1}>
-                                <Image src={coin}></Image>
-                            </GridItem>
-                        </Grid>
-                    </GridItem>
-                    <GridItem colSpan={2} bg='#FEFAD5' sx={gridStyles}>
-                        <Grid
-                            display={'grid'}
-                            padding={'20px'}
-                            alignItems={'center'}
-                            justifyContent={'center'}
-                            templateRows='repeat(1, 1fr)'
-                            templateColumns='repeat(3, 1fr)'
-                            gap={4}
-                        >
-                            <GridItem colSpan={2} >
-                                <Stack gap={'10px'} direction={'column'}>
-                                    <Heading as={'h3'} size={'lg'}>Rewards</Heading>
-                                    <Text>
-                                        Participants have the opportunity to earn tangible rewards for their time and effort. Whether it's gift cards, discounts, or exclusive offers, we ensure that survey completion is worth their while.
-                                    </Text>
-                                </Stack>
-                            </GridItem>
-                            <GridItem colSpan={1}>
-                                <Image src={coin}></Image>
-                            </GridItem>
-                        </Grid>
-                    </GridItem>
-                    <GridItem colSpan={2} bg='#C5DAAF' sx={gridStyles}>
-                        <Grid direction={'rowreverse'}
-                            display={'grid'}
-                            padding={'20px'}
-                            alignItems={'center'}
-                            justifyContent={'center'}
-                            templateRows='repeat(1, 1fr)'
-                            templateColumns='repeat(3, 1fr)'
-                            gap={4}
-                        >
-                            <GridItem colSpan={2} >
-                                <Stack gap={'10px'} direction={'column'}>
-                                    <Heading as={'h3'} size={'lg'}>Rewards</Heading>
-                                    <Text>
-                                        Participants have the opportunity to earn tangible rewards for their time and effort. Whether it's gift cards, discounts, or exclusive offers, we ensure that survey completion is worth their while.
-                                    </Text>
-                                </Stack>
-                            </GridItem>
-                            <GridItem colSpan={1}>
-                                <Image src={coin}></Image>
-                            </GridItem>
-                        </Grid>
+                } height={'40%'} alt="rewards" position={isLargerThanLG ? 'absolute' : 'relative'}
+                    left={isLargerThanLG ? '-40%' : '0%'} top={isLargerThanLG ? '60%' : '0%'} zIndex="1" />
 
-                    </GridItem>
-                    {/* <GridItem colSpan={5} bg='tomato' /> */}
-                </Grid>
+                <VStack mt={'5%'} ml={isLargerThanLG ? '35%' : '0%'} alignItems={isLargerThanLG ? 'center' : 'center'} justifyContent={isLargerThanLG ? 'flex-start' : 'center'} spacing={isLargerThanLG ? '10px' : '20px'}>
+                    <Text fontSize={isLargerThanLG ? "50px" : "25px"} fontWeight="bold" color={'brand.textDarkPurple'}>A Wide Range of Coupons</Text>
+
+                    <Text w={'80%'} fontSize={isLargerThanLG ? "20px" : "20"} fontWeight="normal" color={'brand.textDarkPurple'}>You can choose from a wide range of coupons from popular brands and stores. <br /><br /> Whether you want to save money on groceries, fashion, entertainment, or travel, OpinionLK has something for you.<br /><br /> Join OpinionLK today and start earning points for your opinions. It’s easy, fun, and rewarding!</Text>
+                    <Image mt={'80px'} src = {points} height = {'350px'} alt = "rewards" boxShadow={
+                        '0px 0px 10px 0px rgba(0,0,0,0.2)'
+                    } borderRadius={'10px'} />
+                </VStack>
             </Flex>
         </>
     )

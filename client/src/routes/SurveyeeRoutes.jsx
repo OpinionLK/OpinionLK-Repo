@@ -9,7 +9,7 @@ import Upgrade from "../pages/Surveyee/Upgrade"
 import TestSurvey from "../pages/Surveyee/TestSurvey"
 import Survey from "../pages/Surveyee/Survey"
 import SurveyComplete from '../pages/Surveyee/SurveyComplete'
-import SurveyHistory from '../pages/Surveyee/SurveyHistory'
+import History from '../pages/Surveyee/History'
 import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import { motion } from 'framer-motion'
 import { RiSurveyFill, RiDashboardFill, RiFolderUserFill, RiTicketFill, RiHistoryFill} from 'react-icons/ri';
@@ -26,7 +26,7 @@ const Links = [
     { route: '/portal/profile', linkName: 'Profile', icon: RiFolderUserFill },
     { route: '/portal/MyRewards', linkName: 'Rewards', icon: RiTicketFill },
     // { route: '/portal/Upgrade', linkName: 'Upgrade', icon: GiUpgrade },
-    { route: '/portal/surveyHistory', linkName: 'Survey History', icon: RiHistoryFill }];
+    { route: '/portal/History', linkName: 'History', icon: RiHistoryFill }];
 
 //   const { user } = useAuthContext()
 const SurveyeeRoutes = [
@@ -92,8 +92,8 @@ const SurveyeeRoutes = [
                 element: <SurveyComplete/>,
             },
             {
-                path: '/portal/surveyHistory',
-                element: <SurveyHistory />,
+                path: '/portal/History',
+                element: <History />,
             },
            
            

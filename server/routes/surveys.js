@@ -1,7 +1,5 @@
 import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
-
-
 import {
     getAllSurveys,
     getSurveysByCreator,

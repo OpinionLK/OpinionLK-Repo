@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack, Button,Box, Center } from "@chakra-ui/react";
+import { HStack, Button,Box} from "@chakra-ui/react";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
