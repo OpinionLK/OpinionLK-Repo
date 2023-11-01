@@ -3,6 +3,12 @@ import { PrivateRoute } from '../components/Auth/PrivateRoute';
 import CommunityManagerDashBoard from '../pages/CommunityManager/CommunityManagerDashboard';
 import CommunityManagerTables from '../pages/CommunityManager/CommunityManagerTables';
 import CommunityManagerActions from '../pages/CommunityManager/CommunityMangerActions';
+import ViewSurveys from '../pages/CommunityManager/ViewSurveys';
+import ViewSurvey from '../pages/CommunityManager/ViewSurvey';
+
+import ApprovedSurvey from '../pages/CommunityManager/ApprovedSurvey';
+import AllSurveyList from '../pages/CommunityManager/AllSurvey';
+
 
 import {
     Navigate
@@ -24,6 +30,9 @@ const Links = [
     {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
     
     { route: '/ComManager/allsurveys', linkName: 'Pending Surveys', icon: RiSurveyFill },
+
+    {route: '/ComManager/approvedsurvey', linkName: 'Approved Surveys', icon: RiSurveyFill},
+    {route: '/ComManager/allsurveylist', linkName: 'All Surveys' ,icon: RiSurveyFill},
 
 ];
 
@@ -69,16 +78,24 @@ const ComManagerRoutes = [
                 path: '/ComManager/Actions',
                 element: <CommunityManagerActions/>,
             },
-
-
-
+            
             {
-                //path: '/ComManager/allsurveys',
-                //element: <ViewSurveys />,
+                path: '/ComManager/approvedSurvey',
+                element: <ApprovedSurvey/>,
             },
             {
-               // path: '/ComManager/viewsurvey/:surveyid',
-                //element: <ViewSurvey />,
+                path: '/ComManager/allSurveylist',
+                element: <AllSurveyList/>,
+            },
+
+
+            {
+                path: '/ComManager/allsurveys',
+                element: <ViewSurveys />,
+            },
+            {
+               path: '/ComManager/viewsurvey/:surveyid',
+                element: <ViewSurvey />,
             },
 
 
