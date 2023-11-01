@@ -37,7 +37,7 @@ const StatCard = ({statName, stat}) => {
  
             <CardBody>
                 <Text fontSize={'xs'} color={'#A3AED0'}>
-                    {statName} 
+                    Total No of users
                 </Text>
                 <Heading size='md' color={'#2B3674'}>{stat}</Heading>
             </CardBody>

@@ -1074,3 +1074,6 @@ export const getQuestionCount = async (req, res) => {
     console.log(questionCount[0].questionCount);
     res.status(200).json(questionCount[0].questionCount);
 }
+
+
+  

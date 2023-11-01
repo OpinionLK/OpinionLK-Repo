@@ -3,12 +3,12 @@ import { Heading, Card, CardHeader, CardBody, VStack, Flex } from '@chakra-ui/re
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
 
-const UserManagementGraph = () => {
+const ClientManagementGraph = () => {
     const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
         // Make an HTTP POST request to fetch user signups data from the API
-        axios.get('http://localhost:3002/api/auth/usersignups', {})
+        axios.get('http://localhost:3002/api/auth/clientsignups', {})
             .then(response => {
                 setChartData(response.data);
             })
@@ -20,7 +20,7 @@ const UserManagementGraph = () => {
     return (
         <Card borderRadius={'20px'} width={'100%'}>
             <CardHeader>
-                <Heading size={'md'}>User Management</Heading>
+                <Heading size={'md'}>Client Management</Heading>
             </CardHeader>
             <hr />
             <CardBody>
@@ -32,7 +32,7 @@ const UserManagementGraph = () => {
                                 options={{
                                     title: {
                                         display: true,
-                                        text: 'User Signups in the Last 30 Days',
+                                        text: 'Clients Signups in the Last 30 Days',
                                         fontSize: 20
                                     },
                                     legend: {
@@ -50,4 +50,4 @@ const UserManagementGraph = () => {
     );
 }
 
-export default UserManagementGraph;
+export default ClientManagementGraph;
