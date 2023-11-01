@@ -4,16 +4,16 @@ import clientRoutes from './routes/client.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import paymentRoutes from './routes/payments.js';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
 import morgan from 'morgan';
 import ImageKit from "imagekit";
+
 import PlatformData from './models/PlatformData.js';
+
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger-output.json' assert { type: "json" };
-
 
 var options = {
   explorer: true
@@ -40,9 +40,10 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200,
   credentials: true
-}
+};
+
 // MIDDLEWARE
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -50,74 +51,49 @@ app.use(morgan('dev'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
-// ROUTES
-app.use('/api/auth', authRoutes);
-app.use('/api/client', clientRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/survey', surveyRoutes);
-app.use('/api/payment', paymentRoutes);
-app.use('/api/admin', adminRoutes);
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  // The database connection is established, proceed with operations.
+  // ROUTES
+  app.use('/api/auth', authRoutes);
+  app.use('/api/client', clientRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/survey', surveyRoutes);
+  app.use('/api/admin', adminRoutes);
+  app.use('/api/survey/images', express.static('./uploads/surveyheader'));
 
-app.use('/api/survey/images', express.static('./uploads/surveyheader'));
+  console.log('MongoDB Connected');
 
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-    console.log('MongoDB Connected');
-  })
-  .catch((error) => console.error('Error connecting to MongoDB: ', error.message));
+  // Initialize platform data
+  PlatformData.find({})
+    .then((pd) => {
+      if (pd.length === 0) {
+        console.log('Creating platform data');
+        const platformData = new PlatformData({
+          surveyBaseCost: 1000,
+          surveyCostPerResponse: 10,
+          perDayCost: 7,
+          maxDuration: 14,
+          perQuestionCost: 20,
+        });
+        return platformData.save();
+      } else {
+        console.log('Platform data already exists');
+        return Promise.resolve(); // Resolve promise to continue
+      }
+    })
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+    })
+    .catch((error) => console.error('An error occurred:', error.message));
+})
+.catch((error) => console.error('Error connecting to MongoDB: ', error.message));
 
 //image uploads
-// check if platform data exists
-let pd = await PlatformData.find({});
-
-if (pd.length === 0) {
-  console.log('creating platform data');
-  try {
-    const platformData = new PlatformData({
-      surveyPlans: [
-       
-        {
-          name: 'Starter',
-          price: 1500,
-          duration: 7,
-          maxResponses: 100,
-          description: 'Affordable for individuals and small businesses',
-          active: true
-        },
-        {
-          name: 'Premium',
-          price: 2000,
-          duration: 14,
-          maxResponses: 200,
-          description: 'Reasonably priced for small to medium-sized businesses',
-          active: true
-        },
-        {
-          name: 'Enterprise',
-          price: 2600,
-          duration: 30,
-          maxResponses: 500,
-          description: 'Suitable for larger businesses and organizations',
-          active: true
-        }
-      ],
-      pointsPerQuestion: 20,
-
-    });
-    await platformData.save();
-  } catch (error) {
-    console.log(error.message);
-  }
-} else {
-  console.log('platform data exists');
-}
-
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
