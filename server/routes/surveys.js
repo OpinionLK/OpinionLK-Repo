@@ -22,7 +22,7 @@ import {
     editQuestion,
     deleteQuestion,
     getApprovedSurveys,
-    getCountWithApprovalStatus,
+    // getCountWithApprovalStatus,
     getCountWithStatus,
 
 
