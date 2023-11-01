@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import {
     FormErrorMessage,
@@ -14,13 +14,13 @@ import {
     Tag, Skeleton
 } from '@chakra-ui/react'
 import Status from '../../components/Status.jsx';
-import {useAuthContext} from '../../hooks/useAuthContext.js';
-import {useParams} from 'react-router-dom';
+import { useAuthContext } from '../../hooks/useAuthContext.js';
+import { useParams } from 'react-router-dom';
 import {
     Card, CardHeader, Heading, Text, Flex, Button, Tabs, TabList, TabPanels, Tab, TabPanel, Radio, VStack, HStack
 } from '@chakra-ui/react';
 
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
     Progress,
     Modal,
@@ -35,24 +35,24 @@ import {
     RadioGroup,
     Checkbox
 } from '@chakra-ui/react'
-import {useDisclosure} from '@chakra-ui/react'
-import {useNavigate} from 'react-router-dom';
+import { useDisclosure } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
 import {
     StarIcon
 } from '@chakra-ui/icons'
 
 const ViewSurvey = () => {
-// eslint-disable-next-line
+    // eslint-disable-next-line
     const history = useNavigate();
 
     const {
         // eslint-disable-next-line
         user, dispatch, userData
     } = useAuthContext();
-    const {surveyid} = useParams();
+    const { surveyid } = useParams();
     const [ImgName, setImgName] = useState('default_bg')
     const [survey, setSurvey] = useState();
-// eslint-disable-next-line
+    // eslint-disable-next-line
     const handleContentUpdate = (newContent) => {
         setSurvey(newContent);
         console.log(newContent);
@@ -62,7 +62,7 @@ const ViewSurvey = () => {
     async function handleSubmit() {
         try {
             const response = await axios.get('http://localhost:3002/api/survey/getsurveytoreview/' + surveyid, {
-                headers: {'Authorization': `Bearer ${user.token}`},
+                headers: { 'Authorization': `Bearer ${user.token}` },
             });
 
             setSurvey(response.data);
@@ -96,12 +96,12 @@ const ViewSurvey = () => {
                 backgroundPosition={'center'}
             >
                 <Card height={'s'}
-                      p={'25px 20px'}
+                    p={'25px 20px'}
                     // backgroundColor="grey"
-                      backgroundColor="rgba(0, 0, 0, 0.2)"
-                      backdropFilter={'blur(5px)'}
-                      color={'white'}
-                      boxShadow={'none'}
+                    backgroundColor="rgba(0, 0, 0, 0.2)"
+                    backdropFilter={'blur(5px)'}
+                    color={'white'}
+                    boxShadow={'none'}
                 >
                     <CardHeader>
                         <Flex justifyContent='space-between' alignItems={'center'} w='100%' flexDirection={'row'}>
@@ -111,11 +111,11 @@ const ViewSurvey = () => {
                                         <Skeleton height={'50px'} width={'400px'} />
 
                                     )}
-                                        <Status status={survey?.surveyStatus}/>
+                                        <Status status={survey?.surveyStatus} />
                                     </Text>
                                 </Heading>
                                 <Text>
-                                    <Text fontSize={'sm'} fontStyle={'italic'}>Survey ID : {survey ? survey?.surveyID : <Skeleton height={'20px'} width={'200px'} /> }</Text>
+                                    <Text fontSize={'sm'} fontStyle={'italic'}>Survey ID : {survey ? survey?.surveyID : <Skeleton height={'20px'} width={'200px'} />}</Text>
                                 </Text>
                             </Flex>
                         </Flex>
@@ -141,7 +141,7 @@ const ViewSurvey = () => {
                     <TabPanel display={'flex'} flexDirection={'column'} height={'100%'} gap={'50px'}>
                         <Flex flexDirection={'row'} width={'100%'} gap={'20px'}>
                             <Flex flexDirection={'column'} padding={'40px'} height={'300px'} borderRadius={'20px'}
-                                  width={'50%'}>
+                                width={'50%'}>
                                 <VStack gap={'40px'} alignItems={'flex-start'}>
                                     <Flex flexDirection={'column'} gap={'10px'}>
                                         <Heading size={'md'}>Description</Heading>
@@ -150,28 +150,21 @@ const ViewSurvey = () => {
 
                                     {survey?.surveyStatus === 'active' && (
                                         <Button colorScheme={'orange'}>Suspend</Button>)} <Heading
-                                    size={'md'}>Actions</Heading>
+                                            size={'md'}>Actions</Heading>
                                     {survey?.surveyStatus === 'pending' && (<ReturnFocus question={survey?.questions}
-                                                                                         surveyid={surveyid}/>)}
+                                        surveyid={surveyid} />)}
                                     {survey?.surveyStatus === 'active' && (
                                         <Button colorScheme={'orange'}>Suspend</Button>)}
                                 </VStack>
                             </Flex>
 
                             <Flex flexDirection={'column'} padding={'40px'}
-                                  backgroundColor={'brand.dashboardBackground'} 
-                                  borderRadius={'20px'} width={'50%'} height={'100%'}>
+                                backgroundColor={'brand.dashboardBackground'}
+                                borderRadius={'20px'} width={'50%'} height={'100%'}>
                                 <VStack alignItems={'flex-start'}>
                                     {survey?.surveyStatus === 'active' | survey?.surveyStatus === 'suspended' && (
                                         <Text fontWeight={'semibold'}>Responses : {survey?.responseCount}</Text>)}
-                                    {/*<Text>Requested by: {survey?.creatorName}</Text>*/}
-                                    {/*<Text>Created at : {new Date(survey?.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Text>*/}
 
-                                    {/*<Text>Targeted User Group :</Text>*/}
-                                    {/*<Text>No. of Questions : {survey?.questionCount}</Text>*/}
-                                    {/*<Text>Ending Criteria :</Text>*/}
-                                    {/*<Text>Target Duration :</Text>*/}
-                                    {/*<Text>Target Responses :</Text>*/}
                                     <TableContainer width={'100%'}>
                                         <Table size='md' variant='simple'>
                                             <Tbody>
@@ -181,7 +174,7 @@ const ViewSurvey = () => {
                                                 </Tr>
                                                 <Tr>
                                                     <Td>Created at:</Td>
-                                                    <Td>{new Date(survey?.created_date).toLocaleString('en-US', {timeZone: 'Asia/Kolkata'})}</Td>
+                                                    <Td>{new Date(survey?.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Td>
                                                 </Tr>
 
                                                 <Tr>
@@ -247,8 +240,8 @@ const ViewSurvey = () => {
     </>)
 }
 
-function ReturnFocus({surveyid, question}) {
-    const {isOpen, onOpen, onClose} = useDisclosure()
+function ReturnFocus({ surveyid, question }) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const finalRef = React.useRef(null)
     // get token from context
     const {
@@ -312,14 +305,14 @@ function ReturnFocus({surveyid, question}) {
     const [questionFeedback, setQuestionFeedback] = useState('');
     const [proceed, setProceed] = useState(false);
     // eslint-disable-next-line
-    const MoodPreview = ({items}) => {
+    const MoodPreview = ({ items }) => {
 
         return (<Flex gap={"10px"} wrap={"wrap"}>
             {items.map((item, index) => (<Flex key={index} flexDirection={"column"} gap={"10px"}
             >
                 <Flex gap={"0px"} height={"100px"} width={"100px"} backgroundColor={"white"}
-                      justifyContent={"center"} alignItems={"center"} boxShadow={"lg"} border={"1px"}
-                      borderColor={"gray"} borderRadius={"lg"} flexDirection={"column"}>
+                    justifyContent={"center"} alignItems={"center"} boxShadow={"lg"} border={"1px"}
+                    borderColor={"gray"} borderRadius={"lg"} flexDirection={"column"}>
                     <Flex fontSize="60px" lineHeight={"65px"}>
                         <em-emoji id={items[index].emoji} set="apple" size=""></em-emoji>
                     </Flex>
@@ -331,7 +324,7 @@ function ReturnFocus({surveyid, question}) {
         </Flex>)
     }
     const {
-        handleSubmit, register, setValue, formState: {errors, isSubmitting},
+        handleSubmit, register, setValue, formState: { errors, isSubmitting },
     } = useForm()
 
     const toast = useToast()
@@ -347,7 +340,7 @@ function ReturnFocus({surveyid, question}) {
             const response = await axios.put('http://localhost:3002/api/survey/insertcomment/' + surveyid, {
                 comment: message
             }, {
-                headers: {'Authorization': `Bearer ${user.token}`},
+                headers: { 'Authorization': `Bearer ${user.token}` },
             });
 
             if (response.status === 200) {
@@ -394,7 +387,7 @@ function ReturnFocus({surveyid, question}) {
             const response = await axios.put('http://localhost:3002/api/survey/changestatus/' + surveyid, {
                 state: 'approved'
             }, {
-                headers: {'Authorization': `Bearer ${user.token}`},
+                headers: { 'Authorization': `Bearer ${user.token}` },
             });
         } catch (error) {
             console.log(error)
@@ -408,19 +401,19 @@ function ReturnFocus({surveyid, question}) {
             Review
         </Button>
         <Modal variant={"reviewModal"} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay/>
+            <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Review Survey</ModalHeader>
-                <ModalCloseButton/>
+                <ModalCloseButton />
                 {!proceed ? (<ModalBody display={'flex'} justifyContent={"space-between"} alignItems={'center'}
-                                        width={'100%'} height={'100%'} flexDirection={'column'}>
+                    width={'100%'} height={'100%'} flexDirection={'column'}>
 
                     <Text> Please review all questions before sending feedback </Text>
 
                     <Flex padding={'10px'} justifyContent={'flex-start'} flex={1} height={'80%'} width={'100%'}
-                          flexDir={'column'}>
+                        flexDir={'column'}>
                         <Progress width={'100%'} colorScheme='green' size='sm'
-                                  value={(currentQuestionIndex + 1 / question?.length) * 100}/>
+                            value={(currentQuestionIndex + 1 / question?.length) * 100} />
                         {question?.length > 0 && (
                             <VStack gap={'10px'} alignItems={'flex-start'} mt={'10px'} mb={'10px'}>
                                 <Heading size={'sm'}>Question</Heading>
@@ -429,7 +422,7 @@ function ReturnFocus({surveyid, question}) {
                                 <Text>{question[currentQuestionIndex].responseType}</Text>
                                 <Heading size={'sm'}>Response Option(s)</Heading>
                                 {question[currentQuestionIndex].responseType === "shorttext" &&
-                                    <Input disabled placeholder={'fe'} width={"100%"}/>}
+                                    <Input disabled placeholder={'fe'} width={"100%"} />}
 
                                 {(question[currentQuestionIndex].responseType === "singlechoice" || question[currentQuestionIndex].responseType === "multiplechoice") && (
                                     <Flex flexDirection={"column"}>
@@ -462,37 +455,37 @@ function ReturnFocus({surveyid, question}) {
 
                                     }
                                     setShowField(!showField);
-                                }} disabled={currentQuestionIndex === question?.length - 1} icon={<StarIcon/>}
-                                        colorScheme={flaggedQuestions.includes(currentQuestionIndex) ? 'red' : 'gray'}
+                                }} disabled={currentQuestionIndex === question?.length - 1} icon={<StarIcon />}
+                                    colorScheme={flaggedQuestions.includes(currentQuestionIndex) ? 'red' : 'gray'}
                                 >Flag Question</Button>
                                 {showField && (<Flex>
 
-                                        <form
-                                            onSubmit={handleSubmit(onSubmit)}
-                                            // width 100
-                                            width={'100%'}
-                                        >
-                                            <FormControl isInvalid={errors.feedback}>
-                                                <FormLabel htmlFor='name'>Feedback</FormLabel>
-                                                <Textarea
-                                                    id='feedback'
-                                                    placeholder='Enter feedback'
-                                                    {...register('feedback', {
-                                                        required: 'This is required', minLength: {
-                                                            value: 4, message: 'Minimum length should be 4'
-                                                        },
-                                                    })}
-                                                />
-                                                <FormErrorMessage>
-                                                    {errors.name && errors.name.message}
-                                                </FormErrorMessage>
-                                            </FormControl>
-                                            <Button mt={4} colorScheme='teal' isLoading={isSubmitting}
-                                                    type='submit'>
-                                                Save
-                                            </Button>
-                                        </form>
-                                    </Flex>
+                                    <form
+                                        onSubmit={handleSubmit(onSubmit)}
+                                        // width 100
+                                        width={'100%'}
+                                    >
+                                        <FormControl isInvalid={errors.feedback}>
+                                            <FormLabel htmlFor='name'>Feedback</FormLabel>
+                                            <Textarea
+                                                id='feedback'
+                                                placeholder='Enter feedback'
+                                                {...register('feedback', {
+                                                    required: 'This is required', minLength: {
+                                                        value: 4, message: 'Minimum length should be 4'
+                                                    },
+                                                })}
+                                            />
+                                            <FormErrorMessage>
+                                                {errors.name && errors.name.message}
+                                            </FormErrorMessage>
+                                        </FormControl>
+                                        <Button mt={4} colorScheme='teal' isLoading={isSubmitting}
+                                            type='submit'>
+                                            Save
+                                        </Button>
+                                    </form>
+                                </Flex>
 
                                 )}
                             </VStack>)}
@@ -501,7 +494,7 @@ function ReturnFocus({surveyid, question}) {
 
                     <HStack gap="10px">
                         <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}
-                                color={currentQuestionIndex === 0 ? 'gray' : 'black'}
+                            color={currentQuestionIndex === 0 ? 'gray' : 'black'}
                         >
                             Previous
                         </Button>
@@ -511,7 +504,7 @@ function ReturnFocus({surveyid, question}) {
                                  */}
 
                         <Button onClick={handleNextQuestion} disabled={currentQuestionIndex === 0}
-                                color={currentQuestionIndex === question?.length - 1 ? 'gray' : 'black'}
+                            color={currentQuestionIndex === question?.length - 1 ? 'gray' : 'black'}
                         >
                             Next
                         </Button>
@@ -519,7 +512,7 @@ function ReturnFocus({surveyid, question}) {
                         {currentQuestionIndex === question?.length - 1 && (<Button onClick={() => {
                             setProceed(true);
                         }}
-                                                                                   colorScheme='blue'>
+                            colorScheme='blue'>
                             Proceed
                         </Button>)}
 
@@ -529,7 +522,7 @@ function ReturnFocus({surveyid, question}) {
                 </ModalBody>) : (showField && flaggedQuestions.length > 0) ? (
 
                     <ModalBody display={'flex'} alignItems={'center'} width={'100%'} height={'100%'}
-                               flexDirection={'column'}>
+                        flexDirection={'column'}>
                         <Link onClick={() => setProceed(false)}>Back to survey</Link>
                         <Flex width={'100%'} flexDirection={'column'}>
 
@@ -560,7 +553,7 @@ function ReturnFocus({surveyid, question}) {
                                         </FormErrorMessage>
                                     </FormControl>
                                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting}
-                                            type='submit'>
+                                        type='submit'>
                                         Save
                                     </Button>
                                 </form>
@@ -570,26 +563,26 @@ function ReturnFocus({surveyid, question}) {
                         </Flex>
 
                     </ModalBody>) : (<ModalBody display={'flex'} alignItems={'center'} width={'100%'} height={'100%'}
-                                                flexDirection={'column'}>
-                    <Link onClick={() => setProceed(false)}>Back to survey</Link>
-                    <Flex width={'100%'} flexDirection={'column'}>
+                        flexDirection={'column'}>
+                        <Link onClick={() => setProceed(false)}>Back to survey</Link>
+                        <Flex width={'100%'} flexDirection={'column'}>
 
-                        <Text>You have not flagged any questions, do you wish to approve this survey for
-                            payment and publish this on the OpinionLK?</Text>
-                        <HStack gap={'5px'}>
-                            <Button onClick={() => {
-                                setProceed(false);
-                                onClose();
-                            }}>No</Button>
-                            <Button onClick={() => {
-                                approve();
-                                onClose();
-                            }} colorScheme={'green'}>Yes</Button>
-                        </HStack>
+                            <Text>You have not flagged any questions, do you wish to approve this survey for
+                                payment and publish this on the OpinionLK?</Text>
+                            <HStack gap={'5px'}>
+                                <Button onClick={() => {
+                                    setProceed(false);
+                                    onClose();
+                                }}>No</Button>
+                                <Button onClick={() => {
+                                    approve();
+                                    onClose();
+                                }} colorScheme={'green'}>Yes</Button>
+                            </HStack>
 
-                    </Flex>
+                        </Flex>
 
-                </ModalBody>)
+                    </ModalBody>)
 
                 }
 

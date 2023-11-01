@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, {useEffect} from 'react';
+import {useState} from "react";
+import ReactDOM from 'react-dom';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 
-function CheckoutForm() {
-  const [clientSecret, setClientSecret] = useState('');
-  const stripe = useStripe();
-  const elements = useElements();
+import CheckoutForm from './CheckoutForm';
+import axios from "axios";
+import { useAuthContext } from '../../hooks/useAuthContext'
 
-  useEffect(() => {
-    // Fetch the client secret from the backend
-    fetch('http://localhost:3001/create-setup-intent', {
-      method: 'POST',
-    })
-      .then(res => res.json())
-      .then(data => setClientSecret(data.clientSecret));
-  }, []);
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe('pk_test_51MgsSNG4way0COrggs2JoOQ7uN8uLBXXNcpgMEJfgYluv6QuQxC4PmBe05wL2o0nca0CDBVbey8N0bbx7WZ89zRQ00jEfZW0Ie');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
+function App() {
+    const [clientSecret, setClientSecret] = useState('');
+    const {
+        user,
+        userData,
+        dispatch,
+    } = useAuthContext()
+    const getOptions = async () => {
+        const response = await axios.post('http://localhost:3002/api/payment/do-payment', {}, {
+            headers: {'Authorization': `Bearer ${user.token}`},
+        }).then((response) => {
+            console.log(response.data)
+            setClientSecret(response.data.clientSecret)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
+    useEffect(() => {
+        getOptions();
+    }, []);
+    const options = {
+        // passing the client secret obtained in step 3
 
-    const cardElement = elements.getElement(CardElement);
+        clientSecret: "pi_3O7a9rG4way0COrg1HIklbFS_secret_qJ1121f8a28P5AdVpdLUAUzjz",
+        // Fully customizable with appearance API.
+        appearance: {/*...*/},
+    };
 
-    const { error } = await stripe.confirmCardSetup(clientSecret, {
-      payment_method: {
-        card: cardElement,
-      },
-    });
+    return (
+        <Elements stripe={stripePromise} options={options}>
+            <CheckoutForm/>
+        </Elements>
+    );
+};
 
-    if (error) {
-      console.log('[error]', error);
-    } else {
-      // console.log('[PaymentMethod]', paymentMethod);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Save Card
-      </button>
-    </form>
-  );
-}
-
-export default CheckoutForm;
+export default App;

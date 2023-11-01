@@ -92,6 +92,11 @@ const ClientsSchema = new mongoose.Schema(
         required: false,
         trim: true,
     },
+    stripeCustomerId: {
+        type: String,
+        required: false,
+        trim: true,
+    },
   },
   {
     timestamps: true,

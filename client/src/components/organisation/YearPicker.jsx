@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { FormLabel, HStack, Select } from '@chakra-ui/react';
 
-const AgeRangePicker = ({ disabled }) => {
+const AgeRangePicker = ({ disabled, setFromYear, setToYear, fromYear, toYear
+}) => {
   const currentYear = new Date().getFullYear();
   const minBirthYear = currentYear - 100; // Adjust the minimum age as needed
   const maxBirthYear = currentYear - 18;
-  const [fromYear, setFromYear] = useState(maxBirthYear);
-  const [toYear, setToYear] = useState(maxBirthYear);
+  setFromYear(minBirthYear);
+  setToYear(maxBirthYear);
 
   const years = Array.from(
     { length: maxBirthYear - minBirthYear + 1 },
