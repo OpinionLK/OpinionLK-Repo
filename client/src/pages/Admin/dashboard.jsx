@@ -5,8 +5,9 @@ import {
 import React from 'react'
 import StatRow from '../../components/Stats/StatRow'
 import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
+import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
+import ClientManagementGraph from '../../components/Stats/Admin/ClientManagementGraph';
 const Admindashboard = () => {
-
     return (
         <>
             <Box mt={-5}>
@@ -14,11 +15,11 @@ const Admindashboard = () => {
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
                 <UserManagementGraph />
-                {/* <SurveyFillingGraph /> */}
+                <ClientManagementGraph />
             </Grid>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mt={5}>
-                {/* <SurveyManagementGraph /> */}
+                <SurveyManagementGraph />
             </Grid>
             </Box>
         </>
