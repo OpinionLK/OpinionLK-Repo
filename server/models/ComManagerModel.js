@@ -42,8 +42,6 @@ const ComManagerSchema = new mongoose.Schema(
         // ManagerEmail: {
         //     type: String,
         //     required: true,
-
-
         // },
         ManagerPhone: {
             type: Number,
