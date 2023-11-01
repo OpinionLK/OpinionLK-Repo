@@ -68,7 +68,7 @@ export default function Survey() {
         {
           surveyid,
           response,
-          userTags: survey.userTags,
+          userTags: survey.userTags[0],
           preQResponse: preQResponse,
         },
       );
