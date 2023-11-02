@@ -15,7 +15,6 @@ import {
 import SurveyCard from './SurveyCard';
 
 const SurveyRow = ({surveys}) => {
-    // console.log(surveys)
     return (
         <Card
             overflow='hidden'
@@ -28,7 +27,7 @@ const SurveyRow = ({surveys}) => {
         >   
             <Flex p='5' pb='4'>
                 <CardHeader fontSize={20} fontWeight={'semibold'} color='#2B3674'>
-                    Recommended surveys
+                    My Surveys
                 </CardHeader>
                 <Spacer />
                 {/* <Button variant='outline' colorScheme='purple'>search</Button> */}
@@ -50,7 +49,7 @@ const SurveyRow = ({surveys}) => {
                     {surveys ? surveys.map((survey) => {
                     return (
                         <SurveyCard
-                        type = 'surveyee'
+                        type = 'client'
                         surveyName={survey.surveyName}
                         surveyDescription={survey.surveyDescription}
                         surveyImage={survey.surveyImage}
@@ -58,7 +57,13 @@ const SurveyRow = ({surveys}) => {
                         surveyTags={survey.userTags[0]}
                         surveyPoints={survey.points}
                         noOfQs={survey.questions.length}
+                        noOfRs={survey.responses.length}
+                        cost={survey.cost}
+                        duration={survey.duration}
+                        startDate={survey.start_date}
                         endDate={survey.expiration_date}
+                        responseLimit={survey.responseLimit}
+                        status={survey.approvalStatus}
                         />
                     )
                     }

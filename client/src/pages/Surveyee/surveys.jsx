@@ -68,8 +68,10 @@ const Survey = () => {
               surveyDescription={survey.surveyDescription}
               surveyImage={survey.surveyImage}
               surveyID={survey.surveyID}
-              surveyTags={survey.surveyTags}
+              surveyTags={survey.userTags[0]}
               surveyPoints={survey.points}
+              noOfQs={survey.questions.length}
+              endDate={survey.expiration_date}
             />
             </>
           )
