@@ -23,10 +23,7 @@ import {
     editQuestion,
     deleteQuestion,
     getApprovedSurveys,
-<<<<<<< HEAD
-=======
     // getCountWithApprovalStatus,
->>>>>>> 06bb58fd3d221549b71540a2285d3ceffe3fa101
     getCountWithStatus,
 } from '../controllers/SurveysC.js';
 import multer from 'multer';

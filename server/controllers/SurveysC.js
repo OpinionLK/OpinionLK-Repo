@@ -72,7 +72,7 @@ export const getMySurveys = async (req, res) => {
             const similarityScore = calculateSimilarity(survey.userTags[0], userDetails);
             console.log(similarityScore);
             // Check if the similarity score is greater than 0.5
-            if (similarityScore > 0.4) {
+            if (similarityScore >=0) {
                 matchingSurveys.push(survey);
             }
         });
