@@ -92,7 +92,7 @@ export const SignUp = async (req, res) => {
       { email: result.email, id: result._id },
       'test',
       {
-        expiresIn: '1h'
+        expiresIn: '7d'
       }
     );
     sendMail(transporter,mailOptions);
@@ -192,7 +192,7 @@ export const SignUp2 = async (req, res) => {
       { email: result.email, id: result._id },
       'test',
       {
-        expiresIn: '1h'
+        expiresIn: '7d'
       }
     );
     sendMail(transporter,mailOptions);
@@ -234,7 +234,7 @@ export const Login = async (req, res) => {
         { email: client.email, id: client._id },
         'test',
         {
-          expiresIn: '1h'
+          expiresIn: '7d'
         }
       );
       res.status(200).json({ email, token, type: 'client' });
@@ -251,7 +251,7 @@ export const Login = async (req, res) => {
         { email: manager.email, id: manager._id },
         'test',
         {
-          expiresIn: '1h'
+          expiresIn: '7d'
         }
       );
       res.status(200).json({ email, token, type: 'manager' });
@@ -270,7 +270,7 @@ export const Login = async (req, res) => {
         { email: admin.email, id: admin._id },
         'test',
         {
-          expiresIn: '1h'
+          expiresIn: '7d'
         }
       );
       res.status(200).json({ email, token, type: 'admin' });
@@ -287,7 +287,7 @@ export const Login = async (req, res) => {
         { email: user.email, id: user._id, firstName: user.firstName, lastName: user.lastName },
         'test',
         {
-          expiresIn: '1h'
+          expiresIn: '7d'
         }
       );
       res.status(200).json({ email, token, type: 'user' });

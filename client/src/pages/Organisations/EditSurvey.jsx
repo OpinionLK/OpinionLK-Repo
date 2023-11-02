@@ -6,8 +6,21 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { Link, useParams } from 'react-router-dom';
 import InterestTags from '../../components/organisation/InterestTags.jsx';
 import CardView from './CardView.jsx';
+import { Pie } from 'react-chartjs-2';
+
 import {
     Card,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    useMediaQuery,
+    Td,
+    TableCaption,
+
+    TableContainer,
+    Tag,
     CardBody,
     CardHeader,
     Heading,
@@ -79,9 +92,10 @@ function InitialFocus({ surveyid }) {
 
     })
     const group = getRootProps()
-         // eslint-disable-next-line
+    // eslint-disable-next-line
     const [date, setDate] = useState(new Date());
     const [gender, setGender] = useState('');
+    const [city, setCity] = useState('');
 
     const toast = useToast()
     const {
@@ -100,7 +114,7 @@ function InitialFocus({ surveyid }) {
                 planID: planID,
 
                 userTags: {
-                    gender: gender, age1: fromYear, age2: toYear, interests: areas
+                    gender: gender, city: city, age1: fromYear, age2: toYear, interests: areas
                 }
             }, {
                 headers: { 'Authorization': `Bearer ${user.token}` },
@@ -181,7 +195,7 @@ function InitialFocus({ surveyid }) {
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-// eslint-disable-next-line
+    // eslint-disable-next-line
     const [duration, setDuration] = useState('7');
     // eslint-disable-next-line
     const [targetResponses, SetTargetResponses] = useState('300');
@@ -189,6 +203,9 @@ function InitialFocus({ surveyid }) {
     const labelStyles = {
         mt: '2', ml: '-2.5', fontSize: 'sm',
     }
+
+    const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
+
     // eslint-disable-next-line
     const [total, setTotal] = useState(0);
     // eslint-disable-next-line
@@ -198,7 +215,7 @@ function InitialFocus({ surveyid }) {
         // setTotal(baseCost + (costPerResponse * targetResponses) + (perQuestionCost * questionCount));
 
     }
-// eslint-disable-next-line
+    // eslint-disable-next-line
     const [endCriteria, setEndCriteria] = useState('duration');
     useEffect(() => {
         getSurveyConstraints();
@@ -241,8 +258,8 @@ function InitialFocus({ surveyid }) {
                                     setGender(e.target.value)
                                 }} value={gender}
                                 >
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                                     <option value="">Everyone</option>
                                 </Select>
 
@@ -258,7 +275,25 @@ function InitialFocus({ surveyid }) {
                                 <YearPicker setFromYear={setFromYear} setToYear={setToYear}
                                 />
 
-                              
+
+
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Choose a target city <Tooltip placement='auto-start'
+                                    label="A target audience is the catergory of people you wish to present this survey to."
+                                    aria-label='A tooltip'><Icon as={QuestionOutlineIcon} />
+                                </Tooltip>
+                                </FormLabel>
+                                <Select onChange={(e) => {
+                                    setCity(e.target.value)
+                                }} value={city}
+                                >
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Kandy">Kandy</option>
+                                    <option value="Galle">Galle</option>
+                                    <option value="Mannar">Mannar</option>
+                                    <option value="other">Other</option>
+                                </Select>
 
                             </FormControl>
                             <Flex>
@@ -477,6 +512,7 @@ const EditSurvey = () => {
         })
 
     };
+    const [isLargerThanLG] = useMediaQuery('(min-width: 62em)');
 
 
     async function handleSubmit() {
@@ -507,6 +543,11 @@ const EditSurvey = () => {
     const loadImage = (imageName) => {
         setImgName(imageName)
     }
+    const [chartData, setChartData] = useState([
+
+    ]
+    );
+
 
     return (
 
@@ -540,6 +581,13 @@ const EditSurvey = () => {
                                     {survey?.surveyDescription ? survey?.surveyDescription : (
                                         <Skeleton height={'20px'} width={'200px'} />)}
                                 </Text>
+                                {survey?.approvalStatus === 'active' ? (
+                                    <Tag width={'fit-content'}>
+                                        Survey Expires on {survey?.expiration_date ? new Date(survey?.expiration_date).toDateString()
+                                            : (
+                                                <Skeleton height={'20px'} width={'200px'} />)}
+
+                                    </Tag>) : null}
                             </Flex>
                             <Flex gap='10px'>
 
@@ -557,12 +605,13 @@ const EditSurvey = () => {
                 <TabList>
                     <Tab>Overview</Tab>
                     {survey?.approvalStatus === 'active' && (<Tab>Responses ({survey?.responses.length})</Tab>)}
+                    {survey?.approvalStatus === 'active' && (<Tab>Analytics</Tab>)}
 
                 </TabList>
                 <TabPanels>
-                    <TabPanel>
+                    <TabPanel gap={'20px'}>
 
-                        <Flex flex={1} height={'100vh'} flexDirection={'row'} gap={'20px'}>
+                        <Flex flex={1} height={'100vh'} flexDirection={isLargerThanLG ? 'row' : 'column'} gap={'20px'}>
                             <Card height={'100%'} background={'none'} boxShadow={'none'} display={'flex'} flex={4}>
                                 <CardHeader justifyContent={'space-between'} display={'flex'} flexDirection={'row'}>
                                     <Heading size={'md'} color={'brand.textDarkPurple'}>Questions</Heading>
@@ -600,95 +649,174 @@ const EditSurvey = () => {
                                     </Flex>
                                 </CardBody>
                             </Card>
-                            <Card flex={1} backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'}
-                                backgroundSize={'cover'}
-                                padding={'30px'} borderRadius={'5px'} justifyContent={'center'}
-                                flexDirection={'column'}
-                                alignItems={'center'}>
-                                <VStack gap={'10px'}>
+                            <VStack>
+
+                                {survey?.approvalStatus !== 'draft' && (
+                                    <Card size={'sm'}>
+                                        <CardHeader>
+                                            <Heading size={'md'} color={'brand.textDarkPurple'}>Survey Details</Heading>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <Flex flexDirection={'column'} gap={'20px'}>
+
+                                                <TableContainer width={'100%'}>
+                                                    <Table size='sm' variant='simple'>
+                                                        <Tbody>
+                                                            <Tr>
+                                                                <Td>Survey Plan:</Td>
+                                                                <Td>{survey?.planID == '41t81v4b' ? 'Free Plan' : survey?.planID == 'zzqh0foy' ? 'Premium Plan' : 'Enterprise'}</Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>Created at:</Td>
+                                                                <Td>{new Date(survey?.created_date).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Td>
+                                                            </Tr>
+
+                                                            <Tr>
+                                                                <Td rowspan={4}>Targeted User Group</Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>Gender: {survey?.userTags[0]?.gender === '' ? 'No Restriction' : survey?.userTags[0]?.gender
+                                                                }</Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>
+                                                                    Birthyear {
+                                                                        survey?.userTags[0]?.age1 === 0 ? 'No Restriction' : (
+                                                                            <>
+                                                                                Range: {survey?.userTags[0]?.age1} - {survey?.userTags[0]?.age2}
+                                                                            </>
+                                                                        )
+                                                                    }
+                                                                </Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>City : {survey?.userTags[0]?.city}</Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>
+                                                                    Interests:
+                                                                </Td>
+                                                                <Td>
+                                                                    <HStack wrap={'wrap'} w={'100%'}>
+                                                                        {survey?.userTags && survey.userTags[0]?.interests && survey.userTags[0].interests.map((interest) => (
+                                                                            <Tag
+                                                                                variant={'solid'}
+                                                                                padding={'8px'}
+                                                                                borderRadius='full'
+                                                                                colorScheme={'purple'}
+                                                                                fontWeight={'bold'}
+                                                                            >
+                                                                                {interest}
+                                                                            </Tag>))}
+
+                                                                    </HStack>
+
+                                                                </Td>
+                                                            </Tr>
+                                                            <Tr>
+                                                                <Td>No. of Questions:</Td>
+                                                                <Td>{survey?.questionCount}</Td>
+                                                            </Tr>
+                                                        </Tbody>
+
+                                                    </Table>
+                                                </TableContainer>
+                                            </Flex>
+
+                                        </CardBody>
+                                    </Card>
+                                )}
+                                <Card backgroundImage={createsurveybg} boxShadow='2xl' height={'30%'}
+                                    backgroundSize={'cover'}
+                                    padding={'30px'} borderRadius={'5px'} justifyContent={'center'}
+                                    flexDirection={'column'}
+                                    alignItems={'center'}>
+                                    <VStack gap={'10px'}>
 
 
-                                    {survey?.approvalStatus === 'draft' && (<>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
-                                            fontWeight={'bold'}>
-                                            Ready to publish your survey?
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request
-                                            for
-                                            approval</Text>
+                                        {survey?.approvalStatus === 'draft' && (<>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                                fontWeight={'bold'}>
+                                                Ready to publish your survey?
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>Request
+                                                for
+                                                approval</Text>
 
-                                        <InitialFocus surveyid={survey?.surveyID}
-                                            questionCount={survey?.questionCount} />
-                                    </>)}
-                                    {survey?.approvalStatus === 'pending' && (<>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
-                                            fontWeight={'bold'}>
-                                            Your survey is pending approval
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will
-                                            get back to you
-                                            shortly</Text>
+                                            <InitialFocus surveyid={survey?.surveyID}
+                                                questionCount={survey?.questionCount} />
+                                        </>)}
+                                        {survey?.approvalStatus === 'pending' && (<>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                                fontWeight={'bold'}>
+                                                Your survey is pending approval
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>We will
+                                                get back to you
+                                                shortly</Text>
 
-                                    </>)}
-                                    {survey?.approvalStatus === 'active' && (<>
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
-                                            fontWeight={'bold'}>
-                                            Your survey is live!
-                                        </Text>
-                                    </>)}
-                                    {survey?.approvalStatus === 'rejected' && (<VStack gap='20px'>
+                                        </>)}
+                                        {survey?.approvalStatus === 'active' && (<>
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                                fontWeight={'bold'}>
+                                                Your survey is live!<br />
+                                                Watch as the responses come in!
+                                            </Text>
+                                        </>)}
+                                        {survey?.approvalStatus === 'rejected' && (<VStack gap='20px'>
 
-                                        <Text textAlign={'center'} fontSize={'18px'} color={'white'}
-                                            fontWeight={'bold'}>
-                                            Your survey failed the review
-                                        </Text>
-                                        {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
+                                            <Text textAlign={'center'} fontSize={'18px'} color={'white'}
+                                                fontWeight={'bold'}>
+                                                Your survey failed the review
+                                            </Text>
+                                            {/* <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}></Text> */}
 
-                                        <Popover placement='left'>
-                                            <PopoverTrigger>
-                                                <Button>View Feedback</Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverCloseButton />
-                                                <PopoverHeader>Feedback</PopoverHeader>
-                                                <PopoverBody>
+                                            <Popover placement='left'>
+                                                <PopoverTrigger>
+                                                    <Button>View Feedback</Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverCloseButton />
+                                                    <PopoverHeader>Feedback</PopoverHeader>
+                                                    <PopoverBody>
 
-                                                    <Textarea value={survey?.comments[0].comment} isReadOnly
-                                                        rows={'10'} />
+                                                        <Textarea value={survey?.comments[0].comment} isReadOnly
+                                                            rows={'10'} />
 
-                                                </PopoverBody>
-                                            </PopoverContent>
-                                        </Popover>
-                                        <Button onClick={() => {
-                                            alert('clicked')
-                                        }}>Request Approval</Button>
-                                    </VStack>)}
-                                    {survey?.approvalStatus === 'approved' && (<>
-                                        <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
-                                            Your survey was approved
-                                        </Text>
-                                        <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can
-                                            now
-                                            proceed to
-                                            payment to make your survey live
-                                        </Text>
-                                        <PaymentModal survey={
-                                            survey
+                                                    </PopoverBody>
+                                                </PopoverContent>
+                                            </Popover>
+                                            <Button onClick={() => {
+                                                alert('clicked')
+                                            }}>Request Approval</Button>
+                                        </VStack>)}
+                                        {survey?.approvalStatus === 'approved' && (<>
+                                            <Text fontSize={'24px'} color={'white'} fontWeight={'bold'}>
+                                                Your survey was approved
+                                            </Text>
+                                            <Text pt={'20px'} pb={'20px'} color={'white'} fontWeight={'normal'}>You can
+                                                now
+                                                proceed to
+                                                payment to make your survey live
+                                            </Text>
+                                            <PaymentModal survey={
+                                                survey
 
-                                        } />
-                                        {/* <Button
+                                            } />
+                                            {/* <Button
                                             
                                         >Pay Now</Button> */}
 
-                                    </>
-                                    )}
+                                        </>
+                                        )}
 
 
-                                </VStack>
+                                    </VStack>
 
 
-                            </Card>
+                                </Card>
+                            </VStack>
 
 
                         </Flex>
@@ -747,9 +875,62 @@ const EditSurvey = () => {
 
                         </Accordion>
                     </TabPanel>
+                    <TabPanel>
+                        <Text>Analytics</Text>
+                        {/* {survey?.questions.map((question, index) => (
+                            question?.responseType === 'multiplechoice' && (
+                                <Card key={index} p={'10px'}>
+                                    <CardHeader>
+                                        <HStack>
+                                            <Text fontWeight={'bold'}>{index + 1}. </Text>
+                                            <Text fontWeight={'bold'}>{question.question}</Text>
+                                            
+                                        </HStack>
+                                    </CardHeader>
+                                    <CardBody>
+                                  
+                                    </CardBody>
+                                </Card>
+                            )
+                        ))} */}
+                        <Flex wrap={'wrap'} flexDirection={'row'} gap='10px'>
+
+                            {chartData.length === 0 ? <Text>No Data Yet</Text> :
+                                chartData.map((chart, index) => (
+                                    <Card p={'50px'} width={'30%'}>
+                                        <CardHeader>
+                                            <Text fontWeight={'bold'}>{index + 1}. </Text>
+                                            <Text fontWeight={'bold'}>{chart.question}</Text>
+                                        </CardHeader>
+                                        <Pie
+
+
+                                            key={index}
+                                            data={{
+
+                                                labels: chart.labels,
+                                                datasets: [{
+                                                    data: chart.data,
+                                                    backgroundColor: ['red', 'blue', 'green', 'yellow'] // Add more colors as needed
+                                                }]
+                                            }}
+                                            options={{
+                                                title: {
+                                                    display: true,
+                                                    text: chart.question
+                                                }
+                                            }}
+                                        />
+                                    </Card>
+                                ))}
+
+                        </Flex>
+
+                    </TabPanel>
                 </TabPanels>
-            </Tabs>
-        </Flex>
+
+            </Tabs >
+        </Flex >
 
     )
 }

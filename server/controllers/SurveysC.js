@@ -115,13 +115,6 @@ export const getCountWithStatus =async (req, res) => {
     }
   };
 
-
-
-
-
-
-
-
 export const getSurveysByCreator = async (req, res) => {
    
     // get token from header
@@ -475,58 +468,21 @@ export const ChangeSurveyState = async (req, res) => {
             const points = questionCount[0].questionCount * 20;
             console.log(points);
 
-
-
             // get survey plans from db
             const surveyPlans = await PlatformData.find({});
             
-            // {
-            //     "_id": {
-            //       "$oid": "654082679b36e70a36547b99"
-            //     },
-            //     "surveyPlans": [
-            //       {
-            //         "name": "Starter",
-            //         "price": 1500,
-            //         "duration": 7,
-            //         "maxResponses": 100,
-            //         "description": "Affordable for individuals and small businesses",
-            //         "active": true,
-            //         "planID": "41t81v4b"
-            //       },
-            //       {
-            //         "name": "Premium",
-            //         "price": 2000,
-            //         "duration": 14,
-            //         "maxResponses": 200,
-            //         "description": "Reasonably priced for small to medium-sized businesses",
-            //         "active": true,
-            //         "planID": "zzqh0foy"
-            //       },
-            //       {
-            //         "name": "Enterprise",
-            //         "price": 2600,
-            //         "duration": 30,
-            //         "maxResponses": 500,
-            //         "description": "Suitable for larger businesses and organizations",
-            //         "active": true,
-            //         "planID": "lxnq80yu"
-            //       }
-            //     ],
-            //     "pointsPerQuestion": 20,
-            //     "__v": 0
-            //   }
-
             // find the plan with the matching planID
             console.log(surveyPlans[0].surveyPlans);
             const plan  = surveyPlans[0].surveyPlans.filter((plan) => plan.planID === planID);
             console.log(plan);
             const estCost = plan[0].price;
             const duration = plan[0].duration;
+            const maxResponses = plan[0].maxResponses;
 
             const resp = await Surveys.updateOne(
                 { surveyID: surveyid },
-                { $set: { approvalStatus: 'pending', cost: estCost, duration: duration, userTags: userTags, points: points, planID: planID } }
+                { $set: { approvalStatus: 'pending', cost: estCost, duration: duration, userTags: userTags, points: points, planID: planID, responseLimit: maxResponses } }
+
 
             );
             if (resp.Modified > 0) {
@@ -586,26 +542,6 @@ export const ChangeSurveyState = async (req, res) => {
             }
         }
 
-        if (state === 'active') {
-            // get survey duration from db and set expiration date from time of activation
-            const duration = await Surveys.find({ surveyID: surveyid }, { duration: 1, _id: 0 });
-            console.log(duration);
-            const expiration_date = Date.now() + duration * 86400000;
-            console.log(expiration_date);
-            const resp = await Surveys.updateOne(
-                { surveyID: surveyid },
-                { $set: { approvalStatus: 'active', expiration_date: expiration_date } }
-            );
-            if (resp.Modified > 0) {
-                res.status(404).json({ message: "Survey not found." });
-            } else {
-                res.status(200).json({
-                    message: "Survey state changed successfully.",
-                    data: resp
-
-                });
-            }
-        }
 
 
     } catch (error) {
@@ -638,7 +574,7 @@ export const deleteQuestion = async (req, res) => {
         try {
             const survey = await Surveys.find({ surveyID: surveyid });
             console.log(survey[0].approvalStatus);
-            if (survey[0].approvalStatus === 'active' || survey[0].approvalStatus === 'pending' || survey[0].approvalStatus === 'active') {
+            if (survey[0].approvalStatus === 'active' || survey[0].approvalStatus === 'pending' || survey[0].approvalStatus === 'approved') {
                 console.log('unauthorized')
                 return res.status(401).json({ error: 'Unauthorized' });
             }
