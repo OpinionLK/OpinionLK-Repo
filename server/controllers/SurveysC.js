@@ -53,13 +53,13 @@ export const getApprovedSurveys=async(req,res) =>{
 }
 
 //get count with approval status
-export const getCountWithStatus =async (req, res) => {
+export const getCountWithStatus = async (req, res) => {
     try {
-      const result = await survey.aggregate([
+      const result = await Surveys.aggregate([
         {
           $group: {
-            _id: '$approvalStatus',
-            count: { $sum: 1 }
+            _id: '$approvalStatus', // Use _id to group by 'approvalStatus'
+            count: { $sum: 1 } // Count the number of documents in each group
           }
         }
       ]);
@@ -69,7 +69,7 @@ export const getCountWithStatus =async (req, res) => {
       res.status(404).json({ error: 'An error occurred' });
     }
   };
-
+  
 
 
 

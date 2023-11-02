@@ -26,9 +26,7 @@ import {
                 
             </Box>
             <Box>
-            <Text  pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
-              Surveys All 
-            </Text>
+            
             <Box p={5}>
               <SurveyList/>
             </Box>

@@ -11,7 +11,7 @@ import Chart from 'chart.js/auto';
 // sample data
 const state = {
     labels: ['January', 'February', 'March',
-             'April', 'May'],
+             'April', 'May','June','July','August','September','October','November'],
     datasets: [
       {
         label: 'Surveys',
@@ -20,7 +20,7 @@ const state = {
         backgroundColor: '#fff',
         borderColor: '#4318FF',
         borderWidth: 2,
-        data: [65, 59, 80, 81, 56]
+        data: [65, 59, 80, 81, 56,78,65,89,110,78,47]
       }
     ]
   }
