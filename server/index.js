@@ -7,6 +7,7 @@ import cors from 'cors';
 import surveyRoutes from './routes/surveys.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
+import paymentsRoutes from './routes/payments.js';
 import morgan from 'morgan';
 import ImageKit from "imagekit";
 
@@ -61,10 +62,12 @@ mongoose.connect(process.env.MONGO_URL, {
   // ROUTES
   app.use('/api/auth', authRoutes);
   app.use('/api/client', clientRoutes);
+  app.use('/api/payment', paymentsRoutes);
   app.use('/api/user', userRoutes);
   app.use('/api/survey', surveyRoutes);
   app.use('/api/admin', adminRoutes);
   app.use('/api/survey/images', express.static('./uploads/surveyheader'));
+
 
   console.log('MongoDB Connected');
 

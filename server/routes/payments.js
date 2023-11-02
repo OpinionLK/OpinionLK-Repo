@@ -115,6 +115,8 @@ router.post('/do-payment', async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+        return res.json({ error: error });
+
     }
 
 
@@ -135,7 +137,7 @@ router.get('/get-payment-history', async (req, res) => {
         console.log(customerid[0].stripeCustomerId);
         const stripe = new Stripe('sk_test_51MgsSNG4way0COrgMgTXf6vLRTWjpv268ocCKpt6oN9FEBultO9XCYycHA25UpGNsIrW3GXH8LIXeNs2Cht08nGg00DC6i0sX0');
 
-
+        console.log(customerid[0].stripeCustomerId);
         const paymentIntents = await stripe.paymentIntents.list({
             customer: customerid[0].stripeCustomerId,
             limit: 100, // Adjust this number based on your needs
@@ -156,6 +158,7 @@ router.get('/get-payment-history', async (req, res) => {
     }
     catch (error) {
         console.log(error);
+        return res.json({ error: error });
     }
 
 
