@@ -63,6 +63,7 @@ export const getMySurveys = async (req, res) => {
         // Find all surveys without responses from the user
         const surveysWithoutResponses = await Surveys.find({
             'responses.userID': { $ne: id },
+            'approvalStatus': 'active',
         });
         
         const matchingSurveys = [];
