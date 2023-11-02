@@ -17,9 +17,16 @@ import {
     Switch,
     Button,
     Textarea,
-    useToast
+    useToast,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
  } from '@chakra-ui/react';
 import axios from 'axios';
+
 
 const SurveySettings = () => {
     
@@ -73,35 +80,69 @@ const SurveySettings = () => {
     //field disabled state
     const [isDisabled, setIsDisabled] = useState(true);
     
+    // ===============================================================================
+
+    // Alert Dialog
+const [surveySettingAlertOpen1, setSurveySettingAlertOpen1] = useState(false);
+const surveySettingAlertClose1 = () => setSurveySettingAlertOpen1(false);
+
+const [surveySettingAlertOpen2, setSurveySettingAlertOpen2] = useState(false);
+const surveySettingAlertClose2 = () => setSurveySettingAlertOpen2(false);
+
+const [surveySettingAlertOpen3, setSurveySettingAlertOpen3] = useState(false);
+const surveySettingAlertClose3 = () => setSurveySettingAlertOpen3(false);
+
+const confirmChange1 = async (e) => {
+    e.preventDefault();
+    document.getElementById('package1SaveBtn').style.display = 'block';
+    document.getElementById('package1CancelBtn').style.display = 'block';
+    document.getElementById('package1ChangeBtn').style.display = 'none';
+    setIsDisabled(!isDisabled);
+    setSurveySettingAlertOpen1(false);
+}
+
+const confirmChange2 = async (e) => {
+    e.preventDefault();
+    document.getElementById('package2SaveBtn').style.display = 'block';
+    document.getElementById('package2CancelBtn').style.display = 'block';
+    document.getElementById('package2ChangeBtn').style.display = 'none';
+    setIsDisabled(!isDisabled);
+    setSurveySettingAlertOpen2(false);
+}
+
+const confirmChange3 = async (e) => {
+    e.preventDefault();
+    document.getElementById('package3SaveBtn').style.display = 'block';
+    document.getElementById('package3CancelBtn').style.display = 'block';
+    document.getElementById('package3ChangeBtn').style.display = 'none';
+    setIsDisabled(!isDisabled);
+    setSurveySettingAlertOpen3(false);
+}
+
+const cancelRef1 = React.useRef();
+const cancelRef2 = React.useRef();
+const cancelRef3 = React.useRef();
+
 
     // handle change for package 1
 
     const handleFirstPackageChange = async (e) => {
         e.preventDefault();
-        document.getElementById('package1SaveBtn').style.display = 'block';
-        document.getElementById('package1CancelBtn').style.display = 'block';
-        document.getElementById('package1ChangeBtn').style.display = 'none';
-        setIsDisabled(!isDisabled);
+        setSurveySettingAlertOpen1(true);
     }
 
     // handle change for package 2
 
     const handleSecondPackageChange = async (e) => {
         e.preventDefault();
-        document.getElementById('package2SaveBtn').style.display = 'block';
-        document.getElementById('package2CancelBtn').style.display = 'block';
-        document.getElementById('package2ChangeBtn').style.display = 'none';
-        setIsDisabled(!isDisabled);
+        setSurveySettingAlertOpen2(true);
     }
 
     // handle change for package 3
 
     const handleThirdPackageChange = async (e) => {
         e.preventDefault();
-        document.getElementById('package3SaveBtn').style.display = 'block';
-        document.getElementById('package3CancelBtn').style.display = 'block';
-        document.getElementById('package3ChangeBtn').style.display = 'none';
-        setIsDisabled(!isDisabled);
+        setSurveySettingAlertOpen3(true);
     }
 
 
@@ -144,6 +185,8 @@ const handleThirdPackageSubmit = async (e) => {
         console.log(err);
     }
 }
+
+// ===============================================================================
 
 // handle cancel for package 1
 const cancelFirst = async (e) => {
@@ -209,8 +252,81 @@ function showToast(status) {
     });
 }
 
+// ===============================================================================
+
     return (
         <>
+        <AlertDialog isOpen={surveySettingAlertOpen1} >
+            <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bolsurveySettingAlertClosed">
+                Change Starter Package Setting
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure you want to Change Starter Package Setting?
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef1} onClick={surveySettingAlertClose1}>
+                  No
+                </Button>
+                <Button colorScheme="red" onClick={confirmChange1} ml={3}>
+                  Yes
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+
+        <AlertDialog isOpen={surveySettingAlertOpen2}>
+            <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bolsurveySettingAlertClosed">
+              Change Premium Package Setting
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+              Are you sure you want to Change Premium Package Setting?
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef2} onClick={surveySettingAlertClose2}>
+                  No
+                </Button>
+                <Button colorScheme="red" onClick={confirmChange2} ml={3}>
+                  Yes
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+
+        <AlertDialog isOpen={surveySettingAlertOpen3}>
+            <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bolsurveySettingAlertClosed">
+               Change Enterprise Package Setting
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+              Are you sure you want to Change Enterprise Package Setting?
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef3} onClick={surveySettingAlertClose3}>
+                  No
+                </Button>
+                <Button colorScheme="red" onClick={confirmChange3} ml={3}>
+                  Yes
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+
+        {/* ===================================================================================================== */}
+
         <Card borderRadius={'20px'} width={'100%'}>
             <CardHeader>
                 <Heading size={'md'}>Survey Settings</Heading>

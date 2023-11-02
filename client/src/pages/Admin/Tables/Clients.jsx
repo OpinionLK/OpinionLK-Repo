@@ -26,29 +26,29 @@ import { EditIcon, DeleteIcon, CloseIcon , ViewIcon} from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const SurveyeeManager = () => {
+const ClientManager = () => {
 
     const [filterText, setFilterText] = useState('');
-    const [surveyees, setSurveyees] = useState([]);
+    const [Clients, setClients] = useState([]);
     
-    const fetchSurveyees = async () => {
+    const fetchClients = async () => {
         try {
-            const res = await axios.get('http://localhost:3002/api/admin/allSurveyees');
+            const res = await axios.get('http://localhost:3002/api/admin/allClients');
             const data = res.data;
-            setSurveyees(data.users);
-            console.log('Surveyees: ',data);
+            setClients(data.clients);
+            console.log('Clients: ',data);
         }
         catch (err) {
-            console.error('Error fetching Surveyees:', err);
+            console.error('Error fetching Clients:', err);
         }
     }
 
     useEffect(() => {
-        fetchSurveyees();
+        fetchClients();
     }, []);
 
-    const getTotalUsers = () => {
-        return surveyees.length;
+    const getTotalClients = () => {
+        return Clients.length;
     }
 
   const md = 'md';
@@ -61,7 +61,7 @@ const SurveyeeManager = () => {
             <Stack width={'100%'}>
                 <Card borderRadius={'20px'} width={'100%'}>
                 <CardHeader  display={'flex'} flexDirection={'row'}>
-                    <Heading color={'purple.900'}  size={md}>Surveyees</Heading>
+                    <Heading color={'purple.900'}  size={md}>Clients</Heading>
                     <Box>
                       <Input
                         type='search'
@@ -87,7 +87,7 @@ const SurveyeeManager = () => {
                       borderRadius={5}
                       p={2}
                     >
-                      Total Surveyees: {getTotalUsers()}
+                      Total Clients: {getTotalClients()}
                     </Box>
                 </CardHeader>
                 <hr></hr>
@@ -95,7 +95,7 @@ const SurveyeeManager = () => {
                     <TableContainer>
                     <Table variant="striped" colorScheme='gray' size={'sm'} >
                         <TableCaption>
-                            Total Users: {getTotalUsers()}
+                            Total Users: {getTotalClients()}
                         </TableCaption>
                         <Thead>
                         <Tr>
@@ -107,12 +107,12 @@ const SurveyeeManager = () => {
                         </Tr>
                         </Thead>
                         <Tbody>
-                            {surveyees.map((surveyee) => (
-                                <Tr key={surveyee._id}>
-                                    <Td>{surveyee.firstName} {surveyee.lastName}</Td>
-                                    <Td>{surveyee.email}</Td>
-                                    <Td>{surveyee.points}</Td>
-                                    <Td>{surveyee.createdAt}</Td>
+                            {Clients.map((Client) => (
+                                <Tr key={Client._id}>
+                                    <Td>{Client.firstName} {Client.lastName}</Td>
+                                    <Td>{Client.email}</Td>
+                                    <Td>{Client.points}</Td>
+                                    <Td>{Client.createdAt}</Td>
                                     <Td>
                                         <HStack>
                                         <IconButton                                                 colorScheme="purple"
@@ -143,4 +143,4 @@ const SurveyeeManager = () => {
     )
 }
 
-export default SurveyeeManager
+export default ClientManager

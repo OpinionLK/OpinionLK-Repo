@@ -8,6 +8,7 @@ import {
   import SurveyeeManager from './Tables/SurveyeeManager';
   import TableSelect from './Components/TableSearch';
   import CouponTable from './Tables/CouponTable';
+  import Clients from './Tables/Clients';
   
   const AdminTables = () => {
 
@@ -32,7 +33,7 @@ import {
             <CouponTable />
             
             <SurveyeeManager />
-            <SurveyeeManager />
+            <Clients />
             </Box>
 
         </Grid>
