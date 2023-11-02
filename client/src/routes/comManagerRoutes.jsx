@@ -26,8 +26,8 @@ import { RiSurveyFill } from 'react-icons/ri';
 const Links = [
 
     { route: '/ComManager/dashboard', linkName: 'Dashboard', icon: BsHouseFill },
-    { route: '/ComManager/Tables' ,linkName: 'Tables', icon: BsTable},
-   // {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
+    // { route: '/ComManager/Tables' ,linkName: 'Tables', icon: BsTable},
+    // {route: '/ComManager/Actions',linkName:'Actions', icon:BsCollectionFill},
     
     { route: '/ComManager/allsurveys', linkName: 'Pending Surveys', icon: RiSurveyFill },
 

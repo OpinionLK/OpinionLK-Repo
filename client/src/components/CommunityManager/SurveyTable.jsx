@@ -325,7 +325,6 @@ const SurveyTable = () => {
                                 </Text>
                             </Td>
                         )}
-
                     </Tbody>
 
                 </Table>
