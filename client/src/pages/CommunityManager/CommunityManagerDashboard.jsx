@@ -40,8 +40,8 @@ function CommunityManagerDashBoard() {
       <Box style={style}>
         <Box d="flex" flexDir={'r'}>
           <Box>
-     
-                
+
+
 
 
           </Box>
@@ -71,7 +71,7 @@ function CommunityManagerDashBoard() {
           </Flex>
 
 
-
+{/* 
           <Box>
             <Text pt={15} pb={15} pl={25} color={'black'} fontSize="2xl">
               Supervisor Revision Requests
@@ -79,12 +79,12 @@ function CommunityManagerDashBoard() {
             <Box p={5}>
               <AcceptRequestTable />
             </Box>
-          </Box>
+          </Box> */}
           <Box d="flex" alignContent={'center'} flexDir={'r'}>
             <Flex direction={'row'} justifyContent={'space-around'}>
               <Box w={'600px'}>
                 <Text pt={15} pb={15} color={'black'} fontSize="2xl">
-                  Task Summary
+                  Survey Summary
                 </Text>
                 <TaskSummaryTable />
               </Box>
@@ -94,7 +94,6 @@ function CommunityManagerDashBoard() {
                 </Text>
                 <SurveyManagementGrph />
               </Box>
-
             </Flex>
           </Box>
         </Box>

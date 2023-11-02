@@ -27,37 +27,37 @@ function TaskSummaryTable() {
       
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Status</Th>
-              <Th>Date</Th>
+              <Th>Survey Type</Th>
+              <Th># of Survey</Th>
+              <Th># of Response</Th>
               <Th>Progress</Th>
             </Tr>
           </Thead>
           <Tbody>
             <Tr>
-              <Td>New Survey</Td>
-              <Td> <CheckIcon color={"#ffffff"} bg={"#1ce007"} borderRadius={20} /> Approved</Td>
-              <Td> 21 Apr 2023</Td>
-              <Td><Progress value={40} size='xs' colorScheme='blue' /></Td>
+              <Td>Product Survey</Td>
+              <Td> 223</Td>
+              <Td>2403</Td>
+              <Td><Progress value={85} size='xs' colorScheme='blue' /></Td>
             </Tr>
             <Tr>
-            <Td>New Survey</Td>
-              <Td> <NotAllowedIcon color={"#ffffff"} bg={"#f02711"} borderRadius={15}/> Disable</Td>
-              <Td> 21 Apr 2023</Td>
+            <Td>Marketing Survey</Td>
+              <Td>321</Td>
+              <Td>768</Td>
               <Td><Progress value={60} size='xs' colorScheme='blue' /></Td>
             </Tr>
             <Tr>
-            <Td>New Survey</Td>
-              <Td> <DeleteIcon color={"#ffffff"} bg={"#d8f500"} borderRadius={15}/> Error</Td>
-              <Td> 21 Apr 2023</Td>
+            <Td>Social Survey</Td>
+              <Td>75</Td>
+              <Td>657</Td>
               <Td><Progress value={20} size='xs' colorScheme='blue' /></Td>
             </Tr>
           </Tbody>
           <Tfoot>
             <Tr>
-            <Td>New Survey</Td>
-              <Td> <CheckIcon color={"#ffffff"} bg={"#1ce007"} borderRadius={20} /> Approved</Td>
-              <Td> 21 Apr 2023</Td>
+            <Td>Research Survey</Td>
+              <Td>32</Td>
+              <Td>982</Td>
               <Td><Progress value={90} size='xs' colorScheme='blue' /></Td>
             </Tr>
           </Tfoot>
