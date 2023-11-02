@@ -108,6 +108,18 @@ router.post('/do-payment', async (req, res) => {
             console.log('payment success');
             // update survey status to paid
             await Surveys.updateOne({ surveyID: surveyid }, { $set: { approvalStatus: 'active' } });
+            // set survey expiration date
+            const date = new Date();
+            const duration = survey[0].duration;
+            const start_date = date.setDate(date.getDate());
+            const expirationDate = date.setDate(date.getDate() + duration);
+
+            await Surveys.updateOne({ surveyID: surveyid }, {
+                $set: {
+                    start_date: start_date,
+                    expiration_date: expirationDate
+                }
+            });
             return res.json({ status: 'success' });
         } else {
             console.log('payment failed');
@@ -154,7 +166,7 @@ router.get('/get-payment-history', async (req, res) => {
                 status: paymentIntent.status,
             }
         })
-        return res.json({ paymentHistory: paymentHistory }); 
+        return res.json({ paymentHistory: paymentHistory });
     }
     catch (error) {
         console.log(error);

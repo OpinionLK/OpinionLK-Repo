@@ -78,7 +78,7 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                                 <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
                                 <TagLabel>youth</TagLabel>
                                 </Tag> */}
-                                {surveyTags.interests &&
+                                {surveyTags?.interests &&
                                     Object.entries(surveyTags.interests).map(([key, value]) => (
                                         <Tag size='sm' key={key} variant='outline' colorScheme='purple'>
                                         <TagLabel>{value}</TagLabel>

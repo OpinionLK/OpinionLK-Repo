@@ -120,6 +120,13 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       refreshdata();
+      // clear the form
+      reset({
+        question: "",
+        responseType: "",
+        textPlaceholder: "",
+        items: [{ option: "" }, { option: "" }, { option: "" }, { option: "" }],
+      });
       onClose();
     } catch (error) {
       // console.log(error);
@@ -168,8 +175,8 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                       <option value="">--Please choose an option--</option>
                       <option value="shorttext">Text Response</option>
                       <option value="longtext">Long Text Response</option>
-                      <option value="mood">Mood Scale</option>
-                      <option value="singlechoice">Single Choice</option>
+                      {/* <option value="mood">Mood Scale</option> */}
+                      {/* <option value="singlechoice">Single Choice</option> */}
                       <option value="multiplechoice">Multiple Choice</option>
                     </Select>
 
@@ -226,29 +233,7 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                       // </motion.div>
                     )}
 
-                    {response === "mood" && (
-                      // <motion.div
-                      //   key="mood"
-                      //   initial={{ opacity: 0, width: "100%" }}
-                      //   animate={{ opacity: 1 }}
-                      //   exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                      //   width={"100%"}
-                      // >
-                      <>
-                        <VStack gap={"20px"} alignItems={"flex-start"} mt={"30px"} width={"100%"}>
-                          <Text>Options</Text>
-                          {fields.map((field, index) => (
-                            <Box width={"100%"} key={field.id}>
-                              <MoodOption index={index} register={register} setValue={setValue} items={items} remove={remove} fields={fields} />
-                            </Box>
-                          ))}
-                        </VStack>
-                        <Button mt={"20px"} type="button" onClick={() => append({ option: "", emoji: "scream" })}>
-                          Add Emoji Option
-                        </Button>
-                      </>
-                      // </motion.div>
-                    )}
+                    
 
                     <Button mt={"20px"} colorScheme="messenger" type="submit">
                       Save Changes
@@ -278,25 +263,25 @@ function QuestionForm({ onUpdateContent, questionID, refreshdata, mode }) {
                           <RadioGroup defaultValue="1">
                             {items.map((item, index) => (
                               <Flex gap={"10px"} key={index}>
-                                {response === "singlechoice" && (
+                                {response === "multiplechoice" && (
                                   <Radio value={index} backgroundColor={"white"}>
                                     <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
                                   </Radio>
                                 )}
-                                {response === "multiplechoice" && (
+                                {/* {response === "multiplechoice" && (
                                   <Checkbox>
                                     <Text>{!item.option ? `Option ${index + 1}` : item.option}</Text>
                                   </Checkbox>
-                                )}
+                                )} */}
                               </Flex>
                             ))}
                           </RadioGroup>
                         </Flex>
                       )}
                       {/* Preview for mood response questions */}
-                      {response === "mood" && (
+                      {/* {response === "mood" && (
                         <MoodPreview items={items} />
-                      )}
+                      )} */}
                     </Flex>
                   </Flex>
                 </VStack>

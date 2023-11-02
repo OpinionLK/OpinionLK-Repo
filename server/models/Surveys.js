@@ -12,8 +12,6 @@ const surveySchema = new mongoose.Schema({
     required: false,
   },
   cost: { type: Number, required: false },
-  created_date: { type: Date, default: Date.now },
-  expiration_date: { type: Date, required: false },
   creatorID: { type: String, required: true },
   approvalStatus: { type: String, enum: ['draft', 'pending', 'approved', 'rejected', 'active', 'paused'], default: 'draft' },
   approvedBy: { type: String },
@@ -23,9 +21,12 @@ const surveySchema = new mongoose.Schema({
   duration: { type: Number },
   targetResponses: { type: Number },
   planID: { type: String , required: false},
+  created_date: { type: Date, default: Date.now },
+  start_date: { type: Date },
+  expiration_date: { type: Date, required: false },
   estimatedCost: { type: Number },
   userTags: { type: [mongoose.Schema.Types.Mixed], required: false },
-
+  responseLimit: { type: Number },
   comments: [{
     commentID: { type: String },
     comment: { type: String },

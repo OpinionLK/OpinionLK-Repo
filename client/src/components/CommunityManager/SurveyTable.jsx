@@ -318,15 +318,13 @@ const SurveyTable = () => {
                             <Tr>
                                 <Td textAlign={'center'} colSpan={6}>No surveys found</Td>
                             </Tr>
-                        )) : ([...Array(numRows)].map((_, i) => (<Tr key={i}>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-                            <Td><Skeleton height={'20px'}></Skeleton></Td>
-
-                        </Tr>)))}
+                        )) : (
+                            <Td textAlign={'center'} colSpan={6}>
+                                <Text>
+                                    No surveys found
+                                </Text>
+                            </Td>
+                        )}
 
                     </Tbody>
 
