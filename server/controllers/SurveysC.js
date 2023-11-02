@@ -227,7 +227,7 @@ export const createAnonResponse = async (req, res) => {
     try {
       const { surveyid, response, userTags, preQResponse } = req.body;
       //   compare the values in userTags to that of preQResponse, calculate a relevancy average and add it to a const flag
-        // console.log(userTags);
+        console.log(userTags);
         // console.log(preQResponse);
         const similarity = calculateSimilarity(userTags, preQResponse);
 
@@ -460,6 +460,7 @@ export const ChangeSurveyState = async (req, res) => {
             } = req.body;
             console.log(planID);
             console.log(userTags);
+            // userTags[0].city = "Colombo";
             // calculate survey points from number of questions
             const questionCount = await Surveys.aggregate([
                 {
@@ -473,7 +474,7 @@ export const ChangeSurveyState = async (req, res) => {
             ])
 
             console.log(questionCount[0].questionCount);
-            const points = questionCount[0].questionCount * 20;
+            const points = questionCount[0].questionCount * 50;
             console.log(points);
 
             // get survey plans from db
