@@ -2,6 +2,7 @@ import express, { application } from 'express';
 import Surveys from '../models/Surveys.js';
 import {
     getAllSurveys,
+    getMySurveys,
     getSurveysByCreator,
     getSurveyToReview,
     getQuestionCount,
@@ -22,9 +23,11 @@ import {
     editQuestion,
     deleteQuestion,
     getApprovedSurveys,
+<<<<<<< HEAD
+=======
+    // getCountWithApprovalStatus,
+>>>>>>> 06bb58fd3d221549b71540a2285d3ceffe3fa101
     getCountWithStatus,
-
-
 } from '../controllers/SurveysC.js';
 import multer from 'multer';
 
@@ -54,6 +57,7 @@ router.post('/addSurveyPoints', addSurveyPoints); //add points to user
 router.get('/getbyUserId', getSurveysByCreator); //get survey by creator id
 router.get('/getbySurveyId/:surveyid', getSurveyBySurveyId); //get survey by survey id
 router.get('/all', getAllSurveys); //get all surveys
+router.get('/getmysurveys', getMySurveys); //get surveys relevant to the user
 
 
 router.get('/getsurveytoedit/:surveyid', getSurveytoEdit); //get survey to edit
@@ -73,7 +77,6 @@ router.put('/insertComment/:surveyid', insertComment); //insert a comment
 
 router.get('/approved',getApprovedSurveys);//get approved surveys for commanager
 router.get('/countWithStatus',getCountWithStatus);//get count with approval status for commanager
-
 
 router.post("/:surveyid/imageUpload", upload.single("image"), async (req, res) => {
 

@@ -4,6 +4,7 @@ import {
     GridItem,
  } from '@chakra-ui/react'
  import React, { useEffect, useState } from 'react'
+ import { useAuthContext } from '../../hooks/useAuthContext';
  import axios from 'axios'
 // import UserManagementGraph from '../../components/Stats/Admin/UserManagementGraph';
 // import SurveyManagementGraph from '../../components/Stats/Admin/SurveyManagementGraph';
@@ -22,13 +23,24 @@ const Serydashboard = () => {
         paddingBottom: '20px',
     }
 
+    const {
+        // eslint-disable-next-line
+        user, dispatch, userData
+      } = useAuthContext();
+
     const [surveys, setSurveys] = useState([])
 
   useEffect(() => {
     // fetch surveys
     const fetchSurveys = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
+        const response = await axios.get('http://localhost:3002/api/user/mysurveys',
+            {
+                headers: {
+                'Authorization': `Bearer ${user.token}`
+                },
+            }
+        );
         console.log(response.data)
         setSurveys(response.data)
       }

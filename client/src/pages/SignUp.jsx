@@ -22,7 +22,18 @@ import {
   Image,
   Card,
   Center,
-  Divider
+  Divider,
+  Radio,
+  RadioGroup,
+  Select,
+  useDisclosure,
+  Modal as ChakraUIModal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Spacer
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -32,7 +43,7 @@ import axios from 'axios';
 import signupImage from '../assets/images/client_signup.jpg';
 import config from '../config';
 import tcImage from '../assets/images/landing/logo-Dark.svg';
-
+import InterestTags from '../components/organisation/InterestTags';
 
 
 const SignUp = () => {
@@ -43,22 +54,31 @@ const SignUp = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { dispatch } = useAuthContext()
 
+  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const firstName = event.target.elements.firstName.value;
     const lastName = event.target.elements.lastName.value;
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
+    const gender = event.target.elements.gender.value;
+    const birthyear = event.target.elements.birthyear.value;
+    const city = event.target.elements.city.value;
 
     const responseID = new URLSearchParams(window.location.search).get('responseID');
     const surveyID = new URLSearchParams(window.location.search).get('surveyID');
 
     try {
-      const json = await axios.post(`${config.backendUrl}/api/auth/signup`, {
+      const json = await axios.post(`${config.backendUrl}/api/auth/signup2`, {
         firstName,
         lastName,
         email,
         password,
+        gender,
+        birthyear,
+        city,
+        // interests,
         responseID,
         surveyID,
       });
@@ -136,6 +156,7 @@ const SignUp = () => {
           <Stack spacing={4} gap={'40px'}>
             
             <form id='SignUpForm' onSubmit={handleSubmit} method="POST">
+            <Heading size='md' mb='5'>Basic Info</Heading>
               <Stack spacing={5}>
                 <HStack>
                   <Box width={'100%'}>
@@ -187,6 +208,49 @@ const SignUp = () => {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
+
+
+                {/* additional info */}
+                <Heading size='md' mt='5'>Additional Info</Heading>
+                <HStack>
+                  <FormControl id="gender" isRequired minWidth='150' maxW='150'>
+                    <FormLabel>Gender</FormLabel>
+                    <RadioGroup ml='8' colorScheme='purple' name='gender'>
+                        <Stack direction="column">
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Other">Other</Radio>
+                        </Stack>
+                    </RadioGroup>
+                  </FormControl>
+                  <Spacer/>
+                  <Stack>
+                    <FormControl id="birthyear" isRequired>
+                      <FormLabel>Birth Year</FormLabel>
+                      <Input name="birthyear" type="number" />
+                    </FormControl>
+                    <FormControl id="city" isRequired>
+                      <FormLabel>City</FormLabel>
+                      {/* drop down menu */}
+                      <Select placeholder='Select option' name='city'>
+                        <option value='Colombo'>Colombo</option>
+                        <option value='Kandy'>Kandy</option>
+                        <option value='Galle'>Galle</option>
+                        <option value='Jaffna'>Jaffna</option>
+                        <option value='Rathnapura'>Rathnapura</option>
+                      </Select>
+                    </FormControl>
+                  </Stack>
+                  <Spacer/>
+                  {/* <InterestTags selectedOptions={areas} setSelectedOptions={setAreas} /> */}
+                  <Stack>
+                    <Text>Interests</Text>
+                    <InterestsOverlay />
+                  </Stack>
+                </HStack>
+                
+
+
                 <HStack spacing={10} pt={2} justifyContent={'space-between'} alignItems={'center'}>
                   {/* signup terms and condition tag */}
                   <Text fontSize={'sm'} color={'gray.600'}>
@@ -199,12 +263,13 @@ const SignUp = () => {
                     type="submit"
                     loadingText="Submitting"
                     size="lg"
-                    bg={'blue.400'}
+                    colorScheme='purple'
+                    bg='#6C63FF'
                     color={'white'}
                     w={'100px'}
-                    _hover={{
-                      bg: 'blue.500',
-                    }}
+                    // _hover={{
+                    //   bg: 'blue.500',
+                    // }}
                   >
                     Sign up
                   </Button>
@@ -370,5 +435,26 @@ const SignUp = () => {
     </Stack >
   );
 };
+
+function InterestsOverlay() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [areas, setAreas] = useState([]);
+  return (
+    <>
+      <Button onClick={onOpen}>Select Interests</Button>
+
+      <ChakraUIModal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Choose your Interests</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <InterestTags selectedOptions={areas} setSelectedOptions={setAreas} />
+          </ModalBody>
+        </ModalContent>
+      </ChakraUIModal>
+    </>
+  )
+}
 
 export default SignUp;

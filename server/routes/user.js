@@ -1,5 +1,5 @@
 import express, { application } from 'express';
-import { getAllSurveys } from '../controllers/SurveysC.js';
+import { getAllSurveys, getMySurveys } from '../controllers/SurveysC.js';
 import { userData, surveyHistory, couponHistory } from '../controllers/UserC.js';
 import { redeemCoupon } from '../controllers/Coupons.js';
 
@@ -12,6 +12,7 @@ import{
 const router = express.Router();
 
 router.get('/allsurveys', getAllSurveys);
+router.get('/mysurveys', getMySurveys);
 router.get('/userdata', userData);
 router.get('/getAllCoupons', getAllCoupons);
 router.get('/getMyCoupons', getMyCoupons);

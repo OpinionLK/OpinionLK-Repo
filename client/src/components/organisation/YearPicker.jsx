@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { FormLabel, HStack, Select } from '@chakra-ui/react';
+import { FormLabel, HStack, Select, Checkbox } from '@chakra-ui/react';
 
-const AgeRangePicker = ({ disabled, setFromYear, setToYear, fromYear, toYear
-}) => {
+const AgeRangePicker = ({ disabled, setFromYear, setToYear, fromYear, toYear }) => {
+  const [filterByBirthYear, setFilterByBirthYear] = useState(true);
   const currentYear = new Date().getFullYear();
   const minBirthYear = currentYear - 100; // Adjust the minimum age as needed
   const maxBirthYear = currentYear - 18;
-  setFromYear(minBirthYear);
-  setToYear(maxBirthYear);
+
+  if (filterByBirthYear) {
+    setFromYear(minBirthYear);
+    setToYear(maxBirthYear);
+  } else {
+    setFromYear(0);
+    setToYear(0);
+  }
 
   const years = Array.from(
     { length: maxBirthYear - minBirthYear + 1 },
@@ -35,8 +41,14 @@ const AgeRangePicker = ({ disabled, setFromYear, setToYear, fromYear, toYear
 
   return (
     <HStack>
+      <Checkbox isChecked={!filterByBirthYear} onChange={(e) =>
+      
+         setFilterByBirthYear(!e.target.checked)}>
+        Don't filter by birth year
+      </Checkbox>
+
       <FormLabel>Minimum Age:</FormLabel>
-      <Select disabled={disabled} value={fromYear} onChange={handleFromYearChange}>
+      <Select disabled={disabled || !filterByBirthYear} value={fromYear} onChange={handleFromYearChange}>
         {years.map((year) => (
           <option key={year} value={year}>
             {calculateAge(year)} years
@@ -45,7 +57,7 @@ const AgeRangePicker = ({ disabled, setFromYear, setToYear, fromYear, toYear
       </Select>
 
       <FormLabel>Maximum Age:</FormLabel>
-      <Select disabled={disabled} value={toYear} onChange={handleToYearChange}>
+      <Select disabled={disabled || !filterByBirthYear} value={toYear} onChange={handleToYearChange}>
         {years.map((year) => (
           <option key={year} value={year}>
             {calculateAge(year)} years

@@ -38,6 +38,52 @@ export const getAllSurveys = async (req, res) => {
     }
 }
 
+export const getMySurveys = async (req, res) => {
+    try {
+        // get userID from token
+        const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // verify token
+        const { id } = jwt.verify(token, 'test');
+        
+        // Fetch the user's details from the User collection
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+    
+        const userDetails = {
+            gender: user.gender,
+            city: user.city,
+            age1: user.birthyear.toString(),
+        };
+        
+        // Find all surveys without responses from the user
+        const surveysWithoutResponses = await Surveys.find({
+            'responses.userID': { $ne: id },
+            'approvalStatus': 'active',
+        });
+        
+        const matchingSurveys = [];
+        surveysWithoutResponses.forEach((survey) => {
+            // Calculate the similarity score using your external function
+            const similarityScore = calculateSimilarity(survey.userTags[0], userDetails);
+            console.log(similarityScore);
+            // Check if the similarity score is greater than 0.5
+            if (similarityScore > 0.4) {
+                matchingSurveys.push(survey);
+            }
+        });
+        // return list of surveys
+        res.status(200).json(matchingSurveys);
+    } catch (error) {
+        console.log("there is error fetchin data");
+        res.status(404).json({ message: error.message });
+    }
+}
+
 
 //get approved survey list from db
 export const getApprovedSurveys=async(req,res) =>{
@@ -1063,3 +1109,6 @@ export const getQuestionCount = async (req, res) => {
     console.log(questionCount[0].questionCount);
     res.status(200).json(questionCount[0].questionCount);
 }
+
+
+  

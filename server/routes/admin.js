@@ -21,4 +21,5 @@ router.delete('/coupons/delete/:id', DeleteCoupon);
 router.get('/surveySettings', GetPlatformData);
 router.put('/surveySettings/update', UpdateSurveySettings);
 
+
 export default router;

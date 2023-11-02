@@ -5,16 +5,29 @@ import {
 } from '@chakra-ui/react'
 import SurveyCard from '../../components/Survey/SurveyCard'
 
+import { useAuthContext } from '../../hooks/useAuthContext';
+
 import axios from 'axios'
 
 const Survey = () => {
 
   const [surveys, setSurveys] = useState([])
 
+  const {
+    // eslint-disable-next-line
+    user, dispatch, userData
+  } = useAuthContext();
+
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/api/user/allsurveys')
+        const response = await axios.get('http://localhost:3002/api/user/mysurveys',
+            {
+                headers: {
+                'Authorization': `Bearer ${user.token}`
+                },
+            }
+        );
         console.log(response.data)
         setSurveys(response.data)
       }
@@ -55,8 +68,10 @@ const Survey = () => {
               surveyDescription={survey.surveyDescription}
               surveyImage={survey.surveyImage}
               surveyID={survey.surveyID}
-              surveyTags={survey.surveyTags}
+              surveyTags={survey.userTags[0]}
               surveyPoints={survey.points}
+              noOfQs={survey.questions.length}
+              endDate={survey.expiration_date}
             />
             </>
           )

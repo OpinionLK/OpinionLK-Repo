@@ -20,7 +20,8 @@ import {
     HStack,
     Tag,
     TagLabel,
-    Wrap, 
+    Wrap,
+    Spacer, 
 } from '@chakra-ui/react'
 import { useClipboard } from "@chakra-ui/react";
 import { LinkIcon } from '@chakra-ui/icons'
@@ -29,7 +30,7 @@ import { LinkIcon } from '@chakra-ui/icons'
 // eslint-disable-next-line
 import sampleCard from '../../images/sample-card.png'
 // eslint-disable-next-line
-export default function SurveyPopup({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) {
+export default function SurveyPopup({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints, noOfQs, noOfRs, cost, duration, startDate, endDate, responseLimit, status}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const textToCopy = `http://localhost:3000/surveyAnonymous/${surveyID}`; // Replace with your text
     const { onCopy, hasCopied } = useClipboard(textToCopy);
@@ -53,13 +54,13 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                 <ModalContent>
                 <ModalHeader>
                     <Flex>
-                        <Box>
+                        <Box w='40%'>
                             <Text fontSize='2xl' fontWeight='bold'color='#1B2559'>
                                 {surveyName}
                             </Text>
                             {type === 'client' && (
                                 <Text fontSize='xs' mb='4'>
-                                    Filled by 200 users
+                                    Filled by {noOfRs} users
                                 </Text>
                             )}
                             {type === 'surveyee' && (
@@ -67,8 +68,8 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                                     {surveyPoints} points
                                 </Text>
                             )}
-                            <HStack spacing={2}>
-                                <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
+                            <Wrap spacing={2}>
+                                {/* <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
                                 <TagLabel>art</TagLabel>
                                 </Tag>
                                 <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
@@ -76,9 +77,17 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                                 </Tag>
                                 <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
                                 <TagLabel>youth</TagLabel>
-                                </Tag>
-                            </HStack>
+                                </Tag> */}
+                                {surveyTags.interests &&
+                                    Object.entries(surveyTags.interests).map(([key, value]) => (
+                                        <Tag size='sm' key={key} variant='outline' colorScheme='purple'>
+                                        <TagLabel>{value}</TagLabel>
+                                        </Tag>
+                                    ))
+                                }
+                            </Wrap>
                         </Box>
+                        <Spacer />
                         <Box
                             position="relative"
                             // width="800px"
@@ -107,28 +116,32 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                     {type === 'client' && (
                         <Wrap>
                             <Flex bg='#F4F7FE' p={5} color='#1B2559' borderRadius={15} mr='1'>
-                                <Text fontWeight='bold' pr='8'>Type: </Text>
-                                <Text>Time-based</Text>
+                                <Text fontWeight='bold' pr='8'>Response Limit: </Text>
+                                <Text>{responseLimit}</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>Duration: </Text>
-                                <Text>7 days</Text>
+                                <Text>{duration} days</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>Start date: </Text>
-                                <Text>21/10/23</Text>
+                                <Text>{new Date(startDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>End date: </Text>
-                                <Text>27/10/23</Text>
+                                <Text>{new Date(endDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>No. of questions: </Text>
-                                <Text>25</Text>
+                                <Text>{noOfQs}</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>Pricing: </Text>
-                                <Text>6000 LKR</Text>
+                                <Text>{cost} LKR</Text>
+                            </Flex>
+                            <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
+                                <Text fontWeight='bold' pr='8'>Status: </Text>
+                                <Text>{status}</Text>
                             </Flex>
                         </Wrap>
                     )}
@@ -136,11 +149,11 @@ export default function SurveyPopup({type, surveyName, surveyDescription, survey
                         <Wrap>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>End date: </Text>
-                                <Text>27/10/23</Text>
+                                <Text>{new Date(endDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</Text>
                             </Flex>
                             <Flex bg='#F4F7FE' p={4} color='#1B2559' borderRadius={15} mr='1'>
                                 <Text fontWeight='bold' pr='8'>No. of questions: </Text>
-                                <Text>25</Text>
+                                <Text>{noOfQs}</Text>
                             </Flex>
                         </Wrap>
                     )}

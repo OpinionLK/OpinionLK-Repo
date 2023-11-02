@@ -1,6 +1,11 @@
 import ComManager from "../models/ComManagerModel.js";
 import nodemailer from 'nodemailer';
 import crypto from "crypto";
+import User from "../models/User.js";
+import { DateTime } from 'luxon';
+import Surveys from "../models/Surveys.js";
+import Clients from "../models/Client.js";
+import e from "express";
 
 export const Getmembers = async (req, res) => {
      // #swagger.tags = ['Community Manager']
@@ -126,3 +131,166 @@ export const Deletemember = (req, res) => {
       res.send({ error: err, msg: "Something went wrong!" });
     });
 };
+
+export const Usersignups = async (req, res) => {
+  try {
+    const currentDate = DateTime.local(); // Current date and time
+    const thirtyDaysAgo = currentDate.minus({ days: 30 }); // 30 days ago
+
+    // Find users signed up within the last 30 days
+    const userSignups = await User.find({
+      createdAt: { $gte: thirtyDaysAgo.toJSDate() }
+    });
+    console.log('userSignups:', userSignups);
+    // Prepare data for the line graph
+    const labels = []; // Labels for the X-axis (e.g., dates)
+    const userData = []; // User count data for the Y-axis
+
+    // Count user signups for each day within the last 30 days
+    for (let i = 0; i < 30; i++) {
+      const date = thirtyDaysAgo.plus({ days: i });
+      const nextDate = date.plus({ days: 1 });
+      const usersOnDay = userSignups.filter(user => {
+        const createdAt = DateTime.fromJSDate(user.createdAt);
+        return createdAt >= date && createdAt < nextDate;
+      });
+      labels.push(date.toLocaleString(DateTime.DATE_SHORT));
+      userData.push(usersOnDay.length);
+    }
+
+    // Prepare the response object
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'User Signups',
+          fill: false,
+          lineTension: 0.5,
+          backgroundColor: '#fff',
+          borderColor: '#4318FF',
+          borderWidth: 3,
+          data: userData
+        }
+      ]
+    };
+
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export const TotalSurvey = async (req, res) => {
+  try {
+    // Count the number of surveys
+    const surveyCount = await Surveys.countDocuments();
+    // Send the surveyCount in the response data
+    res.json({ surveyCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export const Totalusers = async (req, res) => {
+  try {
+    // Count the number of users
+    const userCount = await User.countDocuments();
+    // Send the userCount in the response data
+    res.json({ userCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export const TotalClients = async (req, res) => {
+  try {
+    // Count the number of clients
+    const clientCount = await Clients.countDocuments();
+    // Send the clientCount in the response data
+    res.json({ clientCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export const AprovalStatus = async (req, res) => {
+  try {
+    const approvedCount = await Surveys.countDocuments({ approvalStatus: 'approved' });
+    const pendingCount = await Surveys.countDocuments({ approvalStatus: 'pending' });
+    const draftCount = await Surveys.countDocuments({ approvalStatus: 'draft' });
+
+    const statusCounts = {
+      approved: approvedCount,
+      pending: pendingCount,
+      draft: draftCount,
+    };
+    res.status(200).json(statusCounts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const Clientsignups = async (req, res) => {
+  try {
+    const currentDate = DateTime.local(); // Current date and time
+    const thirtyDaysAgo = currentDate.minus({ days: 30 }); // 30 days ago
+
+    // Find users signed up within the last 30 days
+    const clientSignups = await Clients.find({
+      createdAt: { $gte: thirtyDaysAgo.toJSDate() }
+    });
+
+    // Prepare data for the line graph
+    const labels = [];
+    const clientData = [];
+
+    // Initialize an object to count client signups for each day
+    const clientCountByDate = {};
+
+    // Count user signups for each day within the last 30 days
+    for (let i = 0; i < 30; i++) {
+      const date = thirtyDaysAgo.plus({ days: i });
+      const nextDate = date.plus({ days: 1 });
+      const clientsOnDay = clientSignups.filter(client => {
+        const createdAt = DateTime.fromJSDate(client.createdAt);
+        return createdAt >= date && createdAt < nextDate;
+      });
+
+      // Store the count in the object
+      clientCountByDate[date.toFormat('yyyy-MM-dd')] = clientsOnDay.length;
+    }
+
+    // Extract labels and data from the object
+    for (let i = 0; i < 30; i++) {
+      const date = thirtyDaysAgo.plus({ days: i });
+      labels.push(date.toLocaleString(DateTime.DATE_SHORT));
+      clientData.push(clientCountByDate[date.toFormat('yyyy-MM-dd')]);
+    }
+
+    // Prepare the response object
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Client Signups',
+          fill: false,
+          lineTension: 0.5,
+          backgroundColor: '#fff',
+          borderColor: '#4318FF',
+          borderWidth: 3,
+          data: clientData
+        }
+      ]
+    };
+
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+

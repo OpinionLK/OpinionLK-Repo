@@ -14,7 +14,7 @@ import {
 // import { NavLink } from "react-router-dom";
 import SurveyPopup from './SurveyPopup'
 
-const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints}) => {
+const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID, surveyTags, surveyPoints, noOfQs, noOfRs, cost, duration, startDate, endDate, responseLimit, status}) => {
     
     if(!surveyImage){
         surveyImage = "default_bg"
@@ -56,7 +56,7 @@ const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID,
                     $450
                 </Text> */}
                 <Wrap spacing='1' width='140px'>
-                        <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
+                        {/* <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
                         <TagLabel>art</TagLabel>
                         </Tag>
                          <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
@@ -64,7 +64,14 @@ const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID,
                          </Tag>
                           <Tag size='sm' key='sm' variant='outline' colorScheme='purple'>
                         <TagLabel>youth</TagLabel>
-                        </Tag>
+                        </Tag> */}
+                        {surveyTags.interests &&
+                            Object.entries(surveyTags.interests).map(([key, value]) => (
+                                <Tag size='sm' key={key} variant='outline' colorScheme='purple'>
+                                <TagLabel>{value}</TagLabel>
+                                </Tag>
+                            ))
+                        }
                 </Wrap>
                 <Spacer />
                 {/* <Button 
@@ -85,6 +92,14 @@ const SurveyCard = ({type, surveyName, surveyDescription, surveyImage, surveyID,
                     surveyImage = {surveyImage}
                     surveyTags = {surveyTags}
                     surveyPoints = {surveyPoints}
+                    noOfQs={noOfQs}
+                    noOfRs={noOfRs}
+                    cost={cost}
+                    duration={duration}
+                    startDate={startDate}
+                    endDate={endDate}
+                    responseLimit={responseLimit}
+                    status={status}
                 />
             </Flex>
         </Box>
