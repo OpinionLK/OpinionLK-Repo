@@ -52,13 +52,13 @@ const Dashboard = () => {
         {/* <Heading>MakeSurvey</Heading> */}
         {/* <Makerlayout /> */}
         <Box mt={-5}>
-        <StatRow />
+        {/* <StatRow /> */}
         <Grid templateColumns="repeat(3, 1fr)" gap={0}>
           <GridItem colSpan={2}>
             <DiscoverCard />
           </GridItem>
           <GridItem colSpan={1}>
-            <SurveyGraphCard/>
+            {/* <SurveyGraphCard/> */}
           </GridItem>
         </Grid>
         
@@ -68,9 +68,9 @@ const Dashboard = () => {
                 surveys = {surveys.surveys}
             />
           </GridItem>
-          <GridItem colSpan={1}>
+          {/* <GridItem colSpan={1}>
             <ReachCard/>
-          </GridItem>
+          </GridItem> */}
         </Grid>
         </Box>
 
