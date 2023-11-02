@@ -13,7 +13,7 @@ const AdminActions = () => {
       <Grid mt={-5} templateColumns="repeat(3, 1fr)" gap={6}>
         <QuickActions />
         <SurveySettings />
-        <CouponSettings />
+        {/* <CouponSettings /> */}
         {/* <CouponRequests /> */}
       </ Grid>
     </>
